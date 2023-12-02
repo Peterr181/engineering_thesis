@@ -2,17 +2,27 @@ import React from "react";
 import styles from "./Sidebar.module.scss";
 import { Link } from "react-router-dom";
 import { iconFile } from "../../assets/iconFile";
+import calendar from "../../assets/images/calendar.png";
+import logo from "../../assets/images/logo.png";
 
 const Sidebar = () => {
   const menuItems = [
     { icon: iconFile.dashboardIcon, text: "Dashboard", link: "/" },
+    { icon: iconFile.dashboardIcon, text: "Workouts", link: "/" },
+    { icon: iconFile.dashboardIcon, text: "Chats", link: "/" },
+    { icon: iconFile.dashboardIcon, text: "Diet", link: "/" },
+    { icon: iconFile.dashboardIcon, text: "Trainer", link: "/" },
+    { icon: iconFile.dashboardIcon, text: "Finder", link: "/" },
+    { icon: iconFile.dashboardIcon, text: "Statistics", link: "/" },
+    { icon: iconFile.dashboardIcon, text: "Users", link: "/" },
   ];
 
   return (
     <div className={styles.sidebar}>
       <div className={styles.sidebar__top}>
-        <Link to="/">
-          <span className={styles.logo}>GYMERO</span>
+        <Link to="/" className={styles.sidebar__top__logo}>
+          <img src={logo} alt="Logo" />
+          <span className={styles.logo}>Gymero.</span>
         </Link>
       </div>
       <ul className={styles.sidebar__center}>
@@ -32,6 +42,16 @@ const Sidebar = () => {
           </li>
         ))}
       </ul>
+      <div className={styles.sidebar__bottom}>
+        <div className={styles.sidebar__bottom__workout}>
+          <img src={calendar} alt="Calendar image" />
+          <p>Create Workout Plan Now</p>
+        </div>
+        <div className={styles.sidebar__bottom__author}>
+          <p>Gymero Fitness Dashboard</p>
+          <p>© 2023 All Rights Reserved</p>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,23 +1,35 @@
+@import "../../styles/variables.scss";
 .sidebar {
   flex: 1;
-  padding: var(--rythm-16);
+  padding: var(--rythm-8) var(--rythm-24);
   min-height: 100vh;
   background-color: white;
   box-shadow: 0px 0px 10px rgba(120, 130, 140, 0.13);
-  font-size: var(--rythm-20);
+  font-size: var(--rythm-16);
+  position: relative;
 
   &__top {
     margin-bottom: var(--rythm-16);
+
+    &__logo {
+      display: flex;
+      align-items: center;
+    }
   }
 
   &__center {
     &__element {
-      padding: var(--rythm-24);
+      font-weight: 500;
+      padding: var(--rythm-20);
       color: #7e7e7e;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: var(--rythm-16);
+      transition: 1s all;
+      &:hover {
+        color: $mainBlue;
+      }
       &__left {
         display: flex;
         align-items: center;
@@ -25,12 +37,38 @@
       }
     }
   }
+  &__bottom {
+    position: absolute;
+    bottom: 0;
+    &__workout {
+      display: flex;
+      align-items: center;
+      background-color: $mainBlue;
+      border-radius: var(--rythm-16);
+      padding: var(--rythm-16);
+      color: #fff;
+      gap: var(--rythm-20);
+      font-weight: 500;
+      width: 90%;
+      cursor: pointer;
+    }
+    &__author {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: var(--rythm-4);
+      color: $mainGray;
+
+      padding: var(--rythm-24);
+    }
+  }
 }
 
 .logo {
-  font-size: var(--rythm-24);
+  font-size: var(--rythm-32);
   font-weight: bold;
   padding: var(--rythm-24);
+  color: $mainBlue;
 }
 
 svg {
