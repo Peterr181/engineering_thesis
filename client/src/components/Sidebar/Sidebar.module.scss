@@ -1,0 +1,39 @@
+.sidebar {
+  flex: 1;
+  padding: var(--rythm-16);
+  min-height: 100vh;
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(120, 130, 140, 0.13);
+  font-size: var(--rythm-20);
+
+  &__top {
+    margin-bottom: var(--rythm-16);
+  }
+
+  &__center {
+    &__element {
+      padding: var(--rythm-24);
+      color: #7e7e7e;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--rythm-16);
+      &__left {
+        display: flex;
+        align-items: center;
+        gap: var(--rythm-16);
+      }
+    }
+  }
+}
+
+.logo {
+  font-size: var(--rythm-24);
+  font-weight: bold;
+  padding: var(--rythm-24);
+}
+
+svg {
+  width: var(--rythm-20);
+  height: var(--rythm-20);
+}

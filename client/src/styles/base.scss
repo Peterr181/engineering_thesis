@@ -5,4 +5,113 @@
 }
 body {
   font-family: "poppins", sans-serif;
+  color: black;
+  overflow-x: hidden;
+  --rythm: 8px;
+
+  // @media (max-width: 1600px) {
+  //   --rythm: 7px;
+  // }
+
+  @media (max-width: 1400px) {
+    --rythm: 6px;
+  }
+
+  @media (max-width: 1200px) {
+    --rythm: 5px;
+  }
+
+  @media (max-width: 922px) {
+    --rythm: 3.5px;
+  }
+
+  --rythm-4: calc(var(--rythm) * 0.5);
+  --rythm-8: calc(var(--rythm) * 1);
+  --rythm-12: calc(var(--rythm) * 1.5);
+  --rythm-16: calc(var(--rythm) * 2);
+  --rythm-20: calc(var(--rythm) * 2.5);
+  --rythm-24: calc(var(--rythm) * 3);
+  --rythm-28: calc(var(--rythm) * 3.5);
+  --rythm-32: calc(var(--rythm) * 4);
+  --rythm-36: calc(var(--rythm) * 4.5);
+  --rythm-40: calc(var(--rythm) * 5);
+  --rythm-44: calc(var(--rythm) * 5.5);
+  --rythm-48: calc(var(--rythm) * 6);
+  --rythm-52: calc(var(--rythm) * 6.5);
+  --rythm-56: calc(var(--rythm) * 7);
+  --rythm-60: calc(var(--rythm) * 7.5);
+  --rythm-64: calc(var(--rythm) * 8);
+  --rythm-72: calc(var(--rythm) * 9);
+  --rythm-76: calc(var(--rythm) * 9.5);
+  --rythm-80: calc(var(--rythm) * 10);
+  --rythm-88: calc(var(--rythm) * 11);
+  --rythm-96: calc(var(--rythm) * 12);
+  --rythm-104: calc(var(--rythm) * 13);
+  --rythm-112: calc(var(--rythm) * 14);
+  --rythm-120: calc(var(--rythm) * 15);
+  --rythm-128: calc(var(--rythm) * 16);
+  --rythm-134: calc(var(--rythm) * 17);
+  --rythm-144: calc(var(--rythm) * 18);
+  --rythm-152: calc(var(--rythm) * 19);
+  --rythm-160: calc(var(--rythm) * 20);
+  --rythm-168: calc(var(--rythm) * 21);
+  --rythm-176: calc(var(--rythm) * 22);
+  --rythm-182: calc(var(--rythm) * 23);
+  --rythm-192: calc(var(--rythm) * 24);
+  --rythm-208: calc(var(--rythm) * 26);
+  --rythm-216: calc(var(--rythm) * 27);
+  --rythm-232: calc(var(--rythm) * 29);
+  --rythm-240: calc(var(--rythm) * 30);
+  --rythm-248: calc(var(--rythm) * 31);
+  --rythm-256: calc(var(--rythm) * 32);
+  --rythm-264: calc(var(--rythm) * 33);
+  --rythm-272: calc(var(--rythm) * 34);
+  --rythm-280: calc(var(--rythm) * 35);
+  --rythm-288: calc(var(--rythm) * 36);
+  --rythm-296: calc(var(--rythm) * 37);
+  --rythm-304: calc(var(--rythm) * 38);
+  --rythm-312: calc(var(--rythm) * 39);
+  --rythm-320: calc(var(--rythm) * 40);
+  --rythm-328: calc(var(--rythm) * 41);
+  --rythm-336: calc(var(--rythm) * 42);
+  --rythm-344: calc(var(--rythm) * 43);
+  --rythm-352: calc(var(--rythm) * 44);
+  --rythm-360: calc(var(--rythm) * 45);
+  --rythm-368: calc(var(--rythm) * 46);
+  --rythm-376: calc(var(--rythm) * 47);
+  --rythm-382: calc(var(--rythm) * 48);
+  --rythm-390: calc(var(--rythm) * 49);
+  --rythm-398: calc(var(--rythm) * 50);
+  --rythm-432: calc(var(--rythm) * 54);
+  --rythm-456: calc(var(--rythm) * 57);
+  --rythm-472: calc(var(--rythm) * 59);
+  --rythm-488: calc(var(--rythm) * 61);
+  --rythm-496: calc(var(--rythm) * 62);
+  --rythm-504: calc(var(--rythm) * 63);
+  --rythm-512: calc(var(--rythm) * 64);
+  --rythm-528: calc(var(--rythm) * 66);
+  --rythm-536: calc(var(--rythm) * 67);
+  --rythm-552: calc(var(--rythm) * 69);
+  --rythm-560: calc(var(--rythm) * 70);
+  --rythm-568: calc(var(--rythm) * 71);
+  --rythm-592: calc(var(--rythm) * 74);
+  --rythm-608: calc(var(--rythm) * 76);
+  --rythm-362: calc(var(--rythm) * 79);
+  --rythm-744: calc(var(--rythm) * 93);
+  --rythm-848: calc(var(--rythm) * 106);
+  --rythm-880: calc(var(--rythm) * 110);
+  --rythm-896: calc(var(--rythm) * 112);
+  --rythm-1096: calc(var(--rythm) * 137);
+  --rythm-1216: calc(var(--rythm) * 152);
+  --rythm-1257: calc(var(--rythm) * 157);
+  --rythm-1440: calc(var(--rythm) * 180);
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+li {
+  list-style: none;
 }
