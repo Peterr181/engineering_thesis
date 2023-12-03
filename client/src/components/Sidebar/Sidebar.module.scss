@@ -14,6 +14,11 @@
     &__logo {
       display: flex;
       align-items: center;
+
+      img {
+        width: var(--rythm-52);
+        height: var(--rythm-52);
+      }
     }
   }
 

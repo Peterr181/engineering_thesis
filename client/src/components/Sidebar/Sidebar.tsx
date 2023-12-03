@@ -8,13 +8,13 @@ import logo from "../../assets/images/logo.png";
 const Sidebar = () => {
   const menuItems = [
     { icon: iconFile.dashboardIcon, text: "Dashboard", link: "/" },
-    { icon: iconFile.dashboardIcon, text: "Workouts", link: "/" },
-    { icon: iconFile.dashboardIcon, text: "Chats", link: "/" },
-    { icon: iconFile.dashboardIcon, text: "Diet", link: "/" },
-    { icon: iconFile.dashboardIcon, text: "Trainer", link: "/" },
-    { icon: iconFile.dashboardIcon, text: "Finder", link: "/" },
-    { icon: iconFile.dashboardIcon, text: "Statistics", link: "/" },
-    { icon: iconFile.dashboardIcon, text: "Users", link: "/" },
+    { icon: iconFile.barbellIcon, text: "Workouts", link: "/" },
+    { icon: iconFile.onlineChat, text: "Chats", link: "/" },
+    { icon: iconFile.mealIcon, text: "Diet", link: "/" },
+    { icon: iconFile.trainerIcon, text: "Trainer", link: "/" },
+    { icon: iconFile.mapIcon, text: "Finder", link: "/" },
+    { icon: iconFile.statisticsIcon, text: "Statistics", link: "/" },
+    { icon: iconFile.usersIcon, text: "Users", link: "/" },
   ];
 
   return (

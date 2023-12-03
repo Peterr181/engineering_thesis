@@ -1,0 +1,90 @@
+@import "../../styles/variables.scss";
+.navbar {
+  background-color: #fff;
+
+  box-shadow: 0px 0px 10px rgba(120, 130, 140, 0.13);
+  font-size: var(--rythm-16);
+  width: 100%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--rythm-24) var(--rythm-24);
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: var(--rythm-16);
+    svg {
+      width: var(--rythm-32);
+      height: var(--rythm-32);
+      color: $mainBlue;
+      cursor: pointer;
+    }
+    p {
+      font-weight: 500;
+      font-size: var(--rythm-32);
+    }
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: var(--rythm-24);
+
+    &__icons {
+      display: flex;
+      align-items: center;
+      gap: var(--rythm-24);
+      span {
+        padding: var(--rythm-8);
+        background: rgba(30, 63, 180, 0.1);
+        display: flex;
+        border-radius: var(--rythm-8);
+        cursor: pointer;
+      }
+      svg {
+        color: #1e3fb4;
+
+        width: var(--rythm-24);
+        height: var(--rythm-24);
+      }
+    }
+
+    &__input {
+      background: #efefef;
+      border: none;
+      padding: var(--rythm-12) var(--rythm-16);
+      display: flex;
+      align-items: center;
+      gap: var(--rythm-16);
+      border-radius: var(--rythm-16);
+      input {
+        border: none;
+        background: transparent;
+        font-size: var(--rythm-16);
+        color: $mainGray;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+    &__profile {
+      display: flex;
+      align-items: center;
+      gap: var(--rythm-16);
+      img {
+        width: var(--rythm-52);
+        height: var(-rythm-52);
+        border-radius: 50%;
+      }
+      p {
+        font-weight: 600;
+      }
+    }
+  }
+}
