@@ -1,27 +1,23 @@
 @import "../../styles/variables.scss";
 .navbar {
-  background-color: #fff;
-
+  &__wrapper {
+    background-color: #fff;
+  }
+  max-width: 1600px;
+  margin: 0 auto;
   font-size: var(--rythm-16);
   width: 100%;
   z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--rythm-24) var(--rythm-24);
+  padding: var(--rythm-16) var(--rythm-24);
   &__left {
     display: flex;
     align-items: center;
     gap: var(--rythm-16);
-    svg {
-      width: var(--rythm-32);
-      height: var(--rythm-32);
-      color: $mainBlue;
-      cursor: pointer;
-    }
     p {
-      font-weight: 500;
-      font-size: var(--rythm-32);
+      font-size: var(--rythm-16);
     }
   }
 
@@ -29,7 +25,6 @@
     display: flex;
     align-items: center;
     gap: var(--rythm-24);
-    margin-right: var(--rythm-52);
 
     &__icons {
       display: flex;

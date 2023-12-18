@@ -11,7 +11,7 @@
   font-size: var(--rythm-16);
   z-index: 10;
   &.expanded {
-    width: var(--rythm-336);
+    width: var(--rythm-320);
     box-shadow: 2px 0 7px -3px #afafaf;
   }
 
@@ -35,7 +35,7 @@
     gap: var(--rythm-8);
     &__element {
       font-weight: 500;
-      padding: var(--rythm-12);
+      padding: var(--rythm-12) var(--rythm-20);
       color: #7e7e7e;
       &:hover {
         color: black;
@@ -105,6 +105,6 @@ svg {
 .selected {
   background-color: #6cb4ee;
   border-radius: 0 var(--rythm-32) var(--rythm-32) 0;
-  color: black;
+  color: black !important;
   width: 100%;
 }

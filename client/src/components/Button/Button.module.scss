@@ -1,0 +1,44 @@
+@import "../../styles/variables.scss";
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  background-color: transparent;
+  font-weight: 600;
+  font-size: var(--rythm-12);
+  cursor: pointer;
+}
+
+.icon {
+  @extend .button;
+
+  height: var(--rythm-24);
+  width: var(--rythm-24);
+
+  svg {
+    height: var(--rythm-24);
+    width: var(--rythm-24);
+  }
+}
+
+.primary {
+  color: #fff;
+  background-color: $mainBlue;
+  border-radius: var(--rythm-36);
+  height: var(--rythm-64);
+  padding: 0 var(--rythm-24);
+
+  display: flex;
+  gap: var(--rythm-20);
+}
+
+.primaryOutline {
+  color: $mainBlue;
+  background-color: transparent;
+  border-radius: var(--rythm-36);
+
+  // i want to make less space between top and bottom with padding
+  padding: var(--rythm-12) var(--rythm-32);
+  border: 1px solid $mainBlue;
+}

@@ -21,7 +21,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div
+    <aside
       className={`${styles.sidebar} ${showText ? styles.expanded : ""}`}
       onMouseEnter={() => setShowText(true)}
       onMouseLeave={() => setShowText(false)}
@@ -70,7 +70,7 @@ const Sidebar = () => {
           {showText && <span>Logout</span>}
         </div>
       </div>
-    </div>
+    </aside>
   );
 };
 
