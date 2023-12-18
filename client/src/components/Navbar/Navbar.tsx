@@ -6,10 +6,7 @@ import humanFace from "../../assets/images/personDefault.jpg";
 const Navbar = () => {
   return (
     <div className={styles.navbar}>
-      <div className={styles.navbar__left}>
-        {iconFile.openMenu}
-        <p>Dashboard</p>
-      </div>
+      <div className={styles.navbar__left}></div>
       <div className={styles.navbar__right}>
         <div className={styles.navbar__right__input}>
           {iconFile.searchIcon}

@@ -2,7 +2,6 @@
 .navbar {
   background-color: #fff;
 
-  box-shadow: 0px 0px 10px rgba(120, 130, 140, 0.13);
   font-size: var(--rythm-16);
   width: 100%;
   z-index: 1;
@@ -30,6 +29,7 @@
     display: flex;
     align-items: center;
     gap: var(--rythm-24);
+    margin-right: var(--rythm-52);
 
     &__icons {
       display: flex;
