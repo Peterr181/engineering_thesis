@@ -65,6 +65,10 @@ const Sidebar = () => {
           <p>Gymero Fitness Dashboard</p>
           <p>© 2023 All Rights Reserved</p>
         </div> */}
+        <div className={styles.sidebar__bottom__logout}>
+          {iconFile.logoutIcon}
+          {showText && <span>Logout</span>}
+        </div>
       </div>
     </div>
   );

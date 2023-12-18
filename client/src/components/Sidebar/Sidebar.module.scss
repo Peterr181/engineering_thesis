@@ -30,9 +30,12 @@
   }
 
   &__center {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rythm-8);
     &__element {
       font-weight: 500;
-      padding: var(--rythm-20);
+      padding: var(--rythm-12);
       color: #7e7e7e;
       &:hover {
         color: black;
@@ -40,7 +43,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: var(--rythm-12);
+      gap: var(--rythm-16);
 
       transition: 0.3s all;
 
@@ -66,12 +69,20 @@
       width: 90%;
       cursor: pointer;
     }
-    &__author {
+    &__logout {
       display: flex;
-      flex-direction: column;
+      font-weight: 500;
+      padding: var(--rythm-20);
+      color: #7e7e7e;
+
       justify-content: center;
-      gap: var(--rythm-4);
-      color: $mainGray;
+      gap: var(--rythm-12);
+      cursor: pointer;
+      svg {
+        width: var(--rythm-28);
+        height: var(--rythm-28);
+        stroke: #6e7191;
+      }
 
       padding: var(--rythm-24);
     }

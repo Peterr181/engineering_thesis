@@ -8,10 +8,10 @@ const Navbar = () => {
     <div className={styles.navbar}>
       <div className={styles.navbar__left}></div>
       <div className={styles.navbar__right}>
-        <div className={styles.navbar__right__input}>
+        {/* <div className={styles.navbar__right__input}>
           {iconFile.searchIcon}
           <input type="text" placeholder="Search something..." />
-        </div>
+        </div> */}
         <div className={styles.navbar__right__icons}>
           <span>{iconFile.moonIcon}</span>
           <span>{iconFile.notifyIcon}</span>

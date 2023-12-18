@@ -292,4 +292,23 @@ export const iconFile = {
       <path d="M7.5 8a2.5 2.5 0 0 1 0 -5a4.8 8 0 0 1 4.5 5a4.8 8 0 0 1 4.5 -5a2.5 2.5 0 0 1 0 5" />
     </svg>
   ),
+  logoutIcon: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="icon icon-tabler icon-tabler-logout"
+      width="44"
+      height="44"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="#2c3e50"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
+      <path d="M9 12h12l-3 -3" />
+      <path d="M18 15l3 -3" />
+    </svg>
+  ),
 };
