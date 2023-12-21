@@ -5,16 +5,17 @@ import styles from "./Navbar.module.scss";
 import { iconFile } from "../../assets/iconFile";
 import humanFace from "../../assets/images/personDefault.jpg";
 import Button from "../Button/Button";
+import { useLanguage } from "../../context/LanguageProvider";
 
 const Navbar = () => {
-  const [t, i18n] = useTranslation("global");
+  const { t, changeLanguage, language } = useLanguage();
 
-  const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
-  const toggleLanguage = () => {
-    const newLanguage = currentLanguage === "en" ? "pl" : "en";
-    i18n.changeLanguage(newLanguage);
-    setCurrentLanguage(newLanguage);
-  };
+  // const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
+  // const toggleLanguage = () => {
+  //   const newLanguage = currentLanguage === "en" ? "pl" : "en";
+  //   i18n.changeLanguage(newLanguage);
+  //   setCurrentLanguage(newLanguage);
+  // };
   return (
     <nav className={styles.navbar__wrapper}>
       <section className={styles.navbar}>
@@ -30,7 +31,11 @@ const Navbar = () => {
             <span>{iconFile.notifyIcon}</span>
             <span>{iconFile.chatIcon}</span>
             <span>{iconFile.giftIcon}</span>
-            <span onClick={toggleLanguage}>{iconFile.languageIcon}</span>
+            <span
+              onClick={() => changeLanguage(language === "en" ? "pl" : "en")}
+            >
+              {iconFile.languageIcon}
+            </span>
           </div>
           <div className={styles.navbar__right__profile}>
             <div>

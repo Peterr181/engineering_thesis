@@ -1,23 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLanguage } from "../../context/LanguageProvider";
 import styles from "./Sidebar.module.scss";
 import { Link } from "react-router-dom";
 import { iconFile } from "../../assets/iconFile";
-import calendar from "../../assets/images/calendar.png";
-import logo from "../../assets/images/logo.png";
 
 const Sidebar = () => {
+  const { t, language } = useLanguage();
+
   const [showText, setShowText] = useState(false);
   const [selectedItem, setSelectedItem] = useState(0);
 
   const menuItems = [
-    { icon: iconFile.dashboardIcon, text: "Dashboard", link: "/" },
-    { icon: iconFile.barbellIcon, text: "Workouts", link: "/" },
-    { icon: iconFile.onlineChat, text: "Chats", link: "/" },
-    { icon: iconFile.mealIcon, text: "Diet", link: "/" },
-    { icon: iconFile.trainerIcon, text: "Trainer", link: "/" },
-    { icon: iconFile.mapIcon, text: "Finder", link: "/" },
-    { icon: iconFile.statisticsIcon, text: "Statistics", link: "/" },
-    { icon: iconFile.usersIcon, text: "Users", link: "/" },
+    { icon: iconFile.dashboardIcon, text: t("sidebar.dashboard"), link: "/" },
+    { icon: iconFile.barbellIcon, text: t("sidebar.workouts"), link: "/" },
+    { icon: iconFile.onlineChat, text: t("sidebar.chats"), link: "/" },
+    { icon: iconFile.mealIcon, text: t("sidebar.diet"), link: "/" },
+    { icon: iconFile.trainerIcon, text: t("sidebar.trainer"), link: "/" },
+    { icon: iconFile.mapIcon, text: t("sidebar.finder"), link: "/" },
+    { icon: iconFile.statisticsIcon, text: t("sidebar.statistics"), link: "/" },
+    { icon: iconFile.usersIcon, text: t("sidebar.users"), link: "/" },
   ];
 
   return (
@@ -29,7 +30,7 @@ const Sidebar = () => {
       <div className={styles.sidebar__top}>
         <Link to="/" className={styles.sidebar__top__logo}>
           <span className={styles.logo}>G</span>
-          {showText && <span className={styles.logo}>Gymero.</span>}
+          {showText && <span className={styles.logo}>Gymero</span>}
         </Link>
       </div>
       <ul className={styles.sidebar__center}>
@@ -48,26 +49,15 @@ const Sidebar = () => {
                   {item.icon}
                   {showText && <span>{item.text}</span>}
                 </div>
-                {/* <div>
-                  <span>{iconFile.arrowRight}</span>
-                </div> */}
               </div>
             </Link>
           </li>
         ))}
       </ul>
       <div className={styles.sidebar__bottom}>
-        {/* <div className={styles.sidebar__bottom__workout}>
-          <img src={calendar} alt="Calendar image" />
-          <p>Connect with your band</p>
-        </div> */}
-        {/* <div className={styles.sidebar__bottom__author}>
-          <p>Gymero Fitness Dashboard</p>
-          <p>© 2023 All Rights Reserved</p>
-        </div> */}
         <div className={styles.sidebar__bottom__logout}>
           {iconFile.logoutIcon}
-          {showText && <span>Logout</span>}
+          {showText && <span>{t("sidebar.logout")}</span>}
         </div>
       </div>
     </aside>

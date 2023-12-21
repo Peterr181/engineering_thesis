@@ -7,8 +7,17 @@
     "userName": "Piotr Morgan",
     "userRole": "Członek"
   },
-  "common": {
-    "hello": "Cześć",
-    "welcome": "Witaj"
+  "sidebar": {
+    "dashboard": "Panel",
+    "workouts": "Treningi",
+    "chats": "Czaty",
+    "diet": "Dieta",
+    "trainer": "Trener",
+    "finder": "Lokalizator",
+    "statistics": "Statystyki",
+    "users": "Użytkownicy",
+    "gymeroLogo": "G",
+    "gymeroFullLogo": "Gymero.",
+    "logout": "Wyloguj się"
   }
 }
