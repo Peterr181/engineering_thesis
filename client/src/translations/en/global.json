@@ -1,0 +1,14 @@
+{
+  "navbar": {
+    "setWorkoutPlan": "Set your gym workout plan",
+    "setWorkoutButton": "Set workout plan",
+    "searchPlaceholder": "Search something...",
+    "humanFaceAlt": "Human face",
+    "userName": "Peter Morgan",
+    "userRole": "Member"
+  },
+  "common": {
+    "hello": "Hello",
+    "welcome": "Welcome"
+  }
+}

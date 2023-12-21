@@ -1,9 +1,12 @@
 @import "../../styles/variables.scss";
 .navbar {
   &__wrapper {
-    background-color: #fff;
+    background-color: #f7f7fc;
+    height: 112px;
+    height: var(--rythm-112);
+    position: relative;
   }
-  max-width: 1600px;
+  max-width: var(--rythm-1600);
   margin: 0 auto;
   font-size: var(--rythm-16);
   width: 100%;
