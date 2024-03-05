@@ -1,0 +1,39 @@
+.text {
+  font-size: var(--rythm);
+
+  &.lg {
+    font-size: var(--rythm-16);
+  }
+
+  &.md {
+    font-size: var(--rythm-12);
+  }
+
+  &.sm {
+    font-size: var(--rythm-8);
+  }
+
+  &.xs {
+    font-size: var(--rythm-4);
+  }
+
+  &.bold {
+    font-weight: bold;
+  }
+
+  &.center {
+    text-align: center;
+  }
+}
+
+.fontWeight500 {
+  font-weight: 500;
+}
+
+.fontWeight600 {
+  font-weight: 600;
+}
+
+.fontWeight700 {
+  font-weight: 700;
+}

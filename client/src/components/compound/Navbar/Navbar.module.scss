@@ -1,4 +1,4 @@
-@import "../../styles/variables.scss";
+@import ".../../../../../styles/variables.scss";
 .navbar {
   &__wrapper {
     background-color: #f7f7fc;
@@ -41,7 +41,7 @@
         cursor: pointer;
       }
       svg {
-        color: #1e3fb4;
+        color: $mainColor;
 
         width: var(--rythm-24);
         height: var(--rythm-24);
@@ -76,6 +76,10 @@
       align-items: center;
       gap: var(--rythm-16);
       margin-left: var(--rythm-24);
+      &__data {
+        display: flex;
+        flex-direction: column;
+      }
       img {
         width: var(--rythm-52);
         height: var(-rythm-52);

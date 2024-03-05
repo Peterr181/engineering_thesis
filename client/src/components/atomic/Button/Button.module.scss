@@ -1,4 +1,4 @@
-@import "../../styles/variables.scss";
+@import ".../../../../../styles/variables.scss";
 .button {
   display: flex;
   justify-content: center;
@@ -24,7 +24,7 @@
 
 .primary {
   color: #fff;
-  background-color: $mainBlue;
+  background-color: $mainColor;
   border-radius: var(--rythm-36);
   height: var(--rythm-64);
   padding: 0 var(--rythm-24);
@@ -34,11 +34,10 @@
 }
 
 .primaryOutline {
-  color: $mainBlue;
+  color: $mainColor;
   background-color: transparent;
   border-radius: var(--rythm-36);
 
-  // i want to make less space between top and bottom with padding
   padding: var(--rythm-12) var(--rythm-32);
-  border: 1px solid $mainBlue;
+  border: 2.5px solid $mainColor;
 }

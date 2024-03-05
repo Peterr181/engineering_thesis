@@ -1,4 +1,4 @@
-@import "../../styles/variables.scss";
+@import ".../../../../../styles/variables.scss";
 .sidebar {
   background-color: #fcfcfc;
   height: 100vh;
@@ -60,7 +60,7 @@
     &__workout {
       display: flex;
       align-items: center;
-      background-color: $mainBlue;
+      background-color: $mainColor;
       border-radius: var(--rythm-16);
       padding: var(--rythm-16);
       color: #fff;
@@ -93,7 +93,7 @@
   font-size: var(--rythm-28);
   font-weight: bold;
   padding: var(--rythm-24);
-  color: $mainBlue;
+  color: $mainColor;
 }
 
 svg {
@@ -103,10 +103,12 @@ svg {
 }
 
 .selected {
-  background-color: #6cb4ee;
+  background-color: #90ee90;
   border-radius: 0 var(--rythm-32) var(--rythm-32) 0;
   color: black !important;
   width: 100%;
+
+  transition: 0.5s all;
 }
 
 .sidebar__center__element__left span {

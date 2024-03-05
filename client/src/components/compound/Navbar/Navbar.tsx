@@ -1,28 +1,20 @@
-// Navbar.js
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
 import styles from "./Navbar.module.scss";
-import { iconFile } from "../../assets/iconFile";
-import humanFace from "../../assets/images/personDefault.jpg";
-import Button from "../Button/Button";
-import { useLanguage } from "../../context/LanguageProvider";
+import { iconFile } from "../../../assets/iconFile";
+import humanFace from "../../../assets/images/personDefault.jpg";
+import Button from "../../atomic/Button/Button";
+import { useLanguage } from "../../../context/LanguageProvider";
+import Text from "../../atomic/Text/Text";
 
 const Navbar = () => {
   const { t, changeLanguage, language } = useLanguage();
 
-  // const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
-  // const toggleLanguage = () => {
-  //   const newLanguage = currentLanguage === "en" ? "pl" : "en";
-  //   i18n.changeLanguage(newLanguage);
-  //   setCurrentLanguage(newLanguage);
-  // };
   return (
     <nav className={styles.navbar__wrapper}>
       <section className={styles.navbar}>
         <div className={styles.navbar__left}>
-          <p>{t("navbar.setWorkoutPlan")}</p>
+          <Text textStyle="lg">{t("navbar.setWorkoutPlan")}</Text>
           <Button variant="primaryOutline">
-            {t("navbar.setWorkoutButton")}
+            <Text textStyle="md">{t("navbar.setWorkoutButton")}</Text>
           </Button>
         </div>
         <div className={styles.navbar__right}>
@@ -41,9 +33,11 @@ const Navbar = () => {
             <div>
               <img src={humanFace} alt={t("navbar.humanFaceAlt")} />
             </div>
-            <div>
-              <p>{t("navbar.userName")}</p>
-              <span>{t("navbar.userRole")}</span>
+            <div className={styles.navbar__right__profile__data}>
+              <Text textStyle="lg">{t("navbar.userName")}</Text>
+              <Text textStyle="md" boldness={500}>
+                {t("navbar.userRole")}
+              </Text>
             </div>
           </div>
         </div>

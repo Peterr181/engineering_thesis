@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useLanguage } from "../../context/LanguageProvider";
+import { useLanguage } from "../../../context/LanguageProvider";
 import styles from "./Sidebar.module.scss";
 import { Link } from "react-router-dom";
-import { iconFile } from "../../assets/iconFile";
+import { iconFile } from "../../../assets/iconFile";
 
 const Sidebar = () => {
   const { t, language } = useLanguage();
