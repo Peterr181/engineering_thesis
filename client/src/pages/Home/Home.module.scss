@@ -1,2 +1,27 @@
+@import "../../styles//variables.scss";
 .home {
+  &__weekactivityContainer {
+    background-color: #fff;
+    border-radius: var(--rythm-24);
+    padding: var(--rythm-24);
+
+    h2 {
+      font-weight: 500;
+    }
+    p {
+      color: $mainGray;
+    }
+  }
+  &__activitesCardsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rythm-16);
+    align-items: center;
+    margin-left: var(--rythm-24);
+    border-radius: var(--rythm-24);
+    justify-content: space-between;
+  }
+  &__activitiesWrapper {
+    display: flex;
+  }
 }

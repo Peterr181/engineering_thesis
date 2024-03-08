@@ -1,0 +1,39 @@
+.activitiesCard {
+  display: flex;
+  align-items: center;
+  gap: var(--rythm-12);
+  background-color: #fff;
+  cursor: pointer;
+  width: 100%;
+  padding: var(--rythm-24);
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: var(--rythm-16);
+    background-color: #c8f6c8;
+    border-radius: 21px;
+    padding: 5px;
+    svg {
+      width: 38px;
+      height: 38px;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+
+    &__number {
+      font-size: var(--rythm-16);
+      font-weight: 600;
+    }
+  }
+  &__iconRight {
+    margin-left: var(--rythm-16);
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
