@@ -1,0 +1,32 @@
+@import "../../../styles/variables.scss";
+.upcomingWorkouts {
+  margin-top: var(--rythm-32);
+  &__container {
+    h2 {
+      font-weight: 500;
+    }
+    background-color: #fff;
+    border-radius: var(--rythm-24);
+    padding: var(--rythm-24);
+    transform: 0.3s all;
+    &:hover {
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    }
+    &__text {
+      color: $mainGray;
+      margin-bottom: var(--rythm-16);
+    }
+    &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--rythm-24);
+    }
+  }
+
+  &__workouts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rythm-24);
+  }
+}

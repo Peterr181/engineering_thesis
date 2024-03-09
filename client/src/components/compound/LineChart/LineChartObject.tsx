@@ -16,7 +16,7 @@ interface Props {
 
 const LineChartObject: React.FC<Props> = ({ data }) => {
   return (
-    <div style={{ height: 250, width: 700, marginLeft: -30 }}>
+    <div style={{ height: 250, width: 900, marginLeft: -30 }}>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
           width={300}
@@ -24,7 +24,9 @@ const LineChartObject: React.FC<Props> = ({ data }) => {
           data={data}
           margin={{
             top: 20,
-            bottom: 5,
+            bottom: 20,
+            left: 20,
+            right: 20,
           }}
         >
           <XAxis dataKey="day" stroke="#C0C0C0" />

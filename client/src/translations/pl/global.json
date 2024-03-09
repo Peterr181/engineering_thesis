@@ -19,5 +19,31 @@
     "gymeroLogo": "G",
     "gymeroFullLogo": "Gymero.",
     "logout": "Wyloguj się"
+  },
+
+  "upcomingWorkouts": {
+    "keepTrack": "Śledź swoje treningi",
+    "upcomingWorkouts": "Nadchodzące treningi",
+    "showWorkoutPlan": "Pokaż plan treningowy",
+    "button": "Zakończ"
+  },
+  "status": {
+    "INPROGRESS": "W trakcie",
+    "FINISHED": "Ukończone",
+    "NOTSTARTED": "Nie zaczęte"
+  },
+  "category": {
+    "Gym": "Siłownia",
+    "Bicycle": "Rower"
+  },
+  "activityCard": {
+    "totalSteps": "Wszystkie kroki",
+    "waterDrinked": "Woda wypita",
+    "caloriesEaten": "Kalorie zjedzone",
+    "progress": "Postęp"
+  },
+  "home": {
+    "weekActivity": "Aktywność tygodniowa",
+    "averageActivity": "Twój średni czas ćwiczeń wynosi 18 minut."
   }
 }

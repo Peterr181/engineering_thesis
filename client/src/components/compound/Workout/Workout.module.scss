@@ -1,0 +1,86 @@
+@import "../../../styles/variables.scss";
+.workout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--rythm-24);
+  padding-bottom: var(--rythm-24);
+  border-bottom: 1px solid #d8e0f9;
+
+  &__date {
+    display: flex;
+    align-items: center;
+    gap: var(--rythm-24);
+
+    &__day {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #c8f6c8;
+      border-radius: var(--rythm-24);
+      padding: var(--rythm-12);
+      color: green;
+
+      &__number {
+        font-size: var(--rythm-24);
+      }
+
+      p {
+        margin-bottom: 4px; /* Adjust this value to your preference */
+      }
+
+      width: 80px;
+    }
+  }
+
+  &__name {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rythm-8);
+
+    h3 {
+      font-weight: 500;
+    }
+
+    p {
+      text-transform: uppercase;
+    }
+  }
+
+  &__category {
+    p {
+    }
+
+    &.gym {
+      p {
+        color: #ff5722; // deep orange
+      }
+    }
+
+    &.bicycling {
+      p {
+        color: #009688; // teal
+      }
+    }
+    display: flex;
+    gap: var(--rythm-16);
+    align-items: center;
+    font-size: var(--rythm-16);
+  }
+
+  .status {
+    font-weight: 500;
+    &.blue {
+      color: blue;
+    }
+
+    &.green {
+      color: green;
+    }
+
+    &.red {
+      color: red;
+    }
+  }
+}

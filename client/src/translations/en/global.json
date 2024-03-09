@@ -19,5 +19,30 @@
     "gymeroLogo": "G",
     "gymeroFullLogo": "Gymero.",
     "logout": "Logout"
+  },
+  "upcomingWorkouts": {
+    "keepTrack": "Keep track of your upcoming workouts",
+    "upcomingWorkouts": "Upcoming workouts",
+    "showWorkoutPlan": "Show workout plan",
+    "button": "Finish"
+  },
+  "status": {
+    "INPROGRESS": "In Progress",
+    "FINISHED": "Finished",
+    "NOTSTARTED": "Not Started"
+  },
+  "category": {
+    "Gym": "Gym",
+    "Bicycle": "Bicycle"
+  },
+  "activityCard": {
+    "totalSteps": "Total steps",
+    "waterDrinked": "Water drinked",
+    "caloriesEaten": "Calories eaten",
+    "progress": "Progress"
+  },
+  "home": {
+    "weekActivity": "Week activity",
+    "averageActivity": "Your average time exercising is 18 minutes."
   }
 }

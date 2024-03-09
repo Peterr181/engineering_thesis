@@ -8,6 +8,8 @@
   font-weight: 600;
   font-size: var(--rythm-12);
   cursor: pointer;
+  border: none;
+  gap: var(--rythm-8);
 }
 
 .icon {
@@ -40,4 +42,21 @@
 
   padding: var(--rythm-12) var(--rythm-32);
   border: 2.5px solid $mainColor;
+}
+
+.primaryFilled {
+  color: $mainColor;
+  background-color: $mainColor;
+  border-radius: var(--rythm-36);
+  color: #fff;
+
+  padding: var(--rythm-20) var(--rythm-28);
+}
+
+.almostGreen {
+  color: green;
+  background-color: rgb(218, 236, 218);
+  border-radius: var(--rythm-8);
+  font-size: var(--rythm-12);
+  padding: var(--rythm-12) var(--rythm-32);
 }

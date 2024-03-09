@@ -4,6 +4,8 @@ import styles from "./Button.module.scss";
 export const buttonVariant = {
   primary: styles.primary,
   primaryOutline: styles.primaryOutline,
+  primaryFilled: styles.primaryFilled,
+  almostGreen: styles.almostGreen,
 };
 
 type Props = {
