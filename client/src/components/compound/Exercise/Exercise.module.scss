@@ -1,0 +1,29 @@
+@import "../../../styles/variables.scss";
+.exercise {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  border-top: 2px solid $mainColor;
+
+  h3 {
+    font-weight: 600;
+    margin-top: var(--rythm-16);
+  }
+
+  span {
+    padding: var(--rythm-8);
+    border-radius: var(--rythm-8);
+  }
+
+  span:first-child {
+    margin-right: var(--rythm-8);
+    background-color: rgb(124, 214, 124);
+  }
+  span:nth-child(2) {
+    background-color: rgb(245, 193, 96);
+  }
+  img {
+    margin-bottom: var(--rythm-16);
+  }
+}

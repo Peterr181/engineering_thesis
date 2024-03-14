@@ -6,4 +6,11 @@
   padding: var(--rythm-24);
   transform: 0.3s all;
   box-shadow: 0px 8px 16px rgba(17, 17, 17, 0.06);
+  h2:first-of-type {
+    font-weight: 500;
+  }
+
+  p:first-of-type {
+    color: $mainGray;
+  }
 }
