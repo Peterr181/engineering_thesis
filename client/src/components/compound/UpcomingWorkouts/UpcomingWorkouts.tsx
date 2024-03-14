@@ -4,16 +4,17 @@ import Button from "../../atomic/Button/Button";
 import Workout from "../Workout/Workout";
 import { useLanguage } from "../../../context/LanguageProvider";
 import { Status, Category } from "../../compound/Workout/Workout";
+import WhiteCardWrapper from "../../atomic/WhiteCardWrapper/WhiteCardWrapper";
 const UpcomingWorkouts = () => {
   const { t } = useLanguage();
   return (
     <div className={styles.upcomingWorkouts}>
-      <div className={styles.upcomingWorkouts__container}>
+      <WhiteCardWrapper additionalClass={styles.upcomingWorkouts__container}>
         <div className={styles.upcomingWorkouts__container__header}>
           <div>
-            <h3 className={styles.upcomingWorkouts__container__header__title}>
+            <h2 className={styles.upcomingWorkouts__container__header__title}>
               {t("upcomingWorkouts.upcomingWorkouts")}
-            </h3>
+            </h2>
             <p className={styles.upcomingWorkouts__container__header__text}>
               {t("upcomingWorkouts.keepTrack")}
             </p>
@@ -29,25 +30,25 @@ const UpcomingWorkouts = () => {
             day={12}
             month="Jan"
             name="Chest workout"
-            status={Status.FINISHED} // Use enum value
-            category={Category.GYM} // Use enum value
+            status={Status.FINISHED}
+            category={Category.GYM}
           />
           <Workout
             day={12}
             month="Jan"
             name="Chest workout"
-            status={Status.IN_PROGRESS} // Use enum value
-            category={Category.BICYCLE} // Use enum value
+            status={Status.IN_PROGRESS}
+            category={Category.BICYCLE}
           />
           <Workout
             day={12}
             month="Jan"
             name="Chest workout"
-            status={Status.NOT_STARTED} // Use enum value
-            category={Category.GYM} // Use enum value
+            status={Status.NOT_STARTED}
+            category={Category.GYM}
           />
         </div>
-      </div>
+      </WhiteCardWrapper>
     </div>
   );
 };

@@ -9,6 +9,7 @@ import ActivityCard from "../../components/atomic/ActivityCard/ActivityCard";
 
 import UpcomingWorkouts from "../../components/compound/UpcomingWorkouts/UpcomingWorkouts";
 import { useLanguage } from "../../context/LanguageProvider";
+import WhiteCardWrapper from "../../components/atomic/WhiteCardWrapper/WhiteCardWrapper";
 const Home = () => {
   const { t } = useLanguage();
   return (
@@ -16,11 +17,11 @@ const Home = () => {
       <MaxWidthWrapper>
         <div className={styles.home}>
           <div className={styles.home__activitiesWrapper}>
-            <div className={styles.home__weekactivityContainer}>
+            <WhiteCardWrapper additionalClass={styles.lineChartContainer}>
               <h2>{t(`home.weekActivity`)}</h2>
               <p>{t(`home.averageActivity`)}</p>
               <LineChartObject data={chartData} />
-            </div>
+            </WhiteCardWrapper>
             <div className={styles.home__activitesCardsContainer}>
               <ActivityCard
                 icon={iconFile.iconSteps}
