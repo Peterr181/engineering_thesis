@@ -33,6 +33,7 @@ const Exercises: React.FC = () => {
       const options = {
         method: "GET",
         url: "https://exercisedb.p.rapidapi.com/exercises",
+        params: { limit: "200" },
         headers: {
           "X-RapidAPI-Key": apiKey,
           "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
@@ -77,6 +78,8 @@ const Exercises: React.FC = () => {
     setSelectedTarget(event.target.value);
   };
 
+  console.log(exercises);
+
   return (
     <PlatformWrapper>
       <MaxWidthWrapper>
@@ -89,9 +92,15 @@ const Exercises: React.FC = () => {
               </div>
               <div>
                 <select name="target" id="target" onChange={handleChange}>
-                  <option value="all">All</option>
+                  <option value="all" className={styles.selectDropdown}>
+                    All
+                  </option>
                   {filteredTargets.map((target, index) => (
-                    <option key={index} value={target}>
+                    <option
+                      key={index}
+                      value={target}
+                      className={styles.selectDropdown}
+                    >
                       {target}
                     </option>
                   ))}

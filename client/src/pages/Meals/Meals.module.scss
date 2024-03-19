@@ -1,0 +1,74 @@
+@import "../../styles//variables.scss";
+.meals {
+  margin-top: var(--rythm-32);
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__content {
+    margin-top: var(--rythm-24);
+    display: flex;
+    flex-direction: column;
+    gap: var(--rythm-40);
+    img {
+      width: 150px;
+    }
+  }
+
+  &__item {
+    display: flex;
+    gap: var(--rythm-16);
+    justify-content: space-between;
+    align-items: center;
+    &__image {
+      display: flex;
+      align-items: center;
+      gap: var(--rythm-16);
+    }
+    &__name {
+      h3 {
+        width: 60%;
+      }
+    }
+    &__nutrients {
+      position: absolute; /* Ustawiamy absolutne pozycjonowanie */
+      left: 40%; /* Przesuwamy w prawo, dostosuj wartość według potrzeb */
+      gap: var(--rythm-16);
+      align-items: center;
+      span {
+        padding: var(--rythm-8) var(--rythm-16);
+        border-radius: 21px;
+        color: #333;
+        font-weight: 500;
+      }
+
+      &__info {
+        display: flex;
+        justify-content: center;
+        margin-bottom: var(--rythm-8);
+        color: $mainGray;
+      }
+
+      &__details {
+        display: flex;
+        gap: var(--rythm-16);
+      }
+
+      &__calories {
+        border: 1px solid rgb(119, 235, 119);
+      }
+      &__protein {
+        border: 1px solid rgb(124, 124, 235);
+      }
+      &__carbs {
+        border: 1px solid rgb(233, 177, 74);
+      }
+      &__fat {
+        border: 1px solid rgb(235, 107, 235);
+      }
+    }
+  }
+}

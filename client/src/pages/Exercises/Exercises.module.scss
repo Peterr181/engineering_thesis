@@ -43,7 +43,21 @@ select {
   background-color: #fff;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
   font-size: var(--rythm-16);
-  padding: var(--rythm-8);
+  padding: var(--rythm-16);
   text-transform: capitalize;
   font-weight: 500;
+  cursor: pointer;
+
+  option {
+    font-size: var(--rythm-16);
+    padding: var(--rythm-16);
+    text-transform: capitalize;
+    font-weight: 500;
+  }
+}
+
+.selectDropdown {
+  border: none;
+  padding: var(--rythm-16);
+  font-size: var(--rythm-16);
 }

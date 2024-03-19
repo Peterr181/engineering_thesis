@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./Exercise.module.scss";
+import { useTranslation } from "react-i18next";
 
 interface ExerciseProps {
   name: string;

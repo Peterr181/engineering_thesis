@@ -30,10 +30,10 @@ const Sidebar = () => {
       link: "/chats",
     },
     {
-      id: "diet",
+      id: "meals",
       icon: iconFile.mealIcon,
       text: t("sidebar.diet"),
-      link: "/diets",
+      link: "/meals",
     },
     {
       id: "trainer",
