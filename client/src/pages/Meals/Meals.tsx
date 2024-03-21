@@ -6,6 +6,8 @@ import axios from "axios";
 import WhiteCardWrapper from "../../components/atomic/WhiteCardWrapper/WhiteCardWrapper";
 import Button from "../../components/atomic/Button/Button";
 import { iconFile } from "../../assets/iconFile";
+import { Modal } from "react-responsive-modal";
+import "react-responsive-modal/styles.css";
 
 interface ResultsData {
   text: string;
@@ -21,7 +23,8 @@ interface ResultsData {
 const Meals = () => {
   const [results, setResults] = useState<ResultsData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState<string>(""); // State for search query
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [filterQuery, setFilterQuery] = useState<string>(""); // State for filter query
   const apiId: string | undefined = import.meta.env.VITE_REACT_APP_MEALS_API_ID;
   const apiKey: string | undefined = import.meta.env
     .VITE_REACT_APP_MEALS_API_KEY;
@@ -37,7 +40,7 @@ const Meals = () => {
             params: {
               app_id: apiId,
               app_key: apiKey,
-              ingr: searchQuery, // Include search query in API request
+              ingr: filterQuery, // Use filterQuery instead of searchQuery
             },
           }
         );
@@ -49,7 +52,7 @@ const Meals = () => {
     };
 
     fetchData();
-  }, [searchQuery]); // Re-run effect when searchQuery changes
+  }, [filterQuery]); // Re-run effect when filterQuery changes
 
   const fetchNextPage = async () => {
     if (!results) return;
@@ -69,7 +72,14 @@ const Meals = () => {
     setSearchQuery(event.target.value); // Update search query state
   };
 
-  console.log(results?.hints);
+  const handleFilterSubmit = () => {
+    setFilterQuery(searchQuery); // Update filter query state with search query
+  };
+
+  const [open, setOpen] = useState(false);
+
+  const onOpenModal = () => setOpen(true);
+  const onCloseModal = () => setOpen(false);
 
   return (
     <PlatformWrapper>
@@ -85,13 +95,11 @@ const Meals = () => {
                 </p>
               </div>
               <div>
-                {/* <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={handleSearchInputChange}
-                  placeholder="Search by meal name"
-                /> */}
-                <Button variant="filter" leftIcon={iconFile.filterIcon}>
+                <Button
+                  variant="filter"
+                  leftIcon={iconFile.filterIcon}
+                  onClick={onOpenModal}
+                >
                   Filter
                 </Button>
               </div>
@@ -110,9 +118,6 @@ const Meals = () => {
                       </div>
                     </div>
                     <div className={styles.meals__item__nutrients}>
-                      {/* <div className={styles.meals__item__nutrients__info}>
-                        -- 100g --
-                      </div> */}
                       <div className={styles.meals__item__nutrients__details}>
                         <span
                           className={styles.meals__item__nutrients__calories}
@@ -142,9 +147,35 @@ const Meals = () => {
                     </div>
                   </div>
                 ))}
-              <button onClick={fetchNextPage}>Load More</button>
+              <Button variant="primary" onClick={fetchNextPage}>
+                Show more meals
+              </Button>
             </div>
           </WhiteCardWrapper>
+          <Modal
+            open={open}
+            onClose={onCloseModal}
+            center
+            classNames={{
+              overlay: styles.modalOverlay,
+              modal: styles.modalContent,
+            }}
+          >
+            <h2 className={styles.modalHeader}>Find your favourite meal</h2>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={handleSearchInputChange}
+              placeholder="Search by meal name"
+              className={styles.modalInput}
+            />
+            <div className={styles.filterButton}>
+              <Button variant="filter" onClick={handleFilterSubmit}>
+                Search
+              </Button>{" "}
+            </div>
+            {/* Add Submit button */}
+          </Modal>
         </section>
       </MaxWidthWrapper>
     </PlatformWrapper>

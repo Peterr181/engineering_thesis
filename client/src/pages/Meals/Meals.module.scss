@@ -35,7 +35,7 @@
     }
     &__nutrients {
       position: absolute; /* Ustawiamy absolutne pozycjonowanie */
-      left: 40%; /* Przesuwamy w prawo, dostosuj wartość według potrzeb */
+      left: 35%; /* Przesuwamy w prawo, dostosuj wartość według potrzeb */
       gap: var(--rythm-16);
       align-items: center;
       span {
@@ -58,17 +58,60 @@
       }
 
       &__calories {
-        border: 1px solid rgb(119, 235, 119);
+        border: 2px solid rgb(119, 235, 119);
       }
       &__protein {
-        border: 1px solid rgb(124, 124, 235);
+        border: 2px solid rgb(124, 124, 235);
       }
       &__carbs {
-        border: 1px solid rgb(233, 177, 74);
+        border: 2px solid rgb(233, 177, 74);
       }
       &__fat {
-        border: 1px solid rgb(235, 107, 235);
+        border: 2px solid rgb(235, 107, 235);
       }
     }
   }
+}
+
+.modalOverlay {
+}
+
+.modalContent {
+  padding: var(--rythm-48) !important;
+  border-radius: 11px;
+}
+
+.modalHeader {
+  font-weight: 500;
+}
+
+.modalInput {
+  margin-top: var(--rythm-16);
+  outline: none;
+  border: none;
+  width: 100%;
+  padding: var(--rythm-8) var(--rythm-16);
+  border-radius: 4px;
+  border-radius: 0.625rem;
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  color: #b1b1b1;
+  display: block;
+  width: 100%;
+
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: $mainGray;
+  appearance: none;
+  background-color: var(--bs-body-bg);
+  background-clip: padding-box;
+
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.filterButton {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--rythm-16);
 }

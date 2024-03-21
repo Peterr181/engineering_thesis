@@ -6,6 +6,8 @@ import axios from "axios";
 import WhiteCardWrapper from "../../components/atomic/WhiteCardWrapper/WhiteCardWrapper";
 import { iconFile } from "../../assets/iconFile";
 import Exercise from "../../components/compound/Exercise/Exercise";
+import Button from "../../components/atomic/Button/Button";
+import Modal from "react-responsive-modal";
 
 interface ExerciseData {
   name: string;
@@ -78,8 +80,10 @@ const Exercises: React.FC = () => {
     setSelectedTarget(event.target.value);
   };
 
-  console.log(exercises);
+  const [open, setOpen] = useState(false);
 
+  const onOpenModal = () => setOpen(true);
+  const onCloseModal = () => setOpen(false);
   return (
     <PlatformWrapper>
       <MaxWidthWrapper>
@@ -91,20 +95,13 @@ const Exercises: React.FC = () => {
                 <p>Browse many exercises and add them to favorites</p>
               </div>
               <div>
-                <select name="target" id="target" onChange={handleChange}>
-                  <option value="all" className={styles.selectDropdown}>
-                    All
-                  </option>
-                  {filteredTargets.map((target, index) => (
-                    <option
-                      key={index}
-                      value={target}
-                      className={styles.selectDropdown}
-                    >
-                      {target}
-                    </option>
-                  ))}
-                </select>
+                <Button
+                  variant="filter"
+                  leftIcon={iconFile.filterIcon}
+                  onClick={onOpenModal}
+                >
+                  Filter
+                </Button>
               </div>
             </div>
             <div className={styles.exercises__container}>
@@ -167,6 +164,35 @@ const Exercises: React.FC = () => {
               </button>
             </div>
           </WhiteCardWrapper>
+          <Modal
+            open={open}
+            onClose={onCloseModal}
+            center
+            classNames={{
+              overlay: styles.modalOverlay,
+              modal: styles.modalContent,
+            }}
+          >
+            <h2 className={styles.modalHeader}>
+              Select body part that you want to train
+            </h2>
+            <div className={styles.modalSelect}>
+              <select name="target" id="target" onChange={handleChange}>
+                <option value="all" className={styles.selectDropdown}>
+                  All
+                </option>
+                {filteredTargets.map((target, index) => (
+                  <option
+                    key={index}
+                    value={target}
+                    className={styles.selectDropdown}
+                  >
+                    {target}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </Modal>
         </section>
       </MaxWidthWrapper>
     </PlatformWrapper>

@@ -69,4 +69,11 @@
   font-weight: 600;
   letter-spacing: 1px;
   padding: var(--rythm-12) var(--rythm-32);
+
+  transition: 0.3s all;
+
+  &:hover {
+    background-color: #fff;
+    color: rgb(56, 210, 56);
+  }
 }

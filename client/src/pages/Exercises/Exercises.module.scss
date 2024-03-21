@@ -61,3 +61,17 @@ select {
   padding: var(--rythm-16);
   font-size: var(--rythm-16);
 }
+
+.modalContent {
+  padding: var(--rythm-48) !important;
+}
+
+.modalHeader {
+  font-weight: 500;
+}
+
+.modalSelect {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--rythm-16);
+}
