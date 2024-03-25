@@ -5,6 +5,8 @@ import { LanguageProvider } from "./context/LanguageProvider";
 
 import Exercises from "./pages/Exercises/Exercises";
 import Meals from "./pages/Meals/Meals";
+import Finder from "./pages/Finder/Finder";
+
 function App() {
   return (
     <LanguageProvider>
@@ -12,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/workouts" element={<Exercises />} />
+          <Route path="/finder" element={<Finder />} />
           <Route path="/meals" element={<Meals />} />
           <Route path="/login" element={<div>Login</div>} />
           <Route path="/register" element={<div>Register</div>} />

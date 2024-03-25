@@ -7,6 +7,7 @@ export const buttonVariant = {
   primaryFilled: styles.primaryFilled,
   almostGreen: styles.almostGreen,
   filter: styles.filter,
+  primaryFilledSearch: styles.primaryFilledSearch,
 };
 
 type Props = {
