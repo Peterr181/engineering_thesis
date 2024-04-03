@@ -6,6 +6,8 @@ import { LanguageProvider } from "./context/LanguageProvider";
 import Exercises from "./pages/Exercises/Exercises";
 import Meals from "./pages/Meals/Meals";
 import Finder from "./pages/Finder/Finder";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
 
 function App() {
   return (
@@ -16,8 +18,8 @@ function App() {
           <Route path="/workouts" element={<Exercises />} />
           <Route path="/finder" element={<Finder />} />
           <Route path="/meals" element={<Meals />} />
-          <Route path="/login" element={<div>Login</div>} />
-          <Route path="/register" element={<div>Register</div>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </BrowserRouter>
     </LanguageProvider>

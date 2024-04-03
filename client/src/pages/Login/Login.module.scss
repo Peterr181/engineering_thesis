@@ -1,0 +1,79 @@
+// Login.module.scss
+@import "../../styles/variables.scss";
+
+.login {
+  background-color: #f9f9f9;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--rythm-16);
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    p {
+      color: $mainGray;
+    }
+  }
+
+  &__box {
+    background-color: #fff;
+    box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    width: 500px;
+  }
+
+  &__form {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    &__group {
+      display: flex;
+      flex-direction: column;
+
+      input {
+        display: block;
+        width: 100%;
+        padding: 0.7rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: var(--bs-body-color);
+        appearance: none;
+        background-color: var(--bs-body-bg);
+        background-clip: padding-box;
+        border: 1px solid #e6e6e6;
+        border-radius: 4px;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+        &:focus {
+          border-color: $mainColor;
+          outline: 0;
+        }
+      }
+    }
+  }
+}
+
+.buttonLogin {
+  background-color: rgba(166, 240, 166, 0.8);
+  font-weight: 600;
+  color: $mainColor;
+  cursor: pointer;
+  border: none;
+  padding: 0.625rem 1rem;
+  font-size: 0.813rem;
+  border-radius: 0.625rem;
+}
+
+.signUp {
+  color: #1e3fc5;
+  cursor: pointer;
+}
