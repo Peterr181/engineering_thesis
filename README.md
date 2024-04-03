@@ -25,3 +25,6 @@ Closest things to be done:
  - Displaying all platform users
  - Creating personal workout plan and diet plan
  - Creating live chats depend on rooms category
+
+
+This is just initial description for this project full documentation with app is still in progress ;)
