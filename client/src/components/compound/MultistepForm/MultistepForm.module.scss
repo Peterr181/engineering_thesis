@@ -1,0 +1,180 @@
+@import "../../../styles/variables.scss";
+
+.multiStepForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  input {
+    min-height: 58px;
+    cursor: pointer;
+    background-color: #f9f9fb;
+    border: 1px solid #f9f9fb;
+    border-top-style: solid;
+    border-top-color: rgb(249, 249, 251);
+    border-right-style: solid;
+    border-right-color: rgb(249, 249, 251);
+    border-bottom-style: solid;
+    border-bottom-color: rgb(249, 249, 251);
+    border-left-style: solid;
+    border-left-color: rgb(249, 249, 251);
+    border-radius: 8px;
+    margin-bottom: 0;
+    padding-left: 16px;
+    font-size: 16px;
+    transition: all 0.2s;
+    position: relative;
+    outline: none;
+
+    border-width: 0; // ustawiamy początkowo szerokość obramowania na zero
+
+    // dodajemy przejście dla szerokości obramowania
+    transition: border-width 1s ease;
+
+    &:focus {
+      border-width: 2px; // szerokość obramowania po kliknięciu
+      border-color: $mainColor; // kolor obramowania po kliknięciu
+    }
+  }
+
+  &__container {
+    width: 100%;
+    max-width: 700px;
+    padding: var(--rythm-16);
+    border-radius: 5px;
+  }
+
+  &__infoBox {
+    border: 1px solid #ccc;
+    border-radius: 24px;
+    padding: var(--rythm-16);
+    display: flex;
+    align-items: center;
+
+    p {
+      color: $mainColor;
+      font-weight: 600;
+    }
+    h3 {
+      font-size: 18px;
+    }
+  }
+}
+
+.userBasicInfo {
+  display: flex;
+  flex-direction: column;
+
+  &__intro {
+    margin-bottom: var(--rythm-16);
+    margin-top: var(--rythm-16);
+    h2 {
+      font-size: 30px;
+    }
+    p {
+      color: $mainGray;
+      font-size: 20px;
+    }
+  }
+}
+
+.backBtn {
+  color: #8687a8;
+  border-radius: 16px;
+  margin-right: 20px;
+  padding: 20px 30px;
+  font-size: 16px;
+  text-decoration: none;
+  transition: all 0.2s;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.finishBtn {
+  color: #fff;
+  text-align: center;
+  background-color: $mainColor;
+  border-radius: 16px;
+  padding: 20px 44px;
+  font-size: 16px;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  font-weight: 600;
+
+  &:hover {
+    background-color: darken($mainColor, 10%);
+  }
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: end;
+  margin-top: var(--rythm-16);
+}
+
+.sportLevel {
+  &__item {
+    border: 1px solid #ccc;
+    padding: var(--rythm-32);
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    cursor: pointer;
+
+    p {
+      margin-top: var(--rythm-8);
+      font-size: 20px;
+    }
+
+    &--active {
+      border-color: $mainColor;
+      transition: border-color 0.3s ease; // Example transition effect
+    }
+
+    img {
+      width: 64px;
+      height: 64px;
+    }
+  }
+
+  &__container {
+    display: flex;
+
+    gap: var(--rythm-16);
+    align-items: center;
+    justify-content: center;
+    margin-top: var(--rythm-32);
+    margin-bottom: var(--rythm-32);
+  }
+}
+
+.progressBarContainer {
+  width: 100%;
+  margin-left: var(--rythm-16);
+  margin-right: var(--rythm-16);
+}
+
+.stepInfo {
+  margin-right: var(--rythm-16);
+  margin-left: var(--rythm-16);
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.sportLevel__container {
+  animation: slideIn 2s ease;
+}

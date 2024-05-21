@@ -8,12 +8,13 @@ export const buttonVariant = {
   almostGreen: styles.almostGreen,
   filter: styles.filter,
   primaryFilledSearch: styles.primaryFilledSearch,
+  loginRegister: styles.loginRegister,
+  logout: styles.logout,
 };
 
 type Props = {
   variant: keyof typeof buttonVariant;
   onClick?: () => void;
-  onSubmit?: (e: FormEvent) => void;
   children?: string | JSX.Element;
   submit?: boolean;
   disabled?: boolean;
@@ -30,7 +31,6 @@ const Button: React.FC<Props> = ({
   disabled,
   variant,
   isClicked,
-  onSubmit,
   icon,
   rightIcon,
   leftIcon,
@@ -40,7 +40,6 @@ const Button: React.FC<Props> = ({
       data-is-right-icon={rightIcon !== undefined}
       data-is-left-icon={leftIcon !== undefined}
       data-is-icon={icon !== undefined}
-      onSubmit={(e) => onSubmit && onSubmit(e)}
       data-is-clicked={isClicked}
       className={`${styles.button} ${buttonVariant[variant]}`}
       type={submit ? "submit" : "button"}

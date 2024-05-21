@@ -8,16 +8,18 @@ import Meals from "./pages/Meals/Meals";
 import Finder from "./pages/Finder/Finder";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
+import MultistepForm from "./components/compound/MultistepForm/MultistepForm";
 
 function App() {
   return (
     <LanguageProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/workouts" element={<Exercises />} />
           <Route path="/finder" element={<Finder />} />
           <Route path="/meals" element={<Meals />} />
+          <Route path="/multistepregister" element={<MultistepForm />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>

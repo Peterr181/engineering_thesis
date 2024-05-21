@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styles from "./Login.module.scss";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Button from "../../components/atomic/Button/Button";
 
 const Login = () => {
   const [loginValues, setLoginValues] = useState({
@@ -10,6 +11,7 @@ const Login = () => {
     password: "",
   });
   const navigate = useNavigate();
+  axios.defaults.withCredentials = true;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,7 +19,7 @@ const Login = () => {
       .post("http://localhost:8081/login", loginValues)
       .then((res) => {
         if (res.data.status === "Success") {
-          navigate("/");
+          navigate("/home");
         } else {
           alert("Error");
         }
@@ -65,12 +67,12 @@ const Login = () => {
               }
             />
           </div>
-          <button className={styles.buttonLogin} type="submit">
+          <Button variant="loginRegister" submit>
             Log In
-          </button>
+          </Button>
           <p>
             Don't have an account?{" "}
-            <Link to="/register">
+            <Link to="/multistepregister">
               <span className={styles.signUp}>Sign up</span>
             </Link>
           </p>

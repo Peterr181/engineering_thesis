@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import PlatformWrapper from "../../components/compound/PlatformWrapper/PlatformWrapper";
@@ -18,10 +18,39 @@ const Finder = () => {
     setCity(event.target.value);
   };
 
+  const fetchSportsFacilities = async (lat: number, lon: number) => {
+    try {
+      const overpassResponse = await axios.get(
+        `https://overpass-api.de/api/interpreter?data=[out:json];node(around:10000,${lat},${lon})["leisure"="fitness_centre"];out;`,
+        {
+          withCredentials: false,
+        }
+      );
+
+      const facilities = overpassResponse.data.elements;
+      setSportsFacilities(facilities);
+
+      // Log the sportsFacilities array
+      console.log("Sports Facilities:", facilities);
+    } catch (error) {
+      console.error("Failed to fetch sports facilities:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (!city) {
+      // If city is empty, fetch gyms for Warsaw by default
+      fetchSportsFacilities(52.22977, 21.01178);
+    }
+  }, [city]);
+
   const handleCitySearch = async () => {
     try {
       const response = await axios.get(
-        `https://nominatim.openstreetmap.org/search?city=${city}&format=json`
+        `https://nominatim.openstreetmap.org/search?city=${city}&format=json`,
+        {
+          withCredentials: false,
+        }
       );
 
       if (response.data.length === 0) {
@@ -31,15 +60,7 @@ const Finder = () => {
       const { lat, lon } = response.data[0];
       setPosition([lat, lon]);
 
-      const overpassResponse = await axios.get(
-        `https://overpass-api.de/api/interpreter?data=[out:json];node(around:10000,${lat},${lon})["leisure"="fitness_centre"];out;`
-      );
-
-      const facilities = overpassResponse.data.elements;
-      setSportsFacilities(facilities);
-
-      // Log the sportsFacilities array
-      console.log("Sports Facilities:", facilities);
+      fetchSportsFacilities(lat, lon);
     } catch (error) {
       console.error("Failed to fetch coordinates:", error);
     }
@@ -57,7 +78,7 @@ const Finder = () => {
             <h2>Look for new sport places</h2>
             <p>
               Simply enter a city name and look for sport places near your home!
-              Be careful it only work well for bigger cities
+              Be careful it only works well for bigger cities
             </p>
             <div>
               <div className={styles.finder__input}>
@@ -65,7 +86,7 @@ const Finder = () => {
                   type="text"
                   value={city}
                   onChange={handleCityChange}
-                  placeholder="Wpisz nazwę miejscowości"
+                  placeholder="Enter city name"
                 />
                 <button onClick={handleCitySearch}>Szukaj</button>
               </div>

@@ -74,6 +74,7 @@
     &__profile {
       display: flex;
       align-items: center;
+      position: relative;
       gap: var(--rythm-16);
       margin-left: var(--rythm-24);
       &__data {
@@ -90,4 +91,18 @@
       }
     }
   }
+}
+
+.dropdownArrow {
+  cursor: pointer;
+}
+
+.dropdownMenu {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  width: 100px;
+  padding: 10px;
+  bottom: -55px;
+  right: 0;
 }

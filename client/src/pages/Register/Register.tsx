@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./Register.module.scss";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import Button from "../../components/atomic/Button/Button";
 
 const Register = () => {
   const [registerValues, setRegisterValues] = useState({
@@ -81,9 +82,9 @@ const Register = () => {
               }
             />
           </div>
-          <button className={styles.buttonRegister} type="submit">
+          <Button variant="loginRegister" submit>
             Sign Up
-          </button>
+          </Button>
           <p>
             Already have an account?{" "}
             <Link to="/login">

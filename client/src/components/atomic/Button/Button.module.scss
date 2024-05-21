@@ -61,6 +61,28 @@
   padding: var(--rythm-12) var(--rythm-32);
 }
 
+.loginRegister {
+  background-color: rgba(166, 240, 166, 0.8);
+  font-weight: 600;
+  color: $mainColor;
+  cursor: pointer;
+  border: none;
+  padding: 0.625rem 1rem;
+  font-size: 0.813rem;
+  border-radius: 0.625rem;
+}
+
+.logout {
+  background-color: rgba(239, 0, 0, 0.8);
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  padding: 0.625rem 1rem;
+  font-size: 0.813rem;
+  border-radius: 0.625rem;
+}
+
 .filter {
   color: #fff;
   background-color: rgb(56, 210, 56);

@@ -9,14 +9,16 @@ import bcrypt from "bcrypt";
 const salt = 10;
 
 const app = express();
-app.use(express.json());
 app.use(
   cors({
-    origin: "*",
-    credentials: true,
+    origin: ["http://localhost:5173"],
     methods: ["POST", "GET"],
+    credentials: true,
+    optionSuccessStatus: 200,
   })
 );
+app.use(express.json());
+app.use(cookieParser());
 
 const db = mysql.createConnection({
   host: "localhost",
@@ -27,24 +29,48 @@ const db = mysql.createConnection({
 });
 
 app.post("/register", (req, res) => {
-  const sql = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
-  bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
+  console.log(req.body);
+
+  // Check if email already exists
+  const checkEmailSql = "SELECT * FROM users WHERE email = ?";
+  db.query(checkEmailSql, [req.body.email], (err, result) => {
     if (err) {
       return res.status(500).json({ error: "Internal Server Error" });
     }
+    if (result.length > 0) {
+      return res.status(400).json({ error: "Email already registered" });
+    }
 
-    const values = [req.body.username, hash, req.body.email];
-
-    db.query(sql, values, (err, result) => {
+    // If email is not registered, proceed with user registration
+    const sql =
+      "INSERT INTO users (username, password, email, gender, birthYear, avatar, sportLevel) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
       if (err) {
-        console.log(err);
-        return res.status(500).json({ error: "Error registering user" });
-      } else {
-        console.log(result);
-        return res
-          .status(200)
-          .json({ status: "Success", message: "User registered successfully" });
+        return res.status(500).json({ error: "Internal Server Error" });
       }
+
+      const values = [
+        req.body.nickname,
+        hash,
+        req.body.email,
+        req.body.gender,
+        req.body.birthYear,
+        req.body.avatar,
+        req.body.sportLevel,
+      ];
+
+      db.query(sql, values, (err, result) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({ error: "Error registering user" });
+        } else {
+          console.log(result);
+          return res.status(200).json({
+            status: "Success",
+            message: "User registered successfully",
+          });
+        }
+      });
     });
   });
 });
@@ -64,6 +90,12 @@ app.post("/login", (req, res) => {
             return res.status(500).json({ error: "Internal Server Error" });
           }
           if (response) {
+            const name = req.body.username;
+            const token = jwt.sign({ name }, "jwt-secret-key", {
+              expiresIn: "1d",
+            });
+            res.cookie("token", token);
+
             return res.json({
               status: "Success",
               message: "User logged in successfully",
@@ -77,38 +109,46 @@ app.post("/login", (req, res) => {
   });
 });
 
+const verifyUser = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.status(401).json({ error: "Unauthorized" });
+  } else {
+    jwt.verify(token, "jwt-secret-key", (err, decoded) => {
+      if (err) {
+        return res.status(403).json({ error: "Forbidden" });
+      } else {
+        req.name = decoded.name;
+        next();
+      }
+    });
+  }
+};
+
+app.get("/profile", verifyUser, (req, res) => {
+  const sql =
+    "SELECT id, username, email, gender, birthYear, avatar, sportLevel FROM users WHERE username = ?";
+  db.query(sql, [req.name], (err, data) => {
+    if (err) {
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+    if (data.length > 0) {
+      return res.json({ user: data[0] });
+    } else {
+      return res.status(404).json({ error: "User not found" });
+    }
+  });
+});
+
+app.get("/auth", verifyUser, (req, res) => {
+  return res.json({ status: "Success", message: "User verified" });
+});
+
+app.get("/logout", (req, res) => {
+  res.clearCookie("token");
+  return res.json({ status: "Success", message: "User logged out" });
+});
+
 app.listen(8081, () => {
   console.log("Server running on port 8081");
 });
-
-// app.get("/api/v1/workouts", async (req, res) => {
-//   const results = await db.query("SELECT * FROM exercises");
-//   console.log(results);
-// });
-
-// app.get("/api/v1/workouts/:workoutid", (req, res) => {
-//   res
-//     .status(200)
-//     .json({ status: "success", data: { workout: "Bench lifting" } });
-// });
-
-// app.post("/api/v1/workouts/:workoutid", (req, res) => {
-//   console.log(req);
-//   res
-//     .status(200)
-//     .json({ status: "success", data: { workout: "Bench lifting" } });
-// });
-
-// app.put("/api/v1/workouts/:workoutid", (req, res) => {
-//   console.log(req.params.id);
-//   console.log(req.body);
-//   res
-//     .status(200)
-//     .json({ status: "success", data: { workout: "Bench lifting" } });
-// });
-
-// const port = process.env.PORT;
-
-// app.listen(port, () => {
-//   console.log(`Server running on port ${port}`);
-// });
