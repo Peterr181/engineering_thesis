@@ -15,7 +15,7 @@ function App() {
     <LanguageProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/workouts" element={<Exercises />} />
           <Route path="/finder" element={<Finder />} />
           <Route path="/meals" element={<Meals />} />

@@ -15,7 +15,7 @@ const Sidebar = () => {
       id: "dashboard",
       icon: iconFile.dashboardIcon,
       text: t("sidebar.dashboard"),
-      link: "/home",
+      link: "/",
     },
     {
       id: "workouts",

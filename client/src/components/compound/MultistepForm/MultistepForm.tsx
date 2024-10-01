@@ -46,7 +46,7 @@ const MultistepForm = () => {
     try {
       const response = await axios.post("http://localhost:8081/register", data);
       if (response.status === 200) {
-        navigate("/home");
+        navigate("/");
       }
     } catch (error) {
       console.error("Error registering user:", error);
