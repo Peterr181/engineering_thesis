@@ -18,10 +18,9 @@ const Register = () => {
       .post("http://localhost:8081/register", registerValues)
       .then((res) => {
         if (res.data.status === "Success") {
-          // Move the navigation inside this block
-          navigate("/login");
+          navigate("/profile");
         } else {
-          alert("Error");
+          alert("Error during registration");
         }
       })
       .catch((err) => {
@@ -92,7 +91,6 @@ const Register = () => {
             </Link>
           </p>
         </form>
-        {/* Form ends here */}
       </div>
     </section>
   );

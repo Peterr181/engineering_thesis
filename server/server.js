@@ -1,5 +1,4 @@
 import express from "express";
-// const db = require("./db");
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -31,7 +30,6 @@ const db = mysql.createConnection({
 app.post("/register", (req, res) => {
   console.log(req.body);
 
-  // Check if email already exists
   const checkEmailSql = "SELECT * FROM users WHERE email = ?";
   db.query(checkEmailSql, [req.body.email], (err, result) => {
     if (err) {
@@ -41,7 +39,6 @@ app.post("/register", (req, res) => {
       return res.status(400).json({ error: "Email already registered" });
     }
 
-    // If email is not registered, proceed with user registration
     const sql =
       "INSERT INTO users (username, password, email, gender, birthYear, avatar, sportLevel) VALUES (?, ?, ?, ?, ?, ?, ?)";
     bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
@@ -64,10 +61,16 @@ app.post("/register", (req, res) => {
           console.log(err);
           return res.status(500).json({ error: "Error registering user" });
         } else {
-          console.log(result);
+          const name = req.body.nickname;
+          const token = jwt.sign({ name }, "jwt-secret-key", {
+            expiresIn: "1d",
+          });
+
+          res.cookie("token", token, { httpOnly: true });
+
           return res.status(200).json({
             status: "Success",
-            message: "User registered successfully",
+            message: "User registered and logged in successfully",
           });
         }
       });

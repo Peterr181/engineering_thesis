@@ -1,32 +1,20 @@
-// Login.tsx
 import React, { useState } from "react";
 import styles from "./Login.module.scss";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Link } from "react-router-dom";
 import Button from "../../components/atomic/Button/Button";
+import { useLogin } from "../../hooks/useLogin";
 
 const Login = () => {
   const [loginValues, setLoginValues] = useState({
     username: "",
     password: "",
   });
-  const navigate = useNavigate();
-  axios.defaults.withCredentials = true;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { login, error, loading } = useLogin();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:8081/login", loginValues)
-      .then((res) => {
-        if (res.data.status === "Success") {
-          navigate("/home");
-        } else {
-          alert("Error");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    await login(loginValues);
   };
 
   return (
@@ -67,9 +55,10 @@ const Login = () => {
               }
             />
           </div>
-          <Button variant="loginRegister" submit>
-            Log In
+          <Button variant="loginRegister" submit disabled={loading}>
+            {loading ? "Logging in..." : "Log In"}
           </Button>
+          {error && <p className={styles.error}>{error}</p>}{" "}
           <p>
             Don't have an account?{" "}
             <Link to="/multistepregister">
