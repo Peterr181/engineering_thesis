@@ -5,7 +5,6 @@
   justify-content: space-between;
   margin-top: var(--rythm-24);
   padding-bottom: var(--rythm-24);
-  border-bottom: 1px solid #d8e0f9;
 
   &__date {
     display: flex;
@@ -25,7 +24,9 @@
       &__number {
         font-size: var(--rythm-24);
       }
-
+      &__month {
+        font-size: var(--rythm-16);
+      }
       p {
         margin-bottom: 4px; /* Adjust this value to your preference */
       }
@@ -41,9 +42,11 @@
 
     h3 {
       font-weight: 500;
+      font-size: var(--rythm-24);
     }
 
     p {
+      font-size: var(--rythm-16);
       text-transform: uppercase;
     }
   }

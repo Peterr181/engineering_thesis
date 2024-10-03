@@ -38,7 +38,7 @@ const UpcomingWorkouts = () => {
             month="Jan"
             name="Chest workout"
             status={Status.IN_PROGRESS}
-            category={Category.BICYCLE}
+            category={Category.CARDIO}
           />
           <Workout
             day={12}

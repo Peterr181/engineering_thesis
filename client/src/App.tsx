@@ -8,6 +8,7 @@ import Finder from "./pages/Finder/Finder";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import MultistepForm from "./components/compound/MultistepForm/MultistepForm";
+import WorkoutPlan from "./pages/WorkoutPlan/WorkoutPlan";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/workouts" element={<Exercises />} />
+          <Route path="/workoutplan" element={<WorkoutPlan />} />
           <Route path="/finder" element={<Finder />} />
           <Route path="/meals" element={<Meals />} />
           <Route path="/multistepregister" element={<MultistepForm />} />

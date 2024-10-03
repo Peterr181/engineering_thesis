@@ -12,7 +12,7 @@ export enum Status {
 
 export enum Category {
   GYM = "Gym",
-  BICYCLE = "Bicycle",
+  CARDIO = "Cardio",
 }
 
 interface WorkoutProps {
@@ -43,7 +43,7 @@ const Workout = ({ day, month, name, status, category }: WorkoutProps) => {
     switch (category) {
       case Category.GYM:
         return styles.gym;
-      case Category.BICYCLE:
+      case Category.CARDIO:
         return styles.bicycling;
       default:
         return "";
@@ -54,7 +54,7 @@ const Workout = ({ day, month, name, status, category }: WorkoutProps) => {
     switch (category) {
       case Category.GYM:
         return iconFile.gymIcon;
-      case Category.BICYCLE:
+      case Category.CARDIO:
         return iconFile.iconBicycle;
       default:
         return null;
@@ -66,7 +66,7 @@ const Workout = ({ day, month, name, status, category }: WorkoutProps) => {
       <div className={styles.workout__date}>
         <div className={styles.workout__date__day}>
           <p className={styles.workout__date__day__number}>{day}</p>
-          <p>{month}</p>
+          <p className={styles.workout__date__day__month}>{month}</p>
         </div>
         <div className={styles.workout__name}>
           <h3>{name}</h3>

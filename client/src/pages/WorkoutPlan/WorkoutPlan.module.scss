@@ -1,0 +1,119 @@
+.workoutPlan {
+  display: flex;
+  gap: var(--rythm-16);
+  justify-content: center;
+  margin-top: var(--rythm-32);
+
+  &__trainings {
+    width: 100%; // Full width by default
+
+    &__trainingsList {
+      margin-top: var(--rythm-32);
+    }
+
+    &__training {
+      border: 1px solid #eaeaea;
+      display: flex;
+      justify-content: space-between;
+      padding: var(--rythm-16);
+      border-radius: 16px;
+      align-items: center;
+      &__start {
+        display: flex;
+        align-items: center;
+        gap: var(--rythm-8);
+      }
+      &__name {
+        /* Optional styling for training name */
+      }
+
+      &__date {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid #eaeaea;
+        padding: var(--rythm-8);
+        border-radius: 16px;
+      }
+
+      &__type {
+        display: flex;
+        align-items: center;
+        gap: var(--rythm-8);
+      }
+
+      &__button {
+        /* Optional styling for button */
+      }
+    }
+  }
+
+  &__calendar {
+    width: 400px; // Fixed width for larger screens
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: var(--rythm-16);
+    }
+  }
+}
+
+// Add media queries for smaller devices
+@media screen and (max-width: 768px) {
+  .workoutPlan {
+    flex-direction: column; // Stack content vertically on smaller screens
+    gap: var(--rythm-16);
+
+    &__trainings {
+      width: 100%; // Full width for smaller screens
+    }
+
+    &__calendar {
+      width: 100%; // Make the calendar full width on smaller screens
+      margin-top: var(--rythm-16); // Add some spacing on top
+    }
+
+    .react-calendar {
+      width: 100%; // Ensure the calendar takes full width on smaller screens
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .workoutPlan {
+    &__training {
+      flex-direction: column; // Stack training elements vertically for very small screens
+      align-items: flex-start;
+      padding: var(--rythm-12);
+
+      &__start {
+        gap: var(--rythm-4); // Reduce gap between elements
+      }
+
+      &__date {
+        padding: var(--rythm-6); // Adjust padding for smaller screens
+      }
+
+      &__type {
+        gap: var(--rythm-4); // Adjust gap between type elements
+      }
+    }
+  }
+}
+
+.highlightedDay {
+  background-color: rgb(218, 236, 218) !important;
+  color: green !important;
+}
+
+.react-calendar {
+  border: 1px solid #fff !important;
+}
+
+.customCalendar {
+  border: 1px solid #fff !important;
+  margin-top: 16px;
+}

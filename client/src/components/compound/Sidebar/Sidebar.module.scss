@@ -115,3 +115,9 @@ svg {
 .sidebar__center__element__left span {
   text-transform: capitalize;
 }
+
+@media screen and (max-width: 780px) {
+  .sidebar {
+    display: none;
+  }
+}
