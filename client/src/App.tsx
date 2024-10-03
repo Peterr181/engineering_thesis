@@ -2,7 +2,6 @@ import "./App.scss";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import { LanguageProvider } from "./context/LanguageProvider";
-
 import Exercises from "./pages/Exercises/Exercises";
 import Meals from "./pages/Meals/Meals";
 import Finder from "./pages/Finder/Finder";

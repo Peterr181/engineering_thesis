@@ -1,14 +1,24 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLanguage } from "../../../context/LanguageProvider";
 import styles from "./Sidebar.module.scss";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { iconFile } from "../../../assets/iconFile";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 const Sidebar = () => {
   const { t } = useLanguage();
 
   const [showText, setShowText] = useState(false);
+
+  const handleLogout = () => {
+    axios
+      .get("http://localhost:8081/logout")
+      .then(() => {
+        location.reload();
+      })
+      .catch((err) => console.log(err));
+  };
 
   const menuItems = [
     {
@@ -34,6 +44,12 @@ const Sidebar = () => {
       icon: iconFile.mealIcon,
       text: t("sidebar.diet"),
       link: "/meals",
+    },
+    {
+      id: "workoutplan",
+      icon: iconFile.workoutPlan,
+      text: t("sidebar.workoutplan"),
+      link: "/workoutplan",
     },
     {
       id: "trainer",
@@ -96,7 +112,7 @@ const Sidebar = () => {
         ))}
       </ul>
       <div className={styles.sidebar__bottom}>
-        <div className={styles.sidebar__bottom__logout}>
+        <div className={styles.sidebar__bottom__logout} onClick={handleLogout}>
           {iconFile.logoutIcon}
           {showText && <span>{t("sidebar.logout")}</span>}
         </div>

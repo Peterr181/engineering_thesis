@@ -17,7 +17,7 @@ const Navbar: React.FC = () => {
   const handleLogout = () => {
     axios
       .get("http://localhost:8081/logout")
-      .then((res) => {
+      .then(() => {
         location.reload();
       })
       .catch((err) => console.log(err));
@@ -29,7 +29,6 @@ const Navbar: React.FC = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
-  console.log(auth, "czy uzytkownik zalogowany");
   return (
     <nav className={styles.navbar__wrapper}>
       <section className={styles.navbar}>
