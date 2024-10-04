@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
       <section className={styles.navbar}>
         <div className={styles.navbar__left}>
           <Text textStyle="lg">{t("navbar.setWorkoutPlan")}</Text>
-          <Link to="/workoutplan">
+          <Link to="/creatingworkout">
             <Button variant="primaryOutline">
               <Text textStyle="md">{t("navbar.setWorkoutButton")}</Text>
             </Button>

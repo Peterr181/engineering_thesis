@@ -1,0 +1,29 @@
+.creatingworkout {
+  &__buttons {
+    margin-top: var(--rythm-24);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--rythm-16);
+
+    button {
+      width: 100%;
+      height: var(--rythm-48);
+      font-weight: 600;
+    }
+  }
+
+  &__filter {
+    margin-top: var(--rythm-16);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .creatingworkout {
+    &__buttons {
+      grid-template-columns: repeat(1, 1fr);
+      button {
+        height: 60px;
+      }
+    }
+  }
+}
