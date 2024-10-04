@@ -3,10 +3,10 @@
   margin-right: auto;
   width: 100%;
   max-width: var(--rythm-1600);
-
   padding-left: 10px;
   padding-right: 10px;
 
+  // For screens wider than 768px
   @media (min-width: 768px) {
     padding-left: 20px;
     padding-right: 20px;

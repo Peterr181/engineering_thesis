@@ -34,9 +34,11 @@ const Navbar: React.FC = () => {
       <section className={styles.navbar}>
         <div className={styles.navbar__left}>
           <Text textStyle="lg">{t("navbar.setWorkoutPlan")}</Text>
-          <Button variant="primaryOutline">
-            <Text textStyle="md">{t("navbar.setWorkoutButton")}</Text>
-          </Button>
+          <Link to="/workoutplan">
+            <Button variant="primaryOutline">
+              <Text textStyle="md">{t("navbar.setWorkoutButton")}</Text>
+            </Button>
+          </Link>
         </div>
         {auth ? (
           <div className={styles.navbar__right}>

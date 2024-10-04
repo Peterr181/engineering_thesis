@@ -1,3 +1,4 @@
+import * as React from "react";
 import { useState } from "react";
 import { useLanguage } from "../../../context/LanguageProvider";
 import styles from "./Sidebar.module.scss";
@@ -89,6 +90,7 @@ const Sidebar = () => {
           {showText && <span className={styles.logo}>Gymero</span>}
         </Link>
       </div>
+
       <ul className={styles.sidebar__center}>
         {menuItems.map((item) => (
           <NavLink
