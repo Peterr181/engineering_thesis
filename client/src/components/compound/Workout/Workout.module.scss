@@ -6,6 +6,11 @@
   margin-top: var(--rythm-24);
   padding-bottom: var(--rythm-24);
 
+  &__buttons {
+    display: flex;
+    gap: var(--rythm-16);
+  }
+
   &__date {
     display: flex;
     align-items: center;

@@ -81,9 +81,11 @@ const Workout = ({ day, month, name, status, category }: WorkoutProps) => {
         {getCategoryIcon(category)}
         <p>{t(`category.${category}`)}</p>
       </div>
-      <Button variant="almostGreen" rightIcon={iconFile.iconFinish}>
-        <span>{t("upcomingWorkouts.button")}</span>
-      </Button>
+      <div className={styles.workout__buttons}>
+        <Button variant="almostGreen" rightIcon={iconFile.iconFinish}>
+          <span>{t("upcomingWorkouts.button")}</span>
+        </Button>
+      </div>
     </div>
   );
 };
