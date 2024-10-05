@@ -18,7 +18,10 @@ export const useLogin = () => {
     setError(null);
 
     try {
-      const res = await axios.post("http://localhost:8081/login", loginValues);
+      const res = await axios.post(
+        "http://localhost:8081/auth/login",
+        loginValues
+      );
 
       if (res.data.status === "Success") {
         navigate("/");
