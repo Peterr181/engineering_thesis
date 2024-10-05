@@ -18,13 +18,12 @@ const useAuth = (): [boolean, UserProfile | null] => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8081/auth")
+      .get("http://localhost:8081/auth/verify")
       .then((res) => {
         if (res.data.status === "Success") {
           setAuth(true);
-          // Fetch user profile data if authenticated
           axios
-            .get("http://localhost:8081/profile")
+            .get("http://localhost:8081/user/profile")
             .then((profileRes) => {
               setUserProfile(profileRes.data.user);
             })
