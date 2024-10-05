@@ -15,7 +15,7 @@ const Register = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8081/register", registerValues)
+      .post("http://localhost:8081/auth/register", registerValues)
       .then((res) => {
         if (res.data.status === "Success") {
           navigate("/profile");

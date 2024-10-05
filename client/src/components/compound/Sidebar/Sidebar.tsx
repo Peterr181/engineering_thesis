@@ -14,7 +14,7 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     axios
-      .get("http://localhost:8081/logout")
+      .get("http://localhost:8081/auth/logout")
       .then(() => {
         location.reload();
       })
