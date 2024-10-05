@@ -2,7 +2,7 @@
   &__buttons {
     margin-top: var(--rythm-24);
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: var(--rythm-16);
 
     button {
@@ -14,6 +14,8 @@
 
   &__filter {
     margin-top: var(--rythm-16);
+    display: flex;
+    gap: var(--rythm-16);
   }
 }
 
