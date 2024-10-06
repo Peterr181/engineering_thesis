@@ -1,12 +1,12 @@
 import React from "react";
 import styles from "./MultistepForm.module.scss";
+
 interface UserBasicDataProps {
   nickname: string;
   email: string;
   password: string;
   gender: string;
   birthYear: string;
-  avatar: string;
   updateFields: any;
 }
 
@@ -17,7 +17,6 @@ const UserBasicData = ({
   birthYear,
   password,
   updateFields,
-  avatar,
 }: UserBasicDataProps) => {
   return (
     <div className={styles.userBasicInfo}>
@@ -54,28 +53,26 @@ const UserBasicData = ({
         placeholder="●●●●●●"
       />
       <label>Gender</label>
-      <input
+      <select
         required
-        type="text"
         value={gender}
         onChange={(e) => updateFields({ gender: e.target.value })}
-        placeholder="Gender"
-      />
+      >
+        <option value="">Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
       <label>Birth Year</label>
       <input
         required
         type="text"
         value={birthYear}
         onChange={(e) => updateFields({ birthYear: e.target.value })}
-        placeholder="2024"
-      />
-      <label>Avatar</label>
-      <input
-        required
-        type="text"
-        value={avatar}
-        onChange={(e) => updateFields({ avatar: e.target.value })}
-        placeholder="Avatar"
+        placeholder="YYYY"
+        maxLength={4}
+        pattern="\d{4}"
+        title="Please enter a valid 4-digit year"
       />
     </div>
   );

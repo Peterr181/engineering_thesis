@@ -2,6 +2,8 @@
   "navbar": {
     "setWorkoutPlan": "Ustaw swój plan treningowy",
     "setWorkoutButton": "Ustaw plan treningowy",
+    "workoutPlanButton": "Plan treningowy",
+    "workoutPlan": "Sprawdź swój aktualny plan treningowy",
     "searchPlaceholder": "Wyszukaj coś...",
     "humanFaceAlt": "Twarz człowieka",
     "userName": "Piotr Morgan",

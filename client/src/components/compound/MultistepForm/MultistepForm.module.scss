@@ -27,15 +27,21 @@
     position: relative;
     outline: none;
 
-    border-width: 0; // ustawiamy początkowo szerokość obramowania na zero
+    border-width: 0;
 
-    // dodajemy przejście dla szerokości obramowania
     transition: border-width 1s ease;
 
     &:focus {
-      border-width: 2px; // szerokość obramowania po kliknięciu
-      border-color: $mainColor; // kolor obramowania po kliknięciu
+      border-width: 2px;
+      border-color: $mainColor;
     }
+  }
+
+  select {
+    box-shadow: none;
+    border-radius: 8px;
+    background-color: #f9f9fb;
+    border: 1px solid #f9f9fb;
   }
 
   &__container {
@@ -135,7 +141,7 @@
 
     &--active {
       border-color: $mainColor;
-      transition: border-color 0.3s ease; // Example transition effect
+      transition: border-color 0.3s ease;
     }
 
     img {

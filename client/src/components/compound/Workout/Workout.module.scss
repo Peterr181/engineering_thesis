@@ -30,7 +30,7 @@
         font-size: var(--rythm-24);
       }
       &__month {
-        font-size: var(--rythm-16);
+        font-size: var(--rythm-12);
       }
       p {
         margin-bottom: 4px; /* Adjust this value to your preference */
@@ -62,13 +62,13 @@
 
     &.gym {
       p {
-        color: #ff5722; // deep orange
+        color: #ff5722;
       }
     }
 
     &.bicycling {
       p {
-        color: #009688; // teal
+        color: #009688;
       }
     }
     display: flex;

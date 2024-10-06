@@ -24,12 +24,10 @@ const Meals = () => {
   const [results, setResults] = useState<ResultsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [filterQuery, setFilterQuery] = useState<string>(""); // State for filter query
+  const [filterQuery, setFilterQuery] = useState<string>("");
   const apiId: string | undefined = import.meta.env.VITE_REACT_APP_MEALS_API_ID;
   const apiKey: string | undefined = import.meta.env
     .VITE_REACT_APP_MEALS_API_KEY;
-
-  console.log(apiKey, apiId);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +38,7 @@ const Meals = () => {
             params: {
               app_id: apiId,
               app_key: apiKey,
-              ingr: filterQuery, // Use filterQuery instead of searchQuery
+              ingr: filterQuery,
             },
           }
         );
@@ -52,7 +50,7 @@ const Meals = () => {
     };
 
     fetchData();
-  }, [filterQuery]); // Re-run effect when filterQuery changes
+  }, [filterQuery]);
 
   const fetchNextPage = async () => {
     if (!results) return;
@@ -69,11 +67,11 @@ const Meals = () => {
   const handleSearchInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setSearchQuery(event.target.value); // Update search query state
+    setSearchQuery(event.target.value);
   };
 
   const handleFilterSubmit = () => {
-    setFilterQuery(searchQuery); // Update filter query state with search query
+    setFilterQuery(searchQuery);
   };
 
   const [open, setOpen] = useState(false);
@@ -174,7 +172,6 @@ const Meals = () => {
                 Search
               </Button>{" "}
             </div>
-            {/* Add Submit button */}
           </Modal>
         </section>
       </MaxWidthWrapper>
