@@ -16,6 +16,8 @@ export enum Category {
 }
 
 interface WorkoutProps {
+  exercise_name?: string;
+  exercise_type?: string;
   day: number;
   month: string;
   name: string;
@@ -78,8 +80,9 @@ const Workout = ({ day, month, name, status, category }: WorkoutProps) => {
       <div
         className={`${styles.workout__category} ${getCategoryColor(category)}`}
       >
-        {getCategoryIcon(category)}
-        <p>{t(`category.${category}`)}</p>
+        {/* {getCategoryIcon(category)}
+        <p>{t(`category.${category}`)}</p> */}
+        <p>{category}</p>
       </div>
       <div className={styles.workout__buttons}>
         <Button variant="almostGreen" rightIcon={iconFile.iconFinish}>

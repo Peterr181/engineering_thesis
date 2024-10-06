@@ -29,9 +29,6 @@ const Finder = () => {
 
       const facilities = overpassResponse.data.elements;
       setSportsFacilities(facilities);
-
-      // Log the sportsFacilities array
-      console.log("Sports Facilities:", facilities);
     } catch (error) {
       console.error("Failed to fetch sports facilities:", error);
     }
@@ -39,7 +36,6 @@ const Finder = () => {
 
   useEffect(() => {
     if (!city) {
-      // If city is empty, fetch gyms for Warsaw by default
       fetchSportsFacilities(52.22977, 21.01178);
     }
   }, [city]);
@@ -103,7 +99,6 @@ const Finder = () => {
                     <Popup>You are here</Popup>
                   </Marker>
                 )}
-                {/* Display sports facilities */}
                 {sportsFacilities.map((facility, index) => (
                   <Marker key={index} position={[facility.lat, facility.lon]}>
                     <Popup>

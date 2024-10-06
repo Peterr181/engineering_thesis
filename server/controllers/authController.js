@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import mysql from "mysql";
-import crypto from "crypto"; // Import the crypto module for generating random secrets
+import crypto from "crypto";
 
 const db = mysql.createConnection({
   host: "localhost",
@@ -47,7 +47,6 @@ export const register = (req, res) => {
           return res.status(500).json({ error: "Error registering user" });
         }
 
-        // Create a unique JWT secret using the user's nickname and a random value
         const uniqueSecret = crypto.randomBytes(16).toString("hex");
         const jwtSecret = `${nickname}-${uniqueSecret}`;
 
@@ -82,7 +81,6 @@ export const login = (req, res) => {
           return res.status(500).json({ error: "Internal Server Error" });
 
         if (response) {
-          // Create a unique JWT secret using the user's username and a random value
           const uniqueSecret = crypto.randomBytes(16).toString("hex");
           const jwtSecret = `${username}-${uniqueSecret}`;
 
@@ -93,7 +91,11 @@ export const login = (req, res) => {
               expiresIn: "1d",
             }
           );
+
+          const userId = data[0].id;
           res.cookie("token", token, { httpOnly: true });
+          res.cookie("userId", userId, { httpOnly: true });
+
           return res.json({
             status: "Success",
             message: "User logged in successfully",
@@ -110,6 +112,7 @@ export const login = (req, res) => {
 
 export const logout = (req, res) => {
   res.clearCookie("token");
+  res.clearCookie("userId");
   return res.json({ status: "Success", message: "User logged out" });
 };
 

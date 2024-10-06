@@ -14,6 +14,7 @@ import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
+import { useWorkouts } from "../../hooks/useWorkout";
 
 const allExercises = [
   { name: "Cardio", type: "Cardio" },
@@ -64,6 +65,8 @@ const months = [
 const filterCategories = ["All", "Cardio", "Strength", "Combat", "Flexibility"];
 
 const CreatingWorkout = () => {
+  const { addWorkout, error, loading } = useWorkouts();
+
   const [filter, setFilter] = useState("All");
   const [open, setOpen] = useState(false);
   const [selectedExercise, setSelectedExercise] = useState(null);
@@ -83,10 +86,27 @@ const CreatingWorkout = () => {
     setDescription("");
   };
 
-  const handleAddWorkout = () => {
-    handleClose();
-  };
+  const handleAddWorkout = async () => {
+    if (selectedExercise && day && month && description) {
+      const newWorkout = {
+        day: parseInt(day, 10),
+        month,
+        description: description,
+        exercise_name: selectedExercise.name,
+        exercise_type: selectedExercise.type,
+      };
 
+      try {
+        await addWorkout(newWorkout);
+        handleClose();
+      } catch (err) {
+        console.error("Failed to add workout:", err);
+        alert("Failed to add workout: " + err.message);
+      }
+    } else {
+      alert("Please fill all fields.");
+    }
+  };
   const handleDayChange = (e) => {
     const value = e.target.value;
     if (/^\d{0,2}$/.test(value) && value <= 31) {
@@ -185,10 +205,15 @@ const CreatingWorkout = () => {
               <Button onClick={handleClose} color="secondary">
                 Cancel
               </Button>
-              <Button onClick={handleAddWorkout} color="primary">
-                Add
+              <Button
+                onClick={handleAddWorkout}
+                color="primary"
+                disabled={loading}
+              >
+                {loading ? "Adding..." : "Add"}
               </Button>
             </DialogActions>
+            {error && <p style={{ color: "red" }}>{error}</p>}
           </Dialog>
         </WhiteCardWrapper>
       </MaxWidthWrapper>

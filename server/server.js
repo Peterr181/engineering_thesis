@@ -1,13 +1,12 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { config } from "dotenv"; // For using environment variables
+import { config } from "dotenv";
 
-// Import routes
+import workoutRoutes from "./routes/workoutRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 
-// Initialize dotenv to use environment variables
 config();
 
 const app = express();
@@ -24,9 +23,9 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-// Use routes
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+app.use("/api/workouts", workoutRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

@@ -5,7 +5,19 @@
   margin-top: var(--rythm-32);
 
   &__trainings {
-    width: 100%; // Full width by default
+    width: 100%;
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--rythm-16);
+      margin-bottom: var(--rythm-32);
+
+      button {
+        font-weight: 600;
+      }
+    }
 
     &__trainingsList {
       margin-top: var(--rythm-32);
@@ -43,15 +55,13 @@
       }
 
       &__button {
-        /* Optional styling for button */
       }
     }
   }
 
   &__calendar {
-    width: 400px; // Fixed width for larger screens
-
-    &__content {
+    width: 400px;
+    / &__content {
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -61,23 +71,22 @@
   }
 }
 
-// Add media queries for smaller devices
 @media screen and (max-width: 768px) {
   .workoutPlan {
-    flex-direction: column; // Stack content vertically on smaller screens
+    flex-direction: column;
     gap: var(--rythm-16);
 
     &__trainings {
-      width: 100%; // Full width for smaller screens
+      width: 100%;
     }
 
     &__calendar {
-      width: 100%; // Make the calendar full width on smaller screens
-      margin-top: var(--rythm-16); // Add some spacing on top
+      width: 100%;
+      margin-top: var(--rythm-16);
     }
 
     .react-calendar {
-      width: 100%; // Ensure the calendar takes full width on smaller screens
+      width: 100%;
     }
   }
 }
@@ -85,20 +94,20 @@
 @media screen and (max-width: 480px) {
   .workoutPlan {
     &__training {
-      flex-direction: column; // Stack training elements vertically for very small screens
+      flex-direction: column;
       align-items: flex-start;
       padding: var(--rythm-12);
 
       &__start {
-        gap: var(--rythm-4); // Reduce gap between elements
+        gap: var(--rythm-4);
       }
 
       &__date {
-        padding: var(--rythm-6); // Adjust padding for smaller screens
+        padding: var(--rythm-6);
       }
 
       &__type {
-        gap: var(--rythm-4); // Adjust gap between type elements
+        gap: var(--rythm-4);
       }
     }
   }

@@ -9,7 +9,6 @@ export const authMiddleware = (req, res, next) => {
   }
 
   try {
-    // Decode the token without verifying to extract the secret part
     const decodedToken = jwt.decode(token, { complete: true });
 
     if (!decodedToken) {
@@ -19,7 +18,6 @@ export const authMiddleware = (req, res, next) => {
     const { payload } = decodedToken;
     const jwtSecret = `${payload.username}-${payload.secret}`;
 
-    // Verify the token using the extracted secret
     jwt.verify(token, jwtSecret, (err, decoded) => {
       if (err) {
         return res.status(403).json({ error: "Forbidden" });

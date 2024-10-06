@@ -41,7 +41,6 @@ const MultistepForm = () => {
     if (!isLastStep) {
       return next();
     }
-    console.log(data);
 
     try {
       const response = await axios.post(

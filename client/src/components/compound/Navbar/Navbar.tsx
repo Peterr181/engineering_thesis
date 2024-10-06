@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Navbar.module.scss";
 import { iconFile } from "../../../assets/iconFile";
 import humanFace from "../../../assets/images/personDefault.jpg";
@@ -8,11 +8,16 @@ import Text from "../../atomic/Text/Text";
 import useAuth from "../../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useWorkouts } from "../../../hooks/useWorkout";
 
 const Navbar: React.FC = () => {
   const { t, changeLanguage, language } = useLanguage();
+  const { fetchWorkouts, workouts } = useWorkouts();
   const [auth, userProfile] = useAuth();
-  console.log(userProfile);
+
+  useEffect(() => {
+    fetchWorkouts();
+  }, []);
 
   const handleLogout = () => {
     axios
@@ -29,17 +34,29 @@ const Navbar: React.FC = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
+  console.log(workouts, "moje cwiczenia");
+
   return (
     <nav className={styles.navbar__wrapper}>
       <section className={styles.navbar}>
         <div className={styles.navbar__left}>
-          {auth && (
+          {auth && !workouts && (
             <>
               <Text textStyle="lg">{t("navbar.setWorkoutPlan")}</Text>
 
               <Link to="/creatingworkout">
                 <Button variant="primaryOutline">
                   <Text textStyle="md">{t("navbar.setWorkoutButton")}</Text>
+                </Button>
+              </Link>
+            </>
+          )}
+          {auth && workouts && (
+            <>
+              <Text textStyle="lg">{t("navbar.workoutPlan")}</Text>
+              <Link to="/workoutplan">
+                <Button variant="primaryOutline">
+                  <Text textStyle="md">{t("navbar.workoutPlanButton")}</Text>
                 </Button>
               </Link>
             </>

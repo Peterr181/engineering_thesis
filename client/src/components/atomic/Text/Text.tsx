@@ -1,4 +1,3 @@
-// Text.tsx
 import React from "react";
 import styles from "./Text.module.scss";
 
@@ -6,8 +5,7 @@ type Props = {
   children: string | undefined | JSX.Element;
   dontBrakeLine?: boolean;
   textStyle?: "xs" | "sm" | "md" | "lg" | "xl";
-  boldness?: 500 | 600 | 700; // Add other values as needed
-  /* Other props as needed */
+  boldness?: 500 | 600 | 700;
 };
 
 const Text: React.FC<Props> = (props) => {
@@ -21,7 +19,6 @@ const Text: React.FC<Props> = (props) => {
         return styles.fontWeight600;
       case 700:
         return styles.fontWeight700;
-      // Add other cases as needed
       default:
         return "";
     }

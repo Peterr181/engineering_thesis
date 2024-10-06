@@ -70,8 +70,8 @@ const UserBasicData = ({
         value={birthYear}
         onChange={(e) => updateFields({ birthYear: e.target.value })}
         placeholder="YYYY"
-        maxLength={4} // Limits input to 4 characters
-        pattern="\d{4}" // Ensures only 4 digits
+        maxLength={4}
+        pattern="\d{4}"
         title="Please enter a valid 4-digit year"
       />
     </div>

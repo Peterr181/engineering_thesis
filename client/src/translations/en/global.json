@@ -2,6 +2,8 @@
   "navbar": {
     "setWorkoutPlan": "Oops you didn't set your exercise routine yet! Set it now",
     "setWorkoutButton": "Set workout plan",
+    "workoutPlanButton": "Workout plan",
+    "workoutPlan": "Check your actual workout plan",
     "searchPlaceholder": "Search something...",
     "humanFaceAlt": "Human face",
     "userName": "Peter Morgan",
