@@ -8,23 +8,44 @@ This is huge full-stack web application where users can browse through multiple 
 
 Done:
 
- - Authentication almost done
-
- - Browsing through exercises
-
+ - Authentication 
+ - Browsing through exercises with GIFS
  - Home dashboard section
-
  - Browsing through 80k different foods and their nutritions
-
  - Gym finder by entering city
+ - Browsing through 70k different meals with their nutritions
+ - Adding new exercises to your personal workout plan
+ - Browsing your exercises
+ - Showing nearest exercises to do 
 
 
 Closest things to be done:
 
- -  JWT authentication
- - Displaying all platform users
- - Creating personal workout plan and diet plan
- - Creating live chats depend on rooms category
+ - Inspecting workout that was being added to your plan
+ - Creating personal diet plan (setting calories that you want to have in diet, and products something like on fitatu)
+ - Add one more step when registering new account (filling number of calories, water you want to drink now, steps, and set progress)
+   
+ ### Prerequisites
+
+- Ensure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed on your machine.
+- Install [XAMPP](https://www.apachefriends.org/index.html) for managing Apache and MySQL services.
+- Clone the repository to your local machine.
+
+### Steps to Launch the Application
+
+1. **Navigate to the Client Directory:**
+   ```bash
+   cd client
+   npm install
+   npm run dev
+   ```
+2. **Navigate to the Server Directory:**
+   ```bash
+   cd server
+   npm start proxy
+   ```
+3. **Launch apache and mySql in XAMPP:**
+ 
 
 
 This is just initial description for this project full documentation with app is still in progress ;)
