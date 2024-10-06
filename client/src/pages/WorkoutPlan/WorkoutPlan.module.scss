@@ -61,7 +61,7 @@
 
   &__calendar {
     width: 400px;
-    / &__content {
+    &__content {
       display: flex;
       flex-direction: column;
       justify-content: center;

@@ -64,8 +64,6 @@ const Finder = () => {
 
   const defaultPosition: LatLngExpression = [52.22977, 21.01178];
 
-  console.log(sportsFacilities, "Miejsca sportowe");
-
   return (
     <section className={styles.finder}>
       <PlatformWrapper>

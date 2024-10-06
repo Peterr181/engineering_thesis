@@ -34,8 +34,6 @@ const Navbar: React.FC = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
-  console.log(workouts, "moje cwiczenia");
-
   return (
     <nav className={styles.navbar__wrapper}>
       <section className={styles.navbar}>
