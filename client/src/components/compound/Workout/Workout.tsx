@@ -72,9 +72,9 @@ const Workout = ({ day, month, name, status, category }: WorkoutProps) => {
         </div>
         <div className={styles.workout__name}>
           <h3>{name}</h3>
-          <p className={`${styles.status} ${getStatusColor(status)}`}>
+          <div className={`${styles.status} ${getStatusColor(status)}`}>
             <p>{t(`status.${status}`)}</p>
-          </p>
+          </div>
         </div>
       </div>
       <div
