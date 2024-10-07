@@ -111,7 +111,9 @@ const Meals = () => {
                     <div className={styles.meals__item__image}>
                       <img src={hint.food.image} alt={hint.food.label} />
                       <div className={styles.meals__item__name}>
-                        <h3>{hint.food.label}</h3>
+                        <h3>
+                          {hint.food.label.split(" ").slice(0, 6).join(" ")}{" "}
+                        </h3>
                         <p>{hint.food.category}</p>
                       </div>
                     </div>
@@ -120,18 +122,19 @@ const Meals = () => {
                         <span
                           className={styles.meals__item__nutrients__calories}
                         >
-                          Calories: {hint.food.nutrients.ENERC_KCAL}
+                          Calories: {hint.food.nutrients.ENERC_KCAL.toFixed(0)}{" "}
                         </span>
                         <span
                           className={styles.meals__item__nutrients__protein}
                         >
-                          Protein: {hint.food.nutrients.PROCNT}g
+                          Protein: {hint.food.nutrients.PROCNT.toFixed(1)}g{" "}
                         </span>
                         <span className={styles.meals__item__nutrients__fat}>
-                          Fat: {hint.food.nutrients.FAT}g
+                          Fat: {hint.food.nutrients.FAT.toFixed(1)}g{" "}
                         </span>
                         <span className={styles.meals__item__nutrients__carbs}>
-                          Carbohydrates: {hint.food.nutrients.CHOCDF}g
+                          Carbohydrates: {hint.food.nutrients.CHOCDF.toFixed(1)}
+                          g
                         </span>
                       </div>
                     </div>

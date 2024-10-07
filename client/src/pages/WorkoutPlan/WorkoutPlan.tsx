@@ -12,7 +12,8 @@ import { Link } from "react-router-dom";
 import { useWorkouts } from "../../hooks/useWorkout";
 
 const WorkoutPlan = () => {
-  const { workouts, fetchWorkouts, loading, error } = useWorkouts();
+  const { workouts, fetchWorkouts, loading, error, finishWorkout } =
+    useWorkouts();
 
   useEffect(() => {
     fetchWorkouts();
@@ -44,13 +45,20 @@ const WorkoutPlan = () => {
                     Sprawdź kiedy masz swoje najbliższe zaplanowane treningi!
                   </p>
                 </div>
-                <Link to="/creatingworkout">
+                <div className={styles.workoutPlan__trainings__buttons}>
+                  <Link to="/creatingworkout">
+                    <div>
+                      <Button variant="contained" color="success">
+                        Add new
+                      </Button>
+                    </div>
+                  </Link>
                   <div>
-                    <Button variant="contained" color="success">
-                      Add new training
+                    <Button variant="contained" color="error">
+                      Check finished
                     </Button>
                   </div>
-                </Link>
+                </div>
               </div>
               <div className={styles.workoutPlan__trainings__trainingsList}>
                 {loading && <p>Loading workouts...</p>}
@@ -58,11 +66,15 @@ const WorkoutPlan = () => {
                 {workouts.map((workout, index) => (
                   <Workout
                     key={index}
+                    id={workout.id}
                     day={workout.day}
                     month={workout.month}
                     name={workout.exercise_name}
-                    status={Status.NOT_STARTED}
+                    status={
+                      workout.finished ? Status.FINISHED : Status.NOT_STARTED
+                    }
                     category={workout.exercise_type || Category.GYM}
+                    onFinish={() => finishWorkout(workout.id)}
                   />
                 ))}
               </div>

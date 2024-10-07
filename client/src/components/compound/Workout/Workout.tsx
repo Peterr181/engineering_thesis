@@ -13,9 +13,13 @@ export enum Status {
 export enum Category {
   GYM = "Gym",
   CARDIO = "Cardio",
+  FLEXIBILITY = "Flexibility",
+  STRENGTH = "Strength",
+  COMBAT = "Combat",
 }
 
 interface WorkoutProps {
+  id: number;
   exercise_name?: string;
   exercise_type?: string;
   day: number;
@@ -23,9 +27,17 @@ interface WorkoutProps {
   name: string;
   status: Status;
   category: Category;
+  onFinish: () => void;
 }
 
-const Workout = ({ day, month, name, status, category }: WorkoutProps) => {
+const Workout = ({
+  day,
+  month,
+  name,
+  status,
+  category,
+  onFinish,
+}: WorkoutProps) => {
   const { t } = useLanguage();
 
   const getStatusColor = (status: Status) => {
@@ -47,6 +59,12 @@ const Workout = ({ day, month, name, status, category }: WorkoutProps) => {
         return styles.gym;
       case Category.CARDIO:
         return styles.bicycling;
+      case Category.FLEXIBILITY:
+        return styles.flexibility;
+      case Category.STRENGTH:
+        return styles.strength;
+      case Category.COMBAT:
+        return styles.combat;
       default:
         return "";
     }
@@ -58,6 +76,12 @@ const Workout = ({ day, month, name, status, category }: WorkoutProps) => {
         return iconFile.gymIcon;
       case Category.CARDIO:
         return iconFile.iconBicycle;
+      case Category.FLEXIBILITY:
+        return iconFile.flexibilityIcon;
+      case Category.STRENGTH:
+        return iconFile.strengthIcon;
+      case Category.COMBAT:
+        return iconFile.combatIcon;
       default:
         return null;
     }
@@ -80,14 +104,19 @@ const Workout = ({ day, month, name, status, category }: WorkoutProps) => {
       <div
         className={`${styles.workout__category} ${getCategoryColor(category)}`}
       >
-        {/* {getCategoryIcon(category)}
-        <p>{t(`category.${category}`)}</p> */}
+        {getCategoryIcon(category)}
         <p>{category}</p>
       </div>
       <div className={styles.workout__buttons}>
-        <Button variant="almostGreen" rightIcon={iconFile.iconFinish}>
-          <span>{t("upcomingWorkouts.button")}</span>
-        </Button>
+        {status !== Status.FINISHED && (
+          <Button
+            variant="almostGreen"
+            rightIcon={iconFile.iconFinish}
+            onClick={onFinish}
+          >
+            <span>Finish</span>
+          </Button>
+        )}
       </div>
     </div>
   );

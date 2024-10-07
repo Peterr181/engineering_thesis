@@ -1,11 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
-import useAuth from "./useAuth";
 
 interface Workout {
+  id: number;
   day: number;
   month: string;
   description: string;
+  finished: boolean;
 }
 
 export const useWorkouts = () => {
@@ -52,10 +53,22 @@ export const useWorkouts = () => {
     }
   };
 
+  const finishWorkout = async (workoutId: number) => {
+    try {
+      await axios.put(`http://localhost:8081/api/workouts/${workoutId}/finish`);
+
+      fetchWorkouts();
+    } catch (error) {
+      console.error("Error finishing the workout", error);
+      setError("Error finishing the workout.");
+    }
+  };
+
   return {
     workouts,
     fetchWorkouts,
     addWorkout,
+    finishWorkout,
     error,
     loading,
   };
