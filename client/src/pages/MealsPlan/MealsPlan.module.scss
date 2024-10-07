@@ -1,0 +1,85 @@
+.mealsPlan {
+  h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  .mealSection {
+    margin-top: 32px;
+
+    h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        display: flex;
+
+        margin-bottom: 8px;
+      }
+    }
+
+    .totals {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: gray;
+    }
+
+    .addMealForm {
+      margin-top: 16px;
+
+      input {
+        margin-right: 8px;
+        padding: 8px;
+      }
+    }
+  }
+}
+
+.haha {
+  display: flex;
+  gap: 16px;
+  color: gray;
+}
+
+.mealHeader {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.mealItem {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  flex-direction: column;
+
+  h3 {
+    font-weight: 600;
+    color: green;
+  }
+}
+.mealList {
+  background-color: #f5f5f5;
+  margin-top: 16px;
+  border-radius: 11px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.6s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.mealList.show {
+  max-height: 1000px;
+  opacity: 1;
+}
+.mealCalories {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
