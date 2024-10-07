@@ -77,9 +77,20 @@
       position: relative;
       gap: var(--rythm-16);
       margin-left: var(--rythm-24);
+
+      &__userImage {
+        cursor: pointer;
+      }
+
       &__data {
         display: flex;
         flex-direction: column;
+
+        &__level {
+          font-size: 12px;
+          font-weight: 500;
+          color: $mainGray;
+        }
       }
       img {
         width: var(--rythm-52);
@@ -101,8 +112,53 @@
   position: absolute;
   background-color: white;
   border: 1px solid #ccc;
-  width: 100px;
+  width: 300px;
   padding: 10px;
-  bottom: -55px;
+  bottom: -310px;
   right: 0;
+  border-radius: 11px;
+  z-index: 999;
+
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: var(--rythm-16);
+    border-bottom: 1px solid #ccc;
+    margin-bottom: var(--rythm-16);
+    padding-bottom: var(--rythm-8);
+
+    img {
+      width: var(--rythm-40);
+      height: var(--rythm-40);
+      border-radius: 50%;
+    }
+  }
+
+  &__elements {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rythm-16);
+    &__element {
+      display: flex;
+      align-items: center;
+      gap: var(--rythm-16);
+      cursor: pointer;
+      transition: 0.3s all;
+      padding: 8px;
+
+      p {
+        font-weight: 500 !important;
+      }
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      &:hover {
+        background-color: #f7f7fc;
+        border-radius: 8px;
+      }
+    }
+  }
 }

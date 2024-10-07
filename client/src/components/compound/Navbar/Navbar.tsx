@@ -75,36 +75,67 @@ const Navbar: React.FC = () => {
               </span>
             </div>
             <div className={styles.navbar__right__profile}>
-              <div>
+              <div
+                onClick={handleDropdownToggle}
+                className={styles.navbar__right__profile__userImage}
+              >
                 <img src={humanFace} alt={t("navbar.humanFaceAlt")} />
               </div>
-              <div className={styles.navbar__right__profile__data}>
-                <Text textStyle="lg">{userProfile?.username}</Text>
-                {/* <Text textStyle="md" boldness={500}>
-                  {t("navbar.userRole")}
-                </Text> */}
-              </div>
-              <div
-                className={styles.dropdownArrow}
-                onClick={handleDropdownToggle}
-              >
-                {iconFile.arrowDown}
-              </div>
+
               {dropdownOpen && (
                 <div className={styles.dropdownMenu}>
-                  <Button variant="logout" onClick={handleLogout}>
-                    Logout
-                  </Button>
+                  <div className={styles.dropdownMenu__user}>
+                    <div>
+                      <img src={humanFace} alt={t("navbar.humanFaceAlt")} />
+                    </div>
+                    <div className={styles.navbar__right__profile__data}>
+                      <Text textStyle="lg">{userProfile?.username}</Text>
+                      <p className={styles.navbar__right__profile__data__level}>
+                        {userProfile?.sportLevel === 1
+                          ? "Beginner"
+                          : userProfile?.sportLevel === 2
+                          ? "Intermediate"
+                          : "Advanced"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className={styles.dropdownMenu__elements}>
+                    <Link to="/mealsplan">
+                      <div className={styles.dropdownMenu__elements__element}>
+                        {iconFile.dietIcon}
+                        <p>{t("navbar.diet")}</p>
+                      </div>
+                    </Link>
+                    <Link to="/workoutplan">
+                      <div className={styles.dropdownMenu__elements__element}>
+                        {iconFile.workoutPlan}
+                        <p>{t("navbar.trainings")}</p>
+                      </div>
+                    </Link>
+                    <Link to="/profile">
+                      <div className={styles.dropdownMenu__elements__element}>
+                        {iconFile.settingsIcon}
+                        <p>{t("navbar.settings")}</p>
+                      </div>
+                    </Link>
+                    <div
+                      onClick={handleLogout}
+                      className={styles.dropdownMenu__elements__element}
+                    >
+                      {iconFile.logoutIcon}
+                      <p>{t("navbar.logout")}</p>
+                    </div>
+                  </div>
                 </div>
               )}
-              {/* <button onClick={handleLogout}>logout</button> */}
             </div>
           </div>
         ) : (
           <div className={styles.navbar__right}>
             <Link to="/login">
               <Button variant="filter">
-                <p>Sign In</p>
+                <p>{t("navbar.signin")}</p>
               </Button>
             </Link>
           </div>
