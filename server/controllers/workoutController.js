@@ -48,13 +48,51 @@ export const getWorkouts = (req, res) => {
     return res.status(400).json({ error: "User ID is required." });
   }
 
+  const today = new Date();
+  const currentMonth = today.getMonth() + 1;
+  const currentDay = today.getDate();
+
+  const monthMap = {
+    January: 1,
+    February: 2,
+    March: 3,
+    April: 4,
+    May: 5,
+    June: 6,
+    July: 7,
+    August: 8,
+    September: 9,
+    October: 10,
+    November: 11,
+    December: 12,
+  };
+
   const sql = `SELECT * FROM workouts WHERE user_id = ?`;
 
   db.query(sql, [userId], (err, results) => {
     if (err) {
+      console.error("Database error:", err);
       return res.status(500).json({ error: "Database error." });
     }
-    return res.status(200).json({ workouts: results });
+
+    const sortedWorkouts = results
+      .filter(
+        (workout) =>
+          monthMap[workout.month] > currentMonth ||
+          (monthMap[workout.month] === currentMonth &&
+            workout.day >= currentDay)
+      )
+      .sort((a, b) => {
+        const monthA = monthMap[a.month];
+        const monthB = monthMap[b.month];
+
+        if (monthA === monthB) {
+          return a.day - b.day;
+        }
+        return monthA - monthB;
+      });
+
+    return res.status(200).json({ workouts: sortedWorkouts });
   });
 };
 
