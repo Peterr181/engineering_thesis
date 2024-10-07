@@ -10,6 +10,7 @@ import "react-calendar/dist/Calendar.css";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { useWorkouts } from "../../hooks/useWorkout";
+import { monthMap } from "../../constants/other";
 
 const WorkoutPlan = () => {
   const { workouts, fetchWorkouts, loading, error, finishWorkout } =
@@ -19,7 +20,10 @@ const WorkoutPlan = () => {
     fetchWorkouts();
   }, []);
 
-  const workoutDays = workouts.map((workout) => new Date(2024, 0, workout.day));
+  const workoutDays = workouts.map((workout) => {
+    const monthNumber = monthMap[workout.month];
+    return new Date(2024, monthNumber, workout.day);
+  });
 
   const highlightWorkouts = ({ date, view }) => {
     if (view === "month") {
@@ -31,7 +35,6 @@ const WorkoutPlan = () => {
     }
     return null;
   };
-
   return (
     <PlatformWrapper>
       <MaxWidthWrapper>
