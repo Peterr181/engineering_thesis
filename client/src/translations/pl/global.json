@@ -7,7 +7,12 @@
     "searchPlaceholder": "Wyszukaj coś...",
     "humanFaceAlt": "Twarz człowieka",
     "userName": "Piotr Morgan",
-    "userRole": "Członek"
+    "userRole": "Członek",
+    "diet": "Dieta",
+    "settings": "Ustawienia",
+    "logout": "Wyloguj się",
+    "trainings": "Treningi",
+    "signin": "Zaloguj się"
   },
   "sidebar": {
     "dashboard": "Start",

@@ -7,7 +7,12 @@
     "searchPlaceholder": "Search something...",
     "humanFaceAlt": "Human face",
     "userName": "Peter Morgan",
-    "userRole": "Member"
+    "userRole": "Member",
+    "diet": "Diet",
+    "settings": "Settings",
+    "logout": "Logout",
+    "trainings": "Trainings",
+    "signin": "Sign in"
   },
   "sidebar": {
     "dashboard": "Start",
