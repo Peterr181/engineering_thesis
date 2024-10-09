@@ -16,13 +16,13 @@ Done:
  - Browsing through 70k different meals with their nutritions
  - Adding new exercises to your personal workout plan
  - Browsing your exercises
- - Showing nearest exercises to do 
+ - Showing nearest exercises to do
+ - Creating personal diet plan (setting calories that you want to have in diet, and products something like on fitatu)
 
 
 Closest things to be done:
 
  - Inspecting workout that was being added to your plan
- - Creating personal diet plan (setting calories that you want to have in diet, and products something like on fitatu)
  - Add one more step when registering new account (filling number of calories, water you want to drink now, steps, and set progress)
    
  ### Prerequisites
