@@ -9,10 +9,35 @@ import { iconFile } from "../../assets/iconFile";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
 
+interface Nutrients {
+  ENERC_KCAL: number;
+  PROCNT: number;
+  CHOCDF: number;
+  FAT: number;
+}
+
+interface Food {
+  foodId: string;
+  label: string;
+  nutrients: Nutrients;
+  image: string;
+  category: string;
+}
+
+interface Hint {
+  food: Food;
+}
+
+interface ParsedItem {
+  food: Food;
+  quantity: number;
+  measure: string;
+}
+
 interface ResultsData {
   text: string;
-  parsed: any[];
-  hints: any[];
+  parsed: ParsedItem[];
+  hints: Hint[];
   _links: {
     next: {
       href: string;

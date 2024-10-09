@@ -1,0 +1,254 @@
+.mealsPlan {
+  h2 {
+    font-size: 24px;
+  }
+
+  .mealSection {
+    margin-top: 32px;
+
+    h3 {
+      font-size: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        display: flex;
+
+        margin-bottom: 8px;
+      }
+    }
+
+    .totals {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: gray;
+    }
+
+    .addMealForm {
+      margin-top: 16px;
+
+      input {
+        margin-right: 8px;
+        padding: 8px;
+      }
+    }
+  }
+}
+
+.haha {
+  display: flex;
+  gap: 16px;
+  color: gray;
+}
+
+.mealHeader {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  cursor: pointer;
+  button {
+    font-weight: 600;
+  }
+}
+
+.mealItem {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  flex-direction: column;
+
+  border-bottom: 1px solid #e6e6e6;
+
+  button {
+    width: 100%;
+    background-color: green;
+    font-weight: 600;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 64px;
+
+    svg {
+      stroke: red !important;
+      cursor: pointer;
+    }
+  }
+
+  h3 {
+    font-weight: 600;
+    color: green;
+  }
+}
+.mealList {
+  position: relative;
+  background-color: #f5f5f5;
+  margin-top: 16px;
+  border-radius: 11px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.6s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.totalsSummary {
+  color: gray;
+  display: flex;
+  gap: 8px;
+}
+
+.mealList.show {
+  max-height: 1000px;
+  opacity: 1;
+}
+.mealCalories {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+
+  &__total {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 0 auto;
+  }
+
+  &__calories {
+    border: 2px solid rgb(119, 235, 119);
+  }
+  &__protein {
+    border: 2px solid rgb(124, 124, 235);
+  }
+  &__carbs {
+    border: 2px solid rgb(233, 177, 74);
+  }
+  &__fats {
+    border: 2px solid rgb(235, 107, 235);
+  }
+  span {
+    padding: var(--rythm-8) var(--rythm-16);
+    border-radius: 21px;
+    color: #333;
+    font-weight: 500;
+  }
+}
+
+.mealHeader {
+  display: flex;
+  align-items: center;
+}
+
+.searchInput {
+  margin-top: var(--rythm-16);
+  outline: none;
+  border: none;
+  width: 100%;
+  padding: var(--rythm-8) var(--rythm-16);
+  border-radius: 4px;
+  border-radius: 0.625rem;
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  color: #b1b1b1;
+  display: block;
+  width: 100%;
+
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: gray;
+  appearance: none;
+  background-color: var(--bs-body-bg);
+  background-clip: padding-box;
+
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.buttonSearch {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-top: 16px;
+  button {
+    padding: 8px 16px !important;
+  }
+}
+
+.addButton {
+  padding: 8px 16px;
+  margin-bottom: 16px;
+  button {
+    font-weight: 600;
+  }
+}
+
+.mealSection {
+  margin-bottom: 20px;
+
+  .sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      position: relative;
+      margin-bottom: 5px;
+
+      &::after {
+        content: "";
+        display: block;
+        width: 50px;
+        height: 2px;
+        background-color: rgb(144, 206, 144);
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+      }
+    }
+  }
+}
+
+.mealImage {
+  width: 150px;
+  height: 150px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.searchResults {
+}
+
+.dialogClose {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  svg {
+    color: green;
+  }
+}
+
+.dialogContainer {
+  position: relative;
+}
+
+.mealsPlanInitial {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  button {
+    font-weight: 600;
+  }
+}
