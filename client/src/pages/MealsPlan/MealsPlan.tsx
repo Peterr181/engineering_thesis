@@ -12,7 +12,6 @@ import ButtonMy from "../../components/atomic/Button/Button";
 import { iconFile } from "../../assets/iconFile";
 import { useMeals } from "../../hooks/useMeals";
 import axios from "axios";
-import IconButton from "@mui/material/IconButton";
 
 const MealsPlan = () => {
   const [openSections, setOpenSections] = useState({
@@ -25,15 +24,16 @@ const MealsPlan = () => {
 
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedMealType, setSelectedMealType] = useState<string | null>(null);
+  const [isSummaryDialogOpen, setIsSummaryDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isMealAdded, setIsMealAdded] = useState(false);
-  const [grams, setGrams] = useState(100); // Default to 100 grams
+  const [grams, setGrams] = useState(100);
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [mealToDelete, setMealToDelete] = useState<string | null>(null);
 
-  const { meals, fetchMeals, addMeal, deleteMeal, error, loading } = useMeals();
+  const { meals, fetchMeals, addMeal, deleteMeal } = useMeals();
 
   useEffect(() => {
     fetchMeals();
@@ -64,8 +64,16 @@ const MealsPlan = () => {
     setSearchQuery(event.target.value);
   };
 
+  const handleOpenSummaryDialog = () => {
+    setIsSummaryDialogOpen(true);
+  };
+
+  const handleCloseSummaryDialog = () => {
+    setIsSummaryDialogOpen(false);
+  };
+
   const handleGramsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setGrams(Number(event.target.value)); // Update grams based on user input
+    setGrams(Number(event.target.value));
   };
 
   const handleSearch = async () => {
@@ -146,12 +154,29 @@ const MealsPlan = () => {
         console.error("Error deleting meal:", error);
       }
     }
-    setIsDeleteDialogOpen(false); // Close the dialog after deleting
+    setIsDeleteDialogOpen(false);
   };
 
   const handleCancelDelete = () => {
     setIsDeleteDialogOpen(false);
-    setMealToDelete(null); // Clear mealToDelete when cancelling
+    setMealToDelete(null);
+  };
+
+  const calculateDaySummary = () => {
+    const totalCalories = meals.reduce(
+      (total, meal) => total + meal.calories,
+      0
+    );
+    const totalProtein = meals.reduce((total, meal) => total + meal.protein, 0);
+    const totalCarbs = meals.reduce((total, meal) => total + meal.carbs, 0);
+    const totalFats = meals.reduce((total, meal) => total + meal.fats, 0);
+
+    return {
+      totalCalories: Math.round(totalCalories),
+      totalProtein: Math.round(totalProtein),
+      totalCarbs: Math.round(totalCarbs),
+      totalFats: Math.round(totalFats),
+    };
   };
 
   return (
@@ -159,12 +184,72 @@ const MealsPlan = () => {
       <MaxWidthWrapper>
         <WhiteCardWrapper>
           <div className={styles.mealsPlan}>
-            <h2>Your personal meals plan</h2>
-            <p>
-              Here you can find your personal meals plan. It is generated based
-              on your preferences and goals.
-            </p>
-
+            <div className={styles.mealsPlanInitial}>
+              <div>
+                <h2>Your personal meals plan</h2>
+                <p>
+                  Here you can find your personal meals plan. It is generated
+                  based on your preferences and goals.
+                </p>
+              </div>
+              <div>
+                <Button
+                  variant="contained"
+                  color="info"
+                  onClick={handleOpenSummaryDialog}
+                >
+                  Day summary
+                </Button>
+              </div>
+            </div>
+            <div className={styles.summaryDialog}>
+              <Dialog
+                open={isSummaryDialogOpen}
+                onClose={handleCloseSummaryDialog}
+                fullWidth={true}
+                maxWidth="sm"
+              >
+                <DialogTitle align="center" fontWeight={500}>
+                  Day Summary
+                </DialogTitle>
+                <DialogContent>
+                  {(() => {
+                    const {
+                      totalCalories,
+                      totalProtein,
+                      totalCarbs,
+                      totalFats,
+                    } = calculateDaySummary();
+                    return (
+                      <div className={styles.mealCalories}>
+                        <div className={styles.mealCalories__total}>
+                          <span className={styles.mealCalories__calories}>
+                            {totalCalories} kcal
+                          </span>
+                          <span className={styles.mealCalories__protein}>
+                            {totalProtein}g Protein
+                          </span>
+                          <span className={styles.mealCalories__carbs}>
+                            {totalCarbs}g Carbs
+                          </span>
+                          <span className={styles.mealCalories__fats}>
+                            {totalFats}g Fats
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </DialogContent>
+                <div className={styles.dialogClose}>
+                  <DialogActions>
+                    <Button onClick={handleCloseSummaryDialog}>
+                      {" "}
+                      {iconFile.iconClose}
+                    </Button>
+                  </DialogActions>
+                </div>
+              </Dialog>
+            </div>
             {["breakfast", "lunch", "dinner", "snacks", "supper"].map(
               (section) => {
                 const totals = calculateTotals(section);
