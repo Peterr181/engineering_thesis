@@ -48,7 +48,11 @@
 .mealHeader {
   display: flex;
   justify-content: space-between;
+  width: 100%;
   cursor: pointer;
+  button {
+    font-weight: 600;
+  }
 }
 
 .mealItem {
@@ -56,6 +60,14 @@
   gap: 16px;
   padding: 16px;
   flex-direction: column;
+
+  border-bottom: 1px solid #e6e6e6;
+
+  button {
+    width: 100%;
+    background-color: green;
+    font-weight: 600;
+  }
 
   &__header {
     display: flex;
@@ -87,6 +99,8 @@
 
 .totalsSummary {
   color: gray;
+  display: flex;
+  gap: 8px;
 }
 
 .mealList.show {
@@ -97,6 +111,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
+  margin-top: 16px;
 
   &__calories {
     border: 2px solid rgb(119, 235, 119);
@@ -150,7 +165,7 @@
 
 .buttonSearch {
   display: flex;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
   margin-top: 16px;
   button {
@@ -164,4 +179,58 @@
   button {
     font-weight: 600;
   }
+}
+
+.mealSection {
+  margin-bottom: 20px;
+
+  .sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      position: relative;
+      margin-bottom: 5px;
+
+      &::after {
+        content: "";
+        display: block;
+        width: 50px; // Length of the line
+        height: 2px; // Thickness of the line
+        background-color: rgb(144, 206, 144); // Color of the line
+        position: absolute;
+        bottom: -5px; // Adjust based on space between text and line
+        left: 0;
+      }
+    }
+  }
+}
+
+.mealImage {
+  width: 150px;
+  height: 150px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.searchResults {
+}
+
+.dialogClose {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  svg {
+    color: green;
+  }
+}
+
+.dialogContainer {
+  position: relative;
 }

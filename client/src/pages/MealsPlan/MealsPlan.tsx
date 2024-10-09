@@ -28,9 +28,13 @@ const MealsPlan = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isMealAdded, setIsMealAdded] = useState(false);
+  const [grams, setGrams] = useState(100); // Default to 100 grams
+
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [mealToDelete, setMealToDelete] = useState<string | null>(null);
 
   const { meals, fetchMeals, addMeal, deleteMeal, error, loading } = useMeals();
-  console.log(isMealAdded, "posilek dodany");
+
   useEffect(() => {
     fetchMeals();
   }, [isMealAdded]);
@@ -51,12 +55,17 @@ const MealsPlan = () => {
     setOpenDialog(false);
     setSearchResults([]);
     setSearchQuery("");
+    setGrams(100); // Reset grams to 100
   };
 
   const handleSearchQueryChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setSearchQuery(event.target.value);
+  };
+
+  const handleGramsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setGrams(Number(event.target.value)); // Update grams based on user input
   };
 
   const handleSearch = async () => {
@@ -78,6 +87,7 @@ const MealsPlan = () => {
         protein: hint.food.nutrients.PROCNT || 0,
         carbs: hint.food.nutrients.CHOCDF || 0,
         fats: hint.food.nutrients.FAT || 0,
+        image: hint.food.image,
       }));
       setSearchResults(fetchedMeals);
     } catch (error) {
@@ -87,10 +97,17 @@ const MealsPlan = () => {
 
   const handleAddMeal = (meal: Meal) => {
     if (selectedMealType) {
-      addMeal({
+      const adjustedMeal = {
         ...meal,
+        calories: (meal.calories * grams) / 100,
+        protein: (meal.protein * grams) / 100,
+        carbs: (meal.carbs * grams) / 100,
+        fats: (meal.fats * grams) / 100,
+        grams: grams,
         type: selectedMealType,
-      });
+      };
+
+      addMeal(adjustedMeal);
       setIsMealAdded(true);
       handleCloseDialog();
     }
@@ -115,13 +132,26 @@ const MealsPlan = () => {
     return { totalCalories, totalProtein, totalCarbs, totalFats };
   };
 
-  const handleDeleteMeal = async (mealId: string) => {
-    try {
-      await deleteMeal(mealId);
-      setIsMealAdded(true);
-    } catch (error) {
-      console.error("Error deleting meal:", error);
+  const handleOpenDeleteDialog = (mealId: string) => {
+    setMealToDelete(mealId);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleConfirmDeleteMeal = async () => {
+    if (mealToDelete) {
+      try {
+        await deleteMeal(mealToDelete);
+        setIsMealAdded(true);
+      } catch (error) {
+        console.error("Error deleting meal:", error);
+      }
     }
+    setIsDeleteDialogOpen(false); // Close the dialog after deleting
+  };
+
+  const handleCancelDelete = () => {
+    setIsDeleteDialogOpen(false);
+    setMealToDelete(null); // Clear mealToDelete when cancelling
   };
 
   return (
@@ -167,10 +197,19 @@ const MealsPlan = () => {
                       </div>
                     </div>
 
-                    <div className={styles.totalsSummary}>
-                      {totals.totalCalories} kcal, {totals.totalProtein}g
-                      Protein, {totals.totalCarbs}g Carbs, {totals.totalFats}g
-                      Fats
+                    <div className={styles.mealCalories}>
+                      <span className={styles.mealCalories__calories}>
+                        {totals.totalCalories} kcal
+                      </span>
+                      <span className={styles.mealCalories__protein}>
+                        {totals.totalProtein}g Protein
+                      </span>
+                      <span className={styles.mealCalories__carbs}>
+                        {totals.totalCarbs}g Carbs
+                      </span>
+                      <span className={styles.mealCalories__fats}>
+                        {totals.totalFats}g Fats
+                      </span>
                     </div>
 
                     {meals.filter((meal) => meal.type === section).length >
@@ -185,24 +224,25 @@ const MealsPlan = () => {
                           .map((meal, index) => (
                             <li key={index} className={styles.mealItem}>
                               <div className={styles.mealItem__header}>
-                                <h3>{meal.name}</h3>
-                                <span onClick={() => handleDeleteMeal(meal.id)}>
+                                <div>
+                                  <h3>{meal.name}</h3>
+                                  <p>{meal.grams}g</p>
+                                </div>
+                                <span
+                                  onClick={() =>
+                                    handleOpenDeleteDialog(meal.id)
+                                  }
+                                >
                                   {iconFile.circleMinus}
                                 </span>
                               </div>
-                              <div className={styles.mealCalories}>
-                                <span className={styles.mealCalories__calories}>
-                                  {Math.round(meal.calories)} kcal
-                                </span>
-                                <span className={styles.mealCalories__protein}>
+                              <div className={styles.totalsSummary}>
+                                <span>{Math.round(meal.calories)} kcal</span>
+                                <span>
                                   Protein: {Math.round(meal.protein)}g
                                 </span>
-                                <span className={styles.mealCalories__carbs}>
-                                  Carbs: {Math.round(meal.carbs)}g
-                                </span>
-                                <span className={styles.mealCalories__fats}>
-                                  Fats: {Math.round(meal.fats)}g
-                                </span>
+                                <span>Carbs: {Math.round(meal.carbs)}g</span>
+                                <span>Fats: {Math.round(meal.fats)}g</span>
                               </div>
                             </li>
                           ))}
@@ -225,62 +265,100 @@ const MealsPlan = () => {
               }
             )}
           </div>
+
+          {/* Dialog for Adding Meal */}
+          <div className={styles.dialogContainer}>
+            <Dialog
+              open={openDialog}
+              onClose={handleCloseDialog}
+              fullWidth={true}
+              maxWidth="sm"
+            >
+              <DialogTitle align="center" fontWeight={500}>
+                Search for a meal that you want to add
+              </DialogTitle>
+              <DialogContent>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={handleSearchQueryChange}
+                  placeholder="Search for a meal..."
+                  className={styles.searchInput}
+                />
+                <div className={styles.gramsInput}>
+                  <input
+                    type="number"
+                    value={grams}
+                    onChange={handleGramsChange}
+                    placeholder="Enter grams"
+                    className={styles.searchInput}
+                  />
+                </div>
+                <div className={styles.buttonSearch}>
+                  <ButtonMy variant="filter" onClick={handleSearch}>
+                    Search
+                  </ButtonMy>
+                </div>
+                <ul className={styles.searchResults}>
+                  {searchResults.map((meal, index) => (
+                    <li key={index} className={styles.mealItem}>
+                      <div>
+                        <h3>{meal.name}</h3>
+                        <img
+                          src={meal.image}
+                          alt={meal.name}
+                          className={styles.mealImage}
+                        />
+                        <div className={styles.mealCalories}>
+                          <span className={styles.mealCalories__calories}>
+                            {Math.round((meal.calories * grams) / 100)} kcal
+                          </span>
+                          <span className={styles.mealCalories__protein}>
+                            Protein: {Math.round((meal.protein * grams) / 100)}g
+                          </span>
+                          <span className={styles.mealCalories__carbs}>
+                            Carbs: {Math.round((meal.carbs * grams) / 100)}g
+                          </span>
+                          <span className={styles.mealCalories__fats}>
+                            Fats: {Math.round((meal.fats * grams) / 100)}g
+                          </span>
+                        </div>
+                      </div>
+                      <Button
+                        variant="contained"
+                        onClick={() => handleAddMeal(meal)}
+                      >
+                        Add
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+              </DialogContent>
+              <div className={styles.dialogClose}>
+                <DialogActions>
+                  <Button onClick={handleCloseDialog}>
+                    {iconFile.iconClose}
+                  </Button>
+                </DialogActions>
+              </div>
+            </Dialog>
+          </div>
+
+          {/* Delete Confirmation Dialog */}
           <Dialog
-            open={openDialog}
-            onClose={handleCloseDialog}
+            open={isDeleteDialogOpen}
+            onClose={handleCancelDelete}
             fullWidth={true}
           >
             <DialogTitle align="center" fontWeight={500}>
-              Search for a meal that you want to add
+              Are you sure you want to delete this meal?
             </DialogTitle>
-            <DialogContent>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={handleSearchQueryChange}
-                placeholder="Search for a meal..."
-                className={styles.searchInput}
-              />
-              <div className={styles.buttonSearch}>
-                <ButtonMy variant="filter" onClick={handleSearch}>
-                  Search
-                </ButtonMy>
-              </div>
-              <ul className={styles.searchResults}>
-                {searchResults.map((meal, index) => (
-                  <li key={index} className={styles.mealItem}>
-                    <div>
-                      <h3>{meal.name}</h3>
-                      <div className={styles.mealCalories}>
-                        <span className={styles.mealCalories__calories}>
-                          {Math.round(meal.calories)} kcal
-                        </span>
-                        <span className={styles.mealCalories__protein}>
-                          Protein: {Math.round(meal.protein)}g
-                        </span>
-                        <span className={styles.mealCalories__carbs}>
-                          Carbs: {Math.round(meal.carbs)}g
-                        </span>
-                        <span className={styles.mealCalories__fats}>
-                          Fats: {Math.round(meal.fats)}g
-                        </span>
-                      </div>
-                    </div>
-                    <Button
-                      variant="contained"
-                      onClick={() => handleAddMeal(meal)}
-                    >
-                      Add
-                    </Button>
-                  </li>
-                ))}
-              </ul>
-            </DialogContent>
-            <div>
-              <DialogActions>
-                <Button onClick={handleCloseDialog}>Close</Button>
-              </DialogActions>
-            </div>
+            <DialogActions>
+              <Button onClick={handleConfirmDeleteMeal} color="error">
+                Yes, delete
+              </Button>
+              <Button onClick={handleCancelDelete}>Cancel</Button>
+            </DialogActions>
           </Dialog>
         </WhiteCardWrapper>
       </MaxWidthWrapper>

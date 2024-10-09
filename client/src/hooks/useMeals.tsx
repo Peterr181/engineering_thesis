@@ -9,6 +9,7 @@ interface Meal {
   protein: number;
   carbs: number;
   fats: number;
+  grams: number;
 }
 
 export const useMeals = () => {

@@ -8,16 +8,16 @@ const db = mysql.createConnection({
 });
 
 export const createMeal = (req, res) => {
-  const { name, type, calories, protein, carbs, fats } = req.body;
+  const { name, type, calories, protein, carbs, fats, grams } = req.body;
   const user_id = req.cookies.userId;
 
   if (!user_id) {
     return res.status(400).json({ error: "User ID is required." });
   }
 
-  const sql = `INSERT INTO meals (user_id, name, type, calories, protein, carbs, fats) 
-               VALUES (?, ?, ?, ?, ?, ?, ?)`;
-  const values = [user_id, name, type, calories, protein, carbs, fats];
+  const sql = `INSERT INTO meals (user_id, name, type, calories, protein, carbs, fats, grams) 
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+  const values = [user_id, name, type, calories, protein, carbs, fats, grams];
 
   db.query(sql, values, (err, result) => {
     if (err) {
