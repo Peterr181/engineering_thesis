@@ -13,8 +13,36 @@ import { iconFile } from "../../assets/iconFile";
 import { useMeals } from "../../hooks/useMeals";
 import axios from "axios";
 
+interface Food {
+  foodId: string;
+  label: string;
+  nutrients: {
+    ENERC_KCAL: number;
+    PROCNT: number;
+    CHOCDF: number;
+    FAT: number;
+  };
+  image: string;
+}
+
+interface Hint {
+  food: Food;
+}
+
+interface Meal {
+  id: string;
+  name: string;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fats: number;
+  grams: number;
+  type: string;
+  image?: string;
+}
+
 const MealsPlan = () => {
-  const [openSections, setOpenSections] = useState({
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     breakfast: false,
     lunch: false,
     dinner: false,
@@ -26,7 +54,7 @@ const MealsPlan = () => {
   const [selectedMealType, setSelectedMealType] = useState<string | null>(null);
   const [isSummaryDialogOpen, setIsSummaryDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<Meal[]>([]);
   const [isMealAdded, setIsMealAdded] = useState(false);
   const [grams, setGrams] = useState(100);
 
@@ -39,7 +67,7 @@ const MealsPlan = () => {
     fetchMeals();
   }, [isMealAdded]);
 
-  const toggleSection = (section: string) => {
+  const toggleSection = (section: keyof typeof openSections) => {
     setOpenSections((prevState) => ({
       ...prevState,
       [section]: !prevState[section],
@@ -55,7 +83,7 @@ const MealsPlan = () => {
     setOpenDialog(false);
     setSearchResults([]);
     setSearchQuery("");
-    setGrams(100); // Reset grams to 100
+    setGrams(100);
   };
 
   const handleSearchQueryChange = (
@@ -73,7 +101,7 @@ const MealsPlan = () => {
   };
 
   const handleGramsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setGrams(Number(event.target.value));
+    setGrams(parseFloat(event.target.value));
   };
 
   const handleSearch = async () => {
@@ -89,7 +117,8 @@ const MealsPlan = () => {
           },
         }
       );
-      const fetchedMeals = response.data.hints.map((hint: any) => ({
+      const fetchedMeals: Meal[] = response.data.hints.map((hint: Hint) => ({
+        id: hint.food.foodId,
         name: hint.food.label,
         calories: hint.food.nutrients.ENERC_KCAL || 0,
         protein: hint.food.nutrients.PROCNT || 0,
@@ -105,7 +134,7 @@ const MealsPlan = () => {
 
   const handleAddMeal = (meal: Meal) => {
     if (selectedMealType) {
-      const adjustedMeal = {
+      const adjustedMeal: Meal = {
         ...meal,
         calories: (meal.calories * grams) / 100,
         protein: (meal.protein * grams) / 100,
@@ -178,7 +207,6 @@ const MealsPlan = () => {
       totalFats: Math.round(totalFats),
     };
   };
-
   return (
     <PlatformWrapper>
       <MaxWidthWrapper>
@@ -315,7 +343,7 @@ const MealsPlan = () => {
                                 </div>
                                 <span
                                   onClick={() =>
-                                    handleOpenDeleteDialog(meal.id)
+                                    handleOpenDeleteDialog(meal.id ?? "")
                                   }
                                 >
                                   {iconFile.circleMinus}
@@ -350,8 +378,6 @@ const MealsPlan = () => {
               }
             )}
           </div>
-
-          {/* Dialog for Adding Meal */}
           <div className={styles.dialogContainer}>
             <Dialog
               open={openDialog}

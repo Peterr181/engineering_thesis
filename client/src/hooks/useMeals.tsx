@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 interface Meal {
-  id: number;
+  id?: string;
   name: string;
   type: string;
   calories: number;
@@ -53,7 +53,7 @@ export const useMeals = () => {
     }
   };
 
-  const deleteMeal = async (mealId: number) => {
+  const deleteMeal = async (mealId: string) => {
     setLoading(true);
     setError(null);
     try {
