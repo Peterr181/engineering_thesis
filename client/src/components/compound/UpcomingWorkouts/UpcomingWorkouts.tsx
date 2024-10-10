@@ -14,7 +14,7 @@ const UpcomingWorkouts = () => {
     useWorkouts();
 
   useEffect(() => {
-    fetchWorkouts();
+    fetchWorkouts(true);
   }, []);
 
   const upcomingWorkouts = workouts.filter((workout) => workout.finished === 0);

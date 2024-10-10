@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
   const [auth, userProfile] = useAuth();
 
   useEffect(() => {
-    fetchWorkouts();
+    fetchWorkouts(false);
   }, []);
 
   const handleLogout = () => {

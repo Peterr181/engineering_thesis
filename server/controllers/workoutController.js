@@ -48,6 +48,9 @@ export const getWorkouts = (req, res) => {
     return res.status(400).json({ error: "User ID is required." });
   }
 
+  // Check for query parameter to enable or disable filtering and sorting
+  const { sorted } = req.query; // 'true' or 'false'
+
   const today = new Date();
   const currentMonth = today.getMonth() + 1;
   const currentDay = today.getDate();
@@ -75,24 +78,28 @@ export const getWorkouts = (req, res) => {
       return res.status(500).json({ error: "Database error." });
     }
 
-    const sortedWorkouts = results
-      .filter(
-        (workout) =>
-          monthMap[workout.month] > currentMonth ||
-          (monthMap[workout.month] === currentMonth &&
-            workout.day >= currentDay)
-      )
-      .sort((a, b) => {
-        const monthA = monthMap[a.month];
-        const monthB = monthMap[b.month];
+    let filteredWorkouts = results;
 
-        if (monthA === monthB) {
-          return a.day - b.day;
-        }
-        return monthA - monthB;
-      });
+    if (sorted === "true") {
+      filteredWorkouts = results
+        .filter(
+          (workout) =>
+            monthMap[workout.month] > currentMonth ||
+            (monthMap[workout.month] === currentMonth &&
+              workout.day >= currentDay)
+        )
+        .sort((a, b) => {
+          const monthA = monthMap[a.month];
+          const monthB = monthMap[b.month];
 
-    return res.status(200).json({ workouts: sortedWorkouts });
+          if (monthA === monthB) {
+            return a.day - b.day;
+          }
+          return monthA - monthB;
+        });
+    }
+
+    return res.status(200).json({ workouts: filteredWorkouts });
   });
 };
 

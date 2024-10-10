@@ -16,12 +16,14 @@ export const useWorkouts = () => {
 
   axios.defaults.withCredentials = true;
 
-  const fetchWorkouts = async () => {
+  const fetchWorkouts = async (sorted: boolean = true) => {
     setLoading(true);
     setError(null);
 
     try {
-      const res = await axios.get("http://localhost:8081/api/workouts");
+      const res = await axios.get(
+        `http://localhost:8081/api/workouts?sorted=${sorted}`
+      );
 
       if (res.data) {
         setWorkouts(res.data.workouts);
@@ -33,7 +35,6 @@ export const useWorkouts = () => {
       setLoading(false);
     }
   };
-
   const addWorkout = async (newWorkout: Workout) => {
     setLoading(true);
     setError(null);

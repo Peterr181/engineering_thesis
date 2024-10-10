@@ -17,7 +17,7 @@ const WorkoutPlan = () => {
     useWorkouts();
 
   useEffect(() => {
-    fetchWorkouts();
+    fetchWorkouts(false);
   }, []);
 
   const workoutDays = workouts.map((workout) => {
