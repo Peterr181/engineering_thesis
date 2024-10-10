@@ -11,6 +11,7 @@ import MultistepForm from "./components/compound/MultistepForm/MultistepForm";
 import WorkoutPlan from "./pages/WorkoutPlan/WorkoutPlan";
 import CreatingWorkout from "./pages/CreatingWorkout/CreatingWorkout";
 import MealsPlan from "./pages/MealsPlan/MealsPlan";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/mealsplan" element={<MealsPlan />} />
           <Route path="/finder" element={<Finder />} />
           <Route path="/meals" element={<Meals />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/multistepregister" element={<MultistepForm />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
