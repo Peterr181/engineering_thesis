@@ -60,7 +60,6 @@ export const register = (req, res) => {
 
 export const login = (req, res) => {
   const { username, password } = req.body;
-  console.log(process.env.JWT_SECRET);
 
   const sql = "SELECT * FROM users WHERE username = ?";
   db.query(sql, [username], (err, data) => {
