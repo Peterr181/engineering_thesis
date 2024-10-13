@@ -1,33 +1,21 @@
 import jwt from "jsonwebtoken";
-import crypto from "crypto";
 
 export const authMiddleware = (req, res, next) => {
-  const token = req.cookies.token;
+  const authHeader = req.headers.authorization;
 
-  if (!token) {
-    return res.status(401).json({ error: "Unauthorized" });
+  if (!authHeader) {
+    return res.status(401).json({ error: "Authorization token missing" });
   }
 
+  const token = authHeader.split(" ")[1];
+
   try {
-    const decodedToken = jwt.decode(token, { complete: true });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    if (!decodedToken) {
-      return res.status(403).json({ error: "Forbidden" });
-    }
-
-    const { payload } = decodedToken;
-    const jwtSecret = `${payload.username}-${payload.secret}`;
-
-    jwt.verify(token, jwtSecret, (err, decoded) => {
-      if (err) {
-        return res.status(403).json({ error: "Forbidden" });
-      }
-
-      req.username = decoded.username;
-      next();
-    });
+    req.user = { userId: decoded.id };
+    next();
   } catch (error) {
-    console.error("Error decoding token:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    console.error("Token verification failed:", error);
+    return res.status(403).json({ error: "Invalid or expired token" });
   }
 };

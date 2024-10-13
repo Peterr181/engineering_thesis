@@ -1,20 +1,19 @@
 import express from "express";
 import {
-  getMeals,
   createMeal,
-  deleteMeal,
+  getMeals,
   updateMeal,
+  deleteMeal,
 } from "../controllers/mealsController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", authMiddleware, getMeals);
+router.use(authMiddleware);
 
-router.post("/", authMiddleware, createMeal);
-
-router.delete("/:mealId", authMiddleware, deleteMeal);
-
-router.put("/:mealId", authMiddleware, updateMeal);
+router.post("/", createMeal);
+router.get("/", getMeals);
+router.put("/:mealId", updateMeal);
+router.delete("/:mealId", deleteMeal);
 
 export default router;

@@ -21,6 +21,12 @@ export const useWorkouts = () => {
     setError(null);
 
     try {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      }
+
       const res = await axios.get(
         `http://localhost:8081/api/workouts?sorted=${sorted}`
       );
@@ -35,10 +41,17 @@ export const useWorkouts = () => {
       setLoading(false);
     }
   };
+
   const addWorkout = async (newWorkout: Workout) => {
     setLoading(true);
     setError(null);
     try {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      }
+
       const res = await axios.post(
         "http://localhost:8081/api/workouts",
         newWorkout
@@ -55,13 +68,24 @@ export const useWorkouts = () => {
   };
 
   const finishWorkout = async (workoutId: number) => {
+    setLoading(true);
+    setError(null);
+
     try {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      }
+
       await axios.put(`http://localhost:8081/api/workouts/${workoutId}/finish`);
 
       fetchWorkouts();
     } catch (error) {
       console.error("Error finishing the workout", error);
       setError("Error finishing the workout.");
+    } finally {
+      setLoading(false);
     }
   };
 

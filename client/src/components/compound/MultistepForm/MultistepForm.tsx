@@ -48,7 +48,7 @@ const MultistepForm = () => {
         data
       );
       if (response.status === 200) {
-        navigate("/");
+        navigate("/login");
       }
     } catch (error) {
       console.error("Error registering user:", error);
