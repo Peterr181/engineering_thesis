@@ -17,6 +17,12 @@ const useAuth = (): [boolean, UserProfile | null] => {
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    }
+
     axios
       .get("http://localhost:8081/auth/verify")
       .then((res) => {

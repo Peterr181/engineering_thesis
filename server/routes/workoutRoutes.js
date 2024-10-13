@@ -10,14 +10,12 @@ import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
+router.use(authMiddleware);
+
 router.post("/", createWorkout);
-
 router.get("/", getWorkouts);
-
-router.put("/:workoutId/finish", finishWorkout);
-
-router.put("/:workoutId", authMiddleware, updateWorkout);
-
-router.delete("/:workoutId", authMiddleware, deleteWorkout);
+router.put("/:workoutId", updateWorkout);
+router.delete("/:workoutId", deleteWorkout);
+router.patch("/:workoutId/finish", finishWorkout);
 
 export default router;

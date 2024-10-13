@@ -16,6 +16,7 @@ const Sidebar = () => {
     axios
       .get("http://localhost:8081/auth/logout")
       .then(() => {
+        localStorage.removeItem("token");
         location.reload();
       })
       .catch((err) => console.log(err));

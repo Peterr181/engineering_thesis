@@ -1,7 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import mysql from "mysql";
-import crypto from "crypto";
 
 const db = mysql.createConnection({
   host: "localhost",
@@ -18,20 +17,14 @@ export const register = (req, res) => {
 
   const checkEmailSql = "SELECT * FROM users WHERE email = ?";
   db.query(checkEmailSql, [email], (err, result) => {
-    if (err) {
-      return res.status(500).json({ error: "Internal Server Error" });
-    }
-    if (result.length > 0) {
+    if (err) return res.status(500).json({ error: "Internal Server Error" });
+    if (result.length > 0)
       return res.status(400).json({ error: "Email already registered" });
-    }
 
     bcrypt.hash(password.toString(), saltRounds, (err, hash) => {
-      if (err) {
-        return res.status(500).json({ error: "Error hashing password" });
-      }
+      if (err) return res.status(500).json({ error: "Error hashing password" });
 
-      const sql =
-        "INSERT INTO users (username, password, email, gender, birthYear, avatar, sportLevel) VALUES (?, ?, ?, ?, ?, ?, ?)";
+      const sql = `INSERT INTO users (username, password, email, gender, birthYear, avatar, sportLevel) VALUES (?, ?, ?, ?, ?, ?, ?)`;
       const values = [
         nickname,
         hash,
@@ -42,26 +35,23 @@ export const register = (req, res) => {
         sportLevel,
       ];
 
-      db.query(sql, values, (err) => {
-        if (err) {
+      db.query(sql, values, (err, result) => {
+        if (err)
           return res.status(500).json({ error: "Error registering user" });
-        }
 
-        const uniqueSecret = crypto.randomBytes(16).toString("hex");
-        const jwtSecret = `${nickname}-${uniqueSecret}`;
-
+        const user_id = result.insertId;
         const token = jwt.sign(
-          { username: nickname, secret: uniqueSecret },
-          jwtSecret,
+          { id: user_id, username: nickname },
+          process.env.JWT_SECRET,
           {
             expiresIn: "1d",
           }
         );
-        res.cookie("token", token, { httpOnly: true });
 
         return res.status(200).json({
           status: "Success",
-          message: "User registered and logged in successfully",
+          message: "User registered successfully",
+          token,
         });
       });
     });
@@ -70,49 +60,34 @@ export const register = (req, res) => {
 
 export const login = (req, res) => {
   const { username, password } = req.body;
-  const sql = "SELECT * FROM users WHERE username = ?";
+  console.log(process.env.JWT_SECRET);
 
+  const sql = "SELECT * FROM users WHERE username = ?";
   db.query(sql, [username], (err, data) => {
     if (err) return res.status(500).json({ error: "Internal Server Error" });
-
-    if (data.length > 0) {
-      bcrypt.compare(password.toString(), data[0].password, (err, response) => {
-        if (err)
-          return res.status(500).json({ error: "Internal Server Error" });
-
-        if (response) {
-          const uniqueSecret = crypto.randomBytes(16).toString("hex");
-          const jwtSecret = `${username}-${uniqueSecret}`;
-
-          const token = jwt.sign(
-            { username, secret: uniqueSecret },
-            jwtSecret,
-            {
-              expiresIn: "1d",
-            }
-          );
-
-          const userId = data[0].id;
-          res.cookie("token", token, { httpOnly: true });
-          res.cookie("userId", userId, { httpOnly: true });
-
-          return res.json({
-            status: "Success",
-            message: "User logged in successfully",
-          });
-        } else {
-          return res.status(401).json({ error: "Invalid credentials" });
-        }
-      });
-    } else {
+    if (data.length === 0)
       return res.status(404).json({ error: "User not found" });
-    }
+
+    const user = data[0];
+    bcrypt.compare(password.toString(), user.password, (err, isMatch) => {
+      if (err) return res.status(500).json({ error: "Internal Server Error" });
+      if (!isMatch)
+        return res.status(401).json({ error: "Invalid credentials" });
+
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+      });
+
+      return res.status(200).json({
+        status: "Success",
+        message: "User logged in successfully",
+        token,
+      });
+    });
   });
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("token");
-  res.clearCookie("userId");
   return res.json({ status: "Success", message: "User logged out" });
 };
 

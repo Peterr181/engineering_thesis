@@ -18,7 +18,7 @@ const Register = () => {
       .post("http://localhost:8081/auth/register", registerValues)
       .then((res) => {
         if (res.data.status === "Success") {
-          navigate("/profile");
+          navigate("/login");
         } else {
           alert("Error during registration");
         }
