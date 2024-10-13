@@ -9,15 +9,11 @@ const db = mysql.createConnection({
 
 export const createMeal = (req, res) => {
   const { name, type, calories, protein, carbs, fats, grams } = req.body;
-  const user_id = req.cookies.userId;
-
-  if (!user_id) {
-    return res.status(400).json({ error: "User ID is required." });
-  }
+  const userId = req.user.userId;
 
   const sql = `INSERT INTO meals (user_id, name, type, calories, protein, carbs, fats, grams) 
                VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
-  const values = [user_id, name, type, calories, protein, carbs, fats, grams];
+  const values = [userId, name, type, calories, protein, carbs, fats, grams];
 
   db.query(sql, values, (err, result) => {
     if (err) {
@@ -33,20 +29,14 @@ export const createMeal = (req, res) => {
 };
 
 export const getMeals = (req, res) => {
-  const user_id = req.cookies.userId;
-
-  if (!user_id) {
-    return res.status(400).json({ error: "User ID is required." });
-  }
+  const userId = req.user.userId;
 
   const sql = `SELECT * FROM meals WHERE user_id = ? ORDER BY date_added DESC`;
-
-  db.query(sql, [user_id], (err, results) => {
+  db.query(sql, [userId], (err, results) => {
     if (err) {
       console.error("Database error:", err);
       return res.status(500).json({ error: "Database error occurred." });
     }
-
     return res.status(200).json({ meals: results });
   });
 };
@@ -54,11 +44,7 @@ export const getMeals = (req, res) => {
 export const updateMeal = (req, res) => {
   const { mealId } = req.params;
   const { name, type, calories, protein, carbs, fats } = req.body;
-  const user_id = req.cookies.userId;
-
-  if (!user_id) {
-    return res.status(400).json({ error: "User ID is required." });
-  }
+  const userId = req.user.userId;
 
   const sql = `UPDATE meals 
                SET name = ?, type = ?, calories = ?, protein = ?, carbs = ?, fats = ? 
@@ -66,7 +52,7 @@ export const updateMeal = (req, res) => {
 
   db.query(
     sql,
-    [name, type, calories, protein, carbs, fats, mealId, user_id],
+    [name, type, calories, protein, carbs, fats, mealId, userId],
     (err, result) => {
       if (err) {
         return res.status(500).json({ error: "Database error occurred." });
@@ -83,15 +69,11 @@ export const updateMeal = (req, res) => {
 
 export const deleteMeal = (req, res) => {
   const { mealId } = req.params;
-  const user_id = req.cookies.userId;
-
-  if (!user_id) {
-    return res.status(400).json({ error: "User ID is required." });
-  }
+  const userId = req.user.userId;
 
   const sql = `DELETE FROM meals WHERE id = ? AND user_id = ?`;
 
-  db.query(sql, [mealId, user_id], (err, result) => {
+  db.query(sql, [mealId, userId], (err, result) => {
     if (err) {
       return res.status(500).json({ error: "Database error occurred." });
     }

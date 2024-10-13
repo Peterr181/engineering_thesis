@@ -24,14 +24,18 @@ export const useLogin = () => {
       );
 
       if (res.data.status === "Success") {
+        localStorage.setItem("token", res.data.token);
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${res.data.token}`;
         navigate("/");
         return res.data;
       } else {
         setError("Login failed. Please try again.");
       }
     } catch (err) {
-      setError("An error occurred during login.");
-      console.error(err);
+      console.error("Login error:", err.response.data || err);
+      setError(err.response.data?.error || "An error occurred during login.");
     } finally {
       setLoading(false);
     }

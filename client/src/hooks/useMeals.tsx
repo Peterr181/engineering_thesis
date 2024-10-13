@@ -24,6 +24,12 @@ export const useMeals = () => {
     setError(null);
 
     try {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      }
+
       const res = await axios.get("http://localhost:8081/api/meals");
 
       if (res.data) {
@@ -41,6 +47,12 @@ export const useMeals = () => {
     setLoading(true);
     setError(null);
     try {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      }
+
       const res = await axios.post("http://localhost:8081/api/meals", newMeal);
       if (res.data) {
         setMeals((prevMeals) => [...prevMeals, res.data]);
@@ -57,6 +69,12 @@ export const useMeals = () => {
     setLoading(true);
     setError(null);
     try {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      }
+
       await axios.delete(`http://localhost:8081/api/meals/${mealId}`);
       fetchMeals();
     } catch (err) {

@@ -8,7 +8,7 @@ This is huge full-stack web application where users can browse through multiple 
 
 Done:
 
- - Authentication 
+ - JWT Authentication 
  - Browsing through exercises with GIFS
  - Home dashboard section
  - Browsing through 80k different foods and their nutritions
