@@ -8,74 +8,48 @@ import {
   DialogTitle,
   Button,
   TextField,
+  CircularProgress,
 } from "@mui/material";
+import { usePersonalInfo, PersonalInfoType } from "../../hooks/usePersonalInfo";
 
-export interface PersonalInfo {
-  label: string;
-  value: string;
-  icon: JSX.Element;
-}
+const labelMappings: { [key: string]: string } = {
+  nickname: "Nickname",
+  favorite_training_type: "Favorite Training",
+  current_fitness_goals: "Current Fitness Goals",
+  water_drunk_daily: "Water Drunk Daily",
+  steps_daily: "Number of Steps Daily",
+  skill_level: "Level of Skill in Sports",
+  caloric_intake_goal: "Daily Caloric",
+  body_measurements: "Body Measurements",
+  workout_frequency: "Workout Frequency",
+  personal_bests: "Personal Bests",
+};
 
-const initialPersonalInfoData: PersonalInfo[] = [
-  { label: "Nickname", value: "JohnDoe123", icon: iconFile.profileColorIcon },
-  {
-    label: "Favorite Training Type",
-    value: "Gym",
-    icon: iconFile.trainingColorIcon,
-  },
-  {
-    label: "Current Fitness Goals",
-    value: "Build muscle, run 5k in under 25 mins",
-    icon: iconFile.goalColorIcon,
-  },
-  {
-    label: "Water Drunk Daily",
-    value: "2.5 liters",
-    icon: iconFile.waterColorIcon,
-  },
-  {
-    label: "Number of Steps Daily",
-    value: "8,000 steps",
-    icon: iconFile.stepsColorIcon,
-  },
-  {
-    label: "Level of Skill in Sports",
-    value: "Intermediate",
-    icon: iconFile.skillColorIcon,
-  },
-  {
-    label: "Daily Caloric Intake Goal",
-    value: "2,500 kcal",
-    icon: iconFile.mealColorIcon,
-  },
-  {
-    label: "Body Measurements",
-    value: "Weight: 75kg, Height: 180cm",
-    icon: iconFile.weightColorIcon,
-  },
-  {
-    label: "Workout Frequency",
-    value: "5 times a week",
-    icon: iconFile.timeColorIcon,
-  },
-  {
-    label: "Personal Bests",
-    value: "Deadlift: 150kg, 5km Run: 24:30 mins",
-    icon: iconFile.personalColorIcon,
-  },
-];
+const icons: { [key: string]: JSX.Element } = {
+  nickname: iconFile.profileColorIcon,
+  favorite_training_type: iconFile.trainingColorIcon,
+  current_fitness_goals: iconFile.goalColorIcon,
+  water_drunk_daily: iconFile.waterColorIcon,
+  steps_daily: iconFile.stepsColorIcon,
+  skill_level: iconFile.skillColorIcon,
+  caloric_intake_goal: iconFile.mealColorIcon,
+  body_measurements: iconFile.weightColorIcon,
+  workout_frequency: iconFile.timeColorIcon,
+  personal_bests: iconFile.personalColorIcon,
+};
 
 const PersonalInfo: React.FC = () => {
-  const [personalInfoData, setPersonalInfoData] = useState<PersonalInfo[]>(
-    initialPersonalInfoData
-  );
+  const { personalInfoData, updatePersonalInfo, loading, error } =
+    usePersonalInfo();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<PersonalInfo | null>(null);
+  const [selectedItem, setSelectedItem] = useState<PersonalInfoType | null>(
+    null
+  );
   const [editedValue, setEditedValue] = useState<string>("");
 
-  const handleItemClick = (item: PersonalInfo) => {
+  const handleItemClick = (item: PersonalInfoType) => {
     setSelectedItem(item);
-    setEditedValue(item.value);
+    setEditedValue(item.value || "");
     setOpenDialog(true);
   };
 
@@ -85,17 +59,24 @@ const PersonalInfo: React.FC = () => {
     setEditedValue("");
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (selectedItem) {
-      const updatedData = personalInfoData.map((info) =>
-        info.label === selectedItem.label
-          ? { ...info, value: editedValue }
-          : info
-      );
-      setPersonalInfoData(updatedData);
+      await updatePersonalInfo({ ...selectedItem, value: editedValue });
       handleClose();
     }
   };
+
+  if (loading) {
+    return (
+      <div className={styles.loading}>
+        <CircularProgress />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div className={styles.error}>{error}</div>;
+  }
 
   return (
     <>
@@ -110,22 +91,24 @@ const PersonalInfo: React.FC = () => {
               style={{ cursor: "pointer" }}
             >
               <label>
-                <span>{info.label}</span>
-                <span>{info.icon}</span>
+                <span>{labelMappings[info.label] || info.label}</span>{" "}
+                <span>{icons[info.label]}</span>{" "}
               </label>
-              <p>{info.value}</p>
+              <p>{info.value || "No data set"}</p>
             </div>
           ))}
         </div>
       </div>
 
       <Dialog open={openDialog} onClose={handleClose}>
-        <DialogTitle>Edit {selectedItem?.label}</DialogTitle>
+        <DialogTitle>
+          Edit {labelMappings[selectedItem?.label || ""]}
+        </DialogTitle>
         <DialogContent>
           <div className={styles.dialogContent}>
             <TextField
               fullWidth
-              label={selectedItem?.label}
+              label={labelMappings[selectedItem?.label || ""]}
               value={editedValue}
               onChange={(e) => setEditedValue(e.target.value)}
             />
