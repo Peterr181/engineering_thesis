@@ -1,13 +1,22 @@
 import styles from "./EmailPassword.module.scss";
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import useAuth from "../../hooks/useAuth";
 
 const EmailPassword = () => {
   const [auth, userProfile] = useAuth();
   return (
     <div className={styles.emailpassword}>
-      <h2>Email & Password</h2>
-      <p>Change your profile security data</p>
+      <div className={styles.emailpassword__header}>
+        <div>
+          <h2>Email & Password</h2>
+          <p>Change your profile security data</p>
+        </div>
+        <div>
+          <Button variant="contained" color="success">
+            Save changes
+          </Button>
+        </div>
+      </div>
       <div className={styles.emailpassword__box}>
         <div className={styles.emailpassword__box__item}>
           <label>Email</label>
