@@ -17,7 +17,7 @@ const labelMappings: { [key: string]: string } = {
   favorite_training_type: "Favorite Training",
   current_fitness_goals: "Current Fitness Goals",
   water_drunk_daily: "Water Drunk Daily",
-  steps_daily: "Number of Steps Daily",
+  steps_daily: "Steps Daily",
   skill_level: "Level of Skill in Sports",
   caloric_intake_goal: "Daily Caloric",
   body_measurements: "Body Measurements",
