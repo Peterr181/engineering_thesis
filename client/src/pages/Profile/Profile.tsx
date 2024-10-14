@@ -5,6 +5,7 @@ import MaxWidthWrapper from "../../components/compound/MaxWidthWrapper/MaxWidthW
 import WhiteCardWrapper from "../../components/atomic/WhiteCardWrapper/WhiteCardWrapper";
 import { iconFile } from "../../assets/iconFile";
 import PersonalInfo from "./PersonalInfo";
+import EmailPassword from "./EmailPassword";
 
 const Profile: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("Personal info");
@@ -59,7 +60,10 @@ const Profile: React.FC = () => {
                 </div>
               </div>
             </div>
-            <PersonalInfo />
+            {activeTab === "Personal info" && <PersonalInfo />}
+            {activeTab === "Email & password" && <EmailPassword />}
+            {activeTab === "Notifications" && <PersonalInfo />}
+            {activeTab === "Information" && <PersonalInfo />}
           </div>
         </WhiteCardWrapper>
       </MaxWidthWrapper>

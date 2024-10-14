@@ -82,6 +82,7 @@ const PersonalInfo: React.FC = () => {
     <>
       <div className={styles.profile__data}>
         <h2>Personal Info</h2>
+        <p>Change your personal informations that are very important here!</p>
         <div className={styles.profile__data__box}>
           {personalInfoData.map((info, index) => (
             <div
