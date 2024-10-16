@@ -7,6 +7,7 @@ import { Status, Category } from "../../compound/Workout/Workout";
 import WhiteCardWrapper from "../../atomic/WhiteCardWrapper/WhiteCardWrapper";
 import { useWorkouts } from "../../../hooks/useWorkout";
 import { Link } from "react-router-dom";
+import Button2 from "@mui/material/Button";
 
 const UpcomingWorkouts = () => {
   const { t } = useLanguage();
@@ -32,10 +33,10 @@ const UpcomingWorkouts = () => {
             </p>
           </div>
           <Link to="/workoutplan">
-            <div>
-              <Button variant="primaryFilled">
-                <span>{t("upcomingWorkouts.showWorkoutPlan")}</span>
-              </Button>
+            <div className={styles.workoutPlanBtn}>
+              <Button2 variant="contained" color="success">
+                WORKOUT PLAN
+              </Button2>
             </div>
           </Link>
         </div>
