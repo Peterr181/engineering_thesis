@@ -1,0 +1,43 @@
+.mealssummary {
+  margin-top: var(--rythm-32);
+}
+.mealCalories {
+  display: flex;
+  justify-content: start;
+
+  &__total {
+    display: flex;
+    justify-content: start;
+    gap: 8px;
+    margin-top: var(--rythm-16);
+  }
+
+  &__calories {
+    border: 2px solid rgb(119, 235, 119);
+  }
+  &__protein {
+    border: 2px solid rgb(124, 124, 235);
+  }
+  &__carbs {
+    border: 2px solid rgb(233, 177, 74);
+  }
+  &__fats {
+    border: 2px solid rgb(235, 107, 235);
+  }
+  span {
+    padding: var(--rythm-8) var(--rythm-16);
+    border-radius: 21px;
+    color: #333;
+    font-weight: 500;
+  }
+}
+
+.mealsPlanInitial {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  button {
+    font-weight: 600;
+  }
+}

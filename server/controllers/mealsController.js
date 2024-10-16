@@ -85,3 +85,29 @@ export const deleteMeal = (req, res) => {
     return res.status(200).json({ message: "Meal deleted successfully." });
   });
 };
+
+export const getMealSummary = (req, res) => {
+  const userId = req.user.userId;
+
+  const sql = `SELECT SUM(calories) AS totalCalories, 
+                      SUM(protein) AS totalProtein, 
+                      SUM(carbs) AS totalCarbs, 
+                      SUM(fats) AS totalFats 
+               FROM meals 
+               WHERE user_id = ?`;
+
+  db.query(sql, [userId], (err, results) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Database error occurred." });
+    }
+
+    const summary = results[0];
+    return res.status(200).json({
+      totalCalories: summary.totalCalories || 0,
+      totalProtein: summary.totalProtein || 0,
+      totalCarbs: summary.totalCarbs || 0,
+      totalFats: summary.totalFats || 0,
+    });
+  });
+};
