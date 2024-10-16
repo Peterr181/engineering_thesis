@@ -37,67 +37,69 @@ const WorkoutPlan = () => {
   };
   return (
     <PlatformWrapper>
-      <MaxWidthWrapper>
-        <div className={styles.workoutPlan}>
-          <div className={styles.workoutPlan__trainings}>
-            <WhiteCardWrapper>
-              <div className={styles.workoutPlan__trainings__header}>
-                <div>
-                  <h2>Plan treningowy</h2>
-                  <p>
-                    Sprawdź kiedy masz swoje najbliższe zaplanowane treningi!
-                  </p>
-                </div>
-                <div className={styles.workoutPlan__trainings__buttons}>
-                  <Link to="/creatingworkout">
+      <div className={styles.workoutPlanWrapper}>
+        <MaxWidthWrapper>
+          <div className={styles.workoutPlan}>
+            <div className={styles.workoutPlan__trainings}>
+              <WhiteCardWrapper>
+                <div className={styles.workoutPlan__trainings__header}>
+                  <div>
+                    <h2>Plan treningowy</h2>
+                    <p>
+                      Sprawdź kiedy masz swoje najbliższe zaplanowane treningi!
+                    </p>
+                  </div>
+                  <div className={styles.workoutPlan__trainings__buttons}>
+                    <Link to="/creatingworkout">
+                      <div>
+                        <Button variant="contained" color="success">
+                          Add new
+                        </Button>
+                      </div>
+                    </Link>
                     <div>
-                      <Button variant="contained" color="success">
-                        Add new
+                      <Button variant="contained" color="error">
+                        Check finished
                       </Button>
                     </div>
-                  </Link>
-                  <div>
-                    <Button variant="contained" color="error">
-                      Check finished
-                    </Button>
                   </div>
                 </div>
-              </div>
-              <div className={styles.workoutPlan__trainings__trainingsList}>
-                {loading && <p>Loading workouts...</p>}
-                {error && <p style={{ color: "red" }}>{error}</p>}
-                {workouts.map((workout, index) => (
-                  <Workout
-                    key={index}
-                    id={workout.id}
-                    day={workout.day}
-                    month={workout.month}
-                    name={workout.exercise_name}
-                    status={
-                      workout.finished ? Status.FINISHED : Status.NOT_STARTED
-                    }
-                    category={workout.exercise_type || Category.GYM}
-                    onFinish={() => finishWorkout(workout.id)}
-                  />
-                ))}
-              </div>
-            </WhiteCardWrapper>
-          </div>
+                <div className={styles.workoutPlan__trainings__trainingsList}>
+                  {loading && <p>Loading workouts...</p>}
+                  {error && <p style={{ color: "red" }}>{error}</p>}
+                  {workouts.map((workout, index) => (
+                    <Workout
+                      key={index}
+                      id={workout.id}
+                      day={workout.day}
+                      month={workout.month}
+                      name={workout.exercise_name}
+                      status={
+                        workout.finished ? Status.FINISHED : Status.NOT_STARTED
+                      }
+                      category={workout.exercise_type || Category.GYM}
+                      onFinish={() => finishWorkout(workout.id)}
+                    />
+                  ))}
+                </div>
+              </WhiteCardWrapper>
+            </div>
 
-          <div className={styles.workoutPlan__calendar}>
-            <WhiteCardWrapper>
-              <h2>Kalendarz</h2>
-              <p>Sprawdź kiedy masz treningi</p>
-              <div className={styles.workoutPlan__calendar__content}>
-                <Calendar
-                  tileClassName={highlightWorkouts}
-                  className={styles.customCalendar}
-                />
-              </div>
-            </WhiteCardWrapper>
+            <div className={styles.workoutPlan__calendar}>
+              <WhiteCardWrapper>
+                <h2>Kalendarz</h2>
+                <p>Sprawdź kiedy masz treningi</p>
+                <div className={styles.workoutPlan__calendar__content}>
+                  <Calendar
+                    tileClassName={highlightWorkouts}
+                    className={styles.customCalendar}
+                  />
+                </div>
+              </WhiteCardWrapper>
+            </div>
           </div>
-        </div>
-      </MaxWidthWrapper>
+        </MaxWidthWrapper>
+      </div>
     </PlatformWrapper>
   );
 };

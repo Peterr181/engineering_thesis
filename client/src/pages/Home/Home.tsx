@@ -10,6 +10,7 @@ import ActivityCard from "../../components/atomic/ActivityCard/ActivityCard";
 import UpcomingWorkouts from "../../components/compound/UpcomingWorkouts/UpcomingWorkouts";
 import { useLanguage } from "../../context/LanguageProvider";
 import WhiteCardWrapper from "../../components/atomic/WhiteCardWrapper/WhiteCardWrapper";
+import MealsSummary from "../../components/compound/MealsSummary/MealsSummary";
 const Home = () => {
   const { t } = useLanguage();
   return (
@@ -45,6 +46,9 @@ const Home = () => {
               />
             </div>
           </div>
+
+          <MealsSummary />
+
           <UpcomingWorkouts />
         </div>
       </MaxWidthWrapper>

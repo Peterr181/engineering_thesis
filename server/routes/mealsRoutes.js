@@ -4,6 +4,7 @@ import {
   getMeals,
   updateMeal,
   deleteMeal,
+  getMealSummary,
 } from "../controllers/mealsController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 
@@ -15,5 +16,6 @@ router.post("/", createMeal);
 router.get("/", getMeals);
 router.put("/:mealId", updateMeal);
 router.delete("/:mealId", deleteMeal);
+router.get("/summary", getMealSummary);
 
 export default router;

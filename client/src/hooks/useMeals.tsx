@@ -14,6 +14,12 @@ interface Meal {
 
 export const useMeals = () => {
   const [meals, setMeals] = useState<Meal[]>([]);
+  const [mealSummaryData, setMealSummaryData] = useState<{
+    totalCalories: number;
+    totalProtein: number;
+    totalCarbs: number;
+    totalFats: number;
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -22,6 +28,7 @@ export const useMeals = () => {
   const fetchMeals = async () => {
     setLoading(true);
     setError(null);
+    fetchMealSummary();
 
     try {
       const token = localStorage.getItem("token");
@@ -43,6 +50,30 @@ export const useMeals = () => {
     }
   };
 
+  const fetchMealSummary = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      }
+
+      const res = await axios.get("http://localhost:8081/api/meals/summary");
+
+      if (res.data) {
+        setMealSummaryData(res.data);
+      }
+    } catch (err) {
+      setError("Error fetching meal summary.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const addMeal = async (newMeal: Meal) => {
     setLoading(true);
     setError(null);
@@ -56,6 +87,7 @@ export const useMeals = () => {
       const res = await axios.post("http://localhost:8081/api/meals", newMeal);
       if (res.data) {
         setMeals((prevMeals) => [...prevMeals, res.data]);
+        await fetchMealSummary(); // Refresh the summary after adding a meal
       }
     } catch (err) {
       setError("Error adding new meal.");
@@ -77,6 +109,7 @@ export const useMeals = () => {
 
       await axios.delete(`http://localhost:8081/api/meals/${mealId}`);
       fetchMeals();
+      fetchMealSummary(); // Refresh the summary after deleting a meal
     } catch (err) {
       setError("Error deleting meal.");
       console.error(err);
@@ -88,6 +121,7 @@ export const useMeals = () => {
   return {
     meals,
     fetchMeals,
+    mealSummaryData,
     addMeal,
     deleteMeal,
     error,
