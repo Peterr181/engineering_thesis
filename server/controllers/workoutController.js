@@ -131,7 +131,7 @@ export const finishWorkout = (req, res) => {
   const { workoutId } = req.params;
   const userId = req.user.userId;
 
-  const sql = `UPDATE workouts SET finished = 1 WHERE workout_id = ? AND user_id = ?`;
+  const sql = `UPDATE workouts SET finished = 1 WHERE id = ? AND user_id = ?`;
   db.query(sql, [workoutId, userId], (err, result) => {
     if (err) {
       console.error("Database update error:", err);

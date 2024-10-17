@@ -16,6 +16,6 @@ router.post("/", createWorkout);
 router.get("/", getWorkouts);
 router.put("/:workoutId", updateWorkout);
 router.delete("/:workoutId", deleteWorkout);
-router.patch("/:workoutId/finish", finishWorkout);
+router.post("/:workoutId/finish", finishWorkout);
 
 export default router;
