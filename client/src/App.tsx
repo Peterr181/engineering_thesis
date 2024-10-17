@@ -12,6 +12,7 @@ import WorkoutPlan from "./pages/WorkoutPlan/WorkoutPlan";
 import CreatingWorkout from "./pages/CreatingWorkout/CreatingWorkout";
 import MealsPlan from "./pages/MealsPlan/MealsPlan";
 import ChatRooms from "./pages/ChatRooms/ChatRooms";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/finder" element={<Finder />} />
           <Route path="/chatrooms" element={<ChatRooms />} />
           <Route path="/meals" element={<Meals />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/multistepregister" element={<MultistepForm />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
