@@ -43,6 +43,14 @@
   padding: var(--rythm-12) var(--rythm-32);
   border: 2.5px solid $mainColor;
 }
+.primaryOutlineRed {
+  color: #333;
+  background-color: transparent;
+  border-radius: var(--rythm-36);
+
+  padding: var(--rythm-12) var(--rythm-32);
+  border: 2.5px solid red;
+}
 
 .primaryFilled {
   color: $mainColor;

@@ -20,11 +20,12 @@ export const setPersonalInfo = (req, res) => {
     body_measurements,
     workout_frequency,
     personal_bests,
+    weight,
   } = req.body;
 
   const sql = `
-    INSERT INTO personal_info (user_id, nickname, favorite_training_type, current_fitness_goals, water_drunk_daily, steps_daily, skill_level, caloric_intake_goal, body_measurements, workout_frequency, personal_bests)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO personal_info (user_id, nickname, favorite_training_type, current_fitness_goals, water_drunk_daily, steps_daily, skill_level, caloric_intake_goal, body_measurements, workout_frequency, personal_bests, weight)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ON DUPLICATE KEY UPDATE
     nickname = VALUES(nickname),
     favorite_training_type = VALUES(favorite_training_type),
@@ -35,7 +36,8 @@ export const setPersonalInfo = (req, res) => {
     caloric_intake_goal = VALUES(caloric_intake_goal),
     body_measurements = VALUES(body_measurements),
     workout_frequency = VALUES(workout_frequency),
-    personal_bests = VALUES(personal_bests)
+    personal_bests = VALUES(personal_bests),
+    weight = VALUES(weight)
   `;
   const values = [
     userId,
@@ -49,6 +51,7 @@ export const setPersonalInfo = (req, res) => {
     body_measurements,
     workout_frequency,
     personal_bests,
+    weight,
   ];
 
   db.query(sql, values, (err) => {
@@ -89,6 +92,7 @@ export const getPersonalInfo = (req, res) => {
           bodyMeasurements: "",
           workoutFrequency: "",
           personalBests: "",
+          weight: "",
         },
       });
     }

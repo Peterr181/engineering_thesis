@@ -9,11 +9,14 @@ import useAuth from "../../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useWorkouts } from "../../../hooks/useWorkout";
+import { usePersonalInfo } from "../../../hooks/usePersonalInfo";
 
 const Navbar: React.FC = () => {
   const { t, changeLanguage, language } = useLanguage();
   const { fetchWorkouts, workouts } = useWorkouts();
   const [auth, userProfile] = useAuth();
+
+  const { hasPersonalData } = usePersonalInfo();
 
   useEffect(() => {
     fetchWorkouts(false);
@@ -39,18 +42,20 @@ const Navbar: React.FC = () => {
     <nav className={styles.navbar__wrapper}>
       <section className={styles.navbar}>
         <div className={styles.navbar__left}>
-          {auth && !workouts && (
+          {!hasPersonalData && (
             <>
-              <Text textStyle="lg">{t("navbar.setWorkoutPlan")}</Text>
+              <Text textStyle="lg">
+                Set your personal details to use platform correctly
+              </Text>
 
-              <Link to="/creatingworkout">
-                <Button variant="primaryOutline">
-                  <Text textStyle="md">{t("navbar.setWorkoutButton")}</Text>
+              <Link to="/personaldetails">
+                <Button variant="primaryOutlineRed">
+                  <Text textStyle="md">Set Details</Text>
                 </Button>
               </Link>
             </>
           )}
-          {auth && workouts && (
+          {hasPersonalData && workouts && (
             <>
               <Text textStyle="lg">{t("navbar.workoutPlan")}</Text>
               <Link to="/workoutplan">

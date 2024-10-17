@@ -13,6 +13,7 @@ import CreatingWorkout from "./pages/CreatingWorkout/CreatingWorkout";
 import MealsPlan from "./pages/MealsPlan/MealsPlan";
 import ChatRooms from "./pages/ChatRooms/ChatRooms";
 import Profile from "./pages/Profile/Profile";
+import PersonalGoals from "./components/compound/MultistepForm/PersonalGoals";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/workouts" element={<Exercises />} />
           <Route path="/workoutplan" element={<WorkoutPlan />} />
           <Route path="/creatingworkout" element={<CreatingWorkout />} />
+          <Route path="/personaldetails" element={<PersonalGoals />} />
           <Route path="/mealsplan" element={<MealsPlan />} />
           <Route path="/finder" element={<Finder />} />
           <Route path="/chatrooms" element={<ChatRooms />} />
