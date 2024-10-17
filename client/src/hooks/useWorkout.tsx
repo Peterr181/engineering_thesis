@@ -78,9 +78,11 @@ export const useWorkouts = () => {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       }
 
-      await axios.put(`http://localhost:8081/api/workouts/${workoutId}/finish`);
+      await axios.post(
+        `http://localhost:8081/api/workouts/${workoutId}/finish`
+      );
 
-      fetchWorkouts();
+      fetchWorkouts(false);
     } catch (error) {
       console.error("Error finishing the workout", error);
       setError("Error finishing the workout.");
