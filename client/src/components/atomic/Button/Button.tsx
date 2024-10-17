@@ -4,6 +4,7 @@ import styles from "./Button.module.scss";
 export const buttonVariant = {
   primary: styles.primary,
   primaryOutline: styles.primaryOutline,
+  primaryOutlineRed: styles.primaryOutlineRed,
   primaryFilled: styles.primaryFilled,
   almostGreen: styles.almostGreen,
   filter: styles.filter,

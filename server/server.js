@@ -7,6 +7,7 @@ import mealsRoutes from "./routes/mealsRoutes.js";
 import workoutRoutes from "./routes/workoutRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import personalInfoRoutes from "./routes/personalInfoRoutes.js";
 
 config();
 
@@ -28,6 +29,7 @@ app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/api/workouts", workoutRoutes);
 app.use("/api/meals", mealsRoutes);
+app.use("/api/personal-info", personalInfoRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
