@@ -39,7 +39,7 @@ const Sidebar = () => {
       id: "chats",
       icon: iconFile.onlineChat,
       text: t("sidebar.chats"),
-      link: "/chats",
+      link: "/chatrooms",
     },
     {
       id: "meals",
