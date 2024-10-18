@@ -19,6 +19,22 @@ export const iconFile = {
       <path d="M14 4h6v4h-6z" />
     </svg>
   ),
+  backButton: (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="Previous">
+      <g fill="#ffffff" className="color000000 svgShape">
+        <path
+          d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm0,22A10,10,0,1,1,22,12,10.011,10.011,0,0,1,12,22Z"
+          fill="#ffffff"
+          className="color000000 svgShape"
+        ></path>
+        <path
+          d="M14.768,6.36a1,1,0,0,0-1.408-.128l-6,5a1,1,0,0,0,0,1.536l6,5a1,1,0,1,0,1.28-1.536L9.562,12,14.64,7.768A1,1,0,0,0,14.768,6.36Z"
+          fill="#ffffff"
+          className="color000000 svgShape"
+        ></path>
+      </g>
+    </svg>
+  ),
   arrowRight: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -824,6 +840,22 @@ export const iconFile = {
       <path
         fill="#3F4040"
         d="M1.5 17c.2-.2.5-.1.6.1C1.9 17 1.7 17 1.5 17zM1.6 17.5c.2-.1.2-.1.4-.1C2 17.6 1.7 17.6 1.6 17.5z"
+      ></path>
+    </svg>
+  ),
+  userIcon: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="none"
+      id="user"
+    >
+      <path
+        fill="#000"
+        fill-rule="evenodd"
+        d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Zm3-12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 7a7.489 7.489 0 0 1 6-3 7.489 7.489 0 0 1 6 3 7.489 7.489 0 0 1-6 3 7.489 7.489 0 0 1-6-3Z"
+        clip-rule="evenodd"
       ></path>
     </svg>
   ),

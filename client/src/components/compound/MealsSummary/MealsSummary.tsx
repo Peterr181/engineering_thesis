@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import styles from "./MealsSummary.module.scss";
-import MaxWidthWrapper from "../MaxWidthWrapper/MaxWidthWrapper";
 import { useMeals } from "../../../hooks/useMeals";
 import WhiteCardWrapper from "../../atomic/WhiteCardWrapper/WhiteCardWrapper";
 import { Button } from "@mui/material";
@@ -28,61 +27,59 @@ const MealsSummary = () => {
   return (
     <div className={styles.mealssummary}>
       <WhiteCardWrapper>
-        <MaxWidthWrapper>
-          <div className={styles.mealsPlanInitial}>
-            <div>
-              <h2>Calories summary</h2>
-              <p>Check your total daily calories</p>
-            </div>
-            <Link to="/mealsplan">
-              <div>
-                <Button variant="contained" color="info">
-                  MEALS PLAN
-                </Button>
-              </div>
-            </Link>
+        <div className={styles.mealsPlanInitial}>
+          <div>
+            <h2>Calories summary</h2>
+            <p>Check your total daily calories</p>
           </div>
+          <Link to="/mealsplan">
+            <div>
+              <Button variant="contained" color="info">
+                MEALS PLAN
+              </Button>
+            </div>
+          </Link>
+        </div>
 
-          {mealSummaryData ? (
-            <div className={styles.mealCalories}>
-              <div className={styles.mealCalories__total}>
-                <div className={styles.mealCalories__item}>
-                  <span className={styles.mealCalories__label}>kcal</span>
-                  <span className={styles.mealCalories__calories}>
-                    {Math.round(mealSummaryData.totalCalories)} /{" "}
-                    {caloricIntakeGoal}
-                  </span>
-                </div>
+        {mealSummaryData ? (
+          <div className={styles.mealCalories}>
+            <div className={styles.mealCalories__total}>
+              <div className={styles.mealCalories__item}>
+                <span className={styles.mealCalories__label}>kcal</span>
+                <span className={styles.mealCalories__calories}>
+                  {Math.round(mealSummaryData.totalCalories)} /{" "}
+                  {caloricIntakeGoal}
+                </span>
+              </div>
 
-                <div className={styles.mealCalories__item}>
-                  <span className={styles.mealCalories__label}>Protein</span>
-                  <span className={styles.mealCalories__protein}>
-                    {Math.round(mealSummaryData.totalProtein)}g /{" "}
-                    {Math.round(proteinGoal)}g
-                  </span>
-                </div>
+              <div className={styles.mealCalories__item}>
+                <span className={styles.mealCalories__label}>Protein</span>
+                <span className={styles.mealCalories__protein}>
+                  {Math.round(mealSummaryData.totalProtein)}g /{" "}
+                  {Math.round(proteinGoal)}g
+                </span>
+              </div>
 
-                <div className={styles.mealCalories__item}>
-                  <span className={styles.mealCalories__label}>Carbs</span>
-                  <span className={styles.mealCalories__carbs}>
-                    {Math.round(mealSummaryData.totalCarbs)}g /{" "}
-                    {Math.round(carbsGoal)}g
-                  </span>
-                </div>
+              <div className={styles.mealCalories__item}>
+                <span className={styles.mealCalories__label}>Carbs</span>
+                <span className={styles.mealCalories__carbs}>
+                  {Math.round(mealSummaryData.totalCarbs)}g /{" "}
+                  {Math.round(carbsGoal)}g
+                </span>
+              </div>
 
-                <div className={styles.mealCalories__item}>
-                  <span className={styles.mealCalories__label}>Fats</span>
-                  <span className={styles.mealCalories__fats}>
-                    {Math.round(mealSummaryData.totalFats)}g /{" "}
-                    {Math.round(fatsGoal)}g
-                  </span>
-                </div>
+              <div className={styles.mealCalories__item}>
+                <span className={styles.mealCalories__label}>Fats</span>
+                <span className={styles.mealCalories__fats}>
+                  {Math.round(mealSummaryData.totalFats)}g /{" "}
+                  {Math.round(fatsGoal)}g
+                </span>
               </div>
             </div>
-          ) : (
-            <p>Loading...</p>
-          )}
-        </MaxWidthWrapper>
+          </div>
+        ) : (
+          <p>Loading...</p>
+        )}
       </WhiteCardWrapper>
     </div>
   );

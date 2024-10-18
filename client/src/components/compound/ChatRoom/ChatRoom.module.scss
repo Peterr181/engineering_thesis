@@ -1,0 +1,162 @@
+.chatRoomContainer {
+  display: flex;
+  flex-direction: column;
+  height: 65vh;
+  background-color: #f0f2f5;
+  margin-top: 32px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgb(137, 196, 137);
+
+    button {
+      border: 1px solid #fff;
+      margin-right: 15px;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    svg {
+      cursor: pointer;
+      margin-right: 10px;
+    }
+  }
+}
+
+.chatHeader {
+  padding: 10px 20px;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.chatMessages {
+  flex-grow: 1;
+  padding: 15px;
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: white;
+  border-top: 1px solid #e5e5e5;
+}
+
+.message {
+  max-width: 60%;
+  padding: 10px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.message--mine {
+  align-self: flex-end;
+  background-color: rgb(126, 182, 126);
+  color: white;
+  text-align: right;
+}
+
+.message--other {
+  align-self: flex-start;
+  background-color: #f1f0f0;
+  color: #333;
+}
+
+.chatInputWrapper {
+  display: flex;
+  background-color: #fff;
+  padding: 10px;
+  border-top: 1px solid #e5e5e5;
+}
+
+.chatInput {
+  flex-grow: 1;
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  outline: none;
+  background-color: #f9f9f9;
+}
+
+.sendButton {
+  margin-left: 10px;
+  background-color: #0084ff;
+  font-weight: 600;
+  color: white;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.sendButton:hover {
+  background-color: #006fdd;
+}
+
+.messageContainer {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.message {
+  position: relative;
+  max-width: 60%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.timestamp {
+  font-size: 0.7rem;
+  color: #888;
+  align-self: flex-end;
+  margin-top: 5px;
+  text-align: right;
+}
+
+.timestampContainer {
+  position: absolute;
+  right: 20px;
+  bottom: -20px;
+}
+
+.chatRoomWrapper {
+  position: relative;
+
+  &__images {
+  }
+}
+
+.image1 {
+  position: absolute;
+  top: 50%;
+  right: 60px;
+  width: 100px;
+  height: 100px;
+}
+
+.image2 {
+  position: absolute;
+  right: 50%;
+  left: 50%;
+  bottom: -100px;
+  width: 100px;
+  height: 100px;
+}
