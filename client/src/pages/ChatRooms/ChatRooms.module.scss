@@ -1,0 +1,52 @@
+.chatRoomsWrapper {
+  margin-top: var(--rythm-32);
+
+  .roomsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--rythm-24);
+    margin-top: var(--rythm-16);
+  }
+
+  .roomCard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--rythm-24);
+    background-color: #f9f9f9;
+    border-radius: var(--rythm-16);
+    box-shadow: 0px 8px 16px rgba(17, 17, 17, 0.06);
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid #e0e0e0;
+
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: 0px 12px 24px rgba(17, 17, 17, 0.12);
+    }
+  }
+
+  .roomDetails {
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0;
+      text-transform: capitalize;
+    }
+
+    p {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: var(--rythm-8);
+    }
+  }
+
+  .roomIcon {
+    font-size: 2rem;
+    background-color: #e0e7ff;
+    padding: var(--rythm-16);
+    border-radius: 50%;
+    margin-left: var(--rythm-16);
+  }
+}
