@@ -65,8 +65,8 @@ const Finder = () => {
   const defaultPosition: LatLngExpression = [52.22977, 21.01178];
 
   return (
-    <section className={styles.finder}>
-      <PlatformWrapper>
+    <PlatformWrapper>
+      <section className={styles.finder}>
         <MaxWidthWrapper>
           <WhiteCardWrapper>
             <h2>Look for new sport places</h2>
@@ -116,8 +116,8 @@ const Finder = () => {
             </div>
           </WhiteCardWrapper>
         </MaxWidthWrapper>
-      </PlatformWrapper>
-    </section>
+      </section>
+    </PlatformWrapper>
   );
 };
 

@@ -16,57 +16,59 @@ const Profile: React.FC = () => {
 
   return (
     <PlatformWrapper>
-      <MaxWidthWrapper>
-        <WhiteCardWrapper>
-          <div className={styles.profileWrapper}>
-            <div className={styles.profile}>
-              <h2>User profile</h2>
-              <div className={styles.profile__nav}>
-                <div
-                  className={`${styles.profile__nav__item} ${
-                    activeTab === "Personal info" ? styles.active : ""
-                  }`}
-                  onClick={() => handleNavClick("Personal info")}
-                >
-                  {iconFile.usersIcon}
-                  <p>Personal info</p>
-                </div>
-                <div
-                  className={`${styles.profile__nav__item} ${
-                    activeTab === "Email & password" ? styles.active : ""
-                  }`}
-                  onClick={() => handleNavClick("Email & password")}
-                >
-                  {iconFile.emailIcon}
-                  <p>Email & password</p>
-                </div>
-                <div
-                  className={`${styles.profile__nav__item} ${
-                    activeTab === "Notifications" ? styles.active : ""
-                  }`}
-                  onClick={() => handleNavClick("Notifications")}
-                >
-                  {iconFile.notifyIcon}
-                  <p>Notifications</p>
-                </div>
-                <div
-                  className={`${styles.profile__nav__item} ${
-                    activeTab === "Information" ? styles.active : ""
-                  }`}
-                  onClick={() => handleNavClick("Information")}
-                >
-                  {iconFile.infoIcon}
-                  <p>Information</p>
+      <div className={styles.profileContainer}>
+        <MaxWidthWrapper>
+          <WhiteCardWrapper>
+            <div className={styles.profileWrapper}>
+              <div className={styles.profile}>
+                <h2>User profile</h2>
+                <div className={styles.profile__nav}>
+                  <div
+                    className={`${styles.profile__nav__item} ${
+                      activeTab === "Personal info" ? styles.active : ""
+                    }`}
+                    onClick={() => handleNavClick("Personal info")}
+                  >
+                    {iconFile.usersIcon}
+                    <p>Personal info</p>
+                  </div>
+                  <div
+                    className={`${styles.profile__nav__item} ${
+                      activeTab === "Email & password" ? styles.active : ""
+                    }`}
+                    onClick={() => handleNavClick("Email & password")}
+                  >
+                    {iconFile.emailIcon}
+                    <p>Email & password</p>
+                  </div>
+                  <div
+                    className={`${styles.profile__nav__item} ${
+                      activeTab === "Notifications" ? styles.active : ""
+                    }`}
+                    onClick={() => handleNavClick("Notifications")}
+                  >
+                    {iconFile.notifyIcon}
+                    <p>Notifications</p>
+                  </div>
+                  <div
+                    className={`${styles.profile__nav__item} ${
+                      activeTab === "Information" ? styles.active : ""
+                    }`}
+                    onClick={() => handleNavClick("Information")}
+                  >
+                    {iconFile.infoIcon}
+                    <p>Information</p>
+                  </div>
                 </div>
               </div>
+              {activeTab === "Personal info" && <PersonalInfo />}
+              {activeTab === "Email & password" && <EmailPassword />}
+              {activeTab === "Notifications" && <PersonalInfo />}
+              {activeTab === "Information" && <PersonalInfo />}
             </div>
-            {activeTab === "Personal info" && <PersonalInfo />}
-            {activeTab === "Email & password" && <EmailPassword />}
-            {activeTab === "Notifications" && <PersonalInfo />}
-            {activeTab === "Information" && <PersonalInfo />}
-          </div>
-        </WhiteCardWrapper>
-      </MaxWidthWrapper>
+          </WhiteCardWrapper>
+        </MaxWidthWrapper>
+      </div>
     </PlatformWrapper>
   );
 };
