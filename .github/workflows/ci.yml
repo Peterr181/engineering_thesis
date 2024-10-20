@@ -21,12 +21,12 @@ jobs:
           MYSQL_PASSWORD: ${{ secrets.PASSWORD }}
           MYSQL_ROOT_PASSWORD: ${{ secrets.PASSWORD }}
         ports:
-          - 33306:3306 # Changed port to avoid conflicts
+          - 33306:3306 # Expose the internal MySQL port 3306 as 33306
         options: >-
           --health-cmd "mysqladmin ping --silent"
-          --health-interval 20s  # Increased from 10s
-          --health-timeout 10s   # Increased timeout
-          --health-retries 10    # Increased retries
+          --health-interval 20s
+          --health-timeout 10s
+          --health-retries 10
 
     steps:
       - name: Checkout code
