@@ -1,0 +1,74 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_DB: ${{ secrets.DATABASE }}
+          POSTGRES_USER: ${{ secrets.USER }}
+          POSTGRES_PASSWORD: ${{ secrets.PASSWORD }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ${{ secrets.USER }}"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Set up Node.js environment
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+
+    # Install and test backend (server)
+    - name: Install and test server
+      working-directory: ./server
+      env:
+        PORT: ${{ secrets.PORT }}
+        USER: ${{ secrets.USER }}
+        HOST: ${{ secrets.HOST }}
+        DATABASE: ${{ secrets.DATABASE }}
+        PASSWORD: ${{ secrets.PASSWORD }}
+        DBPORT: ${{ secrets.DBPORT }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      run: |
+        npm install
+        npm test
+
+    # Install and build frontend (client)
+    - name: Install and build client
+      working-directory: ./client
+      env:
+        VITE_REACT_APP_CLIENT_ID: ${{ secrets.VITE_REACT_APP_CLIENT_ID }}
+        VITE_REACT_APP_MEALS_API_ID: ${{ secrets.VITE_REACT_APP_MEALS_API_ID }}
+        VITE_REACT_APP_MEALS_API_KEY: ${{ secrets.VITE_REACT_APP_MEALS_API_KEY }}
+        VITE_REACT_APP_GEOCODING_API_KEY: ${{ secrets.VITE_REACT_APP_GEOCODING_API_KEY }}
+      run: |
+        npm install
+        npm run build
+
+    # Deploy to Heroku (optional) - Disabled for now
+    # - name: Deploy to Heroku
+    #   if: github.ref == 'refs/heads/main' && success()
+    #   env:
+    #     HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+    #   run: |
+    #     git remote add heroku https://git.heroku.com/<your-app-name>.git
+    #     git push heroku main
