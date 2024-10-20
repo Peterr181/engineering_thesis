@@ -163,14 +163,14 @@ const Meals = () => {
                         </span>
                       </div>
                     </div>
-                    <div>
+                    {/* <div>
                       <Button
                         variant="almostGreen"
                         rightIcon={iconFile.addIcon}
                       >
                         Add
                       </Button>
-                    </div>
+                    </div> */}
                   </div>
                 ))}
               <Button variant="primary" onClick={fetchNextPage}>

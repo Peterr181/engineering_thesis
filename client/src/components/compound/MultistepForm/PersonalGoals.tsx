@@ -227,6 +227,39 @@ const PersonalGoals: React.FC = () => {
             )}
           />
 
+          {/* Workout Frequency */}
+          <Controller
+            name="workout_frequency"
+            control={control}
+            rules={{
+              required: "Workout Frequency is required.",
+            }}
+            render={({ field }) => (
+              <TextField
+                select
+                label={labelMappings.workout_frequency}
+                {...field}
+                fullWidth
+                margin="normal"
+                error={!!errors.workout_frequency}
+                helperText={errors.workout_frequency?.message}
+              >
+                <MenuItem value="1-2 workouts per week">
+                  1-2 workouts per week
+                </MenuItem>
+                <MenuItem value="2-3 workouts per week">
+                  2-3 workouts per week
+                </MenuItem>
+                <MenuItem value="3-4 workouts per week">
+                  3-4 workouts per week
+                </MenuItem>
+                <MenuItem value="4-5 workouts per week">
+                  4-5 workouts per week
+                </MenuItem>
+              </TextField>
+            )}
+          />
+
           {/* Personal Bests */}
           <Controller
             name="personal_bests"

@@ -20,9 +20,10 @@ const labelMappings: { [key: string]: string } = {
   steps_daily: "Steps Daily",
   skill_level: "Level of Skill in Sports",
   caloric_intake_goal: "Daily Caloric",
-  body_measurements: "Body Measurements",
+  body_measurements: "Height",
   workout_frequency: "Workout Frequency",
   personal_bests: "Personal Bests",
+  weight: "Weight",
 };
 
 const icons: { [key: string]: JSX.Element } = {
@@ -33,9 +34,10 @@ const icons: { [key: string]: JSX.Element } = {
   steps_daily: iconFile.stepsColorIcon,
   skill_level: iconFile.skillColorIcon,
   caloric_intake_goal: iconFile.mealColorIcon,
-  body_measurements: iconFile.weightColorIcon,
+  body_measurements: iconFile.heightColorIcon,
   workout_frequency: iconFile.timeColorIcon,
   personal_bests: iconFile.personalColorIcon,
+  weight: iconFile.weightColorIcon,
 };
 
 const PersonalInfo: React.FC = () => {

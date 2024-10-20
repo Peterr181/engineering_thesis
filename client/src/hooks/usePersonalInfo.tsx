@@ -7,12 +7,10 @@ export interface PersonalInfoType {
 }
 
 const defaultPersonalInfoData: PersonalInfoType[] = [
-  { label: "nickname", value: "" },
   { label: "favorite_training_type", value: "" },
   { label: "current_fitness_goals", value: "" },
   { label: "water_drunk_daily", value: "" },
   { label: "steps_daily", value: "" },
-  { label: "skill_level", value: "" },
   { label: "caloric_intake_goal", value: "" },
   { label: "body_measurements", value: "" },
   { label: "workout_frequency", value: "" },

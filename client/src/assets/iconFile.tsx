@@ -35,6 +35,77 @@ export const iconFile = {
       </g>
     </svg>
   ),
+  heightColorIcon: (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" id="weight">
+      <g>
+        <rect width="24" height="24" x="30" y="22" fill="#daa857"></rect>
+        <rect width="26" height="9" x="29" y="22" fill="#daa857"></rect>
+        <rect width="2" height="2" x="49" y="40" fill="#c99b50"></rect>
+        <rect width="2" height="2" x="45" y="40" fill="#c99b50"></rect>
+        <rect width="2" height="2" x="49" y="36" fill="#c99b50"></rect>
+        <rect width="24" height="2" x="30" y="31" fill="#ba8630"></rect>
+        <polygon
+          fill="#86c8d1"
+          points="46 37 42 35 38 37 38 22 46 22 46 37"
+        ></polygon>
+        <rect width="8" height="9" x="38" y="22" fill="#a8d6da"></rect>
+        <rect width="8" height="2" x="38" y="31" fill="#8aced8"></rect>
+        <path
+          fill="#cdcdcd"
+          d="M50.5,55h0A2.5,2.5,0,0,1,53,57.5V59a0,0,0,0,1,0,0H48a0,0,0,0,1,0,0V57.5A2.5,2.5,0,0,1,50.5,55Z"
+        ></path>
+        <rect width="1" height="3" x="50" y="53" fill="#cdcdcd"></rect>
+        <path
+          fill="#cdcdcd"
+          d="M15.5,55h0A2.5,2.5,0,0,1,18,57.5V59a0,0,0,0,1,0,0H13a0,0,0,0,1,0,0V57.5A2.5,2.5,0,0,1,15.5,55Z"
+        ></path>
+        <rect width="1" height="3" x="15" y="53" fill="#cdcdcd"></rect>
+        <circle cx="15" cy="16" r="11" fill="#d9d9d9"></circle>
+        <rect width="2" height="4" x="14" y="5" fill="#6fbbc6"></rect>
+        <rect
+          width="4.243"
+          height="2"
+          x="19.379"
+          y="8.5"
+          fill="#6fbbc6"
+          transform="rotate(-45 21.5 9.5)"
+        ></rect>
+        <rect
+          width="2"
+          height="4.243"
+          x="7.5"
+          y="7.379"
+          fill="#6fbbc6"
+          transform="rotate(-45 8.5 9.5)"
+        ></rect>
+        <rect
+          width="11.662"
+          height="2"
+          x="9.169"
+          y="17"
+          fill="#6fbbc6"
+          transform="rotate(-59 15.01 18.008)"
+        ></rect>
+        <rect width="4" height="20" x="13" y="26" fill="#f3af3e"></rect>
+        <rect width="50" height="6" x="8" y="45" fill="#69b0bb"></rect>
+        <rect width="44" height="4" x="11" y="51" fill="#b9b9b9"></rect>
+        <rect width="44" height="2" x="11" y="51" fill="#a8a8a8"></rect>
+        <path fill="#ea9d2d" d="M4.19,18a10.992,10.992,0,0,0,21.62,0Z"></path>
+        <path
+          fill="#f3af3e"
+          d="M15,28A12,12,0,1,1,27,16,12.013,12.013,0,0,1,15,28ZM15,6A10,10,0,1,0,25,16,10.011,10.011,0,0,0,15,6Z"
+        ></path>
+        <path
+          fill="#ea9d2d"
+          d="M17,29.819V27.8a10,10,0,0,1-4,0v2.021A11.986,11.986,0,0,0,15,30,11.986,11.986,0,0,0,17,29.819Z"
+        ></path>
+        <path d="M12,27.605V44H8a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h2v3a1,1,0,0,0,1,1h1.351A3.464,3.464,0,0,0,12,57.5V59a1,1,0,0,0,1,1h5a1,1,0,0,0,1-1V57.5a3.464,3.464,0,0,0-.351-1.5h28.7A3.464,3.464,0,0,0,47,57.5V59a1,1,0,0,0,1,1h5a1,1,0,0,0,1-1V57.5a3.464,3.464,0,0,0-.351-1.5H55a1,1,0,0,0,1-1V52h2a1,1,0,0,0,1-1V45a1,1,0,0,0-1-1H55V32a1,1,0,0,0,1-1V22a1,1,0,0,0-1-1H29a1,1,0,0,0-1,1v9a1,1,0,0,0,1,1V44H18V27.605a12,12,0,1,0-6,0Zm5,29.9V58H14v-.5a1.5,1.5,0,0,1,3,0Zm35,0V58H49v-.5a1.5,1.5,0,0,1,3,0ZM54,54H12V52H54Zm3-4H9V46H57ZM54,30H47V23h7Zm-9-7v7H39V23Zm-6,9h6v3.382L42.447,34.1a1,1,0,0,0-.894,0L39,35.382Zm-9-9h7v7H30Zm1,9h6v5a1,1,0,0,0,1.447.9L42,36.118,45.553,37.9A1,1,0,0,0,47,37V32h6V44H31ZM16,44H14V27.949c.331.028.662.051,1,.051s.669-.023,1-.051ZM15,26a10.016,10.016,0,0,1-9.539-7H24.539A10.016,10.016,0,0,1,15,26ZM7.262,9.676l2.031,2.031,1.414-1.414L8.676,8.262A9.945,9.945,0,0,1,14,6.051V9h2V6.051a9.945,9.945,0,0,1,5.324,2.211l-2.031,2.031,1.414,1.414,2.031-2.031A9.953,9.953,0,0,1,24.949,17H16.766l2.091-3.485-1.714-1.03L14.434,17H5.051A9.953,9.953,0,0,1,7.262,9.676Z"></path>
+        <rect width="2" height="2" x="49" y="40"></rect>
+        <rect width="2" height="2" x="45" y="40"></rect>
+        <rect width="2" height="2" x="49" y="36"></rect>
+      </g>
+    </svg>
+  ),
   arrowRight: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
