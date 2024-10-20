@@ -1,0 +1,70 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: ${{ secrets.DATABASE }}
+          MYSQL_USER: ${{ secrets.USER }}
+          MYSQL_PASSWORD: ${{ secrets.PASSWORD }}
+          MYSQL_ROOT_PASSWORD: ${{ secrets.PASSWORD }}
+        ports:
+          - 33306:3306
+        options: >-
+          --health-cmd "mysqladmin ping --silent"
+          --health-interval 20s  # Increased from 10s
+          --health-timeout 10s   # Increased timeout
+          --health-retries 10    # Increased retries
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      # Install and test backend (server)
+      - name: Install and test server
+        working-directory: ./server
+        env:
+          PORT: ${{ secrets.PORT }}
+          USER: ${{ secrets.USER }}
+          HOST: 127.0.0.1
+          DATABASE: ${{ secrets.DATABASE }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          DBPORT: 33306 # Match the changed port
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        run: |
+          npm install
+          npm test
+
+      # Install and build frontend (client)
+      - name: Install and build client
+        working-directory: ./client
+        env:
+          VITE_REACT_APP_CLIENT_ID: ${{ secrets.VITE_REACT_APP_CLIENT_ID }}
+          VITE_REACT_APP_MEALS_API_ID: ${{ secrets.VITE_REACT_APP_MEALS_API_ID }}
+          VITE_REACT_APP_MEALS_API_KEY: ${{ secrets.VITE_REACT_APP_MEALS_API_KEY }}
+          VITE_REACT_APP_GEOCODING_API_KEY: ${{ secrets.VITE_REACT_APP_GEOCODING_API_KEY }}
+        run: |
+          npm install
+          npm run build
+
+      # Debug step: MySQL logs
+      - name: MySQL Logs
+        run: docker logs $(docker ps -q --filter "ancestor=mysql:8.0")
