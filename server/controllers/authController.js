@@ -56,21 +56,41 @@ export const register = (req, res) => {
 export const login = (req, res) => {
   const { username, password } = req.body;
 
+  console.log(`Login attempt for username: ${username}`); // Log the attempt
+
   const sql = "SELECT * FROM users WHERE username = ?";
   db.query(sql, [username], (err, data) => {
-    if (err) return handleError(res, 500, "Internal Server Error");
+    if (err) {
+      console.error("Database query error:", err); // Log query errors
+      return handleError(res, 500, "Internal Server Error");
+    }
 
-    if (data.length === 0) return handleError(res, 404, "User not found");
+    if (data.length === 0) {
+      console.warn(`User not found: ${username}`); // Log user not found
+      return handleError(res, 404, "User not found");
+    }
 
     const user = data[0];
-    bcrypt.compare(password.toString(), user.password, (err, isMatch) => {
-      if (err) return handleError(res, 500, "Internal Server Error");
+    console.log(`User found: ${user.username}, ID: ${user.id}`); // Log found user
 
-      if (!isMatch) return handleError(res, 401, "Invalid credentials");
+    bcrypt.compare(password.toString(), user.password, (err, isMatch) => {
+      if (err) {
+        console.error("Error comparing password:", err); // Log password comparison errors
+        return handleError(res, 500, "Internal Server Error");
+      }
+
+      if (!isMatch) {
+        console.warn(`Invalid credentials for username: ${username}`); // Log invalid credentials
+        return handleError(res, 401, "Invalid credentials");
+      }
 
       const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
         expiresIn: "1d",
       });
+
+      console.log(
+        `User logged in successfully: ${user.username}, ID: ${user.id}`
+      ); // Log successful login
 
       return res.status(200).json({
         status: "Success",
