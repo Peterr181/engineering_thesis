@@ -35,6 +35,8 @@ const WorkoutPlan = () => {
     }
     return null;
   };
+
+  console.log(workouts);
   return (
     <PlatformWrapper>
       <div className={styles.workoutPlanWrapper}>
@@ -67,24 +69,29 @@ const WorkoutPlan = () => {
                 <div className={styles.workoutPlan__trainings__trainingsList}>
                   {loading && <p>Loading workouts...</p>}
                   {error && <p style={{ color: "red" }}>{error}</p>}
-                  {workouts.map((workout, index) => (
-                    <Workout
-                      key={index}
-                      id={workout.id}
-                      day={workout.day}
-                      month={workout.month}
-                      name={workout.exercise_name || "Unnamed Workout"}
-                      status={
-                        workout.finished ? Status.FINISHED : Status.NOT_STARTED
-                      }
-                      category={
-                        Category[
-                          workout.exercise_type as keyof typeof Category
-                        ] || Category.GYM
-                      }
-                      onFinish={() => finishWorkout(workout.id)}
-                    />
-                  ))}
+                  {workouts.map((workout, index) => {
+                    const workoutCategory =
+                      Category[
+                        (workout.exercise_type?.toUpperCase() as keyof typeof Category) ||
+                          Category.GYM
+                      ] || Category.GYM;
+                    return (
+                      <Workout
+                        key={index}
+                        id={workout.id}
+                        day={workout.day}
+                        month={workout.month}
+                        name={workout.exercise_name || "Unnamed Workout"}
+                        status={
+                          workout.finished
+                            ? Status.FINISHED
+                            : Status.NOT_STARTED
+                        }
+                        category={workoutCategory}
+                        onFinish={() => finishWorkout(workout.id)}
+                      />
+                    );
+                  })}
                 </div>
               </WhiteCardWrapper>
             </div>
