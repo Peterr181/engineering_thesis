@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { config } from "dotenv";
 import { Server } from "socket.io"; // Import Socket.IO
+import path from "path"; // Import path module for resolving paths
 
 import mealsRoutes from "./routes/mealsRoutes.js";
 import workoutRoutes from "./routes/workoutRoutes.js";
@@ -39,6 +40,19 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
+
+// Serve static files from the dist directory
+app.use(express.static(path.join(__dirname, "../client/dist")));
+
+// Define a route for the root URL
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+});
+
+// Catch-all route for Single Page Application (SPA) behavior
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+});
 
 // Routes
 app.use("/auth", authRoutes);
@@ -83,6 +97,7 @@ io.on("connection", (socket) => {
     console.log("A user disconnected");
   });
 });
+
 // Start the server
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
