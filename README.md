@@ -8,6 +8,12 @@ You can visit this website here! It's deployed on Heroku!
 [https://gymero-882311e33226.herokuapp.com/]
 
 
+
+
+![Uploading obraz.png…]()
+
+
+
 ## Functionalities:
 
 Done:
