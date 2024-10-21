@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs"; // Use bcryptjs
 import jwt from "jsonwebtoken";
-import db from "../db/db";
+import db from "../db/db.js";
 
 const saltRounds = 10;
 

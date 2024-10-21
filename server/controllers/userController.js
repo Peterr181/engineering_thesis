@@ -1,4 +1,4 @@
-import db from "../db/db";
+import db from "../db/db.js";
 
 export const getProfile = (req, res) => {
   const userId = req.user.userId;

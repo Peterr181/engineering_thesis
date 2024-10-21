@@ -1,4 +1,4 @@
-import db from "../db/db";
+import db from "../db/db.js";
 
 export const createMeal = (req, res) => {
   const { name, type, calories, protein, carbs, fats, grams } = req.body;

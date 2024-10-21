@@ -1,4 +1,4 @@
-import db from "../db/db";
+import db from "../db/db.js";
 
 export const createWorkout = (req, res) => {
   const { day, month, description, exercise_name, exercise_type } = req.body;
