@@ -43,17 +43,18 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-// Serve static files
-app.use(express.static(path.resolve("./client/dist")));
+// Serve static files from the correct client/dist directory
+const clientPath = path.resolve(__dirname, "../client/dist");
+app.use(express.static(clientPath));
 
-// Define routes
+// Define the root route to serve the index.html file
 app.get("/", (req, res) => {
-  res.sendFile(path.resolve("./client/dist/index.html"));
+  res.sendFile(path.join(clientPath, "index.html"));
 });
 
 // Catch-all route for SPA
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve("./client/dist/index.html"));
+  res.sendFile(path.join(clientPath, "index.html"));
 });
 
 // API routes
