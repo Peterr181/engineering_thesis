@@ -17,7 +17,8 @@ const UpcomingWorkouts = () => {
     fetchWorkouts(true);
   }, []);
 
-  const upcomingWorkouts = workouts.filter((workout) => !workout.finished);
+  const upcomingWorkouts =
+    workouts?.filter((workout) => !workout.finished) || [];
 
   return (
     <div className={styles.upcomingWorkouts}>

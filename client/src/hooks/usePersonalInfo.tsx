@@ -45,8 +45,12 @@ export const usePersonalInfo = () => {
         "https://gymero-882311e33226.herokuapp.com/api/personal-info"
       );
 
+      // Log the response to check its structure
+      console.log("API Response:", response.data);
+
       const fetchedData = response.data.personalInfo || {}; // Default to empty object if undefined
 
+      // Ensure fetchedData exists and has the required properties
       const updatedPersonalInfoData = defaultPersonalInfoData.map((info) => ({
         ...info,
         value: fetchedData[info.label] || "", // Ensure fetchedData exists
