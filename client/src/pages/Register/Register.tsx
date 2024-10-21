@@ -15,7 +15,10 @@ const Register = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8081/auth/register", registerValues)
+      .post(
+        "http://gymero-882311e33226.herokuapp.com/auth/register",
+        registerValues
+      )
       .then((res) => {
         if (res.data.status === "Success") {
           navigate("/login");

@@ -21,7 +21,7 @@ const ChatRooms: React.FC = () => {
     const fetchRooms = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8081/api/chat/rooms"
+          "http://gymero-882311e33226.herokuapp.com/api/chat/rooms"
         );
         setRooms(response.data.rooms);
       } catch (err) {

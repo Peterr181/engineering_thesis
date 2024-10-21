@@ -24,7 +24,7 @@ const Navbar: React.FC = () => {
 
   const handleLogout = () => {
     axios
-      .get("http://localhost:8081/auth/logout")
+      .get("http://gymero-882311e33226.herokuapp.com/auth/logout")
       .then(() => {
         localStorage.removeItem("token");
         location.reload();
