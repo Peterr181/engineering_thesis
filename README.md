@@ -3,6 +3,10 @@
 
 This is huge full-stack web application where users can browse through multiple of exercises data search for their favourite foods, create meals from foods. Users are also able to find nearest gym objects depends on city they enter. Users can browse through all users registered on this website chat with them share their personal achievements, workout plans and their diets to maybe get more knowledge or some idea from others.
 
+You can visit this website here! It's deployed on Heroku!
+
+<a>gymero-882311e33226.herokuapp.com/</a>
+
 
 ## Functionalities:
 
