@@ -5,7 +5,7 @@ This is huge full-stack web application where users can browse through multiple 
 
 You can visit this website here! It's deployed on Heroku!
 
-[Check this out]([https://pages.github.com](https://gymero-882311e33226.herokuapp.com/)).
+[https://gymero-882311e33226.herokuapp.com/]
 
 
 ## Functionalities:
