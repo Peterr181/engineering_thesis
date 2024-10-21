@@ -13,7 +13,7 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     axios
-      .get("http://gymero-882311e33226.herokuapp.com/auth/logout")
+      .get("https://gymero-882311e33226.herokuapp.com/auth/logout")
       .then(() => {
         localStorage.removeItem("token");
         location.reload();

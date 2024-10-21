@@ -35,7 +35,7 @@ const ChatRoom: React.FC = () => {
     const fetchRoomName = async (roomId: number) => {
       try {
         const response = await axios.get(
-          `http://gymero-882311e33226.herokuapp.com/api/chat/rooms/${roomId}/name`
+          `https://gymero-882311e33226.herokuapp.com/api/chat/rooms/${roomId}/name`
         );
         setRoomName(response.data.roomName);
       } catch (error) {
@@ -49,7 +49,7 @@ const ChatRoom: React.FC = () => {
     const fetchChatHistory = async () => {
       try {
         const response = await axios.get(
-          `http://gymero-882311e33226.herokuapp.com/api/chat/rooms/${roomId}/history`
+          `https://gymero-882311e33226.herokuapp.com/api/chat/rooms/${roomId}/history`
         );
         setMessages(response.data.messages);
       } catch (error) {
@@ -62,7 +62,7 @@ const ChatRoom: React.FC = () => {
 
   useEffect(() => {
     if (!socketRef.current) {
-      socketRef.current = io("http://gymero-882311e33226.herokuapp.com", {
+      socketRef.current = io("https://gymero-882311e33226.herokuapp.com", {
         withCredentials: true,
       });
 

@@ -44,7 +44,7 @@ const MultistepForm = () => {
 
     try {
       const response = await axios.post(
-        "http://gymero-882311e33226.herokuapp.com/auth/register",
+        "https://gymero-882311e33226.herokuapp.com/auth/register",
         data
       );
       if (response.status === 200) {

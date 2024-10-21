@@ -16,7 +16,7 @@ const Register = () => {
     e.preventDefault();
     axios
       .post(
-        "http://gymero-882311e33226.herokuapp.com/auth/register",
+        "https://gymero-882311e33226.herokuapp.com/auth/register",
         registerValues
       )
       .then((res) => {
