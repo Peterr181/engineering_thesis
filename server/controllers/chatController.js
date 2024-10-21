@@ -15,18 +15,18 @@ export const getRooms = (req, res) => {
 };
 
 // Save message to database
-export const saveMessage = (roomId, userId, message, callback) => {
-  const sql = `INSERT INTO chat_messages (room_id, user_id, message) VALUES (?, ?, ?)`;
+export const saveMessage = (roomId, userId, message) => {
+  return new Promise((resolve, reject) => {
+    const sql = `INSERT INTO chat_messages (room_id, user_id, message) VALUES (?, ?, ?)`;
 
-  db.query(sql, [roomId, userId, message], (err, result) => {
-    if (err) {
-      console.error("Error saving message:", err);
-      // Call the callback function with an error
-      return callback({ error: "Database error", details: err });
-    }
-
-    // Call the callback function with success status
-    callback(null, { status: "Success", message: "Message sent" });
+    db.query(sql, [roomId, userId, message], (err, result) => {
+      if (err) {
+        console.error("Error saving message:", err);
+        reject({ error: "Database error", details: err });
+      } else {
+        resolve({ status: "Success", message: "Message sent" });
+      }
+    });
   });
 };
 // Retrieve chat history

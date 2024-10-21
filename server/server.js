@@ -32,36 +32,44 @@ const PORT = process.env.PORT || 8081;
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:8081"],
+    origin:
+      process.env.NODE_ENV === "production"
+        ? "https://gymero-882311e33226.herokuapp.com" // Deployed frontend URL in production
+        : "http://localhost:5173", // Localhost for development
     methods: ["GET", "POST", "PUT", "PATCH"],
     credentials: true,
   },
 });
 
-// Middleware
+// Middleware for CORS
 app.use(
   cors({
-    origin: "http://localhost:8081", // Replace with your frontend URL if deployed
+    origin:
+      process.env.NODE_ENV === "production"
+        ? "https://gymero-882311e33226.herokuapp.com" // Deployed frontend URL in production
+        : "http://localhost:5173", // Localhost for development
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true, // Include this if your requests need credentials (like cookies)
+    credentials: true, // If using cookies or sessions
   })
 );
 app.use(express.json());
 app.use(cookieParser());
 
-// Serve static files from the correct client/dist directory
-const clientPath = path.resolve(__dirname, "../client/dist");
-app.use(express.static(clientPath));
+// Serve static files only in production
+if (process.env.NODE_ENV === "production") {
+  const clientPath = path.resolve(__dirname, "../client/dist");
+  app.use(express.static(clientPath));
 
-// Define the root route to serve the index.html file
-app.get("/", (req, res) => {
-  res.sendFile(path.join(clientPath, "index.html"));
-});
+  // Define the root route to serve the index.html file
+  app.get("/", (req, res) => {
+    res.sendFile(path.join(clientPath, "index.html"));
+  });
 
-// Catch-all route for SPA
-app.get("*", (req, res) => {
-  res.sendFile(path.join(clientPath, "index.html"));
-});
+  // Catch-all route for SPA
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(clientPath, "index.html"));
+  });
+}
 
 // API routes
 app.use("/auth", authRoutes);
