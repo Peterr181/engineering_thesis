@@ -1,3 +1,5 @@
+// server.js
+
 import express from "express";
 import http from "http";
 import cookieParser from "cookie-parser";
@@ -5,6 +7,7 @@ import cors from "cors";
 import { config } from "dotenv";
 import { Server } from "socket.io";
 import path from "path";
+import { fileURLToPath } from "url";
 
 // Import routes
 import mealsRoutes from "./routes/mealsRoutes.js";
@@ -17,6 +20,10 @@ import { saveMessage } from "./controllers/chatController.js";
 
 // Load environment variables
 config();
+
+// Define __filename and __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 8081;
