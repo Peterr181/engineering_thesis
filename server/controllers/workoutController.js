@@ -1,11 +1,4 @@
-import mysql from "mysql";
-
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "gymero",
-});
+import db from "../db/db";
 
 export const createWorkout = (req, res) => {
   const { day, month, description, exercise_name, exercise_type } = req.body;

@@ -1,11 +1,4 @@
-import mysql from "mysql";
-
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "gymero",
-});
+import db from "../db/db";
 
 export const setPersonalInfo = (req, res) => {
   const userId = req.user.userId;

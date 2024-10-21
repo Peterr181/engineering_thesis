@@ -1,13 +1,6 @@
 import bcrypt from "bcryptjs"; // Use bcryptjs
 import jwt from "jsonwebtoken";
-import mysql from "mysql";
-
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "gymero",
-});
+import db from "../db/db";
 
 const saltRounds = 10;
 

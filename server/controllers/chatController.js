@@ -1,12 +1,4 @@
-import mysql from "mysql";
-
-// Create DB connection
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "gymero",
-});
+import db from "../db/db";
 
 // Get all chat rooms
 export const getRooms = (req, res) => {
