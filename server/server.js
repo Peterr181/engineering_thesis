@@ -32,7 +32,7 @@ const PORT = process.env.PORT || 8081;
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:8081"],
     methods: ["GET", "POST", "PUT", "PATCH"],
     credentials: true,
   },
@@ -41,10 +41,9 @@ const io = new Server(server, {
 // Middleware
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
-    methods: ["POST", "GET", "PUT", "DELETE"],
-    credentials: true,
-    optionsSuccessStatus: 200,
+    origin: "http://localhost:8081", // Replace with your frontend URL if deployed
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true, // Include this if your requests need credentials (like cookies)
   })
 );
 app.use(express.json());
