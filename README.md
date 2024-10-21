@@ -1,4 +1,3 @@
-![obraz](https://github.com/user-attachments/assets/2289ceac-e5d2-4dfb-8627-aad1efa44c9b)
 # Engineering thesis Gymero
 
 This is huge full-stack web application where users can browse through multiple of exercises data search for their favourite foods, create meals from foods. Users are also able to find nearest gym objects depends on city they enter. Users can browse through all users registered on this website chat with them share their personal achievements, workout plans and their diets to maybe get more knowledge or some idea from others.
