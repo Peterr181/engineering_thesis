@@ -38,15 +38,19 @@ jobs:
         with:
           node-version: "16"
 
+      # Install nodemon globally
+      - name: Install nodemon globally
+        run: npm install -g nodemon
+
       # Install server dependencies
       - name: Install server dependencies
         working-directory: ./server
         run: npm install
 
-      # Start the Express backend
+      # Start the Express backend using nodemon
       - name: Start Express backend
         working-directory: ./server
-        run: npm start & # Use '&' to run it in the background
+        run: nodemon server.js & # Use '&' to run it in the background
 
       # Wait for Express server to be ready
       - name: Wait for Express server to be ready
