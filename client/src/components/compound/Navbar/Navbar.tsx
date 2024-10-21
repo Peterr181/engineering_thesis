@@ -42,7 +42,7 @@ const Navbar: React.FC = () => {
     <nav className={styles.navbar__wrapper}>
       <section className={styles.navbar}>
         <div className={styles.navbar__left}>
-          {!hasPersonalData && (
+          {!hasPersonalData && userProfile && (
             <>
               <Text textStyle="lg">
                 Set your personal details to use platform correctly
