@@ -49,6 +49,13 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+app.use("/auth", authRoutes);
+app.use("/user", userRoutes);
+app.use("/api/workouts", workoutRoutes);
+app.use("/api/meals", mealsRoutes);
+app.use("/api/personal-info", personalInfoRoutes);
+app.use("/api/chat", chatRoutes);
+
 // Serve static files only in production
 if (process.env.NODE_ENV === "production") {
   const clientPath = path.resolve(__dirname, "../client/dist");
@@ -66,12 +73,6 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // API routes
-app.use("/auth", authRoutes);
-app.use("/user", userRoutes);
-app.use("/api/workouts", workoutRoutes);
-app.use("/api/meals", mealsRoutes);
-app.use("/api/personal-info", personalInfoRoutes);
-app.use("/api/chat", chatRoutes);
 
 // Socket.IO event listeners
 io.on("connection", (socket) => {
