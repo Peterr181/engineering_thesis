@@ -88,7 +88,10 @@ export const useMeals = () => {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       }
 
-      const res = await axios.post("http://localhost:8081/api/meals", newMeal);
+      const res = await axios.post(
+        "https://gymero-882311e33226.herokuapp.com/api/meals",
+        newMeal
+      );
       if (res.data) {
         setMeals((prevMeals) => [...prevMeals, res.data]);
         await fetchMealSummary(); // Refresh the summary after adding a meal
@@ -111,7 +114,9 @@ export const useMeals = () => {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       }
 
-      await axios.delete(`http://localhost:8081/api/meals/${mealId}`);
+      await axios.delete(
+        `https://gymero-882311e33226.herokuapp.com/api/meals/${mealId}`
+      );
       fetchMeals();
       fetchMealSummary(); // Refresh the summary after deleting a meal
     } catch (err) {

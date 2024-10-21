@@ -32,10 +32,7 @@ const PORT = process.env.PORT || 8081;
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin:
-      process.env.NODE_ENV === "production"
-        ? "https://gymero-882311e33226.herokuapp.com" // Deployed frontend URL in production
-        : "http://localhost:5173", // Localhost for development
+    origin: ["https://gymero-882311e33226.herokuapp.com"],
     methods: ["GET", "POST", "PUT", "PATCH"],
     credentials: true,
   },
@@ -44,11 +41,8 @@ const io = new Server(server, {
 // Middleware for CORS
 app.use(
   cors({
-    origin:
-      process.env.NODE_ENV === "production"
-        ? "https://gymero-882311e33226.herokuapp.com" // Deployed frontend URL in production
-        : "http://localhost:5173", // Localhost for development
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    origin: ["https://gymero-882311e33226.herokuapp.com"],
+    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
     credentials: true, // If using cookies or sessions
   })
 );
