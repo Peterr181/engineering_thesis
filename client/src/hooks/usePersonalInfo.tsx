@@ -35,21 +35,21 @@ export const usePersonalInfo = () => {
     try {
       const token = localStorage.getItem("token");
 
-      if (token) {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      } else {
+      if (!token) {
         throw new Error("Unauthorized - No token found");
       }
+
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       const response = await axios.get(
         "https://gymero-882311e33226.herokuapp.com/api/personal-info"
       );
 
-      const fetchedData = response.data.personalInfo;
+      const fetchedData = response.data.personalInfo || {}; // Default to empty object if undefined
 
       const updatedPersonalInfoData = defaultPersonalInfoData.map((info) => ({
         ...info,
-        value: fetchedData[info.label] || "",
+        value: fetchedData[info.label] || "", // Ensure fetchedData exists
       }));
 
       setPersonalInfoData(updatedPersonalInfoData);
@@ -65,7 +65,6 @@ export const usePersonalInfo = () => {
         }
         console.error(err.response?.data || err.message);
       } else {
-        // Handle non-Axios error
         console.error("Unexpected error:", err);
         setError("An unexpected error occurred.");
       }
@@ -83,28 +82,26 @@ export const usePersonalInfo = () => {
     try {
       const token = localStorage.getItem("token");
 
-      if (token) {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      } else {
+      if (!token) {
         throw new Error("Unauthorized - No token found");
       }
+
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       let updatedFields: Record<string, string> = {};
 
       if (Array.isArray(updatedInfo)) {
-        // Handle multiple field updates
         updatedFields = updatedInfo.reduce((acc, field) => {
-          acc[field.label] = field.value;
+          acc[field.label] = field.value || ""; // Ensure value is defined
           return acc;
         }, {} as Record<string, string>);
       } else {
-        // Handle single field update
         updatedFields = {
           ...personalInfoData.reduce((acc, info) => {
-            acc[info.label] = info.value;
+            acc[info.label] = info.value || ""; // Ensure value is defined
             return acc;
           }, {} as Record<string, string>),
-          [updatedInfo.label]: updatedInfo.value,
+          [updatedInfo.label]: updatedInfo.value || "", // Ensure value is defined
         };
       }
 
