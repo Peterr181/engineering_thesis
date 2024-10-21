@@ -89,3 +89,14 @@ jobs:
       # Debug step: MySQL logs
       - name: MySQL Logs
         run: docker logs $(docker ps -q --filter "ancestor=mysql:8.0")
+
+      # Deploy to Heroku (only if on the master branch and build was successful)
+      - name: Deploy to Heroku
+        if: github.ref == 'refs/heads/main' && success()
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }} # Ensure you have this secret set in GitHub
+        run: |
+          echo "Adding Heroku remote..."
+          git remote add heroku https://git.heroku.com/gymero.git
+          echo "Pushing to Heroku..."
+          git push heroku main --force # Ensure you are pushing the right branch
