@@ -19,7 +19,7 @@ export const useLogin = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:8081/auth/login",
+        "https://gymero-882311e33226.herokuapp.com/auth/login",
         loginValues
       );
 

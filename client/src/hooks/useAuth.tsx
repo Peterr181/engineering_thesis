@@ -23,7 +23,7 @@ const useAuth = (): UserProfile | null => {
     }
 
     axios
-      .get("http://localhost:8081/user/profile")
+      .get("https://gymero-882311e33226.herokuapp.com/user/profile")
       .then((res) => {
         setUserProfile(res.data.user);
       })

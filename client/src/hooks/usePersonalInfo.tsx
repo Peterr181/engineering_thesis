@@ -42,7 +42,7 @@ export const usePersonalInfo = () => {
       }
 
       const response = await axios.get(
-        "http://localhost:8081/api/personal-info"
+        "https://gymero-882311e33226.herokuapp.com/api/personal-info"
       );
 
       const fetchedData = response.data.personalInfo;
@@ -109,7 +109,7 @@ export const usePersonalInfo = () => {
       }
 
       await axios.post(
-        "http://localhost:8081/api/personal-info",
+        "https://gymero-882311e33226.herokuapp.com/api/personal-info",
         updatedFields
       );
 

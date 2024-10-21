@@ -37,7 +37,9 @@ export const useMeals = () => {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       }
 
-      const res = await axios.get("http://localhost:8081/api/meals");
+      const res = await axios.get(
+        "https://gymero-882311e33226.herokuapp.com/api/meals"
+      );
 
       if (res.data) {
         setMeals(res.data.meals);

@@ -30,7 +30,7 @@ export const useWorkouts = () => {
       }
 
       const res = await axios.get(
-        `http://localhost:8081/api/workouts?sorted=${sorted}`
+        `https://gymero-882311e33226.herokuapp.com/api/workouts?sorted=${sorted}`
       );
 
       if (res.data) {
@@ -55,7 +55,7 @@ export const useWorkouts = () => {
       }
 
       const res = await axios.post(
-        "http://localhost:8081/api/workouts",
+        "https://gymero-882311e33226.herokuapp.com/api/workouts",
         newWorkout
       );
       if (res.data) {
@@ -81,7 +81,7 @@ export const useWorkouts = () => {
       }
 
       await axios.post(
-        `http://localhost:8081/api/workouts/${workoutId}/finish`
+        `https://gymero-882311e33226.herokuapp.com/api/workouts/${workoutId}/finish`
       );
 
       fetchWorkouts(false);
