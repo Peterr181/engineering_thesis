@@ -18,6 +18,8 @@ Done:
  - Browsing your exercises
  - Showing nearest exercises to do
  - Creating personal diet plan (setting calories that you want to have in diet, and products something like on fitatu)
+ - Online chat rooms with different sport hobbies
+ - CI/CD for github actions
 
 
 Closest things to be done:
