@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "./CreatingWorkout.module.scss";
 import PlatformWrapper from "../../components/compound/PlatformWrapper/PlatformWrapper";
 import MaxWidthWrapper from "../../components/compound/MaxWidthWrapper/MaxWidthWrapper";
@@ -17,19 +17,27 @@ import InputLabel from "@mui/material/InputLabel";
 import { useWorkouts } from "../../hooks/useWorkout";
 import { allExercises, months } from "../../constants/exercises";
 
+
+interface Exercise {
+  name: string;
+  type: string;
+}
+
 const filterCategories = ["All", "Cardio", "Strength", "Combat", "Flexibility"];
 
 const CreatingWorkout = () => {
   const { addWorkout, error, loading } = useWorkouts();
 
-  const [filter, setFilter] = useState("All");
-  const [open, setOpen] = useState(false);
-  const [selectedExercise, setSelectedExercise] = useState(null);
-  const [day, setDay] = useState("");
-  const [month, setMonth] = useState("");
-  const [description, setDescription] = useState("");
+  const [filter, setFilter] = useState<string>("All");
+  const [open, setOpen] = useState<boolean>(false);
+  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(
+    null
+  );
+  const [day, setDay] = useState<string>("");
+  const [month, setMonth] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
 
-  const handleOpenModal = (exercise) => {
+  const handleOpenModal = (exercise: Exercise) => {
     setSelectedExercise(exercise);
     setOpen(true);
   };
@@ -46,31 +54,38 @@ const CreatingWorkout = () => {
       const newWorkout = {
         day: parseInt(day, 10),
         month,
-        description: description,
+        description,
         exercise_name: selectedExercise.name,
         exercise_type: selectedExercise.type,
+        id: 0,
+        finished: false,
       };
-
       try {
         await addWorkout(newWorkout);
         handleClose();
       } catch (err) {
-        console.error("Failed to add workout:", err);
-        alert("Failed to add workout: " + err.message);
+        if (err instanceof Error) {
+          console.error("Failed to add workout:", err.message);
+          alert("Failed to add workout: " + err.message);
+        } else {
+          console.error("Unknown error", err);
+          alert("An unknown error occurred.");
+        }
       }
     } else {
       alert("Please fill all fields.");
     }
   };
-  const handleDayChange = (e) => {
+
+  const handleDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (/^\d{0,2}$/.test(value) && value <= 31) {
+    if (/^\d{0,2}$/.test(value) && parseInt(value, 10) <= 31) {
       setDay(value);
     }
   };
 
   const filteredExercises = allExercises.filter(
-    (exercise) => filter === "All" || exercise.type === filter
+    (exercise: Exercise) => filter === "All" || exercise.type === filter
   );
 
   return (
@@ -98,7 +113,7 @@ const CreatingWorkout = () => {
             ))}
           </div>
           <div className={styles.creatingworkout__buttons}>
-            {filteredExercises.map((exercise) => (
+            {filteredExercises.map((exercise: Exercise) => (
               <Button
                 key={exercise.name}
                 variant="contained"

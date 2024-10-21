@@ -1,23 +1,31 @@
 import React from "react";
 import styles from "./MultistepForm.module.scss";
 
+interface UpdateFields {
+  nickname?: string;
+  email?: string;
+  password?: string;
+  gender?: string;
+  birthYear?: string;
+}
+
 interface UserBasicDataProps {
   nickname: string;
   email: string;
   password: string;
   gender: string;
   birthYear: string;
-  updateFields: any;
+  updateFields: (fields: UpdateFields) => void;
 }
 
-const UserBasicData = ({
+const UserBasicData: React.FC<UserBasicDataProps> = ({
   email,
   nickname,
   gender,
   birthYear,
   password,
   updateFields,
-}: UserBasicDataProps) => {
+}) => {
   return (
     <div className={styles.userBasicInfo}>
       <div className={styles.userBasicInfo__intro}>

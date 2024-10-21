@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import styles from "./MealsSummary.module.scss";
 import { useMeals } from "../../../hooks/useMeals";
 import WhiteCardWrapper from "../../atomic/WhiteCardWrapper/WhiteCardWrapper";

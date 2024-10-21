@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "./MultistepForm.module.scss";
 import beginner from "../../../assets/images/begginer.png";
 import intermediate from "../../../assets/images/intermediate.png";
 import advanced from "../../../assets/images/advanced.png";
 
+interface UpdateFields {
+  sportLevel: number;
+}
+
 interface SportLevelProps {
-  updateFields: any;
+  updateFields: (fields: UpdateFields) => void;
 }
 
 const SportLevel = ({ updateFields }: SportLevelProps) => {
@@ -35,7 +39,6 @@ const SportLevel = ({ updateFields }: SportLevelProps) => {
             you.
           </p>
         </div>
-        {/* Move the sport level items within the same containing div */}
         <div className={styles.sportLevel__items}>
           <div className={styles.sportLevel__container}>
             <div

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Calendar from "react-calendar";
 import styles from "./WorkoutPlan.module.scss";
 import PlatformWrapper from "../../components/compound/PlatformWrapper/PlatformWrapper";
@@ -25,7 +25,7 @@ const WorkoutPlan = () => {
     return new Date(2024, monthNumber, workout.day);
   });
 
-  const highlightWorkouts = ({ date, view }) => {
+  const highlightWorkouts = ({ date, view }: { date: Date; view: string }) => {
     if (view === "month") {
       return workoutDays.some(
         (workoutDate) => workoutDate.toDateString() === date.toDateString()
@@ -73,11 +73,15 @@ const WorkoutPlan = () => {
                       id={workout.id}
                       day={workout.day}
                       month={workout.month}
-                      name={workout.exercise_name}
+                      name={workout.exercise_name || "Unnamed Workout"}
                       status={
                         workout.finished ? Status.FINISHED : Status.NOT_STARTED
                       }
-                      category={workout.exercise_type || Category.GYM}
+                      category={
+                        Category[
+                          workout.exercise_type as keyof typeof Category
+                        ] || Category.GYM
+                      }
                       onFinish={() => finishWorkout(workout.id)}
                     />
                   ))}

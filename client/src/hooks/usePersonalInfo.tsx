@@ -57,12 +57,18 @@ export const usePersonalInfo = () => {
       const hasData = updatedPersonalInfoData.some((info) => info.value !== "");
       setHasPersonalData(hasData);
     } catch (err) {
-      if (err.response?.status === 401) {
-        setError("Unauthorized access - please log in.");
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status === 401) {
+          setError("Unauthorized access - please log in.");
+        } else {
+          setError("Failed to fetch personal information");
+        }
+        console.error(err.response?.data || err.message);
       } else {
-        setError("Failed to fetch personal information");
+        // Handle non-Axios error
+        console.error("Unexpected error:", err);
+        setError("An unexpected error occurred.");
       }
-      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -117,12 +123,17 @@ export const usePersonalInfo = () => {
         )
       );
     } catch (err) {
-      if (err.response?.status === 401) {
-        setError("Unauthorized access - please log in.");
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status === 401) {
+          setError("Unauthorized access - please log in.");
+        } else {
+          setError("Failed to update personal information");
+        }
+        console.error(err.response?.data || err.message);
       } else {
-        setError("Failed to update personal information");
+        console.error("Unexpected error:", err);
+        setError("An unexpected error occurred.");
       }
-      console.error(err);
     } finally {
       setLoading(false);
     }

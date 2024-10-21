@@ -1,4 +1,4 @@
-export const monthMap = {
+export const monthMap: { [key: string]: number } = {
   January: 0,
   February: 1,
   March: 2,

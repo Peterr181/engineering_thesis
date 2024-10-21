@@ -34,8 +34,15 @@ export const useLogin = () => {
         setError("Login failed. Please try again.");
       }
     } catch (err) {
-      console.error("Login error:", err.response.data || err);
-      setError(err.response.data?.error || "An error occurred during login.");
+      if (axios.isAxiosError(err)) {
+        console.error("Login error:", err.response?.data || err);
+        setError(
+          err.response?.data?.error || "An error occurred during login."
+        );
+      } else {
+        console.error("Unexpected error:", err);
+        setError("An unexpected error occurred.");
+      }
     } finally {
       setLoading(false);
     }

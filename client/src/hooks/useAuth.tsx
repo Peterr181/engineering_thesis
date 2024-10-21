@@ -11,8 +11,7 @@ interface UserProfile {
   sportLevel: number;
 }
 
-const useAuth = (): [boolean, UserProfile | null] => {
-  const [auth, setAuth] = useState<boolean>(false);
+const useAuth = (): UserProfile | null => {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   axios.defaults.withCredentials = true;
 
@@ -24,28 +23,17 @@ const useAuth = (): [boolean, UserProfile | null] => {
     }
 
     axios
-      .get("http://localhost:8081/auth/verify")
+      .get("http://localhost:8081/user/profile")
       .then((res) => {
-        if (res.data.status === "Success") {
-          setAuth(true);
-          axios
-            .get("http://localhost:8081/user/profile")
-            .then((profileRes) => {
-              setUserProfile(profileRes.data.user);
-            })
-            .catch((profileErr) => {
-              console.log(profileErr);
-            });
-        } else {
-          setAuth(false);
-        }
+        setUserProfile(res.data.user);
       })
       .catch((err) => {
         console.log(err);
+        setUserProfile(null);
       });
   }, []);
 
-  return [auth, userProfile];
+  return userProfile;
 };
 
 export default useAuth;

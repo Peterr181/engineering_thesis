@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./ActivityCard.module.scss";
 import { iconFile } from "../../.././assets/iconFile";
 import { useLanguage } from "../../../context/LanguageProvider";

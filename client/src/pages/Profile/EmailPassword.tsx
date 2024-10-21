@@ -3,7 +3,7 @@ import { Button, TextField } from "@mui/material";
 import useAuth from "../../hooks/useAuth";
 
 const EmailPassword = () => {
-  const [auth, userProfile] = useAuth();
+  const userProfile = useAuth();
   return (
     <div className={styles.emailpassword}>
       <div className={styles.emailpassword__header}>
@@ -24,7 +24,7 @@ const EmailPassword = () => {
             id="outlined-email"
             label="Email"
             variant="outlined"
-            value={auth && userProfile?.email}
+            value={userProfile && userProfile?.email}
             className={styles.emailpassword__textfield}
           />
         </div>

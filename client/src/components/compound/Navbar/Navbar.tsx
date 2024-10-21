@@ -14,7 +14,7 @@ import { usePersonalInfo } from "../../../hooks/usePersonalInfo";
 const Navbar: React.FC = () => {
   const { t, changeLanguage, language } = useLanguage();
   const { fetchWorkouts, workouts } = useWorkouts();
-  const [auth, userProfile] = useAuth();
+  const userProfile = useAuth();
 
   const { hasPersonalData } = usePersonalInfo();
 
@@ -67,7 +67,7 @@ const Navbar: React.FC = () => {
           )}
         </div>
 
-        {auth ? (
+        {userProfile ? (
           <div className={styles.navbar__right}>
             <div className={styles.navbar__right__icons}>
               <span>{iconFile.moonIcon}</span>

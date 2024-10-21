@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import styles from "./UpcomingWorkouts.module.scss";
-import Button from "../../atomic/Button/Button";
 import Workout from "../Workout/Workout";
 import { useLanguage } from "../../../context/LanguageProvider";
 import { Status, Category } from "../../compound/Workout/Workout";
@@ -18,7 +17,7 @@ const UpcomingWorkouts = () => {
     fetchWorkouts(true);
   }, []);
 
-  const upcomingWorkouts = workouts.filter((workout) => workout.finished === 0);
+  const upcomingWorkouts = workouts.filter((workout) => !workout.finished);
 
   return (
     <div className={styles.upcomingWorkouts}>
@@ -50,9 +49,12 @@ const UpcomingWorkouts = () => {
                 id={workout.id}
                 day={workout.day}
                 month={workout.month}
-                name={workout.exercise_name}
+                name={workout.exercise_name || "Unnamed Workout"}
                 status={workout.finished ? Status.FINISHED : Status.NOT_STARTED}
-                category={workout.exercise_type || Category.GYM}
+                category={
+                  Category[workout.exercise_type as keyof typeof Category] ||
+                  Category.GYM
+                }
                 onFinish={() => finishWorkout(workout.id)}
               />
             ))

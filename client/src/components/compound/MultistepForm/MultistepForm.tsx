@@ -1,4 +1,4 @@
-import React, { FormEvent, useState, useEffect } from "react";
+import { FormEvent, useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./MultistepForm.module.scss";
 import { useMultistepForm } from "../../../hooks/useMultistepForm";

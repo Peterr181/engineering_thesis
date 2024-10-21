@@ -8,6 +8,18 @@ import { usePersonalInfo } from "../../../hooks/usePersonalInfo";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 
+interface PersonalGoalsFormValues {
+  favorite_training_type: string;
+  current_fitness_goals: string;
+  water_drunk_daily: string;
+  steps_daily: string;
+  caloric_intake_goal: string;
+  body_measurements: string;
+  workout_frequency: string;
+  personal_bests: string;
+  weight: string;
+}
+
 const labelMappings: { [key: string]: string } = {
   favorite_training_type: "Favorite Training",
   current_fitness_goals: "Current Fitness Goals",
@@ -21,17 +33,15 @@ const labelMappings: { [key: string]: string } = {
 };
 
 const PersonalGoals: React.FC = () => {
-  const { personalInfoData, updatePersonalInfo, loading, error } =
-    usePersonalInfo();
+  const { personalInfoData, updatePersonalInfo, loading } = usePersonalInfo();
   const navigate = useNavigate();
 
-  // Initialize useForm
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm({
+  } = useForm<PersonalGoalsFormValues>({
     defaultValues: {
       favorite_training_type: "",
       current_fitness_goals: "",
@@ -48,15 +58,15 @@ const PersonalGoals: React.FC = () => {
   useEffect(() => {
     if (!loading && personalInfoData.length > 0) {
       personalInfoData.forEach((info) => {
-        setValue(info.label as keyof typeof defaultValues, info.value || "");
+        setValue(info.label as keyof PersonalGoalsFormValues, info.value || "");
       });
     }
   }, [personalInfoData, loading, setValue]);
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: PersonalGoalsFormValues) => {
     const updates = Object.keys(data).map((key) => ({
-      label: key,
-      value: data[key],
+      label: key as keyof PersonalGoalsFormValues,
+      value: data[key as keyof PersonalGoalsFormValues],
     }));
 
     await updatePersonalInfo(updates);
@@ -70,7 +80,6 @@ const PersonalGoals: React.FC = () => {
         <p>Please complete your profile with data.</p>
 
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-          {/* Favorite Training */}
           <Controller
             name="favorite_training_type"
             control={control}
@@ -93,8 +102,6 @@ const PersonalGoals: React.FC = () => {
               </TextField>
             )}
           />
-
-          {/* Current Fitness Goals */}
           <Controller
             name="current_fitness_goals"
             control={control}
@@ -116,7 +123,6 @@ const PersonalGoals: React.FC = () => {
             )}
           />
 
-          {/* Water Drunk Daily */}
           <Controller
             name="water_drunk_daily"
             control={control}
@@ -138,7 +144,6 @@ const PersonalGoals: React.FC = () => {
             )}
           />
 
-          {/* Steps Daily */}
           <Controller
             name="steps_daily"
             control={control}
@@ -160,7 +165,6 @@ const PersonalGoals: React.FC = () => {
             )}
           />
 
-          {/* Daily Caloric Intake Goal */}
           <Controller
             name="caloric_intake_goal"
             control={control}
@@ -183,7 +187,6 @@ const PersonalGoals: React.FC = () => {
             )}
           />
 
-          {/* Body Measurements (Height) */}
           <Controller
             name="body_measurements"
             control={control}
@@ -205,7 +208,6 @@ const PersonalGoals: React.FC = () => {
             )}
           />
 
-          {/* Weight */}
           <Controller
             name="weight"
             control={control}
@@ -227,7 +229,6 @@ const PersonalGoals: React.FC = () => {
             )}
           />
 
-          {/* Workout Frequency */}
           <Controller
             name="workout_frequency"
             control={control}
@@ -260,7 +261,6 @@ const PersonalGoals: React.FC = () => {
             )}
           />
 
-          {/* Personal Bests */}
           <Controller
             name="personal_bests"
             control={control}

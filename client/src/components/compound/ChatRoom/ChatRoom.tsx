@@ -20,7 +20,7 @@ interface Message {
 }
 
 const ChatRoom: React.FC = () => {
-  const [auth, userProfile] = useAuth();
+  const userProfile = useAuth();
   const { roomId } = useParams<{ roomId: string }>();
   const userId = String(userProfile?.id);
   const userNickname = userProfile?.username;
@@ -92,7 +92,12 @@ const ChatRoom: React.FC = () => {
 
   const sendMessage = () => {
     if (message && socketRef.current) {
-      const newMessage = { userId, message, username: userNickname };
+      const newMessage: Message = {
+        userId,
+        message,
+        username: userNickname,
+        nickname: userNickname || "",
+      };
       setMessages((prevMessages) => [...prevMessages, newMessage]);
       socketRef.current.emit("sendMessage", {
         roomId,

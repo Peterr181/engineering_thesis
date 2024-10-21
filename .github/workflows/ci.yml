@@ -38,6 +38,29 @@ jobs:
         with:
           node-version: "16"
 
+      # Install server dependencies
+      - name: Install server dependencies
+        working-directory: ./server
+        run: npm install
+
+      # Start the Express backend
+      - name: Start Express backend
+        working-directory: ./server
+        run: npm start & # Use '&' to run it in the background
+
+      # Wait for Express server to be ready
+      - name: Wait for Express server to be ready
+        run: |
+          echo "Waiting for Express server to be ready..."
+          for i in {1..10}; do # Try for up to 10 attempts
+            if curl -s http://localhost:${{ secrets.PORT }}; then
+              echo "Express server is ready!"
+              break
+            fi
+            echo "Waiting for Express server..."
+            sleep 5
+          done
+
       # Install and test backend (server)
       - name: Install and test server
         working-directory: ./server
@@ -49,9 +72,7 @@ jobs:
           PASSWORD: ${{ secrets.PASSWORD }}
           DBPORT: 33306 # Match the changed port
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
-        run: |
-          npm install
-          npm test
+        run: npm test
 
       # Install and build frontend (client)
       - name: Install and build client

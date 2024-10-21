@@ -7,11 +7,31 @@ import { LatLngExpression } from "leaflet";
 import styles from "./Finder.module.scss";
 import WhiteCardWrapper from "../../components/atomic/WhiteCardWrapper/WhiteCardWrapper";
 
+interface Tags {
+  name?: string;
+  [key: string]: string | undefined;
+}
+
+interface OverpassElement {
+  lat: number;
+  lon: number;
+  tags: Tags;
+}
+
+interface OverpassResponse {
+  elements: OverpassElement[];
+}
+
+interface SportsFacility {
+  lat: number;
+  lon: number;
+  tags: Tags;
+}
 const Finder = () => {
   const [position, setPosition] = useState<LatLngExpression | null>(null);
-  const [sportsFacilities, setSportsFacilities] = useState<any[]>([]);
-  const apiKey = import.meta.env.VITE_REACT_APP_GEOCODING_API_KEY;
-
+  const [sportsFacilities, setSportsFacilities] = useState<SportsFacility[]>(
+    []
+  );
   const [city, setCity] = useState<string>("");
 
   const handleCityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,14 +40,21 @@ const Finder = () => {
 
   const fetchSportsFacilities = async (lat: number, lon: number) => {
     try {
-      const overpassResponse = await axios.get(
+      const overpassResponse = await axios.get<OverpassResponse>(
         `https://overpass-api.de/api/interpreter?data=[out:json];node(around:10000,${lat},${lon})["leisure"="fitness_centre"];out;`,
         {
           withCredentials: false,
         }
       );
 
-      const facilities = overpassResponse.data.elements;
+      const facilities: SportsFacility[] = overpassResponse.data.elements.map(
+        (element: OverpassElement) => ({
+          lat: element.lat,
+          lon: element.lon,
+          tags: element.tags || {},
+        })
+      );
+
       setSportsFacilities(facilities);
     } catch (error) {
       console.error("Failed to fetch sports facilities:", error);
@@ -101,7 +128,7 @@ const Finder = () => {
                   <Marker key={index} position={[facility.lat, facility.lon]}>
                     <Popup>
                       <div>
-                        <h3>{facility.tags.name}</h3>
+                        <h3>{facility.tags.name || "Unnamed facility"}</h3>
                         <p>
                           {facility.tags["addr:housenumber"] ||
                             "No address specified"}{" "}

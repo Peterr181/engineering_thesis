@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import React from "react";
 import styles from "./Button.module.scss";
 
 export const buttonVariant = {

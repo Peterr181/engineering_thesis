@@ -7,6 +7,8 @@ interface Workout {
   month: string;
   description: string;
   finished: boolean;
+  exercise_type?: string;
+  exercise_name?: string;
 }
 
 export const useWorkouts = () => {

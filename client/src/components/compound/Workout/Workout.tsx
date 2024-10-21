@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./Workout.module.scss";
 import Button from "../../atomic/Button/Button";
 import { iconFile } from "../../../assets/iconFile";
