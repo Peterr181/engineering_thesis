@@ -12,13 +12,12 @@ export const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
+  const apiUrl =
+    import.meta.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
 
   const login = async (loginValues: LoginValues) => {
     setLoading(true);
     setError(null);
-
-    const apiUrl =
-      process.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
 
     try {
       const res = await axios.post(`${apiUrl}/auth/login`, loginValues);

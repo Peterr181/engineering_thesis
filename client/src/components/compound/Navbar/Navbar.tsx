@@ -15,7 +15,8 @@ const Navbar: React.FC = () => {
   const { t, changeLanguage, language } = useLanguage();
   const { fetchWorkouts, workouts } = useWorkouts();
   const userProfile = useAuth();
-  const apiUrl = process.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
+  const apiUrl =
+    import.meta.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
 
   const { hasPersonalData } = usePersonalInfo();
 

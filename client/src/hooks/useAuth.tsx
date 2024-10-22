@@ -23,7 +23,7 @@ const useAuth = (): UserProfile | null => {
     }
 
     const apiUrl =
-      process.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
+      import.meta.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
 
     axios
       .get(`${apiUrl}/user/profile`)

@@ -16,7 +16,8 @@ const ChatRooms: React.FC = () => {
   const [rooms, setRooms] = useState<ChatRoom[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const apiUrl = process.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
+  const apiUrl =
+    import.meta.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
   useEffect(() => {
     const fetchRooms = async () => {
       try {

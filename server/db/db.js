@@ -1,11 +1,11 @@
-import mysql from "mysql";
+import mysql from "mysql2";
 
 const connectionOptions = process.env.JAWSDB_URL
   ? process.env.JAWSDB_URL
   : {
       host: "localhost",
-      user: "root",
-      password: "",
+      user: "peterr181",
+      password: "password",
       database: "gymero",
     };
 

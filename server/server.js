@@ -42,12 +42,11 @@ const io = new Server(server, {
   },
 });
 
-// Middleware for CORS
 app.use(
   cors({
     origin: [clientOrigin],
     methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
-    credentials: true, // If using cookies or sessions
+    credentials: true,
   })
 );
 app.use(express.json());
