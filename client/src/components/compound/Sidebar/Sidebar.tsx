@@ -8,12 +8,12 @@ import axios from "axios";
 
 const Sidebar = () => {
   const { t } = useLanguage();
-
+  const apiUrl = process.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
   const [showText, setShowText] = useState(false);
 
   const handleLogout = () => {
     axios
-      .get("https://gymero-882311e33226.herokuapp.com/auth/logout")
+      .get(`${apiUrl}/auth/logout`)
       .then(() => {
         localStorage.removeItem("token");
         location.reload();

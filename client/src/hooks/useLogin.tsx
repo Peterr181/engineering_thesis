@@ -17,11 +17,11 @@ export const useLogin = () => {
     setLoading(true);
     setError(null);
 
+    const apiUrl =
+      process.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
+
     try {
-      const res = await axios.post(
-        "https://gymero-882311e33226.herokuapp.com/auth/login",
-        loginValues
-      );
+      const res = await axios.post(`${apiUrl}/auth/login`, loginValues);
 
       if (res.data.status === "Success") {
         localStorage.setItem("token", res.data.token);

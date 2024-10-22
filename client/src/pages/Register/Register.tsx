@@ -11,14 +11,11 @@ const Register = () => {
     email: "",
   });
   const navigate = useNavigate();
-
+  const apiUrl = process.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     axios
-      .post(
-        "https://gymero-882311e33226.herokuapp.com/auth/register",
-        registerValues
-      )
+      .post(`${apiUrl}/auth/register`, registerValues)
       .then((res) => {
         if (res.data.status === "Success") {
           navigate("/login");

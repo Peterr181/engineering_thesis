@@ -15,7 +15,7 @@ export const useWorkouts = () => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
+  const apiUrl = process.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
   axios.defaults.withCredentials = true;
 
   const fetchWorkouts = async (sorted: boolean = true) => {
@@ -29,9 +29,7 @@ export const useWorkouts = () => {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       }
 
-      const res = await axios.get(
-        `https://gymero-882311e33226.herokuapp.com/api/workouts?sorted=${sorted}`
-      );
+      const res = await axios.get(`${apiUrl}/api/workouts?sorted=${sorted}`);
 
       if (res.data) {
         setWorkouts(res.data.workouts);
@@ -54,10 +52,7 @@ export const useWorkouts = () => {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       }
 
-      const res = await axios.post(
-        "https://gymero-882311e33226.herokuapp.com/api/workouts",
-        newWorkout
-      );
+      const res = await axios.post(`${apiUrl}/api/workouts`, newWorkout);
       if (res.data) {
         setWorkouts((prevWorkouts) => [...prevWorkouts, res.data]);
       }
@@ -80,9 +75,7 @@ export const useWorkouts = () => {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       }
 
-      await axios.post(
-        `https://gymero-882311e33226.herokuapp.com/api/workouts/${workoutId}/finish`
-      );
+      await axios.post(`${apiUrl}/api/workouts/${workoutId}/finish`);
 
       fetchWorkouts(false);
     } catch (error) {

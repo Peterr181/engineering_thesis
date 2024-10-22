@@ -28,11 +28,15 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 8081;
 
-// Create HTTP server and attach Socket.IO
+const isProduction = process.env.NODE_ENV === "production";
+const clientOrigin = isProduction
+  ? "https://gymero-882311e33226.herokuapp.com" // Production URL
+  : "http://localhost:5173"; // Local development URL
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["https://gymero-882311e33226.herokuapp.com"],
+    origin: [clientOrigin],
     methods: ["GET", "POST", "PUT", "PATCH"],
     credentials: true,
   },
@@ -41,7 +45,7 @@ const io = new Server(server, {
 // Middleware for CORS
 app.use(
   cors({
-    origin: ["https://gymero-882311e33226.herokuapp.com"],
+    origin: [clientOrigin],
     methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
     credentials: true, // If using cookies or sessions
   })

@@ -24,7 +24,7 @@ export const useMeals = () => {
   const [loading, setLoading] = useState(false);
 
   axios.defaults.withCredentials = true;
-
+  const apiUrl = process.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
   const fetchMeals = async () => {
     setLoading(true);
     setError(null);
@@ -37,9 +37,7 @@ export const useMeals = () => {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       }
 
-      const res = await axios.get(
-        "https://gymero-882311e33226.herokuapp.com/api/meals"
-      );
+      const res = await axios.get(`${apiUrl}/api/meals`);
 
       if (res.data) {
         setMeals(res.data.meals);
@@ -63,9 +61,7 @@ export const useMeals = () => {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       }
 
-      const res = await axios.get(
-        "https://gymero-882311e33226.herokuapp.com/api/meals/summary"
-      );
+      const res = await axios.get(`${apiUrl}/api/meals/summary`);
 
       if (res.data) {
         setMealSummaryData(res.data);
@@ -88,10 +84,7 @@ export const useMeals = () => {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       }
 
-      const res = await axios.post(
-        "https://gymero-882311e33226.herokuapp.com/api/meals",
-        newMeal
-      );
+      const res = await axios.post(`${apiUrl}/api/meals`, newMeal);
       if (res.data) {
         setMeals((prevMeals) => [...prevMeals, res.data]);
         await fetchMealSummary(); // Refresh the summary after adding a meal
@@ -114,9 +107,7 @@ export const useMeals = () => {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       }
 
-      await axios.delete(
-        `https://gymero-882311e33226.herokuapp.com/api/meals/${mealId}`
-      );
+      await axios.delete(`${apiUrl}/api/meals/${mealId}`);
       fetchMeals();
       fetchMealSummary(); // Refresh the summary after deleting a meal
     } catch (err) {

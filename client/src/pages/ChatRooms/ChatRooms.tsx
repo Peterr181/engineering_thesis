@@ -16,13 +16,11 @@ const ChatRooms: React.FC = () => {
   const [rooms, setRooms] = useState<ChatRoom[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
+  const apiUrl = process.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await axios.get(
-          "https://gymero-882311e33226.herokuapp.com/api/chat/rooms"
-        );
+        const response = await axios.get(`${apiUrl}/api/chat/rooms`);
         setRooms(response.data.rooms);
       } catch (err) {
         setError("Failed to fetch chat rooms");

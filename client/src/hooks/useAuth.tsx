@@ -22,8 +22,11 @@ const useAuth = (): UserProfile | null => {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
 
+    const apiUrl =
+      process.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
+
     axios
-      .get("https://gymero-882311e33226.herokuapp.com/user/profile")
+      .get(`${apiUrl}/user/profile`)
       .then((res) => {
         setUserProfile(res.data.user);
       })

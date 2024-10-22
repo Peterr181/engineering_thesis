@@ -27,7 +27,7 @@ export const usePersonalInfo = () => {
   const [hasPersonalData, setHasPersonalData] = useState<boolean>(false);
 
   axios.defaults.withCredentials = true;
-
+  const apiUrl = process.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
   const fetchPersonalInfo = async () => {
     setLoading(true);
     setError(null);
@@ -41,9 +41,7 @@ export const usePersonalInfo = () => {
 
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      const response = await axios.get(
-        "https://gymero-882311e33226.herokuapp.com/api/personal-info"
-      );
+      const response = await axios.get(`${apiUrl}/api/personal-info`);
 
       // Log the response to check its structure
       console.log("API Response:", response.data);
@@ -109,10 +107,7 @@ export const usePersonalInfo = () => {
         };
       }
 
-      await axios.post(
-        "https://gymero-882311e33226.herokuapp.com/api/personal-info",
-        updatedFields
-      );
+      await axios.post(`${apiUrl}/api/personal-info`, updatedFields);
 
       setPersonalInfoData((prev) =>
         prev.map((info) =>

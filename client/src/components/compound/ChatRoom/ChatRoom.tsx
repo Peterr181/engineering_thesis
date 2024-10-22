@@ -30,12 +30,13 @@ const ChatRoom: React.FC = () => {
 
   const socketRef = useRef<Socket | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const apiUrl = process.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
 
   useEffect(() => {
     const fetchRoomName = async (roomId: number) => {
       try {
         const response = await axios.get(
-          `https://gymero-882311e33226.herokuapp.com/api/chat/rooms/${roomId}/name`
+          `${apiUrl}/api/chat/rooms/${roomId}/name`
         );
         setRoomName(response.data.roomName);
       } catch (error) {
@@ -49,7 +50,7 @@ const ChatRoom: React.FC = () => {
     const fetchChatHistory = async () => {
       try {
         const response = await axios.get(
-          `https://gymero-882311e33226.herokuapp.com/api/chat/rooms/${roomId}/history`
+          `${apiUrl}/api/chat/rooms/${roomId}/history`
         );
         setMessages(response.data.messages);
       } catch (error) {
@@ -62,7 +63,7 @@ const ChatRoom: React.FC = () => {
 
   useEffect(() => {
     if (!socketRef.current) {
-      socketRef.current = io("https://gymero-882311e33226.herokuapp.com", {
+      socketRef.current = io(`${apiUrl}`, {
         withCredentials: true,
       });
 

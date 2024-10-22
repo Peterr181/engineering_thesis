@@ -15,6 +15,7 @@ const Navbar: React.FC = () => {
   const { t, changeLanguage, language } = useLanguage();
   const { fetchWorkouts, workouts } = useWorkouts();
   const userProfile = useAuth();
+  const apiUrl = process.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
 
   const { hasPersonalData } = usePersonalInfo();
 
@@ -24,7 +25,7 @@ const Navbar: React.FC = () => {
 
   const handleLogout = () => {
     axios
-      .get("https://gymero-882311e33226.herokuapp.com/auth/logout")
+      .get(`${apiUrl}/auth/logout`)
       .then(() => {
         localStorage.removeItem("token");
         location.reload();

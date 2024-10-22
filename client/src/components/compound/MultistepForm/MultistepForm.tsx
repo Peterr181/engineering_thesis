@@ -20,6 +20,7 @@ const MultistepForm = () => {
     sportLevel: 1,
   });
   const [stepVisible, setStepVisible] = useState(false);
+  const apiUrl = process.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
     useMultistepForm([
       <UserBasicData {...data} updateFields={updateFields} />,
@@ -43,10 +44,7 @@ const MultistepForm = () => {
     }
 
     try {
-      const response = await axios.post(
-        "https://gymero-882311e33226.herokuapp.com/auth/register",
-        data
-      );
+      const response = await axios.post(`${apiUrl}/auth/register`, data);
       if (response.status === 200) {
         navigate("/login");
       }
