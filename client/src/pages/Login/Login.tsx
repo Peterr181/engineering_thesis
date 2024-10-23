@@ -6,7 +6,7 @@ import { useLogin } from "../../hooks/useLogin";
 
 const Login = () => {
   const [loginValues, setLoginValues] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -26,16 +26,16 @@ const Login = () => {
         </div>
         <form className={styles.login__form} onSubmit={handleSubmit}>
           <div className={styles.login__form__group}>
-            <label htmlFor="username">Username:</label>
+            <label htmlFor="email">Email:</label>
             <input
-              type="text"
-              id="username"
-              name="username"
-              placeholder="username"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email"
               onChange={(e) =>
                 setLoginValues({
                   ...loginValues,
-                  username: e.target.value,
+                  email: e.target.value,
                 })
               }
             />
@@ -46,7 +46,7 @@ const Login = () => {
               type="password"
               id="password"
               name="password"
-              placeholder="password"
+              placeholder="Password"
               onChange={(e) =>
                 setLoginValues({
                   ...loginValues,
@@ -58,7 +58,7 @@ const Login = () => {
           <Button variant="loginRegister" submit disabled={loading}>
             {loading ? "Logging in..." : "Log In"}
           </Button>
-          {error && <p className={styles.error}>{error}</p>}{" "}
+          {error && <p className={styles.error}>{error}</p>}
           <p>
             Don't have an account?{" "}
             <Link to="/multistepregister">

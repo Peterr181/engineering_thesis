@@ -54,24 +54,24 @@ export const register = (req, res) => {
 };
 
 export const login = (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
-  console.log(`Login attempt for username: ${username}`); // Log the attempt
+  console.log(`Login attempt for email: ${email}`); // Log the attempt
 
-  const sql = "SELECT * FROM users WHERE username = ?";
-  db.query(sql, [username], (err, data) => {
+  const sql = "SELECT * FROM users WHERE email = ?";
+  db.query(sql, [email], (err, data) => {
     if (err) {
       console.error("Database query error:", err); // Log query errors
       return handleError(res, 500, "Internal Server Error");
     }
 
     if (data.length === 0) {
-      console.warn(`User not found: ${username}`); // Log user not found
+      console.warn(`User not found for email: ${email}`); // Log user not found
       return handleError(res, 404, "User not found");
     }
 
     const user = data[0];
-    console.log(`User found: ${user.username}, ID: ${user.id}`); // Log found user
+    console.log(`User found: ${user.email}, ID: ${user.id}`); // Log found user
 
     bcrypt.compare(password.toString(), user.password, (err, isMatch) => {
       if (err) {
@@ -80,7 +80,7 @@ export const login = (req, res) => {
       }
 
       if (!isMatch) {
-        console.warn(`Invalid credentials for username: ${username}`); // Log invalid credentials
+        console.warn(`Invalid credentials for email: ${email}`); // Log invalid credentials
         return handleError(res, 401, "Invalid credentials");
       }
 
@@ -88,9 +88,7 @@ export const login = (req, res) => {
         expiresIn: "1d",
       });
 
-      console.log(
-        `User logged in successfully: ${user.username}, ID: ${user.id}`
-      ); // Log successful login
+      console.log(`User logged in successfully: ${user.email}, ID: ${user.id}`); // Log successful login
 
       return res.status(200).json({
         status: "Success",

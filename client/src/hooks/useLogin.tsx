@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 interface LoginValues {
-  username: string;
+  email: string;
   password: string;
 }
 
