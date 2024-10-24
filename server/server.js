@@ -84,20 +84,13 @@ if (process.env.NODE_ENV === "production") {
 
 // Socket.IO event listeners
 io.on("connection", (socket) => {
-  console.log("A user connected");
-
   socket.on("joinRoom", (roomId) => {
     socket.join(roomId);
-    console.log(`User joined room: ${roomId}`);
   });
 
   socket.on(
     "sendMessage",
     async ({ roomId, userId, message, userNickname }) => {
-      console.log(
-        `Received message from ${userId} in room ${roomId}: ${message}`
-      );
-
       try {
         // Save message to the database
         await saveMessage(roomId, userId, message);
@@ -107,7 +100,6 @@ io.on("connection", (socket) => {
           message,
           username: userNickname,
         });
-        console.log(`Message sent to room ${roomId}: ${message}`);
       } catch (err) {
         console.error("Error saving message:", err);
         socket.emit(
@@ -119,7 +111,7 @@ io.on("connection", (socket) => {
   );
 
   socket.on("disconnect", () => {
-    console.log("A user disconnected");
+    console.log("User disconnected");
   });
 });
 

@@ -56,8 +56,6 @@ export const register = (req, res) => {
 export const login = (req, res) => {
   const { email, password } = req.body;
 
-  console.log(`Login attempt for email: ${email}`); // Log the attempt
-
   const sql = "SELECT * FROM users WHERE email = ?";
   db.query(sql, [email], (err, data) => {
     if (err) {
@@ -71,7 +69,6 @@ export const login = (req, res) => {
     }
 
     const user = data[0];
-    console.log(`User found: ${user.email}, ID: ${user.id}`); // Log found user
 
     bcrypt.compare(password.toString(), user.password, (err, isMatch) => {
       if (err) {
@@ -87,8 +84,6 @@ export const login = (req, res) => {
       const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
         expiresIn: "1d",
       });
-
-      console.log(`User logged in successfully: ${user.email}, ID: ${user.id}`); // Log successful login
 
       return res.status(200).json({
         status: "Success",

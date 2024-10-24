@@ -15,27 +15,69 @@ import ChatRooms from "./pages/ChatRooms/ChatRooms";
 import Profile from "./pages/Profile/Profile";
 import PersonalGoals from "./components/compound/MultistepForm/PersonalGoals";
 import ChatRoom from "./components/compound/ChatRoom/ChatRoom";
+import ProtectedRoute from "./context/ProtectedRoute";
 
 function App() {
   return (
     <LanguageProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/workouts" element={<Exercises />} />
-          <Route path="/workoutplan" element={<WorkoutPlan />} />
-          <Route path="/creatingworkout" element={<CreatingWorkout />} />
-          <Route path="/personaldetails" element={<PersonalGoals />} />
-          <Route path="/chat" element={<ChatRooms />} />
-          <Route path="/chat/:roomId" element={<ChatRoom />} />
-          <Route path="/mealsplan" element={<MealsPlan />} />
-          <Route path="/finder" element={<Finder />} />
-          <Route path="/chatrooms" element={<ChatRooms />} />
-          <Route path="/meals" element={<Meals />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/multistepregister" element={<MultistepForm />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route
+            path="/"
+            element={<ProtectedRoute element={<Home />} unprotected />}
+          />
+          <Route
+            path="/register"
+            element={<ProtectedRoute element={<Register />} unprotected />}
+          />
+          <Route
+            path="/login"
+            element={<ProtectedRoute element={<Login />} unprotected />}
+          />
+          <Route
+            path="/workouts"
+            element={<ProtectedRoute element={<Exercises />} />}
+          />
+          <Route
+            path="/workoutplan"
+            element={<ProtectedRoute element={<WorkoutPlan />} />}
+          />
+          <Route
+            path="/creatingworkout"
+            element={<ProtectedRoute element={<CreatingWorkout />} />}
+          />
+          <Route
+            path="/personaldetails"
+            element={<ProtectedRoute element={<PersonalGoals />} />}
+          />
+          <Route
+            path="/chat"
+            element={<ProtectedRoute element={<ChatRooms />} />}
+          />
+          <Route
+            path="/chat/:roomId"
+            element={<ProtectedRoute element={<ChatRoom />} />}
+          />
+          <Route
+            path="/mealsplan"
+            element={<ProtectedRoute element={<MealsPlan />} />}
+          />
+          <Route
+            path="/finder"
+            element={<ProtectedRoute element={<Finder />} />}
+          />
+          <Route
+            path="/meals"
+            element={<ProtectedRoute element={<Meals />} />}
+          />
+          <Route
+            path="/profile"
+            element={<ProtectedRoute element={<Profile />} />}
+          />
+          <Route
+            path="/multistepregister"
+            element={<ProtectedRoute element={<MultistepForm />} />}
+          />
         </Routes>
       </BrowserRouter>
     </LanguageProvider>

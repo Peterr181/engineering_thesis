@@ -105,9 +105,9 @@ const Exercises: React.FC = () => {
               </div>
             </div>
             <div className={styles.exercises__container}>
-              {currentExercises.map((exercise: ExerciseData, index: number) => (
+              {currentExercises.map((exercise: ExerciseData) => (
                 <Exercise
-                  key={index}
+                  key={`${exercise.name}-${exercise.target}`}
                   name={exercise.name}
                   target={exercise.target}
                   bodyPart={exercise.bodyPart}

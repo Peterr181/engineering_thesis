@@ -6,6 +6,7 @@ import MaxWidthWrapper from "../../components/compound/MaxWidthWrapper/MaxWidthW
 import WhiteCardWrapper from "../../components/atomic/WhiteCardWrapper/WhiteCardWrapper";
 import PlatformWrapper from "../../components/compound/PlatformWrapper/PlatformWrapper";
 import { roomIcons } from "../../constants/exercises";
+import Loader from "../../components/atomic/Loader/Loader";
 
 interface ChatRoom {
   id: number;
@@ -33,7 +34,7 @@ const ChatRooms: React.FC = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading chat rooms...</p>;
+    return <Loader />;
   }
 
   if (error) {

@@ -10,8 +10,7 @@ import Button2 from "@mui/material/Button";
 
 const UpcomingWorkouts = () => {
   const { t } = useLanguage();
-  const { workouts, fetchWorkouts, loading, error, finishWorkout } =
-    useWorkouts();
+  const { workouts, fetchWorkouts, loading, finishWorkout } = useWorkouts();
 
   useEffect(() => {
     fetchWorkouts(true);
@@ -42,7 +41,7 @@ const UpcomingWorkouts = () => {
         </div>
         <div className={styles.upcomingWorkouts__workouts}>
           {loading && <p>Loading workouts...</p>}
-          {error && <p style={{ color: "red" }}>{error}</p>}
+
           {upcomingWorkouts.length > 0 ? (
             upcomingWorkouts.map((workout, index) => (
               <Workout

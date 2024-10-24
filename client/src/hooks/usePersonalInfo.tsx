@@ -43,15 +43,11 @@ export const usePersonalInfo = () => {
 
       const response = await axios.get(`${apiUrl}/api/personal-info`);
 
-      // Log the response to check its structure
-      console.log("API Response:", response.data);
+      const fetchedData = response.data.personalInfo || {};
 
-      const fetchedData = response.data.personalInfo || {}; // Default to empty object if undefined
-
-      // Ensure fetchedData exists and has the required properties
       const updatedPersonalInfoData = defaultPersonalInfoData.map((info) => ({
         ...info,
-        value: fetchedData[info.label] || "", // Ensure fetchedData exists
+        value: fetchedData[info.label] || "",
       }));
 
       setPersonalInfoData(updatedPersonalInfoData);
@@ -94,16 +90,16 @@ export const usePersonalInfo = () => {
 
       if (Array.isArray(updatedInfo)) {
         updatedFields = updatedInfo.reduce((acc, field) => {
-          acc[field.label] = field.value || ""; // Ensure value is defined
+          acc[field.label] = field.value || "";
           return acc;
         }, {} as Record<string, string>);
       } else {
         updatedFields = {
           ...personalInfoData.reduce((acc, info) => {
-            acc[info.label] = info.value || ""; // Ensure value is defined
+            acc[info.label] = info.value || "";
             return acc;
           }, {} as Record<string, string>),
-          [updatedInfo.label]: updatedInfo.value || "", // Ensure value is defined
+          [updatedInfo.label]: updatedInfo.value || "",
         };
       }
 

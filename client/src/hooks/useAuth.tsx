@@ -1,3 +1,4 @@
+// hooks/useAuth.ts
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -35,7 +36,7 @@ const useAuth = (): UserProfile | null => {
       });
   }, []);
 
-  return userProfile;
+  return userProfile; // Returning only userProfile, which can be null
 };
 
 export default useAuth;

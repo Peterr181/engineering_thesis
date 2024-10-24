@@ -78,7 +78,7 @@ const MealsSummary = () => {
             </div>
           </div>
         ) : (
-          <p>Loading...</p>
+          <p>Please sign in to see calories summary</p>
         )}
       </WhiteCardWrapper>
     </div>

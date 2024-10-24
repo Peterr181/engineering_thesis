@@ -1,0 +1,11 @@
+.notifications {
+  padding: var(--rythm-32);
+  border-left: 1px solid #f5f5f5;
+  padding-left: var(--rythm-32);
+  margin-left: var(--rythm-16);
+  width: 100%;
+
+  h2 {
+    font-weight: 700 !important;
+  }
+}

@@ -6,6 +6,8 @@ import WhiteCardWrapper from "../../components/atomic/WhiteCardWrapper/WhiteCard
 import { iconFile } from "../../assets/iconFile";
 import PersonalInfo from "./PersonalInfo";
 import EmailPassword from "./EmailPassword";
+import Notifications from "./Notifications";
+import Information from "./Information";
 
 const Profile: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("Personal info");
@@ -63,8 +65,8 @@ const Profile: React.FC = () => {
               </div>
               {activeTab === "Personal info" && <PersonalInfo />}
               {activeTab === "Email & password" && <EmailPassword />}
-              {activeTab === "Notifications" && <PersonalInfo />}
-              {activeTab === "Information" && <PersonalInfo />}
+              {activeTab === "Notifications" && <Notifications />}
+              {activeTab === "Information" && <Information />}
             </div>
           </WhiteCardWrapper>
         </MaxWidthWrapper>

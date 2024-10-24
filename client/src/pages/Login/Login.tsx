@@ -3,6 +3,8 @@ import styles from "./Login.module.scss";
 import { Link } from "react-router-dom";
 import Button from "../../components/atomic/Button/Button";
 import { useLogin } from "../../hooks/useLogin";
+import signIn1 from "../../assets/images/signIn1.png";
+import signIn2 from "../../assets/images/signIn2.png";
 
 const Login = () => {
   const [loginValues, setLoginValues] = useState({
@@ -26,12 +28,11 @@ const Login = () => {
         </div>
         <form className={styles.login__form} onSubmit={handleSubmit}>
           <div className={styles.login__form__group}>
-            <label htmlFor="email">Email:</label>
             <input
               type="email"
               id="email"
               name="email"
-              placeholder="Email"
+              placeholder="E-mail"
               onChange={(e) =>
                 setLoginValues({
                   ...loginValues,
@@ -41,7 +42,6 @@ const Login = () => {
             />
           </div>
           <div className={styles.login__form__group}>
-            <label htmlFor="password">Password:</label>
             <input
               type="password"
               id="password"
@@ -66,6 +66,18 @@ const Login = () => {
             </Link>
           </p>
         </form>
+      </div>
+      <div className={styles.images}>
+        <img
+          src={signIn1}
+          alt="sign in image 1"
+          className={styles.images__image1}
+        />
+        <img
+          src={signIn2}
+          alt="sign in image 2"
+          className={styles.images__image2}
+        />
       </div>
     </section>
   );

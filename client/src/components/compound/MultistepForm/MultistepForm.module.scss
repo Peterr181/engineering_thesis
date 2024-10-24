@@ -71,7 +71,7 @@
 .userBasicInfo {
   display: flex;
   flex-direction: column;
-
+  gap: 0.6rem;
   &__intro {
     margin-bottom: var(--rythm-16);
     margin-top: var(--rythm-16);

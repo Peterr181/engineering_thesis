@@ -24,8 +24,9 @@ const EmailPassword = () => {
             id="outlined-email"
             label="Email"
             variant="outlined"
-            value={userProfile && userProfile?.email}
+            value={userProfile?.email || ""}
             className={styles.emailpassword__textfield}
+            // You may want to add an onChange handler to manage email updates
           />
         </div>
         <div className={styles.emailpassword__box__item}>

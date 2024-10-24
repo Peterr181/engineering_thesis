@@ -59,7 +59,7 @@ export const getRoomName = (req, res) => {
       console.error("Error retrieving room name:", err);
       return res.status(500).json({ error: "Database error" });
     }
-    console.log(result);
+
     if (result.length === 0) {
       return res.status(404).json({ error: "Room not found" });
     }
