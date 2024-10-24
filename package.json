@@ -5,10 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-  "start": "node ./server/server.js",
-  "dev": "nodemon ./server/server.js",
-  "test": "echo \"No tests specified\""
-    },
+    "start": "node ./server/server.js",
+    "dev": "nodemon ./server/server.js",
+    "test": "echo \"No tests specified\"",
+    "heroku-postbuild": "cd client && npm install && npm run build"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
