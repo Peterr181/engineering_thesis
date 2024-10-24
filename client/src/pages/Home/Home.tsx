@@ -12,6 +12,9 @@ import MealsSummary from "../../components/compound/MealsSummary/MealsSummary";
 
 const Home = () => {
   const { t } = useLanguage();
+  const apiUrl =
+    import.meta.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
+  console.log(apiUrl);
   return (
     <LanguageProvider>
       <PlatformWrapper>
