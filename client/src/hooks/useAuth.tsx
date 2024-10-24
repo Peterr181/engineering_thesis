@@ -14,14 +14,17 @@ interface UserProfile {
 
 const useAuth = (): UserProfile | null => {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    if (token) {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    if (!token) {
+      return;
     }
+
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -36,7 +39,7 @@ const useAuth = (): UserProfile | null => {
       });
   }, []);
 
-  return userProfile; // Returning only userProfile, which can be null
+  return userProfile;
 };
 
 export default useAuth;

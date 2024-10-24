@@ -25,10 +25,21 @@ export const useMeals = () => {
 
   axios.defaults.withCredentials = true;
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
+  const isAuthenticated = () => {
+    const token = localStorage.getItem("token");
+    return !!token; // Returns true if token exists
+  };
+
   const fetchMeals = async () => {
+    if (!isAuthenticated()) {
+      setError("User not authenticated.");
+      return; // Prevent fetching if user is not authenticated
+    }
+
     setLoading(true);
     setError(null);
-    fetchMealSummary();
+    await fetchMealSummary();
 
     try {
       const token = localStorage.getItem("token");
@@ -51,6 +62,11 @@ export const useMeals = () => {
   };
 
   const fetchMealSummary = async () => {
+    if (!isAuthenticated()) {
+      setError("User not authenticated.");
+      return; // Prevent fetching if user is not authenticated
+    }
+
     setLoading(true);
     setError(null);
 
@@ -75,6 +91,11 @@ export const useMeals = () => {
   };
 
   const addMeal = async (newMeal: Meal) => {
+    if (!isAuthenticated()) {
+      setError("User not authenticated.");
+      return; // Prevent adding meal if user is not authenticated
+    }
+
     setLoading(true);
     setError(null);
     try {
@@ -98,6 +119,11 @@ export const useMeals = () => {
   };
 
   const deleteMeal = async (mealId: string) => {
+    if (!isAuthenticated()) {
+      setError("User not authenticated.");
+      return; // Prevent deleting meal if user is not authenticated
+    }
+
     setLoading(true);
     setError(null);
     try {
@@ -108,8 +134,8 @@ export const useMeals = () => {
       }
 
       await axios.delete(`${apiUrl}/api/meals/${mealId}`);
-      fetchMeals();
-      fetchMealSummary(); // Refresh the summary after deleting a meal
+      fetchMeals(); // Refresh meals after deletion
+      await fetchMealSummary(); // Refresh the summary after deleting a meal
     } catch (err) {
       setError("Error deleting meal.");
       console.error(err);

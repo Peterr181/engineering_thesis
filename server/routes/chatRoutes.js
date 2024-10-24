@@ -9,7 +9,6 @@ import { authMiddleware } from "../middlewares/authMiddleware.js";
 const router = express.Router();
 
 // All chat routes are protected by authMiddleware
-router.use(authMiddleware);
 
 router.get("/rooms/:roomId/name", getRoomName);
 

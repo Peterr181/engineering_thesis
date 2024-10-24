@@ -4,39 +4,33 @@ This is huge full-stack web application where users can browse through multiple 
 
 You can visit this website here! It's deployed on Heroku!
 
-[https://gymero-882311e33226.herokuapp.com/]
-
-
+Visit website [Gymero](https://gymero.live)
 
 ![obraz](https://github.com/user-attachments/assets/dd758bd5-8707-404f-b8e9-b24efa70ceb8)
-
-
-
 
 ## Functionalities:
 
 Done:
 
- - JWT Authentication 
- - Browsing through exercises with GIFS
- - Home dashboard section
- - Browsing through 80k different foods and their nutritions
- - Gym finder by entering city
- - Browsing through 70k different meals with their nutritions
- - Adding new exercises to your personal workout plan
- - Browsing your exercises
- - Showing nearest exercises to do
- - Creating personal diet plan (setting calories that you want to have in diet, and products something like on fitatu)
- - Online chat rooms with different sport hobbies
- - CI/CD for github actions
-
+- JWT Authentication
+- Browsing through exercises with GIFS
+- Home dashboard section
+- Browsing through 80k different foods and their nutritions
+- Gym finder by entering city
+- Browsing through 70k different meals with their nutritions
+- Adding new exercises to your personal workout plan
+- Browsing your exercises
+- Showing nearest exercises to do
+- Creating personal diet plan (setting calories that you want to have in diet, and products something like on fitatu)
+- Online chat rooms with different sport hobbies
+- CI/CD for github actions
 
 Closest things to be done:
 
- - Inspecting workout that was being added to your plan
- - Add one more step when registering new account (filling number of calories, water you want to drink now, steps, and set progress)
-   
- ### Prerequisites
+- Inspecting workout that was being added to your plan
+- Add one more step when registering new account (filling number of calories, water you want to drink now, steps, and set progress)
+
+### Prerequisites
 
 - Ensure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed on your machine.
 - Install [XAMPP](https://www.apachefriends.org/index.html) for managing Apache and MySQL services.
@@ -56,7 +50,5 @@ Closest things to be done:
    npm start proxy
    ```
 3. **Launch apache and mySql in XAMPP:**
- 
-
 
 This is just initial description for this project full documentation with app is still in progress ;)

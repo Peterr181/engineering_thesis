@@ -1,6 +1,7 @@
+// context/ProtectedRoute.tsx
 import React from "react";
 import { Navigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+import { usePersonalInfo } from "../hooks/usePersonalInfo";
 
 interface ProtectedRouteProps {
   element: React.ReactNode;
@@ -11,9 +12,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   element,
   unprotected,
 }) => {
-  const userProfile = useAuth();
+  const { hasPersonalData } = usePersonalInfo();
+  const hasToken = localStorage.getItem("token");
 
-  if (unprotected || userProfile) {
+  if (unprotected || hasPersonalData || hasToken) {
     return <>{element}</>;
   }
 

@@ -18,16 +18,24 @@ export const useWorkouts = () => {
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   axios.defaults.withCredentials = true;
 
+  const isAuthenticated = () => {
+    const token = localStorage.getItem("token");
+    return !!token;
+  };
+
   const fetchWorkouts = async (sorted: boolean = true) => {
     setLoading(true);
     setError(null);
 
+    if (!isAuthenticated()) {
+      setError("User not authenticated. Cannot fetch workouts.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const token = localStorage.getItem("token");
-
-      if (token) {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      }
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       const res = await axios.get(`${apiUrl}/api/workouts?sorted=${sorted}`);
 
@@ -45,12 +53,16 @@ export const useWorkouts = () => {
   const addWorkout = async (newWorkout: Workout) => {
     setLoading(true);
     setError(null);
+
+    if (!isAuthenticated()) {
+      setError("User not authenticated. Cannot add workout.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const token = localStorage.getItem("token");
-
-      if (token) {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      }
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       const res = await axios.post(`${apiUrl}/api/workouts`, newWorkout);
       if (res.data) {
@@ -68,19 +80,22 @@ export const useWorkouts = () => {
     setLoading(true);
     setError(null);
 
+    if (!isAuthenticated()) {
+      setError("User not authenticated. Cannot finish workout.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const token = localStorage.getItem("token");
-
-      if (token) {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      }
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       await axios.post(`${apiUrl}/api/workouts/${workoutId}/finish`);
 
       fetchWorkouts(false);
     } catch (error) {
-      console.error("Error finishing the workout", error);
       setError("Error finishing the workout.");
+      console.error(error);
     } finally {
       setLoading(false);
     }

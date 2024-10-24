@@ -51,7 +51,7 @@ function App() {
             element={<ProtectedRoute element={<PersonalGoals />} />}
           />
           <Route
-            path="/chat"
+            path="/chatrooms"
             element={<ProtectedRoute element={<ChatRooms />} />}
           />
           <Route
