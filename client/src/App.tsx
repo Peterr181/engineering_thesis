@@ -76,7 +76,7 @@ function App() {
           />
           <Route
             path="/multistepregister"
-            element={<ProtectedRoute element={<MultistepForm />} />}
+            element={<ProtectedRoute element={<MultistepForm />} unprotected />}
           />
         </Routes>
       </BrowserRouter>
