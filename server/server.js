@@ -17,6 +17,7 @@ import userRoutes from "./routes/userRoutes.js";
 import personalInfoRoutes from "./routes/personalInfoRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import { saveMessage } from "./controllers/chatController.js";
+import expressSslify from "express-sslify";
 
 // Load environment variables
 config();
@@ -32,6 +33,10 @@ const isProduction = process.env.NODE_ENV === "production";
 const clientOrigin = isProduction
   ? "https://gymero-882311e33226.herokuapp.com" // Production URL
   : "http://localhost:5173"; // Local development URL
+
+if (isProduction) {
+  app.use(expressSslify.HTTPS({ trustProtoHeader: true }));
+}
 
 const server = http.createServer(app);
 const io = new Server(server, {
