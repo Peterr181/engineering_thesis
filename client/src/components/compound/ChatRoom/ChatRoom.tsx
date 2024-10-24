@@ -30,8 +30,7 @@ const ChatRoom: React.FC = () => {
 
   const socketRef = useRef<Socket | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const apiUrl =
-    import.meta.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchRoomName = async (roomId: number) => {

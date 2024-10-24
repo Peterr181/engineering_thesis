@@ -27,8 +27,7 @@ export const usePersonalInfo = () => {
   const [hasPersonalData, setHasPersonalData] = useState<boolean>(false);
 
   axios.defaults.withCredentials = true;
-  const apiUrl =
-    import.meta.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   const fetchPersonalInfo = async () => {
     setLoading(true);
     setError(null);

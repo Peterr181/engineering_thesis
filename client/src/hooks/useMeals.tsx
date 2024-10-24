@@ -24,8 +24,7 @@ export const useMeals = () => {
   const [loading, setLoading] = useState(false);
 
   axios.defaults.withCredentials = true;
-  const apiUrl =
-    import.meta.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   const fetchMeals = async () => {
     setLoading(true);
     setError(null);

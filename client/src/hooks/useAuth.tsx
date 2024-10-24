@@ -22,8 +22,7 @@ const useAuth = (): UserProfile | null => {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
 
-    const apiUrl =
-      import.meta.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
     axios
       .get(`${apiUrl}/user/profile`)

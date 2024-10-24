@@ -12,8 +12,7 @@ export const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
-  const apiUrl =
-    import.meta.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
   const login = async (loginValues: LoginValues) => {
     setLoading(true);

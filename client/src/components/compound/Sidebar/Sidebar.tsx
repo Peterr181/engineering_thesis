@@ -8,8 +8,7 @@ import axios from "axios";
 
 const Sidebar = () => {
   const { t } = useLanguage();
-  const apiUrl =
-    import.meta.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   const [showText, setShowText] = useState(false);
 
   const handleLogout = () => {

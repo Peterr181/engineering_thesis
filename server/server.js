@@ -31,7 +31,7 @@ const PORT = process.env.PORT || 8081;
 
 const isProduction = process.env.NODE_ENV === "production";
 const clientOrigin = isProduction
-  ? "https://gymero-882311e33226.herokuapp.com" // Production URL
+  ? "https://gymero.live" // Production URL
   : "http://localhost:5173"; // Local development URL
 
 if (isProduction) {

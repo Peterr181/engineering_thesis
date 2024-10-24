@@ -11,8 +11,7 @@ const Register = () => {
     email: "",
   });
   const navigate = useNavigate();
-  const apiUrl =
-    import.meta.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     axios

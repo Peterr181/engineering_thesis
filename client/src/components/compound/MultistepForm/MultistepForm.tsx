@@ -20,8 +20,7 @@ const MultistepForm = () => {
     sportLevel: 1,
   });
   const [stepVisible, setStepVisible] = useState(false);
-  const apiUrl =
-    import.meta.env.VITE_REACT_APP_API_URL || "http://localhost:8081";
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
     useMultistepForm([
       <UserBasicData {...data} updateFields={updateFields} />,
