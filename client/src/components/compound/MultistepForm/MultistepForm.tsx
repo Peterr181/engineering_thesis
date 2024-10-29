@@ -3,38 +3,44 @@ import axios from "axios";
 import styles from "./MultistepForm.module.scss";
 import { useMultistepForm } from "../../../hooks/useMultistepForm";
 import UserBasicData from "./UserBasicData";
-import MaxWidthWrapper from "../MaxWidthWrapper/MaxWidthWrapper";
 import SportLevel from "./SportLevel";
+import ChooseAvatar from "./ChooseAvatar"; // Import your ChooseAvatar component
+import MaxWidthWrapper from "../MaxWidthWrapper/MaxWidthWrapper";
 import ProgressBar from "@ramonak/react-progress-bar";
 import form from "../../../assets/images/form.png";
 import { useNavigate } from "react-router-dom";
+
 const MultistepForm = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({
     nickname: "",
     email: "",
     password: "",
-    gender: "",
+    gender: "", // Keep track of gender
     birthYear: "",
-    avatar: "",
+    avatar: "", // Avatar field to hold the selected avatar
     sportLevel: 1,
   });
   const [stepVisible, setStepVisible] = useState(false);
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
     useMultistepForm([
       <UserBasicData {...data} updateFields={updateFields} />,
+      <ChooseAvatar
+        avatar={data.avatar}
+        gender={data.gender}
+        updateFields={updateFields}
+      />, // Pass gender prop
       <SportLevel {...data} updateFields={updateFields} />,
-      // <AccountForm {...data} updateFields={updateFields} />,
     ]);
+
   useEffect(() => {
     setStepVisible(true);
   }, [step]);
 
   function updateFields(fields: Partial<typeof data>) {
-    setData((prev) => {
-      return { ...prev, ...fields };
-    });
+    setData((prev) => ({ ...prev, ...fields }));
   }
 
   async function onSubmit(e: FormEvent) {
@@ -63,11 +69,19 @@ const MultistepForm = () => {
             <img src={form} alt="step form image" />
             <div className={styles.stepInfo}>
               <p>{`Step ${currentStepIndex + 1}/${steps.length}`}</p>
-              <h3>{isFirstStep ? "UserInfo" : "SportLevel"}</h3>
+              <h3>
+                {isFirstStep
+                  ? "User Info"
+                  : isLastStep
+                  ? "Sport Level"
+                  : "Choose Avatar"}
+              </h3>
             </div>
             <div className={styles.progressBarContainer}>
               <ProgressBar
-                completed={(currentStepIndex + 1) * (100 / steps.length)}
+                completed={Math.round(
+                  (currentStepIndex + 1) * (100 / steps.length)
+                )}
                 bgColor="#4cbb17"
               />
             </div>

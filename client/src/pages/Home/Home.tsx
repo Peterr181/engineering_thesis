@@ -38,6 +38,16 @@ const Home = () => {
     }
   });
 
+  const totalMinutes = weeklyWorkouts.reduce(
+    (acc, workout) => acc + workout.minutes,
+    0
+  );
+  const averageActivityTime =
+    weeklyWorkouts.length > 0 ? totalMinutes / weeklyWorkouts.length : 0;
+
+  const averageMinutes = Math.round(averageActivityTime % 60);
+  const averageTimeString = `Your average time exercising is ${averageMinutes}m`;
+
   const getValueByLabel = (label: string) =>
     personalInfoData.find((info) => info.label === label)?.value || "0";
 
@@ -49,7 +59,7 @@ const Home = () => {
             <div className={styles.home__activitiesWrapper}>
               <WhiteCardWrapper additionalClass={styles.lineChartContainer}>
                 <h2>{t(`home.weekActivity`)}</h2>
-                <p>{t(`home.averageActivity`)}</p>
+                <p>{averageTimeString}</p>
                 <LineChartObject data={chartData} />
               </WhiteCardWrapper>
               <div className={styles.home__activitesCardsContainer}>

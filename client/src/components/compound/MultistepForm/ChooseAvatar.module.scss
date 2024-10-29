@@ -1,0 +1,47 @@
+@import "../../../styles/variables.scss";
+
+.avatarsContainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeIn 1s forwards; // Apply fade-in effect
+}
+
+.avatarOption {
+  margin: 10px;
+  cursor: pointer;
+}
+
+.avatarImage {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%; // Make it circular
+  border: 2px solid transparent; // Change border when selected
+  transition: border-color 0.3s;
+}
+
+.avatarOption input:checked + .avatarImage {
+  border-color: #4cbb17; // Highlight selected avatar
+}
+
+.avatarHeader {
+  margin-bottom: 30px;
+  margin-top: 30px;
+
+  h2 {
+    font-size: 30px;
+  }
+  p {
+    color: $mainGray;
+    font-size: 20px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0; // Start fully transparent
+  }
+  to {
+    opacity: 1; // End fully opaque
+  }
+}

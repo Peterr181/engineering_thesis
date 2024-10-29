@@ -14,15 +14,17 @@ const MealsSummary = () => {
     fetchMeals();
   }, []);
 
+  // Get the caloric intake goal
   const caloricIntakeGoal = parseInt(
     personalInfoData?.find((item) => item.label === "caloric_intake_goal")
       ?.value ?? "0",
     10
   );
 
-  const proteinGoal = (caloricIntakeGoal * 0.3) / 4;
-  const carbsGoal = (caloricIntakeGoal * 0.4) / 4;
-  const fatsGoal = (caloricIntakeGoal * 0.3) / 9;
+  // Calculate the macronutrient goals based on caloric intake goal
+  const proteinGoal = caloricIntakeGoal ? (caloricIntakeGoal * 0.3) / 4 : 0;
+  const carbsGoal = caloricIntakeGoal ? (caloricIntakeGoal * 0.4) / 4 : 0;
+  const fatsGoal = caloricIntakeGoal ? (caloricIntakeGoal * 0.3) / 9 : 0;
 
   return (
     <div className={styles.mealssummary}>
@@ -47,32 +49,32 @@ const MealsSummary = () => {
               <div className={styles.mealCalories__item}>
                 <span className={styles.mealCalories__label}>kcal</span>
                 <span className={styles.mealCalories__calories}>
-                  {Math.round(mealSummaryData.totalCalories)} /{" "}
-                  {caloricIntakeGoal}
+                  {Math.round(mealSummaryData.totalCalories) || 0} /{" "}
+                  {caloricIntakeGoal || 0}
                 </span>
               </div>
 
               <div className={styles.mealCalories__item}>
                 <span className={styles.mealCalories__label}>Protein</span>
                 <span className={styles.mealCalories__protein}>
-                  {Math.round(mealSummaryData.totalProtein)}g /{" "}
-                  {Math.round(proteinGoal)}g
+                  {Math.round(mealSummaryData.totalProtein) || 0}g /{" "}
+                  {Math.round(proteinGoal) || 0}g
                 </span>
               </div>
 
               <div className={styles.mealCalories__item}>
                 <span className={styles.mealCalories__label}>Carbs</span>
                 <span className={styles.mealCalories__carbs}>
-                  {Math.round(mealSummaryData.totalCarbs)}g /{" "}
-                  {Math.round(carbsGoal)}g
+                  {Math.round(mealSummaryData.totalCarbs) || 0}g /{" "}
+                  {Math.round(carbsGoal) || 0}g
                 </span>
               </div>
 
               <div className={styles.mealCalories__item}>
                 <span className={styles.mealCalories__label}>Fats</span>
                 <span className={styles.mealCalories__fats}>
-                  {Math.round(mealSummaryData.totalFats)}g /{" "}
-                  {Math.round(fatsGoal)}g
+                  {Math.round(mealSummaryData.totalFats) || 0}g /{" "}
+                  {Math.round(fatsGoal) || 0}g
                 </span>
               </div>
             </div>
