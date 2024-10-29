@@ -38,14 +38,14 @@ if (isProduction) {
 }
 
 // Create a rate limiter
-const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 50, // Limit each IP to 100 requests per windowMs
-  message: "Too many requests from this IP, please try again later.",
-});
+// const apiLimiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 50, // Limit each IP to 100 requests per windowMs
+//   message: "Too many requests from this IP, please try again later.",
+// });
 
-// Apply the rate limiter to all API routes
-app.use("/api/", apiLimiter);
+// // Apply the rate limiter to all API routes
+// app.use("/api/", apiLimiter);
 
 const server = http.createServer(app);
 const io = new Server(server, {

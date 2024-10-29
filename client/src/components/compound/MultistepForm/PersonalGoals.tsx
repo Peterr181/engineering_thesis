@@ -28,7 +28,7 @@ const labelMappings: { [key: string]: string } = {
   caloric_intake_goal: "Daily Caloric Intake Goal",
   body_measurements: "Height (cm)",
   workout_frequency: "Workout Frequency (days per week)",
-  personal_bests: "Personal Bests",
+
   weight: "Weight (kg)",
 };
 
@@ -261,24 +261,11 @@ const PersonalGoals: React.FC = () => {
             )}
           />
 
-          <Controller
-            name="personal_bests"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                label={labelMappings.personal_bests}
-                {...field}
-                fullWidth
-                margin="normal"
-              />
-            )}
-          />
-
           <div className={styles.personalGoals__buttons}>
             <Link to="/">
-              <button className={styles.finishBtn}>Back</button>
+              <button className={styles.backBtn}>Back</button>
             </Link>
-            <button type="submit" className={styles.backBtn}>
+            <button type="submit" className={styles.finishBtn}>
               Submit
             </button>
           </div>

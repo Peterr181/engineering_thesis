@@ -174,7 +174,7 @@ const CreatingWorkout = () => {
                   </Select>
                 </FormControl>
 
-                <TextField
+                {/* <TextField
                   margin="dense"
                   label="Description"
                   type="text"
@@ -183,7 +183,7 @@ const CreatingWorkout = () => {
                   rows={4}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                />
+                /> */}
 
                 <TextField
                   margin="dense"
