@@ -2,7 +2,7 @@ import styles from "./Home.module.scss";
 import PlatformWrapper from "../../components/compound/PlatformWrapper/PlatformWrapper";
 import MaxWidthWrapper from "../../components/compound/MaxWidthWrapper/MaxWidthWrapper";
 import LineChartObject from "../../components/compound/LineChart/LineChartObject";
-import { chartData } from "../../data/chartData";
+
 import { iconFile } from "../../assets/iconFile";
 import ActivityCard from "../../components/atomic/ActivityCard/ActivityCard";
 import UpcomingWorkouts from "../../components/compound/UpcomingWorkouts/UpcomingWorkouts";
@@ -10,10 +10,33 @@ import { LanguageProvider, useLanguage } from "../../context/LanguageProvider";
 import WhiteCardWrapper from "../../components/atomic/WhiteCardWrapper/WhiteCardWrapper";
 import MealsSummary from "../../components/compound/MealsSummary/MealsSummary";
 import { usePersonalInfo } from "../../hooks/usePersonalInfo";
+import { useEffect } from "react";
+import { useWorkouts } from "../../hooks/useWorkout";
 
 const Home = () => {
   const { t } = useLanguage();
   const { personalInfoData } = usePersonalInfo();
+  const { fetchWeeklyWorkouts, weeklyWorkouts } = useWorkouts();
+
+  useEffect(() => {
+    fetchWeeklyWorkouts();
+  }, []);
+
+  console.log(weeklyWorkouts);
+
+  const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+  const chartData = daysOfWeek.map((day) => ({ day, minutes: 0 }));
+
+  weeklyWorkouts.forEach((workout) => {
+    const workoutDayName = workout.dayName
+      ? workout.dayName.substring(0, 3)
+      : "";
+    const dayIndex = daysOfWeek.indexOf(workoutDayName);
+    if (dayIndex !== -1) {
+      chartData[dayIndex].minutes += workout.minutes;
+    }
+  });
 
   const getValueByLabel = (label: string) =>
     personalInfoData.find((info) => info.label === label)?.value || "0";

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import styles from "./WorkoutPlan.module.scss";
 import PlatformWrapper from "../../components/compound/PlatformWrapper/PlatformWrapper";
@@ -11,18 +11,53 @@ import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { useWorkouts } from "../../hooks/useWorkout";
 import { monthMap } from "../../constants/other";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const WorkoutPlan = () => {
-  const { workouts, fetchWorkouts, loading, error, finishWorkout } =
-    useWorkouts();
+  const {
+    workouts,
+    fetchWorkouts,
+    fetchWeeklyWorkouts,
+    loading,
+    error,
+    finishWorkout,
+    weeklyWorkouts,
+  } = useWorkouts();
+  const [currentView, setCurrentView] = useState<"all" | "weekly">("all"); // Manage view state
+  const [filterDialogOpen, setFilterDialogOpen] = useState(false);
 
   useEffect(() => {
     fetchWorkouts(false);
   }, []);
 
-  const workoutDays = workouts.map((workout) => {
+  const handleFilterClick = () => {
+    setFilterDialogOpen(true); // Open filter dialog
+  };
+
+  const handleCloseDialog = () => {
+    setFilterDialogOpen(false); // Close filter dialog
+  };
+
+  const handleCurrentWeekClick = () => {
+    fetchWeeklyWorkouts(); // Fetch weekly workouts
+    setCurrentView("weekly"); // Set view to weekly
+    setFilterDialogOpen(false); // Close filter dialog
+  };
+
+  const handleShowAllClick = () => {
+    fetchWorkouts(false); // Fetch all workouts
+    setCurrentView("all"); // Set view to all
+    setFilterDialogOpen(false); // Close filter dialog
+  };
+
+  const workoutDays = (
+    currentView === "weekly" ? weeklyWorkouts : workouts
+  ).map((workout) => {
     const monthNumber = monthMap[workout.month];
-    return new Date(2024, monthNumber, workout.day);
+    return new Date(2024, monthNumber - 1, workout.day); // Adjusted monthNumber to be zero-based
   });
 
   const highlightWorkouts = ({ date, view }: { date: Date; view: string }) => {
@@ -63,35 +98,46 @@ const WorkoutPlan = () => {
                         Check finished
                       </Button>
                     </div>
+                    <div>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleFilterClick}
+                      >
+                        Filter
+                      </Button>
+                    </div>
                   </div>
                 </div>
                 <div className={styles.workoutPlan__trainings__trainingsList}>
                   {loading && <p>Loading workouts...</p>}
                   {error && <p style={{ color: "red" }}>{error}</p>}
-                  {workouts.map((workout, index) => {
-                    const workoutCategory =
-                      Category[
-                        (workout.exercise_type?.toUpperCase() as keyof typeof Category) ||
-                          Category.GYM
-                      ] || Category.GYM;
-                    return (
-                      <Workout
-                        key={index}
-                        id={workout.id}
-                        day={workout.day}
-                        month={workout.month}
-                        minutes={workout.minutes}
-                        name={workout.exercise_name || "Unnamed Workout"}
-                        status={
-                          workout.finished
-                            ? Status.FINISHED
-                            : Status.NOT_STARTED
-                        }
-                        category={workoutCategory}
-                        onFinish={() => finishWorkout(workout.id)}
-                      />
-                    );
-                  })}
+                  {(currentView === "weekly" ? weeklyWorkouts : workouts).map(
+                    (workout, index) => {
+                      const workoutCategory =
+                        Category[
+                          (workout.exercise_type?.toUpperCase() as keyof typeof Category) ||
+                            Category.GYM
+                        ] || Category.GYM;
+                      return (
+                        <Workout
+                          key={index}
+                          id={workout.id}
+                          day={workout.day}
+                          month={workout.month}
+                          minutes={workout.minutes}
+                          name={workout.exercise_name || "Unnamed Workout"}
+                          status={
+                            workout.finished
+                              ? Status.FINISHED
+                              : Status.NOT_STARTED
+                          }
+                          category={workoutCategory}
+                          onFinish={() => finishWorkout(workout.id)}
+                        />
+                      );
+                    }
+                  )}
                 </div>
               </WhiteCardWrapper>
             </div>
@@ -111,6 +157,34 @@ const WorkoutPlan = () => {
           </div>
         </MaxWidthWrapper>
       </div>
+
+      {/* Filter Dialog */}
+      <Dialog open={filterDialogOpen} onClose={handleCloseDialog}>
+        <DialogTitle>Filter Workouts</DialogTitle>
+        <DialogContent>
+          <div className={styles.workoutPlan__trainings__buttons}>
+            <Button
+              onClick={handleShowAllClick}
+              color="primary"
+              variant="contained"
+            >
+              Show All
+            </Button>
+            <Button
+              onClick={handleCurrentWeekClick}
+              color="primary"
+              variant="contained"
+            >
+              Current Week
+            </Button>
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="secondary">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </PlatformWrapper>
   );
 };

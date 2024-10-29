@@ -85,6 +85,106 @@ export const getWorkouts = (req, res) => {
   });
 };
 
+export const getWeeklyWorkouts = (req, res) => {
+  const userId = req.user.userId;
+
+  // Mapping month names to their corresponding numerical values
+  const monthMap = {
+    January: 1,
+    February: 2,
+    March: 3,
+    April: 4,
+    May: 5,
+    June: 6,
+    July: 7,
+    August: 8,
+    September: 9,
+    October: 10,
+    November: 11,
+    December: 12,
+  };
+
+  const daysOfWeek = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  // Get today's date and set the start and end of the current week
+  const today = new Date();
+  console.log("Today's Date:", today);
+
+  const startOfWeek = new Date(today);
+  const endOfWeek = new Date(today);
+
+  // Set start of the week to Monday
+  startOfWeek.setDate(
+    today.getDate() - (today.getDay() === 0 ? 6 : today.getDay() - 1)
+  ); // Monday
+  startOfWeek.setHours(0, 0, 0, 0); // Reset time to midnight
+  console.log("Start of Week (Monday):", startOfWeek);
+
+  // Set end of the week to Sunday
+  endOfWeek.setDate(startOfWeek.getDate() + 6); // Sunday
+  endOfWeek.setHours(23, 59, 59, 999); // Set time to the end of the day
+  console.log("End of Week (Sunday):", endOfWeek);
+
+  const currentYear = today.getFullYear(); // Get the current year
+  console.log("Current Year:", currentYear);
+
+  // Generate a CASE statement to convert month names to numeric values
+  const monthCaseStatement = `(CASE 
+    ${Object.entries(monthMap)
+      .map(
+        ([name, num]) =>
+          `WHEN month = '${name}' THEN ${String(num).padStart(2, "0")}`
+      )
+      .join(" ")}
+    END)`;
+
+  // Construct SQL query using the current year
+  const sql = `
+      SELECT * FROM workouts 
+      WHERE user_id = ? 
+        AND STR_TO_DATE(CONCAT(?, '-', ${monthCaseStatement}, '-', LPAD(day, 2, '0')), '%Y-%m-%d')
+        BETWEEN ? AND ?
+  `;
+
+  const queryParams = [
+    userId,
+    currentYear,
+    startOfWeek.toISOString().slice(0, 10), // Format to YYYY-MM-DD
+    endOfWeek.toISOString().slice(0, 10), // Format to YYYY-MM-DD
+  ];
+
+  console.log("SQL Query:", sql);
+  console.log("Query Parameters:", queryParams);
+
+  db.query(sql, queryParams, (err, results) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Database error.", details: err });
+    }
+
+    // Add day name to each workout
+    const workoutsWithDayName = results.map((workout) => {
+      const monthNumber = monthMap[workout.month] - 1; // Convert to zero-based index
+      const workoutDate = new Date(currentYear, monthNumber, workout.day);
+      return {
+        ...workout,
+        dayName: daysOfWeek[workoutDate.getDay()],
+      };
+    });
+
+    console.log("Results with Day Names:", workoutsWithDayName);
+    return res.status(200).json({ workouts: workoutsWithDayName });
+  });
+};
+
 export const updateWorkout = (req, res) => {
   const { workoutId } = req.params;
   const { day, month, description } = req.body;

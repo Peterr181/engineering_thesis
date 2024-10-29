@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 interface Workout {
+  dayName?: string;
   id: number;
   day: number;
   month: string;
@@ -14,6 +15,7 @@ interface Workout {
 
 export const useWorkouts = () => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
+  const [weeklyWorkouts, setWeeklyWorkouts] = useState<Workout[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -102,9 +104,37 @@ export const useWorkouts = () => {
     }
   };
 
+  const fetchWeeklyWorkouts = async () => {
+    setLoading(true);
+    setError(null);
+
+    if (!isAuthenticated()) {
+      setError("User not authenticated. Cannot fetch weekly workouts.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      const res = await axios.get(`${apiUrl}/api/workouts/weekly`); // Adjust this URL based on your backend endpoint
+      if (res.data) {
+        setWeeklyWorkouts(res.data.workouts); // Store weekly workouts
+      }
+    } catch (err) {
+      setError("Error fetching weekly workouts.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     workouts,
+    weeklyWorkouts,
     fetchWorkouts,
+    fetchWeeklyWorkouts,
     addWorkout,
     finishWorkout,
     error,
