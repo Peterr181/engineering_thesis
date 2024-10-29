@@ -35,6 +35,7 @@ const CreatingWorkout = () => {
   const [day, setDay] = useState<string>("");
   const [month, setMonth] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [minutes, setMinutes] = useState<number | "">("");
 
   const handleOpenModal = (exercise: Exercise) => {
     setSelectedExercise(exercise);
@@ -46,19 +47,22 @@ const CreatingWorkout = () => {
     setDay("");
     setMonth("");
     setDescription("");
+    setMinutes("");
   };
 
   const handleAddWorkout = async () => {
-    if (selectedExercise && day && month && description) {
+    if (selectedExercise && day && month && description && minutes !== "") {
       const newWorkout = {
         day: parseInt(day, 10),
         month,
         description,
         exercise_name: selectedExercise.name,
         exercise_type: selectedExercise.type,
+        minutes: minutes,
         id: 0,
         finished: false,
       };
+
       try {
         await addWorkout(newWorkout);
         handleClose();
@@ -80,6 +84,14 @@ const CreatingWorkout = () => {
     const value = e.target.value;
     if (/^\d{0,2}$/.test(value) && parseInt(value, 10) <= 31) {
       setDay(value);
+    }
+  };
+
+  const handleMinutesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value) && parseInt(value, 10) <= 500) {
+      const minutesValue = value === "" ? "" : parseInt(value, 10);
+      setMinutes(minutesValue);
     }
   };
 
@@ -171,6 +183,17 @@ const CreatingWorkout = () => {
                   rows={4}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
+                />
+
+                <TextField
+                  margin="dense"
+                  label="Minutes"
+                  type="text"
+                  fullWidth
+                  value={minutes.toString()}
+                  onChange={handleMinutesChange}
+                  inputProps={{ maxLength: 3 }}
+                  helperText="Enter workout duration in minutes (max 500)"
                 />
               </DialogContent>
               <DialogActions>

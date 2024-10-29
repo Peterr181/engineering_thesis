@@ -9,6 +9,7 @@ interface Workout {
   finished: boolean;
   exercise_type?: string;
   exercise_name?: string;
+  minutes: number;
 }
 
 export const useWorkouts = () => {

@@ -9,9 +9,14 @@ import UpcomingWorkouts from "../../components/compound/UpcomingWorkouts/Upcomin
 import { LanguageProvider, useLanguage } from "../../context/LanguageProvider";
 import WhiteCardWrapper from "../../components/atomic/WhiteCardWrapper/WhiteCardWrapper";
 import MealsSummary from "../../components/compound/MealsSummary/MealsSummary";
+import { usePersonalInfo } from "../../hooks/usePersonalInfo";
 
 const Home = () => {
   const { t } = useLanguage();
+  const { personalInfoData } = usePersonalInfo();
+
+  const getValueByLabel = (label: string) =>
+    personalInfoData.find((info) => info.label === label)?.value || "0";
 
   return (
     <LanguageProvider>
@@ -28,17 +33,17 @@ const Home = () => {
                 <ActivityCard
                   icon={iconFile.iconSteps}
                   title="totalSteps"
-                  number="5,565"
+                  number={getValueByLabel("steps_daily")}
                 />
                 <ActivityCard
                   icon={iconFile.iconWater}
                   title="waterDrinked"
-                  number="2l"
+                  number={`${getValueByLabel("water_drunk_daily")}l`}
                 />
                 <ActivityCard
                   icon={iconFile.iconMeal}
                   title="caloriesEaten"
-                  number="1800"
+                  number={getValueByLabel("caloric_intake_goal")}
                 />
                 <ActivityCard
                   icon={iconFile.progressIcon}

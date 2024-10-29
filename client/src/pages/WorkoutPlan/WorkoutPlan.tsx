@@ -36,7 +36,6 @@ const WorkoutPlan = () => {
     return null;
   };
 
-  console.log(workouts);
   return (
     <PlatformWrapper>
       <div className={styles.workoutPlanWrapper}>
@@ -81,6 +80,7 @@ const WorkoutPlan = () => {
                         id={workout.id}
                         day={workout.day}
                         month={workout.month}
+                        minutes={workout.minutes}
                         name={workout.exercise_name || "Unnamed Workout"}
                         status={
                           workout.finished

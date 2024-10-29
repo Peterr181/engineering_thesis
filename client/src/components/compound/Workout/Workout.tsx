@@ -1,7 +1,6 @@
 import styles from "./Workout.module.scss";
 import Button from "../../atomic/Button/Button";
 import { iconFile } from "../../../assets/iconFile";
-import { useLanguage } from "../../../context/LanguageProvider";
 
 export enum Status {
   IN_PROGRESS = "INPROGRESS",
@@ -27,6 +26,7 @@ interface WorkoutProps {
   status: Status;
   category: Category;
   onFinish: () => void;
+  minutes: number;
 }
 
 const Workout = ({
@@ -35,10 +35,9 @@ const Workout = ({
   name,
   status,
   category,
+  minutes,
   onFinish,
 }: WorkoutProps) => {
-  const { t } = useLanguage();
-
   const getStatusColor = (status: Status) => {
     switch (status) {
       case Status.IN_PROGRESS:
@@ -96,7 +95,7 @@ const Workout = ({
         <div className={styles.workout__name}>
           <h3>{name}</h3>
           <div className={`${styles.status} ${getStatusColor(status)}`}>
-            <p>{t(`status.${status}`)}</p>
+            <p>{minutes} minutes</p>
           </div>
         </div>
       </div>
