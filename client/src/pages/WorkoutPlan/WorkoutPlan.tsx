@@ -26,7 +26,9 @@ const WorkoutPlan = () => {
     finishWorkout,
     weeklyWorkouts,
   } = useWorkouts();
-  const [currentView, setCurrentView] = useState<"all" | "weekly">("all"); // Manage view state
+  const [currentView, setCurrentView] = useState<"all" | "weekly" | "finished">(
+    "all"
+  );
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
 
   useEffect(() => {
@@ -34,31 +36,37 @@ const WorkoutPlan = () => {
   }, []);
 
   const handleFilterClick = () => {
-    setFilterDialogOpen(true); // Open filter dialog
+    setFilterDialogOpen(true);
   };
 
   const handleCloseDialog = () => {
-    setFilterDialogOpen(false); // Close filter dialog
+    setFilterDialogOpen(false);
   };
 
   const handleCurrentWeekClick = () => {
-    fetchWeeklyWorkouts(); // Fetch weekly workouts
-    setCurrentView("weekly"); // Set view to weekly
-    setFilterDialogOpen(false); // Close filter dialog
+    fetchWeeklyWorkouts();
+    setCurrentView("weekly");
+    setFilterDialogOpen(false);
   };
 
   const handleShowAllClick = () => {
-    fetchWorkouts(false); // Fetch all workouts
-    setCurrentView("all"); // Set view to all
-    setFilterDialogOpen(false); // Close filter dialog
+    fetchWorkouts(false);
+    setCurrentView("all");
+    setFilterDialogOpen(false);
   };
 
-  const workoutDays = (
-    currentView === "weekly" ? weeklyWorkouts : workouts
-  ).map((workout) => {
-    const monthNumber = monthMap[workout.month];
-    return new Date(2024, monthNumber - 1, workout.day); // Adjusted monthNumber to be zero-based
-  });
+  const handleShowFinishedClick = () => {
+    setCurrentView("finished");
+    setFilterDialogOpen(false);
+  };
+
+  // Filter workouts to highlight only unfinished workouts on the calendar
+  const workoutDays = (currentView === "weekly" ? weeklyWorkouts : workouts)
+    .filter((workout) => !workout.finished) // Filter out finished workouts
+    .map((workout) => {
+      const monthNumber = monthMap[workout.month];
+      return new Date(2024, monthNumber - 1, workout.day);
+    });
 
   const highlightWorkouts = ({ date, view }: { date: Date; view: string }) => {
     if (view === "month") {
@@ -71,6 +79,13 @@ const WorkoutPlan = () => {
     return null;
   };
 
+  const displayedWorkouts =
+    currentView === "finished"
+      ? workouts.filter((workout) => workout.finished)
+      : currentView === "weekly"
+      ? weeklyWorkouts
+      : workouts.filter((workout) => !workout.finished);
+
   return (
     <PlatformWrapper>
       <div className={styles.workoutPlanWrapper}>
@@ -80,9 +95,15 @@ const WorkoutPlan = () => {
               <WhiteCardWrapper>
                 <div className={styles.workoutPlan__trainings__header}>
                   <div>
-                    <h2>Plan treningowy</h2>
+                    <div
+                      className={styles.workoutPlan__trainings__header__heading}
+                    >
+                      <h2>Workout plan</h2>
+                      <span>{`(${currentView.toUpperCase()})`}</span>
+                    </div>
                     <p>
-                      Sprawdź kiedy masz swoje najbliższe zaplanowane treningi!
+                      Here you can see all your workouts. You can filter them by
+                      week or check finished workouts.
                     </p>
                   </div>
                   <div className={styles.workoutPlan__trainings__buttons}>
@@ -93,11 +114,7 @@ const WorkoutPlan = () => {
                         </Button>
                       </div>
                     </Link>
-                    <div>
-                      <Button variant="contained" color="error">
-                        Check finished
-                      </Button>
-                    </div>
+
                     <div>
                       <Button
                         variant="contained"
@@ -112,32 +129,30 @@ const WorkoutPlan = () => {
                 <div className={styles.workoutPlan__trainings__trainingsList}>
                   {loading && <p>Loading workouts...</p>}
                   {error && <p style={{ color: "red" }}>{error}</p>}
-                  {(currentView === "weekly" ? weeklyWorkouts : workouts).map(
-                    (workout, index) => {
-                      const workoutCategory =
-                        Category[
-                          (workout.exercise_type?.toUpperCase() as keyof typeof Category) ||
-                            Category.GYM
-                        ] || Category.GYM;
-                      return (
-                        <Workout
-                          key={index}
-                          id={workout.id}
-                          day={workout.day}
-                          month={workout.month}
-                          minutes={workout.minutes}
-                          name={workout.exercise_name || "Unnamed Workout"}
-                          status={
-                            workout.finished
-                              ? Status.FINISHED
-                              : Status.NOT_STARTED
-                          }
-                          category={workoutCategory}
-                          onFinish={() => finishWorkout(workout.id)}
-                        />
-                      );
-                    }
-                  )}
+                  {displayedWorkouts.map((workout, index) => {
+                    const workoutCategory =
+                      Category[
+                        (workout.exercise_type?.toUpperCase() as keyof typeof Category) ||
+                          Category.GYM
+                      ] || Category.GYM;
+                    return (
+                      <Workout
+                        key={index}
+                        id={workout.id}
+                        day={workout.day}
+                        month={workout.month}
+                        minutes={workout.minutes}
+                        name={workout.exercise_name || "Unnamed Workout"}
+                        status={
+                          workout.finished
+                            ? Status.FINISHED
+                            : Status.NOT_STARTED
+                        }
+                        category={workoutCategory}
+                        onFinish={() => finishWorkout(workout.id)}
+                      />
+                    );
+                  })}
                 </div>
               </WhiteCardWrapper>
             </div>
@@ -176,6 +191,14 @@ const WorkoutPlan = () => {
               variant="contained"
             >
               Current Week
+            </Button>
+
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleShowFinishedClick}
+            >
+              Check finished
             </Button>
           </div>
         </DialogContent>

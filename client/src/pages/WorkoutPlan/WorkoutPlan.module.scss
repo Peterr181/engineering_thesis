@@ -13,6 +13,12 @@
       gap: var(--rythm-16);
       margin-bottom: var(--rythm-32);
 
+      &__heading {
+        display: flex;
+        align-items: center;
+        gap: var(--rythm-8);
+      }
+
       button {
         font-weight: 600;
       }

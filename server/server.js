@@ -1,5 +1,3 @@
-// server.js
-
 import express from "express";
 import http from "http";
 import cookieParser from "cookie-parser";
@@ -8,6 +6,7 @@ import { config } from "dotenv";
 import { Server } from "socket.io";
 import path from "path";
 import { fileURLToPath } from "url";
+import rateLimit from "express-rate-limit"; // Import express-rate-limit
 
 // Import routes
 import mealsRoutes from "./routes/mealsRoutes.js";
@@ -38,6 +37,16 @@ if (isProduction) {
   app.use(expressSslify.HTTPS({ trustProtoHeader: true }));
 }
 
+// Create a rate limiter
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 50, // Limit each IP to 100 requests per windowMs
+  message: "Too many requests from this IP, please try again later.",
+});
+
+// Apply the rate limiter to all API routes
+app.use("/api/", apiLimiter);
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -65,7 +74,7 @@ app.use("/api/personal-info", personalInfoRoutes);
 app.use("/api/chat", chatRoutes);
 
 // Serve static files only in production
-if (process.env.NODE_ENV === "production") {
+if (isProduction) {
   const clientPath = path.resolve(__dirname, "../client/dist");
   app.use(express.static(clientPath));
 
@@ -79,8 +88,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(clientPath, "index.html"));
   });
 }
-
-// API routes
 
 // Socket.IO event listeners
 io.on("connection", (socket) => {
