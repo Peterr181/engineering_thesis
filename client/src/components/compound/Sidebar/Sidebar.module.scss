@@ -1,6 +1,6 @@
 @import ".../../../../../styles/variables.scss";
 .sidebar {
-  background-color: #fcfcfc;
+  background-color: var(--body_sidebar);
 
   height: 100vh;
   left: 0;

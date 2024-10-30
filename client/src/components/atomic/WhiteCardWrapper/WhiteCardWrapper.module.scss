@@ -1,7 +1,7 @@
 @import "../../../styles/variables.scss";
 
 .wrapper {
-  background-color: #fff;
+  background-color: var(--body_background);
 
   border-radius: var(--rythm-24);
   padding: var(--rythm-24);
@@ -9,9 +9,10 @@
   box-shadow: 0px 8px 16px rgba(17, 17, 17, 0.06);
   h2:first-of-type {
     font-weight: 500;
+    color: var(--body_color);
   }
 
   p:first-of-type {
-    color: $mainGray;
+    color: var(--body__graycolor);
   }
 }

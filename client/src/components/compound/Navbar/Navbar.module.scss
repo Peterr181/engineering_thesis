@@ -1,7 +1,7 @@
 @import ".../../../../../styles/variables.scss";
 .navbar {
   &__wrapper {
-    background-color: #f7f7fc;
+    background-color: var(--body__navbar);
     height: 112px;
     height: var(--rythm-112);
     position: relative;

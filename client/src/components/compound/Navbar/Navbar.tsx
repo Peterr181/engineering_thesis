@@ -55,6 +55,22 @@ const Navbar: React.FC = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
+  const setDarkMode = () => {
+    document.querySelector("body")?.setAttribute("data-theme", "dark");
+  };
+
+  const setLightMode = () => {
+    document.querySelector("body")?.setAttribute("data-theme", "light");
+  };
+
+  const toggleTheme = () => {
+    if (document.querySelector("body")?.getAttribute("data-theme") === "dark") {
+      setLightMode();
+    } else {
+      setDarkMode();
+    }
+  };
+
   return (
     <nav className={styles.navbar__wrapper}>
       <section className={styles.navbar}>
@@ -87,7 +103,7 @@ const Navbar: React.FC = () => {
         {userProfile ? (
           <div className={styles.navbar__right}>
             <div className={styles.navbar__right__icons}>
-              <span>{iconFile.moonIcon}</span>
+              <span onClick={toggleTheme}>{iconFile.moonIcon}</span>
               <span>{iconFile.notifyIcon}</span>
               <span>{iconFile.chatIcon}</span>
               <span>{iconFile.giftIcon}</span>
