@@ -21,7 +21,7 @@
     span {
       padding: var(--rythm-12) var(--rythm-20);
       border-radius: 21px;
-      color: #333;
+      color: var(--body__graycolor);
       font-weight: 500;
       display: block;
     }
@@ -30,7 +30,8 @@
   &__label {
     position: absolute;
     top: -25px;
-    background: white;
+    background: var(--body_background);
+    color: var(--body_color) !important;
     padding: 0 6px;
     font-size: 12px;
     font-weight: bold;

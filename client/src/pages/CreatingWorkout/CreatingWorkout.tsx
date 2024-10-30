@@ -51,7 +51,7 @@ const CreatingWorkout = () => {
   };
 
   const handleAddWorkout = async () => {
-    if (selectedExercise && day && month && description && minutes !== "") {
+    if (selectedExercise && day && month && minutes !== "") {
       const newWorkout = {
         day: parseInt(day, 10),
         month,

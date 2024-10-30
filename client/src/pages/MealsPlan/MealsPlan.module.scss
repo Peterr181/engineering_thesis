@@ -8,6 +8,7 @@
 
     h3 {
       font-size: 20px;
+      color: var(--body_color);
     }
 
     ul {
@@ -88,7 +89,7 @@
 }
 .mealList {
   position: relative;
-  background-color: #f5f5f5;
+  background-color: var(--body_content);
   margin-top: 16px;
   border-radius: 11px;
   max-height: 0;
@@ -112,6 +113,10 @@
   align-items: center;
   gap: 16px;
   margin-top: 8px;
+
+  span {
+    color: var(--body_color) !important;
+  }
 
   &__total {
     display: flex;

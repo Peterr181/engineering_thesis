@@ -44,7 +44,7 @@
   border: 2.5px solid $mainColor;
 }
 .primaryOutlineRed {
-  color: #333;
+  color: var(--body_color);
   background-color: transparent;
   border-radius: var(--rythm-36);
 

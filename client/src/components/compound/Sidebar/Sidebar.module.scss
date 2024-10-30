@@ -37,7 +37,7 @@
     &__element {
       font-weight: 500;
       padding: var(--rythm-12) var(--rythm-20);
-      color: #7e7e7e;
+      color: var(--body_color);
       &:hover {
         color: black;
       }
