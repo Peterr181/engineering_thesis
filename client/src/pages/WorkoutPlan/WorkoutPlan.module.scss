@@ -72,6 +72,7 @@
 
   &__calendar {
     width: 400px;
+
     &__content {
       display: flex;
       flex-direction: column;
@@ -130,14 +131,20 @@
 }
 
 .react-calendar {
-  border: 1px solid #fff !important;
+  background-color: black !important;
 }
 
 .customCalendar {
-  border: 1px solid #fff !important;
+  background-color: var(--body_background) !important;
+  color: #fff !important;
+  border: none !important;
   margin-top: 16px;
 }
 
 .workoutPlanWrapper {
   margin-top: var(--rythm-32);
+}
+
+.currentView {
+  color: green;
 }

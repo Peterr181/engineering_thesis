@@ -28,7 +28,6 @@ const labelMappings: { [key: string]: string } = {
   caloric_intake_goal: "Daily Caloric Intake Goal",
   body_measurements: "Height (cm)",
   workout_frequency: "Workout Frequency (days per week)",
-
   weight: "Weight (kg)",
 };
 
@@ -73,6 +72,23 @@ const PersonalGoals: React.FC = () => {
     navigate("/");
   };
 
+  // Function to handle key press and restrict to numeric input
+  const handleNumericInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    // Allow: backspace, delete, tab, escape, enter, and digits
+    if (
+      event.key === "Backspace" ||
+      event.key === "Delete" ||
+      event.key === "Tab" ||
+      event.key === "Escape" ||
+      event.key === "Enter" ||
+      (event.key >= "0" && event.key <= "9")
+    ) {
+      return;
+    }
+    // Prevent input for anything else
+    event.preventDefault();
+  };
+
   return (
     <div className={styles.personalGoals}>
       <WhiteCardWrapper>
@@ -85,21 +101,23 @@ const PersonalGoals: React.FC = () => {
             control={control}
             rules={{ required: "Favorite Training is required." }}
             render={({ field }) => (
-              <TextField
-                select
-                label={labelMappings.favorite_training_type}
-                {...field}
-                fullWidth
-                margin="normal"
-                error={!!errors.favorite_training_type}
-                helperText={errors.favorite_training_type?.message}
-              >
-                <MenuItem value="Gym">Gym</MenuItem>
-                <MenuItem value="Cardio">Cardio</MenuItem>
-                <MenuItem value="Flexibility">Flexibility</MenuItem>
-                <MenuItem value="Combat">Combat</MenuItem>
-                <MenuItem value="Other">Other</MenuItem>
-              </TextField>
+              <div className={styles.inputField}>
+                <TextField
+                  select
+                  label={labelMappings.favorite_training_type}
+                  {...field}
+                  fullWidth
+                  margin="normal"
+                  error={!!errors.favorite_training_type}
+                  helperText={errors.favorite_training_type?.message}
+                >
+                  <MenuItem value="Gym">Gym</MenuItem>
+                  <MenuItem value="Cardio">Cardio</MenuItem>
+                  <MenuItem value="Flexibility">Flexibility</MenuItem>
+                  <MenuItem value="Combat">Combat</MenuItem>
+                  <MenuItem value="Other">Other</MenuItem>
+                </TextField>
+              </div>
             )}
           />
           <Controller
@@ -107,19 +125,23 @@ const PersonalGoals: React.FC = () => {
             control={control}
             rules={{ required: "Current Fitness Goals is required." }}
             render={({ field }) => (
-              <TextField
-                select
-                label={labelMappings.current_fitness_goals}
-                {...field}
-                fullWidth
-                margin="normal"
-                error={!!errors.current_fitness_goals}
-                helperText={errors.current_fitness_goals?.message}
-              >
-                <MenuItem value="Lose weight">Lose weight</MenuItem>
-                <MenuItem value="Gain weight">Gain weight</MenuItem>
-                <MenuItem value="Just stay healthy">Just stay healthy</MenuItem>
-              </TextField>
+              <div className={styles.inputField}>
+                <TextField
+                  select
+                  label={labelMappings.current_fitness_goals}
+                  {...field}
+                  fullWidth
+                  margin="normal"
+                  error={!!errors.current_fitness_goals}
+                  helperText={errors.current_fitness_goals?.message}
+                >
+                  <MenuItem value="Lose weight">Lose weight</MenuItem>
+                  <MenuItem value="Gain weight">Gain weight</MenuItem>
+                  <MenuItem value="Just stay healthy">
+                    Just stay healthy
+                  </MenuItem>
+                </TextField>
+              </div>
             )}
           />
 
@@ -131,16 +153,19 @@ const PersonalGoals: React.FC = () => {
               min: { value: 0, message: "Must be at least 0 liters." },
             }}
             render={({ field }) => (
-              <TextField
-                label={labelMappings.water_drunk_daily}
-                type="number"
-                inputProps={{ min: "0", step: "0.1" }}
-                {...field}
-                fullWidth
-                margin="normal"
-                error={!!errors.water_drunk_daily}
-                helperText={errors.water_drunk_daily?.message}
-              />
+              <div className={styles.inputField}>
+                <TextField
+                  label={labelMappings.water_drunk_daily}
+                  type="number"
+                  inputProps={{ min: "0", step: "0.1" }}
+                  onKeyPress={handleNumericInput} // Restricting input to numbers
+                  {...field}
+                  fullWidth
+                  margin="normal"
+                  error={!!errors.water_drunk_daily}
+                  helperText={errors.water_drunk_daily?.message}
+                />
+              </div>
             )}
           />
 
@@ -152,16 +177,19 @@ const PersonalGoals: React.FC = () => {
               min: { value: 0, message: "Must be at least 0 steps." },
             }}
             render={({ field }) => (
-              <TextField
-                label={labelMappings.steps_daily}
-                type="number"
-                inputProps={{ min: "0" }}
-                {...field}
-                fullWidth
-                margin="normal"
-                error={!!errors.steps_daily}
-                helperText={errors.steps_daily?.message}
-              />
+              <div className={styles.inputField}>
+                <TextField
+                  label={labelMappings.steps_daily}
+                  type="number"
+                  inputProps={{ min: "0" }}
+                  onKeyPress={handleNumericInput} // Restricting input to numbers
+                  {...field}
+                  fullWidth
+                  margin="normal"
+                  error={!!errors.steps_daily}
+                  helperText={errors.steps_daily?.message}
+                />
+              </div>
             )}
           />
 
@@ -174,16 +202,19 @@ const PersonalGoals: React.FC = () => {
               max: { value: 15000, message: "Cannot exceed 15,000 calories." },
             }}
             render={({ field }) => (
-              <TextField
-                label={labelMappings.caloric_intake_goal}
-                type="number"
-                inputProps={{ min: "0", max: "15000" }}
-                {...field}
-                fullWidth
-                margin="normal"
-                error={!!errors.caloric_intake_goal}
-                helperText={errors.caloric_intake_goal?.message}
-              />
+              <div className={styles.inputField}>
+                <TextField
+                  label={labelMappings.caloric_intake_goal}
+                  type="number"
+                  inputProps={{ min: "0", max: "15000" }}
+                  onKeyPress={handleNumericInput} // Restricting input to numbers
+                  {...field}
+                  fullWidth
+                  margin="normal"
+                  error={!!errors.caloric_intake_goal}
+                  helperText={errors.caloric_intake_goal?.message}
+                />
+              </div>
             )}
           />
 
@@ -195,16 +226,19 @@ const PersonalGoals: React.FC = () => {
               min: { value: 0, message: "Must be at least 0 cm." },
             }}
             render={({ field }) => (
-              <TextField
-                label={labelMappings.body_measurements}
-                type="number"
-                inputProps={{ min: "0" }}
-                {...field}
-                fullWidth
-                margin="normal"
-                error={!!errors.body_measurements}
-                helperText={errors.body_measurements?.message}
-              />
+              <div className={styles.inputField}>
+                <TextField
+                  label={labelMappings.body_measurements}
+                  type="number"
+                  inputProps={{ min: "0" }}
+                  onKeyPress={handleNumericInput} // Restricting input to numbers
+                  {...field}
+                  fullWidth
+                  margin="normal"
+                  error={!!errors.body_measurements}
+                  helperText={errors.body_measurements?.message}
+                />
+              </div>
             )}
           />
 
@@ -216,16 +250,19 @@ const PersonalGoals: React.FC = () => {
               min: { value: 0, message: "Must be at least 0 kg." },
             }}
             render={({ field }) => (
-              <TextField
-                label={labelMappings.weight}
-                type="number"
-                inputProps={{ min: "0" }}
-                {...field}
-                fullWidth
-                margin="normal"
-                error={!!errors.weight}
-                helperText={errors.weight?.message}
-              />
+              <div className={styles.inputField}>
+                <TextField
+                  label={labelMappings.weight}
+                  type="number"
+                  inputProps={{ min: "0" }}
+                  onKeyPress={handleNumericInput} // Restricting input to numbers
+                  {...field}
+                  fullWidth
+                  margin="normal"
+                  error={!!errors.weight}
+                  helperText={errors.weight?.message}
+                />
+              </div>
             )}
           />
 
@@ -236,34 +273,38 @@ const PersonalGoals: React.FC = () => {
               required: "Workout Frequency is required.",
             }}
             render={({ field }) => (
-              <TextField
-                select
-                label={labelMappings.workout_frequency}
-                {...field}
-                fullWidth
-                margin="normal"
-                error={!!errors.workout_frequency}
-                helperText={errors.workout_frequency?.message}
-              >
-                <MenuItem value="1-2 workouts per week">
-                  1-2 workouts per week
-                </MenuItem>
-                <MenuItem value="2-3 workouts per week">
-                  2-3 workouts per week
-                </MenuItem>
-                <MenuItem value="3-4 workouts per week">
-                  3-4 workouts per week
-                </MenuItem>
-                <MenuItem value="4-5 workouts per week">
-                  4-5 workouts per week
-                </MenuItem>
-              </TextField>
+              <div className={styles.inputField}>
+                <TextField
+                  select
+                  label={labelMappings.workout_frequency}
+                  {...field}
+                  fullWidth
+                  margin="normal"
+                  error={!!errors.workout_frequency}
+                  helperText={errors.workout_frequency?.message}
+                >
+                  <MenuItem value="1-2 workouts per week">
+                    1-2 workouts per week
+                  </MenuItem>
+                  <MenuItem value="2-3 workouts per week">
+                    2-3 workouts per week
+                  </MenuItem>
+                  <MenuItem value="3-4 workouts per week">
+                    3-4 workouts per week
+                  </MenuItem>
+                  <MenuItem value="4-5 workouts per week">
+                    4-5 workouts per week
+                  </MenuItem>
+                </TextField>
+              </div>
             )}
           />
 
           <div className={styles.personalGoals__buttons}>
             <Link to="/">
-              <button className={styles.backBtn}>Back</button>
+              <button type="button" className={styles.backBtn}>
+                Back
+              </button>
             </Link>
             <button type="submit" className={styles.finishBtn}>
               Submit
@@ -275,7 +316,7 @@ const PersonalGoals: React.FC = () => {
         <img src={questionMark} alt="question mark" />
       </div>
       <div className={styles.fitnessAppOverlay}>
-        <img src={fitnessApp} alt="question mark" />
+        <img src={fitnessApp} alt="fitness app" />
       </div>
     </div>
   );

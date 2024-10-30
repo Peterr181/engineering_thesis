@@ -399,7 +399,7 @@ export const iconFile = {
       <path d="M21 21l-6 -6" />
     </svg>
   ),
-  moonIcon: (
+  moonIconFilled: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       className="icon icon-tabler icon-tabler-moon-filled"
@@ -418,6 +418,23 @@ export const iconFile = {
         strokeWidth="0"
         fill="currentColor"
       />
+    </svg>
+  ),
+  moonIcon: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="icon icon-tabler icon-tabler-moon"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      strokeWidth="2"
+      stroke="currentColor"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 .003 .394 .008a9 9 0 1 0 9.692 8.245a7 7 0 0 1 -9.707 -8.254c.205 -.009 .411 -.014 .621 -.014z" />
     </svg>
   ),
   notifyIcon: (

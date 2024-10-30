@@ -31,6 +31,7 @@
     &__name {
       h3 {
         width: 60%;
+        color: var(--body_color);
       }
     }
     &__nutrients {
@@ -41,7 +42,7 @@
       span {
         padding: var(--rythm-8) var(--rythm-16);
         border-radius: 21px;
-        color: #333;
+        color: var(--body_color);
         font-weight: 500;
       }
 

@@ -50,9 +50,22 @@ const Navbar: React.FC = () => {
   };
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const handleDropdownToggle = () => {
     setDropdownOpen(!dropdownOpen);
+  };
+
+  const toggleTheme = () => {
+    const isDark =
+      document.querySelector("body")?.getAttribute("data-theme") === "dark";
+    if (isDark) {
+      document.querySelector("body")?.setAttribute("data-theme", "light");
+      setIsDarkMode(false);
+    } else {
+      document.querySelector("body")?.setAttribute("data-theme", "dark");
+      setIsDarkMode(true);
+    }
   };
 
   return (
@@ -61,20 +74,25 @@ const Navbar: React.FC = () => {
         <div className={styles.navbar__left}>
           {!hasPersonalData && userProfile && (
             <>
-              <Text textStyle="lg">
-                Set your personal details to use platform correctly
-              </Text>
-
-              <Link to="/personaldetails">
-                <Button variant="primaryOutlineRed">
-                  <Text textStyle="md">Set Details</Text>
-                </Button>
-              </Link>
+              <div className={styles.topText}>
+                <Text textStyle="lg">
+                  Set your personal details to use platform correctly
+                </Text>
+              </div>
+              <div className={styles.topText}>
+                <Link to="/personaldetails">
+                  <Button variant="primaryOutlineRed">
+                    <Text textStyle="md">Set Details</Text>
+                  </Button>
+                </Link>
+              </div>
             </>
           )}
           {hasPersonalData && workouts && (
             <>
-              <Text textStyle="lg">{t("navbar.workoutPlan")}</Text>
+              <div className={styles.topText}>
+                <Text textStyle="lg">{t("navbar.workoutPlan")}</Text>
+              </div>
               <Link to="/workoutplan">
                 <Button variant="primaryOutline">
                   <Text textStyle="md">{t("navbar.workoutPlanButton")}</Text>
@@ -87,7 +105,9 @@ const Navbar: React.FC = () => {
         {userProfile ? (
           <div className={styles.navbar__right}>
             <div className={styles.navbar__right__icons}>
-              <span>{iconFile.moonIcon}</span>
+              <span onClick={toggleTheme} className={styles.iconWithTransition}>
+                {isDarkMode ? iconFile.moonIconFilled : iconFile.moonIcon}
+              </span>
               <span>{iconFile.notifyIcon}</span>
               <span>{iconFile.chatIcon}</span>
               <span>{iconFile.giftIcon}</span>

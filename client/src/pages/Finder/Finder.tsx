@@ -109,7 +109,7 @@ const Finder = () => {
                   onChange={handleCityChange}
                   placeholder="Enter city name"
                 />
-                <button onClick={handleCitySearch}>Szukaj</button>
+                <button onClick={handleCitySearch}>Find</button>
               </div>
               <MapContainer
                 key={position ? position.toString() : "default"}

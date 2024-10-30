@@ -99,7 +99,9 @@ const WorkoutPlan = () => {
                       className={styles.workoutPlan__trainings__header__heading}
                     >
                       <h2>Workout plan</h2>
-                      <span>{`(${currentView.toUpperCase()})`}</span>
+                      <span
+                        className={styles.currentView}
+                      >{`(${currentView.toUpperCase()})`}</span>
                     </div>
                     <p>
                       Here you can see all your workouts. You can filter them by

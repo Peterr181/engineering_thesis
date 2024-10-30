@@ -48,6 +48,18 @@
     background-color: darken($mainColor, 10%);
   }
 }
+.inputField {
+  label {
+    color: var(--body_color);
+  }
+  input {
+    color: var(--body_color) !important;
+  }
+}
+
+.inputField div:last-child {
+  color: var(--body_color) !important;
+}
 
 .questionMarkOverlay {
   position: absolute;

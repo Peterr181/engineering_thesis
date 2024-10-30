@@ -1,9 +1,9 @@
 @import ".../../../../../styles/variables.scss";
 .navbar {
   &__wrapper {
-    background-color: #f7f7fc;
-    height: 112px;
-    height: var(--rythm-112);
+    background-color: var(--body__navbar);
+    height: 100px;
+
     position: relative;
   }
   max-width: var(--rythm-1600);
@@ -110,8 +110,9 @@
 
 .dropdownMenu {
   position: absolute;
-  background-color: white;
+  background-color: var(--body_content);
   border: 1px solid #ccc;
+
   width: 300px;
   padding: 10px;
   bottom: -310px;
@@ -126,6 +127,8 @@
     border-bottom: 1px solid #ccc;
     margin-bottom: var(--rythm-16);
     padding-bottom: var(--rythm-8);
+    color: var(--body_color);
+    font-weight: 600;
 
     img {
       width: var(--rythm-40);
@@ -138,6 +141,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--rythm-16);
+
     &__element {
       display: flex;
       align-items: center;
@@ -145,6 +149,7 @@
       cursor: pointer;
       transition: 0.3s all;
       padding: 8px;
+      color: var(--body_color);
 
       p {
         font-weight: 500 !important;
@@ -161,4 +166,17 @@
       }
     }
   }
+}
+
+.topText {
+  color: var(--body_color) !important;
+}
+
+.iconWithTransition {
+  transition: color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.iconWithTransition:hover {
+  transform: scale(1.1);
 }
