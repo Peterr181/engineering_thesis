@@ -227,7 +227,7 @@ const MealsPlan = () => {
                     Day Summary
                   </DialogTitle>
                   <DialogContent>
-                    {mealSummaryData ? ( // Use mealSummaryData directly
+                    {mealSummaryData ? ( 
                       <div className={styles.mealCalories}>
                         <div className={styles.mealCalories__total}>
                           <span className={styles.mealCalories__calories}>
@@ -245,7 +245,7 @@ const MealsPlan = () => {
                         </div>
                       </div>
                     ) : (
-                      <p>Loading...</p> // Display a loading message if data is not yet available
+                      <p>Loading...</p>
                     )}
                   </DialogContent>
                   <div className={styles.dialogClose}>

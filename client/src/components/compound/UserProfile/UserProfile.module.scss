@@ -1,0 +1,145 @@
+.userprofile {
+  margin-top: var(--rythm-32);
+  display: flex;
+  flex-direction: column;
+  gap: var(--rythm-16);
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rythm-16);
+  }
+
+  &__topSection {
+    margin-top: var(--rythm-16);
+    display: flex;
+    justify-content: space-around;
+
+    gap: var(--rythm-16);
+    margin-bottom: var(--rythm-32);
+
+    &__firstcol {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      gap: var(--rythm-8);
+      padding-right: 32px;
+      border-right: 1px solid #f5f5f5;
+
+      &__username {
+        font-size: var(--rythm-24);
+        font-weight: bold;
+        color: green !important;
+      }
+
+      &__sportlevel {
+        font-weight: 700;
+        font-size: var(--rythm-20);
+        color: var(--body_color);
+      }
+    }
+
+    &__avatar {
+      img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        margin-bottom: var(--rythm-16);
+      }
+    }
+
+    &__personalInfo {
+      display: flex;
+      flex-direction: column;
+      gap: var(--rythm-8);
+
+      &__items {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: var(--rythm-32);
+
+        &__item {
+          display: flex;
+          flex-direction: column;
+          gap: var(--rythm-8);
+          padding: 8px 16px;
+          border-radius: 8px;
+          border: 1px solid #f5f5f5;
+          color: var(--body_color);
+
+          &__header {
+            display: flex;
+            align-items: center;
+            gap: var(--rythm-8);
+          }
+        }
+      }
+
+      h3 {
+        margin-bottom: var(--rythm-8);
+        font-size: var(--rythm-24);
+        font-weight: bold;
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+
+        li {
+          font-size: var(--rythm-16);
+          line-height: var(--rythm-20);
+        }
+      }
+    }
+  }
+
+  &__workouts {
+    margin-top: var(--rythm-16);
+
+    h3 {
+      font-size: var(--rythm-24);
+      font-weight: bold;
+    }
+
+    &__header {
+      padding-bottom: var(--rythm-16);
+      border-bottom: 1px solid #f5f5f5;
+      color: var(--body__graycolor);
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+
+      li {
+        font-size: var(--rythm-16);
+        line-height: var(--rythm-20);
+      }
+    }
+  }
+
+  &__meals {
+    margin-top: var(--rythm-16);
+
+    h3 {
+      font-size: var(--rythm-24);
+      font-weight: bold;
+    }
+
+    &__header {
+      padding-bottom: var(--rythm-16);
+      border-bottom: 1px solid #f5f5f5;
+      color: var(--body__graycolor);
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+
+      li {
+        font-size: var(--rythm-16);
+        line-height: var(--rythm-20);
+      }
+    }
+  }
+}

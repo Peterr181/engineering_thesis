@@ -6,6 +6,7 @@ import {
   deleteWorkout,
   finishWorkout,
   getWeeklyWorkouts,
+  getWorkoutsByUserId,
 } from "../controllers/workoutController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 
@@ -16,6 +17,7 @@ router.use(authMiddleware);
 router.post("/", createWorkout);
 router.get("/", getWorkouts);
 router.get("/weekly", getWeeklyWorkouts);
+router.get("/:workoutId", getWorkoutsByUserId);
 router.put("/:workoutId", updateWorkout);
 router.delete("/:workoutId", deleteWorkout);
 router.post("/:workoutId/finish", finishWorkout);

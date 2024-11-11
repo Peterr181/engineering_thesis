@@ -16,6 +16,8 @@ import Profile from "./pages/Profile/Profile";
 import PersonalGoals from "./components/compound/MultistepForm/PersonalGoals";
 import ChatRoom from "./components/compound/ChatRoom/ChatRoom";
 import ProtectedRoute from "./context/ProtectedRoute";
+import Leaderboard from "./pages/Leaderboard/Leaderboard";
+import UserProfile from "./components/compound/UserProfile/UserProfile";
 
 function App() {
   return (
@@ -65,6 +67,14 @@ function App() {
           <Route
             path="/finder"
             element={<ProtectedRoute element={<Finder />} />}
+          />
+          <Route
+            path="/leaderboard"
+            element={<ProtectedRoute element={<Leaderboard />} />}
+          />
+          <Route
+            path="/users/:userId"
+            element={<ProtectedRoute element={<UserProfile />} />}
           />
           <Route
             path="/meals"

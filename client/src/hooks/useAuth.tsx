@@ -29,7 +29,7 @@ const useAuth = (): UserProfile | null => {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
     axios
-      .get(`${apiUrl}/user/profile`)
+      .get(`${apiUrl}/api/users/profile`)
       .then((res) => {
         setUserProfile(res.data.user);
       })

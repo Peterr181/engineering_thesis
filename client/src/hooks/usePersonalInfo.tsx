@@ -18,7 +18,7 @@ const defaultPersonalInfoData: PersonalInfoType[] = [
   { label: "weight", value: "" },
 ];
 
-export const usePersonalInfo = () => {
+export const usePersonalInfo = (userId?: string) => {
   const [personalInfoData, setPersonalInfoData] = useState<PersonalInfoType[]>(
     defaultPersonalInfoData
   );
@@ -28,6 +28,7 @@ export const usePersonalInfo = () => {
 
   axios.defaults.withCredentials = true;
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
   const fetchPersonalInfo = async () => {
     setLoading(true);
     setError(null);
@@ -41,7 +42,10 @@ export const usePersonalInfo = () => {
 
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      const response = await axios.get(`${apiUrl}/api/personal-info`);
+      const url = userId
+        ? `${apiUrl}/api/personal-info/${userId}`
+        : `${apiUrl}/api/personal-info`;
+      const response = await axios.get(url);
 
       const fetchedData = response.data.personalInfo || {};
 
@@ -133,10 +137,11 @@ export const usePersonalInfo = () => {
 
   useEffect(() => {
     fetchPersonalInfo();
-  }, []);
+  }, [userId]);
 
   return {
     personalInfoData,
+    fetchPersonalInfo,
     updatePersonalInfo,
     loading,
     error,

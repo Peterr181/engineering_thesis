@@ -23,9 +23,9 @@ interface WorkoutProps {
   day: number;
   month: string;
   name: string;
-  status: Status;
+  status?: Status;
   category: Category;
-  onFinish: () => void;
+  onFinish?: () => void;
   minutes: number;
 }
 
@@ -38,7 +38,7 @@ const Workout = ({
   minutes,
   onFinish,
 }: WorkoutProps) => {
-  const getStatusColor = (status: Status) => {
+  const getStatusColor = (status: Status = Status.NOT_STARTED) => {
     switch (status) {
       case Status.IN_PROGRESS:
         return styles.blue;
@@ -105,8 +105,8 @@ const Workout = ({
         {getCategoryIcon(category)}
         <p>{category}</p>
       </div>
-      <div className={styles.workout__buttons}>
-        {status !== Status.FINISHED && (
+      {onFinish && status !== Status.FINISHED && (
+        <div className={styles.workout__buttons}>
           <Button
             variant="almostGreen"
             rightIcon={iconFile.iconFinish}
@@ -114,8 +114,8 @@ const Workout = ({
           >
             <span>Finish</span>
           </Button>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

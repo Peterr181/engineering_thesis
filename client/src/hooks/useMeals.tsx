@@ -12,7 +12,7 @@ interface Meal {
   grams: number;
 }
 
-export const useMeals = () => {
+export const useMeals = (userId?: string) => {
   const [meals, setMeals] = useState<Meal[]>([]);
   const [mealSummaryData, setMealSummaryData] = useState<{
     totalCalories: number;
@@ -28,13 +28,13 @@ export const useMeals = () => {
 
   const isAuthenticated = () => {
     const token = localStorage.getItem("token");
-    return !!token; // Returns true if token exists
+    return !!token;
   };
 
   const fetchMeals = async () => {
     if (!isAuthenticated()) {
       setError("User not authenticated.");
-      return; // Prevent fetching if user is not authenticated
+      return;
     }
 
     setLoading(true);
@@ -48,7 +48,11 @@ export const useMeals = () => {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       }
 
-      const res = await axios.get(`${apiUrl}/api/meals`);
+      const url = userId
+        ? `${apiUrl}/api/meals/user/${userId}`
+        : `${apiUrl}/api/meals`;
+
+      const res = await axios.get(url);
 
       if (res.data) {
         setMeals(res.data.meals);
@@ -64,7 +68,7 @@ export const useMeals = () => {
   const fetchMealSummary = async () => {
     if (!isAuthenticated()) {
       setError("User not authenticated.");
-      return; // Prevent fetching if user is not authenticated
+      return;
     }
 
     setLoading(true);
@@ -77,7 +81,10 @@ export const useMeals = () => {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       }
 
-      const res = await axios.get(`${apiUrl}/api/meals/summary`);
+      const summaryUrl = userId
+        ? `${apiUrl}/api/meals/summary/${userId}`
+        : `${apiUrl}/api/meals/summary`;
+      const res = await axios.get(summaryUrl);
 
       if (res.data) {
         setMealSummaryData(res.data);
@@ -93,7 +100,7 @@ export const useMeals = () => {
   const addMeal = async (newMeal: Meal) => {
     if (!isAuthenticated()) {
       setError("User not authenticated.");
-      return; // Prevent adding meal if user is not authenticated
+      return;
     }
 
     setLoading(true);
@@ -108,7 +115,7 @@ export const useMeals = () => {
       const res = await axios.post(`${apiUrl}/api/meals`, newMeal);
       if (res.data) {
         setMeals((prevMeals) => [...prevMeals, res.data]);
-        await fetchMealSummary(); // Refresh the summary after adding a meal
+        await fetchMealSummary();
       }
     } catch (err) {
       setError("Error adding new meal.");
@@ -121,7 +128,7 @@ export const useMeals = () => {
   const deleteMeal = async (mealId: string) => {
     if (!isAuthenticated()) {
       setError("User not authenticated.");
-      return; // Prevent deleting meal if user is not authenticated
+      return;
     }
 
     setLoading(true);
@@ -134,8 +141,8 @@ export const useMeals = () => {
       }
 
       await axios.delete(`${apiUrl}/api/meals/${mealId}`);
-      fetchMeals(); // Refresh meals after deletion
-      await fetchMealSummary(); // Refresh the summary after deleting a meal
+      fetchMeals();
+      await fetchMealSummary();
     } catch (err) {
       setError("Error deleting meal.");
       console.error(err);

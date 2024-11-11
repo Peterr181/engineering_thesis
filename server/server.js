@@ -6,9 +6,7 @@ import { config } from "dotenv";
 import { Server } from "socket.io";
 import path from "path";
 import { fileURLToPath } from "url";
-import rateLimit from "express-rate-limit"; // Import express-rate-limit
 
-// Import routes
 import mealsRoutes from "./routes/mealsRoutes.js";
 import workoutRoutes from "./routes/workoutRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -18,10 +16,8 @@ import chatRoutes from "./routes/chatRoutes.js";
 import { saveMessage } from "./controllers/chatController.js";
 import expressSslify from "express-sslify";
 
-// Load environment variables
 config();
 
-// Define __filename and __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -67,7 +63,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/auth", authRoutes);
-app.use("/user", userRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/workouts", workoutRoutes);
 app.use("/api/meals", mealsRoutes);
 app.use("/api/personal-info", personalInfoRoutes);

@@ -52,12 +52,7 @@ const Sidebar = () => {
       text: t("sidebar.workoutplan"),
       link: "/workoutplan",
     },
-    {
-      id: "trainer",
-      icon: iconFile.trainerIcon,
-      text: t("sidebar.trainer"),
-      link: "/trainer",
-    },
+
     {
       id: "finder",
       icon: iconFile.mapIcon,
@@ -74,7 +69,7 @@ const Sidebar = () => {
       id: "users",
       icon: iconFile.usersIcon,
       text: t("sidebar.users"),
-      link: "/users",
+      link: "/leaderboard",
     },
   ];
 

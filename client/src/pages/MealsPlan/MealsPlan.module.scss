@@ -85,8 +85,10 @@
   h3 {
     font-weight: 600;
     color: green;
+    margin-bottom: 10px;
   }
 }
+
 .mealList {
   position: relative;
   background-color: var(--body_content);
@@ -260,4 +262,35 @@
 
 .mealsPlanWrapper {
   margin-top: var(--rythm-32);
+}
+
+.mealItem2 {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  flex-direction: column;
+
+  button {
+    width: 100%;
+    background-color: green;
+    font-weight: 600;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 64px;
+
+    svg {
+      stroke: red !important;
+      cursor: pointer;
+    }
+  }
+
+  h3 {
+    font-weight: 600;
+    color: green;
+    margin-bottom: 10px;
+  }
 }

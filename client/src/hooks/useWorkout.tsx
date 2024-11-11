@@ -13,7 +13,7 @@ interface Workout {
   minutes: number;
 }
 
-export const useWorkouts = () => {
+export const useWorkouts = (userId?: string) => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [weeklyWorkouts, setWeeklyWorkouts] = useState<Workout[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -40,7 +40,12 @@ export const useWorkouts = () => {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      const res = await axios.get(`${apiUrl}/api/workouts?sorted=${sorted}`);
+      // Construct the URL based on userId
+      const url = userId
+        ? `${apiUrl}/api/workouts/${userId}?sorted=${sorted}`
+        : `${apiUrl}/api/workouts?sorted=${sorted}`;
+
+      const res = await axios.get(url);
 
       if (res.data) {
         setWorkouts(res.data.workouts);
@@ -118,7 +123,12 @@ export const useWorkouts = () => {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      const res = await axios.get(`${apiUrl}/api/workouts/weekly`); // Adjust this URL based on your backend endpoint
+      // Construct the URL based on userId
+      const url = userId
+        ? `${apiUrl}/api/workouts/weekly/${userId}`
+        : `${apiUrl}/api/workouts/weekly`;
+
+      const res = await axios.get(url); // Adjust this URL based on your backend endpoint
       if (res.data) {
         setWeeklyWorkouts(res.data.workouts); // Store weekly workouts
       }

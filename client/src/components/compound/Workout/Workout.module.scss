@@ -58,9 +58,6 @@
   }
 
   &__category {
-    p {
-    }
-
     &.gym {
       p {
         color: #ff5722;
@@ -76,6 +73,7 @@
     gap: var(--rythm-16);
     align-items: center;
     font-size: var(--rythm-16);
+    margin-right: var(--rythm-48);
   }
 
   .status {

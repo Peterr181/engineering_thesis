@@ -110,3 +110,22 @@ export const deletePersonalInfo = (req, res) => {
       .json({ message: "Personal info deleted successfully." });
   });
 };
+
+export const getPersonalInfoById = (req, res) => {
+  const { userId } = req.params;
+
+  const sql = `SELECT * FROM personal_info WHERE user_id = ?`;
+
+  db.query(sql, [userId], (err, result) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Database error occurred." });
+    }
+
+    if (result.length > 0) {
+      return res.status(200).json({ personalInfo: result[0] });
+    } else {
+      return res.status(404).json({ error: "Personal info not found." });
+    }
+  });
+};

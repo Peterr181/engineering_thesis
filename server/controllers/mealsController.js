@@ -104,3 +104,16 @@ export const getMealSummary = (req, res) => {
     });
   });
 };
+
+export const getMealsByUserId = (req, res) => {
+  const { userId } = req.params;
+
+  const sql = `SELECT * FROM meals WHERE user_id = ? ORDER BY date_added DESC`;
+  db.query(sql, [userId], (err, results) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Database error occurred." });
+    }
+    return res.status(200).json({ meals: results });
+  });
+};

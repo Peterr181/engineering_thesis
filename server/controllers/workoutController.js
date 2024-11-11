@@ -146,7 +146,7 @@ export const getWeeklyWorkouts = (req, res) => {
       .join(" ")}
     END)`;
 
-  // Construct SQL query using the current year
+
   const sql = `
       SELECT * FROM workouts 
       WHERE user_id = ? 
@@ -170,9 +170,9 @@ export const getWeeklyWorkouts = (req, res) => {
       return res.status(500).json({ error: "Database error.", details: err });
     }
 
-    // Add day name to each workout
+   
     const workoutsWithDayName = results.map((workout) => {
-      const monthNumber = monthMap[workout.month] - 1; // Convert to zero-based index
+      const monthNumber = monthMap[workout.month] - 1;
       const workoutDate = new Date(currentYear, monthNumber, workout.day);
       return {
         ...workout,
@@ -238,5 +238,23 @@ export const finishWorkout = (req, res) => {
         .json({ error: "Workout not found or unauthorized." });
     }
     return res.status(200).json({ message: "Workout marked as finished." });
+  });
+};
+
+export const getWorkoutsByUserId = (req, res) => {
+  const userId = req.user.userId; 
+
+  const sql = `SELECT * FROM workouts WHERE user_id = ?`; 
+  db.query(sql, [userId], (err, results) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Database error occurred." });
+    }
+    if (results.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No workouts found for this user." });
+    }
+    return res.status(200).json({ workouts: results });
   });
 };
