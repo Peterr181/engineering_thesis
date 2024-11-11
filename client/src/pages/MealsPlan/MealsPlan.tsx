@@ -42,6 +42,9 @@ interface Meal {
   image?: string;
 }
 
+interface ArchivedMeal extends Meal {
+  date_added: string;
+}
 const MealsPlan = () => {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     breakfast: false,
@@ -64,8 +67,10 @@ const MealsPlan = () => {
 
   const [isArchiveDialogOpen, setIsArchiveDialogOpen] = useState(false);
   const [uniqueDates, setUniqueDates] = useState<string[]>([]);
-  const [archivedMeals, setArchivedMeals] = useState<Meal[]>([]);
-  const [selectedDateMeals, setSelectedDateMeals] = useState<Meal[]>([]);
+  const [archivedMeals, setArchivedMeals] = useState<ArchivedMeal[]>([]);
+  const [selectedDateMeals, setSelectedDateMeals] = useState<ArchivedMeal[]>(
+    []
+  );
   const [isViewingArchived, setIsViewingArchived] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
@@ -92,24 +97,24 @@ const MealsPlan = () => {
       setArchivedMeals(meals); // Ensure this sets the correct state
 
       // Extract unique dates from `date_added` and format them to "YYYY-MM-DD"
-      const dates = Array.from(
+      const dates: string[] = Array.from(
         new Set(
-          meals.map((meal) => dayjs(meal.date_added).format("YYYY-MM-DD"))
+          meals.map((meal: ArchivedMeal) =>
+            dayjs(meal.date_added).format("YYYY-MM-DD")
+          )
         )
       );
 
       // Filter dates to only include those before the current date
-      const filteredDates = dates.filter((date) =>
+      const filteredDates = dates.filter((date: string) =>
         dayjs(date).isBefore(dayjs(), "day")
       );
 
-      setUniqueDates(filteredDates);
+      setUniqueDates(filteredDates as string[]);
     } catch (error) {
       console.error("Error fetching archived meals:", error);
     }
   };
-
-  console.log(archivedMeals);
 
   const handleShowArchivedDialog = () => {
     setIsArchiveDialogOpen(true);
@@ -122,7 +127,8 @@ const MealsPlan = () => {
 
   const handleShowMealsForDate = (date: string) => {
     const mealsForDate = archivedMeals.filter(
-      (meal) => dayjs(meal.date_added).format("YYYY-MM-DD") === date
+      (meal: ArchivedMeal) =>
+        dayjs(meal.date_added).format("YYYY-MM-DD") === date
     );
     setSelectedDateMeals(mealsForDate);
     setSelectedDate(date);
@@ -388,7 +394,10 @@ const MealsPlan = () => {
                   const sectionMeals = isViewingArchived
                     ? selectedDateMeals.filter((meal) => meal.type === section)
                     : meals.filter((meal) => meal.type === section);
-                  const totals = calculateTotals(section, sectionMeals);
+                  const totals = calculateTotals(
+                    section,
+                    sectionMeals as Meal[]
+                  );
 
                   return (
                     <div key={section} className={styles.mealSection}>
