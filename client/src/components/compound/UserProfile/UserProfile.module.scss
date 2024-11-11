@@ -37,6 +37,14 @@
         font-size: var(--rythm-20);
         color: var(--body_color);
       }
+
+      &__buttons {
+        display: flex;
+        gap: var(--rythm-8);
+        button {
+          font-weight: 600;
+        }
+      }
     }
 
     &__avatar {

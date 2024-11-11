@@ -17,6 +17,7 @@ import avatar6 from "../../../assets/images/avatar6.png";
 import { iconFile } from "../../../assets/iconFile";
 import Workout, { Category } from "../Workout/Workout";
 import UserMealsPlan from "../../../pages/MealsPlan/UserMealsPlan";
+import { Button } from "@mui/material";
 
 const labelMappings: { [key: string]: string } = {
   favorite_training_type: "Favorite Training",
@@ -134,6 +135,18 @@ const UserProfile = () => {
                       ? "Intermediate"
                       : "Advanced"}
                   </p>
+                  <div
+                    className={
+                      styles.userprofile__topSection__firstcol__buttons
+                    }
+                  >
+                    <Button variant="contained" color="primary">
+                      Message
+                    </Button>
+                    <Button variant="contained" color="success">
+                      Follow
+                    </Button>
+                  </div>
                 </div>
 
                 <div className={styles.userprofile__topSection__personalInfo}>

@@ -12,6 +12,7 @@ import avatar4 from "../../assets/images/avatar4.png";
 import avatar5 from "../../assets/images/avatar5.png";
 import avatar6 from "../../assets/images/avatar6.png";
 import { Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const avatarImages: { [key: string]: string } = {
   "avatar1.png": avatar1,
@@ -24,6 +25,7 @@ const avatarImages: { [key: string]: string } = {
 
 const Leaderboard = () => {
   const { users, fetchUsers } = useUsers();
+  const userProfile = useAuth(); // Get the current logged-in user
 
   useEffect(() => {
     fetchUsers();
@@ -50,28 +52,30 @@ const Leaderboard = () => {
             <h2>Leaderboard</h2>
             <p>Browse users workout plans, diets, and special points.</p>
             <div className={styles.userList}>
-              {users.map((user) => (
-                <Link to={`/users/${user.id}`}>
-                  <div key={user.id} className={styles.userItem}>
-                    <img
-                      src={
-                        avatarImages[
-                          (user.avatar as keyof typeof avatarImages) ??
-                            "avatar1.png"
-                        ]
-                      }
-                      alt={`${user.username}'s avatar`}
-                      className={styles.avatar}
-                    />
-                    <div className={styles.userInfo}>
-                      <span className={styles.sportLevel}>
-                        {getSportLevelLabel(Number(user.sportLevel))}
-                      </span>
-                      <span className={styles.username}>{user.username}</span>
+              {users
+                .filter((user) => user.id !== userProfile?.id) // Filter out the current user
+                .map((user) => (
+                  <Link to={`/users/${user.id}`} key={user.id}>
+                    <div className={styles.userItem}>
+                      <img
+                        src={
+                          avatarImages[
+                            (user.avatar as keyof typeof avatarImages) ??
+                              "avatar1.png"
+                          ]
+                        }
+                        alt={`${user.username}'s avatar`}
+                        className={styles.avatar}
+                      />
+                      <div className={styles.userInfo}>
+                        <span className={styles.sportLevel}>
+                          {getSportLevelLabel(Number(user.sportLevel))}
+                        </span>
+                        <span className={styles.username}>{user.username}</span>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                ))}
             </div>
           </WhiteCardWrapper>
         </MaxWidthWrapper>
