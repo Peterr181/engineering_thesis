@@ -24,11 +24,15 @@ Done:
 - Creating personal diet plan (setting calories that you want to have in diet, and products something like on fitatu)
 - Online chat rooms with different sport hobbies
 - CI/CD for github actions
+- step when registering new account (filling number of calories, water you want to drink now, steps, and set progress)
+- Browsing through platform community, inspecting each profile and user's data.
+- Display basic (for now) statistics about workouts, meals
 
 Closest things to be done:
 
 - Inspecting workout that was being added to your plan
-- Add one more step when registering new account (filling number of calories, water you want to drink now, steps, and set progress)
+- Ability to add more detailed workout plan for gym
+
 
 ### Prerequisites
 
