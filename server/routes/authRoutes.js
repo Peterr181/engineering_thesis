@@ -4,6 +4,7 @@ import {
   login,
   logout,
   verifyUser,
+  changePassword,
 } from "../controllers/authController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 
@@ -13,5 +14,6 @@ router.post("/register", register);
 router.post("/login", login);
 router.get("/logout", authMiddleware, logout);
 router.get("/verify", authMiddleware, verifyUser);
+router.post("/change-password", authMiddleware, changePassword);
 
 export default router;

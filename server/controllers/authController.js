@@ -94,6 +94,55 @@ export const login = (req, res) => {
   });
 };
 
+export const changePassword = (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  const userId = req.user?.userId; // Access userId from req.user
+
+  if (!userId) {
+    return res.status(400).json({ error: "User not found" });
+  }
+
+  // Check if the user exists in the database
+  const sql = "SELECT * FROM users WHERE id = ?";
+  db.query(sql, [userId], (err, result) => {
+    if (err) return res.status(500).json({ error: "Internal Server Error" });
+
+    if (result.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const user = result[0];
+
+    // Compare the current password with the hashed password
+    bcrypt.compare(currentPassword, user.password, (err, isMatch) => {
+      if (err)
+        return res.status(500).json({ error: "Error comparing passwords" });
+
+      if (!isMatch) {
+        return res.status(401).json({ error: "Incorrect current password" });
+      }
+
+      // Hash the new password
+      bcrypt.hash(newPassword, 10, (err, hashedPassword) => {
+        if (err)
+          return res.status(500).json({ error: "Error hashing password" });
+
+        // Update the user's password in the database
+        const updateSql = "UPDATE users SET password = ? WHERE id = ?";
+        db.query(updateSql, [hashedPassword, userId], (err, updateResult) => {
+          if (err)
+            return res.status(500).json({ error: "Error updating password" });
+
+          return res.status(200).json({
+            status: "Success",
+            message: "Password updated successfully",
+          });
+        });
+      });
+    });
+  });
+};
+
 export const logout = (req, res) => {
   return res.json({ status: "Success", message: "User logged out" });
 };
