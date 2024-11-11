@@ -24,7 +24,7 @@ export const createMeal = (req, res) => {
 export const getMeals = (req, res) => {
   const userId = req.user.userId;
 
-  const sql = `SELECT * FROM meals WHERE user_id = ? ORDER BY date_added DESC`;
+  const sql = `SELECT * FROM meals WHERE user_id = ? AND archived = FALSE ORDER BY date_added DESC`;
   db.query(sql, [userId], (err, results) => {
     if (err) {
       console.error("Database error:", err);
@@ -87,7 +87,7 @@ export const getMealSummary = (req, res) => {
                       SUM(carbs) AS totalCarbs, 
                       SUM(fats) AS totalFats 
                FROM meals 
-               WHERE user_id = ?`;
+               WHERE user_id = ? AND archived = 0`;
 
   db.query(sql, [userId], (err, results) => {
     if (err) {
@@ -108,7 +108,20 @@ export const getMealSummary = (req, res) => {
 export const getMealsByUserId = (req, res) => {
   const { userId } = req.params;
 
-  const sql = `SELECT * FROM meals WHERE user_id = ? ORDER BY date_added DESC`;
+  const sql = `SELECT * FROM meals WHERE user_id = ? AND archived = 0 ORDER BY date_added DESC`;
+  db.query(sql, [userId], (err, results) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Database error occurred." });
+    }
+    return res.status(200).json({ meals: results });
+  });
+};
+
+export const getArchivedMeals = (req, res) => {
+  const userId = req.user.userId;
+
+  const sql = `SELECT * FROM meals WHERE user_id = ? AND archived = 1 ORDER BY date_added DESC`;
   db.query(sql, [userId], (err, results) => {
     if (err) {
       console.error("Database error:", err);

@@ -125,6 +125,35 @@ export const useMeals = (userId?: string) => {
     }
   };
 
+  const fetchArchivedMeals = async () => {
+    if (!isAuthenticated()) {
+      setError("User not authenticated.");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      }
+
+      const res = await axios.get(`${apiUrl}/api/meals/archived`);
+      if (res.data) {
+        return res.data.meals; // Return the archived meals
+      }
+    } catch (err) {
+      setError("Error fetching archived meals.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+    return [];
+  };
+
   const deleteMeal = async (mealId: string) => {
     if (!isAuthenticated()) {
       setError("User not authenticated.");
@@ -154,6 +183,7 @@ export const useMeals = (userId?: string) => {
   return {
     meals,
     fetchMeals,
+    fetchArchivedMeals,
     mealSummaryData,
     addMeal,
     deleteMeal,

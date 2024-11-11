@@ -71,6 +71,12 @@ const Sidebar = () => {
       text: t("sidebar.users"),
       link: "/leaderboard",
     },
+    {
+      id: "goals",
+      icon: iconFile.goalsIcon,
+      text: t("sidebar.goals"),
+      link: "/goals",
+    },
   ];
 
   return (

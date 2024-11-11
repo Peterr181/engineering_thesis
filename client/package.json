@@ -19,6 +19,7 @@
     "@react-leaflet/core": "^2.1.0",
     "@tabler/icons-react": "^2.42.0",
     "axios": "^1.6.7",
+    "dayjs": "^1.11.13",
     "dotenv": "^16.4.5",
     "i18next": "^23.7.11",
     "leaflet": "^1.9.4",

@@ -12,6 +12,7 @@ import ButtonMy from "../../components/atomic/Button/Button";
 import { iconFile } from "../../assets/iconFile";
 import { useMeals } from "../../hooks/useMeals";
 import axios from "axios";
+import dayjs from "dayjs";
 
 interface Food {
   foodId: string;
@@ -61,12 +62,79 @@ const MealsPlan = () => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [mealToDelete, setMealToDelete] = useState<string | null>(null);
 
-  const { meals, fetchMeals, mealSummaryData, addMeal, deleteMeal } =
-    useMeals();
+  const [isArchiveDialogOpen, setIsArchiveDialogOpen] = useState(false);
+  const [uniqueDates, setUniqueDates] = useState<string[]>([]);
+  const [archivedMeals, setArchivedMeals] = useState<Meal[]>([]);
+  const [selectedDateMeals, setSelectedDateMeals] = useState<Meal[]>([]);
+  const [isViewingArchived, setIsViewingArchived] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+
+  const {
+    meals,
+    fetchMeals,
+    mealSummaryData,
+    addMeal,
+    deleteMeal,
+    fetchArchivedMeals,
+  } = useMeals();
 
   useEffect(() => {
     fetchMeals();
   }, [isMealAdded]);
+
+  useEffect(() => {
+    fetchAllArchivedMeals();
+  }, []);
+
+  const fetchAllArchivedMeals = async () => {
+    try {
+      const meals = await fetchArchivedMeals();
+      setArchivedMeals(meals); // Ensure this sets the correct state
+
+      // Extract unique dates from `date_added` and format them to "YYYY-MM-DD"
+      const dates = Array.from(
+        new Set(
+          meals.map((meal) => dayjs(meal.date_added).format("YYYY-MM-DD"))
+        )
+      );
+
+      // Filter dates to only include those before the current date
+      const filteredDates = dates.filter((date) =>
+        dayjs(date).isBefore(dayjs(), "day")
+      );
+
+      setUniqueDates(filteredDates);
+    } catch (error) {
+      console.error("Error fetching archived meals:", error);
+    }
+  };
+
+  console.log(archivedMeals);
+
+  const handleShowArchivedDialog = () => {
+    setIsArchiveDialogOpen(true);
+  };
+
+  const handleCloseArchivedDialog = () => {
+    setIsArchiveDialogOpen(false);
+    // Clear selected meals when dialog closes
+  };
+
+  const handleShowMealsForDate = (date: string) => {
+    const mealsForDate = archivedMeals.filter(
+      (meal) => dayjs(meal.date_added).format("YYYY-MM-DD") === date
+    );
+    setSelectedDateMeals(mealsForDate);
+    setSelectedDate(date);
+    setIsViewingArchived(true);
+    handleCloseArchivedDialog();
+  };
+
+  const handleShowTodayMeals = () => {
+    setSelectedDateMeals([]);
+    setSelectedDate(null);
+    setIsViewingArchived(false);
+  };
 
   const toggleSection = (section: keyof typeof openSections) => {
     setOpenSections((prevState) => ({
@@ -151,8 +219,10 @@ const MealsPlan = () => {
     }
   };
 
-  const calculateTotals = (mealType: string) => {
-    const mealTypeMeals = meals.filter((meal) => meal.type === mealType);
+  const calculateTotals = (mealType: string, mealsToCalculate: Meal[]) => {
+    const mealTypeMeals = mealsToCalculate.filter(
+      (meal) => meal.type === mealType
+    );
 
     const totalCalories = Math.round(
       mealTypeMeals.reduce((total, meal) => total + meal.calories, 0)
@@ -200,13 +270,52 @@ const MealsPlan = () => {
             <div className={styles.mealsPlan}>
               <div className={styles.mealsPlanInitial}>
                 <div>
-                  <h2>Your personal meals plan</h2>
+                  <h2>
+                    Your personal meals plan
+                    {selectedDate && (
+                      <span className={styles.selectedDate}>
+                        {" "}
+                        - {selectedDate}
+                      </span>
+                    )}
+                  </h2>
+
+                  <Dialog
+                    open={isArchiveDialogOpen}
+                    onClose={handleCloseArchivedDialog}
+                    fullWidth
+                    maxWidth="sm"
+                  >
+                    <DialogTitle align="center">Archived Meals</DialogTitle>
+                    <DialogContent>
+                      {/* Date Buttons */}
+                      <div className={styles.mealsPlanButtons}>
+                        {uniqueDates.map((date) => (
+                          <Button
+                            key={date}
+                            variant="outlined"
+                            onClick={() => handleShowMealsForDate(date)}
+                          >
+                            {date}
+                          </Button>
+                        ))}
+                      </div>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button
+                        onClick={handleCloseArchivedDialog}
+                        color="primary"
+                      >
+                        Close
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
                   <p>
                     Here you can find your personal meals plan. It is generated
                     based on your preferences and goals.
                   </p>
                 </div>
-                <div>
+                <div className={styles.mealsPlanButtons}>
                   <Button
                     variant="contained"
                     color="info"
@@ -214,6 +323,22 @@ const MealsPlan = () => {
                   >
                     Day summary
                   </Button>
+                  <Button
+                    variant="contained"
+                    color="warning"
+                    onClick={handleShowArchivedDialog}
+                  >
+                    Archived Meals
+                  </Button>
+                  {isViewingArchived && (
+                    <Button
+                      variant="contained"
+                      color="success"
+                      onClick={handleShowTodayMeals}
+                    >
+                      Today
+                    </Button>
+                  )}
                 </div>
               </div>
               <div className={styles.summaryDialog}>
@@ -227,7 +352,7 @@ const MealsPlan = () => {
                     Day Summary
                   </DialogTitle>
                   <DialogContent>
-                    {mealSummaryData ? ( 
+                    {mealSummaryData ? (
                       <div className={styles.mealCalories}>
                         <div className={styles.mealCalories__total}>
                           <span className={styles.mealCalories__calories}>
@@ -260,7 +385,11 @@ const MealsPlan = () => {
               </div>
               {["breakfast", "lunch", "dinner", "snacks", "supper"].map(
                 (section) => {
-                  const totals = calculateTotals(section);
+                  const sectionMeals = isViewingArchived
+                    ? selectedDateMeals.filter((meal) => meal.type === section)
+                    : meals.filter((meal) => meal.type === section);
+                  const totals = calculateTotals(section, sectionMeals);
+
                   return (
                     <div key={section} className={styles.mealSection}>
                       <div className={styles.sectionHeader}>
@@ -272,10 +401,7 @@ const MealsPlan = () => {
                             {section.charAt(0).toUpperCase() + section.slice(1)}
                           </h3>
 
-                          {meals.filter((meal) => meal.type === section)
-                            .length > 0 ? (
-                            iconFile.arrowDown
-                          ) : (
+                          {!isViewingArchived && sectionMeals.length === 0 && (
                             <Button
                               variant="contained"
                               color="success"
@@ -304,23 +430,20 @@ const MealsPlan = () => {
                           {totals.totalFats}g Fats
                         </span>
                       </div>
-
-                      {meals.filter((meal) => meal.type === section).length >
-                      0 ? (
+                      {sectionMeals.length > 0 ? (
                         <ul
                           className={`${styles.mealList} ${
                             openSections[section] ? styles.show : ""
                           }`}
                         >
-                          {meals
-                            .filter((meal) => meal.type === section)
-                            .map((meal, index) => (
-                              <li key={index} className={styles.mealItem}>
-                                <div className={styles.mealItem__header}>
-                                  <div>
-                                    <h3>{meal.name}</h3>
-                                    <p>{meal.grams}g</p>
-                                  </div>
+                          {sectionMeals.map((meal, index) => (
+                            <li key={index} className={styles.mealItem}>
+                              <div className={styles.mealItem__header}>
+                                <div>
+                                  <h3>{meal.name}</h3>
+                                  <p>{meal.grams}g</p>
+                                </div>
+                                {!isViewingArchived && (
                                   <span
                                     onClick={() =>
                                       handleOpenDeleteDialog(meal.id ?? "")
@@ -328,29 +451,32 @@ const MealsPlan = () => {
                                   >
                                     {iconFile.circleMinus}
                                   </span>
-                                </div>
-                                <div className={styles.totalsSummary}>
-                                  <span>{Math.round(meal.calories)} kcal</span>
-                                  <span>
-                                    Protein: {Math.round(meal.protein)}g
-                                  </span>
-                                  <span>Carbs: {Math.round(meal.carbs)}g</span>
-                                  <span>Fats: {Math.round(meal.fats)}g</span>
-                                </div>
-                              </li>
-                            ))}
-                          <div className={styles.addButton}>
-                            <Button
-                              variant="contained"
-                              color="success"
-                              onClick={() => {
-                                handleOpenDialog(section);
-                                setIsMealAdded(false);
-                              }}
-                            >
-                              Add Meal
-                            </Button>
-                          </div>
+                                )}
+                              </div>
+                              <div className={styles.totalsSummary}>
+                                <span>{Math.round(meal.calories)} kcal</span>
+                                <span>
+                                  Protein: {Math.round(meal.protein)}g
+                                </span>
+                                <span>Carbs: {Math.round(meal.carbs)}g</span>
+                                <span>Fats: {Math.round(meal.fats)}g</span>
+                              </div>
+                            </li>
+                          ))}
+                          {!isViewingArchived && (
+                            <div className={styles.addButton}>
+                              <Button
+                                variant="contained"
+                                color="success"
+                                onClick={() => {
+                                  handleOpenDialog(section);
+                                  setIsMealAdded(false);
+                                }}
+                              >
+                                Add Meal
+                              </Button>
+                            </div>
+                          )}
                         </ul>
                       ) : null}
                     </div>

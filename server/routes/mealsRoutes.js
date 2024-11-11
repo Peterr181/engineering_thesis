@@ -5,7 +5,8 @@ import {
   updateMeal,
   deleteMeal,
   getMealSummary,
-  getMealsByUserId, // import the new function
+  getMealsByUserId,
+  getArchivedMeals,
 } from "../controllers/mealsController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 
@@ -17,6 +18,7 @@ router.post("/", createMeal);
 router.get("/", getMeals);
 router.get("/summary", getMealSummary);
 router.get("/user/:userId", getMealsByUserId);
+router.get("/archived", getArchivedMeals);
 router.put("/:mealId", updateMeal);
 router.delete("/:mealId", deleteMeal);
 

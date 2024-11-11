@@ -23,10 +23,11 @@
     "finder": "Lokalizator",
     "workoutplan": "Plan treningowy",
     "statistics": "Statystyki",
-    "users": "Użytkownicy",
+    "users": "Społeczność",
     "gymeroLogo": "G",
     "gymeroFullLogo": "Gymero.",
-    "logout": "Wyloguj się"
+    "logout": "Wyloguj się",
+    "goals": "Cele"
   },
 
   "upcomingWorkouts": {

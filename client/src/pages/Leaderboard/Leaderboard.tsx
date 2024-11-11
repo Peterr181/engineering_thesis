@@ -4,28 +4,13 @@ import MaxWidthWrapper from "../../components/compound/MaxWidthWrapper/MaxWidthW
 import WhiteCardWrapper from "../../components/atomic/WhiteCardWrapper/WhiteCardWrapper";
 import useUsers from "../../hooks/useUsers";
 import { useEffect } from "react";
-
-import avatar1 from "../../assets/images/avatar1.png";
-import avatar2 from "../../assets/images/avatar2.png";
-import avatar3 from "../../assets/images/avatar3.png";
-import avatar4 from "../../assets/images/avatar4.png";
-import avatar5 from "../../assets/images/avatar5.png";
-import avatar6 from "../../assets/images/avatar6.png";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-
-const avatarImages: { [key: string]: string } = {
-  "avatar1.png": avatar1,
-  "avatar2.png": avatar2,
-  "avatar3.png": avatar3,
-  "avatar4.png": avatar4,
-  "avatar5.png": avatar5,
-  "avatar6.png": avatar6,
-};
+import avatarImages from "../../utils/avatarImages";
 
 const Leaderboard = () => {
   const { users, fetchUsers } = useUsers();
-  const userProfile = useAuth(); // Get the current logged-in user
+  const userProfile = useAuth();
 
   useEffect(() => {
     fetchUsers();
@@ -53,7 +38,7 @@ const Leaderboard = () => {
             <p>Browse users workout plans, diets, and special points.</p>
             <div className={styles.userList}>
               {users
-                .filter((user) => user.id !== userProfile?.id) // Filter out the current user
+                .filter((user) => user.id !== userProfile?.id)
                 .map((user) => (
                   <Link to={`/users/${user.id}`} key={user.id}>
                     <div className={styles.userItem}>
