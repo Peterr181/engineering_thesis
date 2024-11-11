@@ -296,15 +296,21 @@ const MealsPlan = () => {
                     <DialogContent>
                       {/* Date Buttons */}
                       <div className={styles.mealsPlanButtons}>
-                        {uniqueDates.map((date) => (
-                          <Button
-                            key={date}
-                            variant="outlined"
-                            onClick={() => handleShowMealsForDate(date)}
-                          >
-                            {date}
-                          </Button>
-                        ))}
+                        {uniqueDates.length > 0 ? (
+                          uniqueDates.map((date) => (
+                            <Button
+                              key={date}
+                              variant="outlined"
+                              onClick={() => handleShowMealsForDate(date)}
+                            >
+                              {date}
+                            </Button>
+                          ))
+                        ) : (
+                          <div className={styles.emptyMessage}>
+                            <p>Oops, there are no archived days.</p>
+                          </div>
+                        )}
                       </div>
                     </DialogContent>
                     <DialogActions>
@@ -375,8 +381,12 @@ const MealsPlan = () => {
                           </span>
                         </div>
                       </div>
-                    ) : (
+                    ) : meals.length > 0 ? (
                       <p>Loading...</p>
+                    ) : (
+                      <p className={styles.emptyMessage}>
+                        Add some meals to display the total summary.
+                      </p>
                     )}
                   </DialogContent>
                   <div className={styles.dialogClose}>
