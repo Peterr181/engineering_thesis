@@ -6,7 +6,8 @@ You can visit this website here! It's deployed on Heroku!
 
 Visit website [Gymero](https://gymero.live)
 
-![obraz](https://github.com/user-attachments/assets/dd758bd5-8707-404f-b8e9-b24efa70ceb8)
+![obraz](https://github.com/user-attachments/assets/0c9ed580-0130-462f-8724-dd121ed74e5a)
+
 
 ## Functionalities:
 
@@ -28,6 +29,7 @@ Done:
 - Browsing through platform community, inspecting each profile and user's data.
 - Display basic (for now) statistics about workouts, meals
 - Added sending messages between users and notification about new message
+- Streak days for logging in (virtual dollars giving to each user for logging in)
 
 Closest things to be done:
 
