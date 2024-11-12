@@ -11,6 +11,8 @@
   --body_color: black;
   --body__graycolor: #7e7e7e;
   --body__navbar: #f7f7fc;
+  --body__lightgreen: #e9faee;
+  --body__darkgreen: #c5e4cf;
 }
 
 [data-theme="dark"] {
@@ -20,6 +22,9 @@
   --body_color: white;
   --body__graycolor: #7e7e7e;
   --body__navbar: #1a1a1a;
+
+  --body__lightgreen: #1d1d1d;
+  --body__darkgreen: #1d1d1d;
 }
 
 body {

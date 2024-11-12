@@ -12,6 +12,7 @@ import MealsSummary from "../../components/compound/MealsSummary/MealsSummary";
 import { usePersonalInfo } from "../../hooks/usePersonalInfo";
 import { useEffect } from "react";
 import { useWorkouts } from "../../hooks/useWorkout";
+import Streak from "../../components/compound/Streak/Streak";
 
 const Home = () => {
   const { t } = useLanguage();
@@ -83,6 +84,7 @@ const Home = () => {
                 />
               </div>
             </div>
+            <Streak />
             <MealsSummary />
             <UpcomingWorkouts />
           </div>

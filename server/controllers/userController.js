@@ -42,7 +42,7 @@ export const getUserById = (req, res) => {
 
 export const getAllUsers = (req, res) => {
   const sql =
-    "SELECT id, username, email, gender, birthYear, avatar, sportLevel FROM users";
+    "SELECT id, username, email, gender, birthYear, avatar, sportLevel, total_points FROM users";
 
   db.query(sql, (err, data) => {
     if (err) {

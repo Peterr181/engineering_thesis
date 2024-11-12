@@ -9,6 +9,7 @@ interface User {
   birthYear?: number;
   avatar?: string;
   sportLevel?: string;
+  total_points: number;
 }
 
 export const useUsers = () => {

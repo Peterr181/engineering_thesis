@@ -16,8 +16,14 @@
 .userItem {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 1rem;
   background-color: var(--body_content);
+
+  &__data {
+    display: flex;
+    align-items: center;
+  }
 
   border-radius: 8px;
   cursor: pointer;
@@ -50,4 +56,14 @@
 .username {
   font-size: 1rem;
   color: var(--body_color);
+}
+
+.dollars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  img {
+    width: 35px;
+    height: 35px;
+  }
 }

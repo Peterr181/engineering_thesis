@@ -13,6 +13,7 @@ import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import personalInfoRoutes from "./routes/personalInfoRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
+import streakRoutes from "./routes/streakRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import { saveMessage } from "./controllers/chatController.js";
 import expressSslify from "express-sslify";
@@ -70,6 +71,7 @@ app.use("/api/meals", mealsRoutes);
 app.use("/api/personal-info", personalInfoRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/streak", streakRoutes);
 
 // Serve static files only in production
 if (isProduction) {

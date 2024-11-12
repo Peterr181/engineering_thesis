@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import avatarImages from "../../utils/avatarImages";
+import dolar from "../../assets/images/dollar.png";
 
 const Leaderboard = () => {
   const { users, fetchUsers } = useUsers();
@@ -15,6 +16,8 @@ const Leaderboard = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  console.log(users);
 
   const getSportLevelLabel = (level: number): string => {
     switch (level) {
@@ -42,21 +45,31 @@ const Leaderboard = () => {
                 .map((user) => (
                   <Link to={`/users/${user.id}`} key={user.id}>
                     <div className={styles.userItem}>
-                      <img
-                        src={
-                          avatarImages[
-                            (user.avatar as keyof typeof avatarImages) ??
-                              "avatar1.png"
-                          ]
-                        }
-                        alt={`${user.username}'s avatar`}
-                        className={styles.avatar}
-                      />
-                      <div className={styles.userInfo}>
-                        <span className={styles.sportLevel}>
-                          {getSportLevelLabel(Number(user.sportLevel))}
-                        </span>
-                        <span className={styles.username}>{user.username}</span>
+                      <div className={styles.userItem__data}>
+                        <div>
+                          <img
+                            src={
+                              avatarImages[
+                                (user.avatar as keyof typeof avatarImages) ??
+                                  "avatar1.png"
+                              ]
+                            }
+                            alt={`${user.username}'s avatar`}
+                            className={styles.avatar}
+                          />
+                        </div>
+                        <div className={styles.userInfo}>
+                          <span className={styles.sportLevel}>
+                            {getSportLevelLabel(Number(user.sportLevel))}
+                          </span>
+                          <span className={styles.username}>
+                            {user.username}
+                          </span>
+                        </div>
+                      </div>
+                      <div className={styles.dollars}>
+                        <p className={styles.points}>{user.total_points}</p>
+                        <img src={dolar} alt="dolar" />
                       </div>
                     </div>
                   </Link>

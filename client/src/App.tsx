@@ -18,8 +18,21 @@ import ChatRoom from "./components/compound/ChatRoom/ChatRoom";
 import ProtectedRoute from "./context/ProtectedRoute";
 import Leaderboard from "./pages/Leaderboard/Leaderboard";
 import UserProfile from "./components/compound/UserProfile/UserProfile";
+import React, { useEffect } from "react";
+import axios from "axios";
+import useDailyStreak from "./hooks/useDailyStreak";
 
 function App() {
+  const { fetchStreak } = useDailyStreak();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      fetchStreak();
+    }
+  }, []);
+
   return (
     <LanguageProvider>
       <BrowserRouter>
