@@ -127,8 +127,6 @@ const Navbar: React.FC = () => {
                 )}
               </div>
 
-              <span>{iconFile.chatIcon}</span>
-              <span>{iconFile.giftIcon}</span>
               <span
                 onClick={() => changeLanguage(language === "en" ? "pl" : "en")}
               >
@@ -219,11 +217,17 @@ const Navbar: React.FC = () => {
 
       {notifyDropdownOpen && (
         <div className={styles.dropdownMessages}>
-          {unreadMessages.map((message) => (
-            <div key={message.id} className={styles.dropdownMessageItem}>
-              <span>{message.sender_username}</span> sent you a message
+          {unreadMessages.length === 0 ? (
+            <div className={styles.noNotificationsMessage}>
+              You don't have any notifications
             </div>
-          ))}
+          ) : (
+            unreadMessages.map((message) => (
+              <div key={message.id} className={styles.dropdownMessageItem}>
+                <span>{message.sender_username}</span> sent you a message
+              </div>
+            ))
+          )}
         </div>
       )}
     </nav>
