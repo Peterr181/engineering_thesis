@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 interface Message {
-  sender_username: ReactI18NextChildren | Iterable<ReactI18NextChildren>;
+  sender_username: string;
   id: number;
   message: string;
   sender_id: number;
