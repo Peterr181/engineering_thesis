@@ -27,6 +27,7 @@ Done:
 - step when registering new account (filling number of calories, water you want to drink now, steps, and set progress)
 - Browsing through platform community, inspecting each profile and user's data.
 - Display basic (for now) statistics about workouts, meals
+- Added sending messages between users and notification about new message
 
 Closest things to be done:
 
