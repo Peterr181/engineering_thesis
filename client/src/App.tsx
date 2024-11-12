@@ -18,7 +18,7 @@ import ChatRoom from "./components/compound/ChatRoom/ChatRoom";
 import ProtectedRoute from "./context/ProtectedRoute";
 import Leaderboard from "./pages/Leaderboard/Leaderboard";
 import UserProfile from "./components/compound/UserProfile/UserProfile";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import useDailyStreak from "./hooks/useDailyStreak";
 
