@@ -116,7 +116,6 @@ export const getWeeklyWorkouts = (req, res) => {
 
   // Get today's date and set the start and end of the current week
   const today = new Date();
-  console.log("Today's Date:", today);
 
   const startOfWeek = new Date(today);
   const endOfWeek = new Date(today);
@@ -126,15 +125,12 @@ export const getWeeklyWorkouts = (req, res) => {
     today.getDate() - (today.getDay() === 0 ? 6 : today.getDay() - 1)
   ); // Monday
   startOfWeek.setHours(0, 0, 0, 0); // Reset time to midnight
-  console.log("Start of Week (Monday):", startOfWeek);
 
   // Set end of the week to Sunday
   endOfWeek.setDate(startOfWeek.getDate() + 6); // Sunday
   endOfWeek.setHours(23, 59, 59, 999); // Set time to the end of the day
-  console.log("End of Week (Sunday):", endOfWeek);
 
   const currentYear = today.getFullYear(); // Get the current year
-  console.log("Current Year:", currentYear);
 
   // Generate a CASE statement to convert month names to numeric values
   const monthCaseStatement = `(CASE 
@@ -145,7 +141,6 @@ export const getWeeklyWorkouts = (req, res) => {
       )
       .join(" ")}
     END)`;
-
 
   const sql = `
       SELECT * FROM workouts 
@@ -161,16 +156,12 @@ export const getWeeklyWorkouts = (req, res) => {
     endOfWeek.toISOString().slice(0, 10), // Format to YYYY-MM-DD
   ];
 
-  console.log("SQL Query:", sql);
-  console.log("Query Parameters:", queryParams);
-
   db.query(sql, queryParams, (err, results) => {
     if (err) {
       console.error("Database error:", err);
       return res.status(500).json({ error: "Database error.", details: err });
     }
 
-   
     const workoutsWithDayName = results.map((workout) => {
       const monthNumber = monthMap[workout.month] - 1;
       const workoutDate = new Date(currentYear, monthNumber, workout.day);
@@ -180,7 +171,6 @@ export const getWeeklyWorkouts = (req, res) => {
       };
     });
 
-    console.log("Results with Day Names:", workoutsWithDayName);
     return res.status(200).json({ workouts: workoutsWithDayName });
   });
 };
@@ -242,9 +232,9 @@ export const finishWorkout = (req, res) => {
 };
 
 export const getWorkoutsByUserId = (req, res) => {
-  const userId = req.user.userId; 
+  const userId = req.user.userId;
 
-  const sql = `SELECT * FROM workouts WHERE user_id = ?`; 
+  const sql = `SELECT * FROM workouts WHERE user_id = ?`;
   db.query(sql, [userId], (err, results) => {
     if (err) {
       console.error("Database error:", err);
