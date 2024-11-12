@@ -21,6 +21,7 @@ import {
   DialogActions,
   TextField,
 } from "@mui/material";
+import useAuth from "../../../hooks/useAuth";
 
 const labelMappings: { [key: string]: string } = {
   favorite_training_type: "Favorite Training",
@@ -51,6 +52,7 @@ const icons: { [key: string]: JSX.Element } = {
 
 const UserProfile = () => {
   const { userId } = useParams<{ userId: string }>();
+  const userProfile = useAuth();
   const { selectedUser, fetchUserById } = useUsers();
   const { sendMessage } = useMessages(); // Pass userId to useMessages
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -109,7 +111,7 @@ const UserProfile = () => {
   // Send the message and close the dialog
   const handleSendMessage = async () => {
     if (message.trim()) {
-      await sendMessage(Number(userId), message, selectedUser?.username); // Pass userId, message, and selectedUser.username
+      await sendMessage(Number(userId), message, userProfile?.username); // Pass userId, message, and selectedUser.username
       setIsDialogOpen(false);
       setMessage(""); // Reset message input on send
     }

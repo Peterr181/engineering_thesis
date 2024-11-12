@@ -2,17 +2,22 @@ import { useState } from "react";
 import axios from "axios";
 
 interface Message {
+  sender_username: ReactI18NextChildren | Iterable<ReactI18NextChildren>;
   id: number;
   message: string;
   sender_id: number;
   recipient_id: number;
   date_sent: string;
+  is_read: boolean; // Add is_read field to track the read status
 }
 
 export const useMessages = () => {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [unreadMessages, setUnreadMessages] = useState<Message[]>([]); // State for unread messages
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showUnreadIndicator, setShowUnreadIndicator] = useState(false); // Indicator for unread messages
+
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   axios.defaults.withCredentials = true;
 
@@ -36,10 +41,12 @@ export const useMessages = () => {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       const res = await axios.get(`${apiUrl}/api/messages`);
-      console.log("API Response:", res.data); // Debug: Log API response
       if (res.data && res.data.messages) {
         setMessages(res.data.messages);
-        console.log("Messages set:", res.data.messages); // Debug: Log messages set in state
+        const hasUnreadMessages = res.data.messages.some(
+          (message: Message) => !message.is_read
+        );
+        setShowUnreadIndicator(hasUnreadMessages);
       } else {
         console.log("No messages found in API response");
       }
@@ -48,6 +55,76 @@ export const useMessages = () => {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchUnreadMessages = async () => {
+    setLoading(true);
+    setError(null);
+
+    if (!isAuthenticated()) {
+      setError("User not authenticated. Cannot fetch unread messages.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      const res = await axios.get(`${apiUrl}/api/messages/unread`);
+      console.log("Unread messages response:", res.data); // Add this log
+      if (res.data && res.data.messages) {
+        setUnreadMessages(res.data.messages);
+        setShowUnreadIndicator(res.data.messages.length > 0);
+      } else {
+        setUnreadMessages([]);
+        setShowUnreadIndicator(false);
+      }
+    } catch (err) {
+      setError("Error fetching unread messages.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const markMessagesAsRead = async () => {
+    if (!isAuthenticated()) {
+      setError("User not authenticated. Cannot mark messages as read.");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      await axios.put(`${apiUrl}/api/messages/mark-as-read`);
+      fetchUnreadMessages(); // Refresh unread messages after marking as read
+    } catch (err) {
+      setError("Error marking messages as read.");
+      console.error(err);
+    }
+  };
+
+  const markAllMessagesAsRead = async () => {
+    if (!isAuthenticated()) {
+      setError("User not authenticated. Cannot mark messages as read.");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      await axios.put(`${apiUrl}/api/messages/mark-all-as-read`);
+      setMessages((prevMessages) =>
+        prevMessages.map((message) => ({ ...message, is_read: true }))
+      );
+      setShowUnreadIndicator(false); // Ensure the indicator is set to false
+    } catch (err) {
+      setError("Error marking messages as read.");
+      console.error(err);
     }
   };
 
@@ -79,8 +156,13 @@ export const useMessages = () => {
 
   return {
     messages,
+    unreadMessages,
     fetchMessages,
+    fetchUnreadMessages,
+    markMessagesAsRead,
+    markAllMessagesAsRead, // Expose the new method
     sendMessage,
+    showUnreadIndicator, // Expose the unread indicator state
     error,
     loading,
   };
