@@ -65,19 +65,21 @@ export const getMessages = (req, res) => {
 
 // Controller to fetch unread messages for a user
 export const getUnreadMessages = (req, res) => {
-  console.log("Fetching all unread messages");
+  const userId = req.user.userId;
 
+  // Query to fetch unread messages for the specific user
   const sql = `
     SELECT * FROM messages 
-    WHERE is_read = 0
+    WHERE recipient_id = ? AND is_read = 0
   `;
 
-  db.query(sql, (err, data) => {
+  db.query(sql, [userId], (err, data) => {
     if (err) {
       console.error("Database error:", err);
       return res.status(500).json({ error: "Failed to fetch unread messages" });
     }
-    console.log("Unread messages data:", data); // Add this log
+
+    // Send the unread messages in the response
     return res.status(200).json({ messages: data });
   });
 };

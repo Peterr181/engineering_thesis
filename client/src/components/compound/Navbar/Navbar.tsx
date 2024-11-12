@@ -11,36 +11,26 @@ import axios from "axios";
 import { useWorkouts } from "../../../hooks/useWorkout";
 import { usePersonalInfo } from "../../../hooks/usePersonalInfo";
 import avatarImages from "../../../utils/avatarImages";
-import useMessages from "../../../hooks/useMessages"; // Import the useMessages hook
-
-interface Message {
-  id: number;
-  sender_id: number;
-  recipient_id: number;
-  message: string;
-  date_sent: string;
-  sender_username?: string;
-  is_read: boolean;
-}
+import useMessages from "../../../hooks/useMessages";
 
 const Navbar: React.FC = () => {
   const { t, changeLanguage, language } = useLanguage();
   const { fetchWorkouts, workouts } = useWorkouts();
   const userProfile = useAuth();
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-  const otherUserId = Number(userProfile?.id);
-  const { messages, fetchMessages, markAllMessagesAsRead } = useMessages();
+  const { unreadMessages, markAllMessagesAsRead, fetchUnreadMessages } =
+    useMessages();
 
   useEffect(() => {
-    fetchMessages();
+    fetchUnreadMessages();
   }, []);
 
   const { hasPersonalData } = usePersonalInfo();
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [notifyDropdownOpen, setNotifyDropdownOpen] = useState(false); // Separate state for notify dropdown
-  const [hasUnreadMessages, setHasUnreadMessages] = useState(false); // State to track unread messages
+  const [notifyDropdownOpen, setNotifyDropdownOpen] = useState(false);
+  const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
 
   const handleDropdownToggle = () => {
     setDropdownOpen(!dropdownOpen);
@@ -60,19 +50,12 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     fetchWorkouts(false);
-    fetchMessages(); // Fetch unread messages when the component mounts
   }, []);
 
-  const filteredMessages = messages.filter(
-    (message: Message) => message.recipient_id === otherUserId
-  );
-
   useEffect(() => {
-    const unreadMessages = filteredMessages.some(
-      (message: Message) => !message.is_read
-    );
-    setHasUnreadMessages(unreadMessages);
-  }, [filteredMessages]);
+    const unreadMessagesExist = unreadMessages.length > 0;
+    setHasUnreadMessages(unreadMessagesExist);
+  }, [unreadMessages]);
 
   const handleLogout = () => {
     axios
@@ -86,8 +69,9 @@ const Navbar: React.FC = () => {
 
   const handleNotifyIconClick = () => {
     setNotifyDropdownOpen(!notifyDropdownOpen);
-    if (hasUnreadMessages) {
+    if (notifyDropdownOpen && hasUnreadMessages) {
       markAllMessagesAsRead();
+      setHasUnreadMessages(false);
     }
   };
 
@@ -235,7 +219,7 @@ const Navbar: React.FC = () => {
 
       {notifyDropdownOpen && (
         <div className={styles.dropdownMessages}>
-          {filteredMessages.map((message) => (
+          {unreadMessages.map((message) => (
             <div key={message.id} className={styles.dropdownMessageItem}>
               <span>{message.sender_username}</span> sent you a message
             </div>

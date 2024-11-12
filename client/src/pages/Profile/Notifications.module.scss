@@ -5,6 +5,16 @@
   margin-left: var(--rythm-16);
   width: 100%;
 
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--rythm-32);
+    button {
+      font-weight: bold;
+    }
+  }
+
   h2 {
     font-weight: 700 !important;
   }

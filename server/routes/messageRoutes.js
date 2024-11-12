@@ -16,9 +16,6 @@ router.post("/send", authMiddleware, sendMessage);
 // Route to get all messages for the current user
 router.get("/", authMiddleware, getAllMessages);
 
-// Route to get messages between two users
-router.get("/:otherUserId", authMiddleware, getMessages);
-
 // Route to get unread messages for the current user
 router.get("/unread", authMiddleware, getUnreadMessages);
 

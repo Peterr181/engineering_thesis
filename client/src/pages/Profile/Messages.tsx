@@ -3,6 +3,7 @@ import styles from "./Notifications.module.scss";
 
 import useMessages from "../../hooks/useMessages";
 import useAuth from "../../hooks/useAuth";
+import { Button } from "@mui/material";
 
 interface Message {
   id: number;
@@ -28,7 +29,12 @@ const Messages = () => {
 
   return (
     <div className={styles.notifications}>
-      <h2>Messages</h2>
+      <div className={styles.notifications__header}>
+        <h2>Messages</h2>
+        <Button variant="contained" color="primary">
+          Community
+        </Button>
+      </div>
 
       {filteredMessages.length === 0 ? (
         <p>No new messages</p>
