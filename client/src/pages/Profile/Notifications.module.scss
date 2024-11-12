@@ -8,4 +8,42 @@
   h2 {
     font-weight: 700 !important;
   }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__listItem {
+    margin-top: var(--rythm-16);
+    margin-bottom: var(--rythm-16);
+  }
+
+  &__card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: var(--rythm-16);
+    background-color: #fff;
+  }
+
+  &__cardContent {
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+      color: green;
+    }
+  }
+
+  &__date {
+    font-size: 0.875rem;
+    color: #888;
+    margin-bottom: var(--rythm-8);
+  }
+
+  &__messageContent {
+    font-size: 1rem;
+    color: #333;
+  }
 }

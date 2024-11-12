@@ -6,7 +6,7 @@ import WhiteCardWrapper from "../../components/atomic/WhiteCardWrapper/WhiteCard
 import { iconFile } from "../../assets/iconFile";
 import PersonalInfo from "./PersonalInfo";
 import EmailPassword from "./EmailPassword";
-import Notifications from "./Notifications";
+import Notifications from "./Messages";
 import Information from "./Information";
 
 const Profile: React.FC = () => {

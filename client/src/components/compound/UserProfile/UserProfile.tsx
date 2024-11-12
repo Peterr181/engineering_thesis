@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "./UserProfile.module.scss";
 import { useParams } from "react-router-dom";
 import PlatformWrapper from "../PlatformWrapper/PlatformWrapper";
@@ -8,11 +8,19 @@ import { useWorkouts } from "../../../hooks/useWorkout";
 import { useMeals } from "../../../hooks/useMeals";
 import { usePersonalInfo } from "../../../hooks/usePersonalInfo";
 import useUsers from "../../../hooks/useUsers";
+import useMessages from "../../../hooks/useMessages";
 import avatarImages from "../../../utils/avatarImages";
 import { iconFile } from "../../../assets/iconFile";
 import Workout, { Category } from "../Workout/Workout";
 import UserMealsPlan from "../../../pages/MealsPlan/UserMealsPlan";
-import { Button } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+} from "@mui/material";
 
 const labelMappings: { [key: string]: string } = {
   favorite_training_type: "Favorite Training",
@@ -42,8 +50,11 @@ const icons: { [key: string]: JSX.Element } = {
 };
 
 const UserProfile = () => {
-  const { userId } = useParams<{ userId: string; username: string }>();
+  const { userId } = useParams<{ userId: string }>();
   const { selectedUser, fetchUserById } = useUsers();
+  const { sendMessage } = useMessages(); // Pass userId to useMessages
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     fetchUserById(Number(userId));
@@ -81,6 +92,26 @@ const UserProfile = () => {
         return Category.COMBAT;
       default:
         return Category.GYM;
+    }
+  };
+
+  // Open the message dialog
+  const handleOpenDialog = () => {
+    setIsDialogOpen(true);
+  };
+
+  // Close the message dialog
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+    setMessage(""); // Reset message input on close
+  };
+
+  // Send the message and close the dialog
+  const handleSendMessage = async () => {
+    if (message.trim()) {
+      await sendMessage(Number(userId), message, selectedUser?.username); // Pass userId, message, and selectedUser.username
+      setIsDialogOpen(false);
+      setMessage(""); // Reset message input on send
     }
   };
 
@@ -126,7 +157,11 @@ const UserProfile = () => {
                       styles.userprofile__topSection__firstcol__buttons
                     }
                   >
-                    <Button variant="contained" color="primary">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleOpenDialog}
+                    >
                       Message
                     </Button>
                     <Button variant="contained" color="success">
@@ -209,6 +244,33 @@ const UserProfile = () => {
           </WhiteCardWrapper>
         </MaxWidthWrapper>
       </section>
+
+      {/* Message Dialog */}
+      <Dialog open={isDialogOpen} onClose={handleCloseDialog} maxWidth="lg">
+        <DialogTitle>Send Message to {selectedUser?.username}</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Your Message"
+            type="text"
+            fullWidth
+            multiline
+            minRows={3}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            sx={{ width: "800px", overflow: "hidden" }} // Set the width to 100%
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleSendMessage} color="primary">
+            Send
+          </Button>
+        </DialogActions>
+      </Dialog>
     </PlatformWrapper>
   );
 };
