@@ -167,7 +167,7 @@ const UserProfile = () => {
                       Message
                     </Button>
                     <Button variant="contained" color="success">
-                      Follow
+                      Like
                     </Button>
                   </div>
                 </div>

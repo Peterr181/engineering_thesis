@@ -73,7 +73,6 @@ export const useMessages = () => {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       const res = await axios.get(`${apiUrl}/api/messages/unread`);
-      console.log("Unread messages response:", res.data); // Add this log
       if (res.data && res.data.messages) {
         setUnreadMessages(res.data.messages);
         setShowUnreadIndicator(res.data.messages.length > 0);
