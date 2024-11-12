@@ -9,6 +9,8 @@ import {
   Button,
   TextField,
   CircularProgress,
+  Alert,
+  Snackbar,
 } from "@mui/material";
 import { usePersonalInfo, PersonalInfoType } from "../../hooks/usePersonalInfo";
 
@@ -48,6 +50,7 @@ const PersonalInfo: React.FC = () => {
     null
   );
   const [editedValue, setEditedValue] = useState<string>("");
+  const [showAlert, setShowAlert] = useState<boolean>(false);
 
   const handleItemClick = (item: PersonalInfoType) => {
     setSelectedItem(item);
@@ -65,6 +68,7 @@ const PersonalInfo: React.FC = () => {
     if (selectedItem) {
       await updatePersonalInfo({ ...selectedItem, value: editedValue });
       handleClose();
+      setShowAlert(true);
     }
   };
 
@@ -124,6 +128,17 @@ const PersonalInfo: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar
+        open={showAlert}
+        autoHideDuration={3000}
+        onClose={() => setShowAlert(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert onClose={() => setShowAlert(false)} severity="success">
+          Setting updated successfully!
+        </Alert>
+      </Snackbar>
     </>
   );
 };

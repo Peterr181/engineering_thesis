@@ -20,6 +20,8 @@ import {
   DialogContent,
   DialogActions,
   TextField,
+  Alert,
+  Snackbar,
 } from "@mui/material";
 import useAuth from "../../../hooks/useAuth";
 
@@ -57,6 +59,7 @@ const UserProfile = () => {
   const { sendMessage } = useMessages(); // Pass userId to useMessages
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [message, setMessage] = useState("");
+  const [alertOpen, setAlertOpen] = useState(false); // State for alert
 
   useEffect(() => {
     fetchUserById(Number(userId));
@@ -110,11 +113,20 @@ const UserProfile = () => {
 
   // Send the message and close the dialog
   const handleSendMessage = async () => {
-    if (message.trim()) {
+    const wordCount = message.trim().split(/\s+/).length;
+    if (message.trim() && wordCount <= 200) {
       await sendMessage(Number(userId), message, userProfile?.username); // Pass userId, message, and selectedUser.username
       setIsDialogOpen(false);
       setMessage(""); // Reset message input on send
+      setAlertOpen(true); // Show alert
+    } else if (wordCount > 200) {
+      alert("Message cannot exceed 200 words.");
     }
+  };
+
+  // Close the alert
+  const handleCloseAlert = () => {
+    setAlertOpen(false);
   };
 
   return (
@@ -273,6 +285,22 @@ const UserProfile = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={3000}
+        onClose={handleCloseAlert}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        TransitionProps={{ onExited: handleCloseAlert }}
+      >
+        <Alert
+          onClose={handleCloseAlert}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Message successfully sent!
+        </Alert>
+      </Snackbar>
     </PlatformWrapper>
   );
 };

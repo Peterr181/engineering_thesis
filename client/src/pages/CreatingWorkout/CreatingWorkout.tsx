@@ -16,6 +16,8 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import { useWorkouts } from "../../hooks/useWorkout";
 import { allExercises, months } from "../../constants/exercises";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
 
 interface Exercise {
   name: string;
@@ -36,6 +38,7 @@ const CreatingWorkout = () => {
   const [month, setMonth] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [minutes, setMinutes] = useState<number | "">("");
+  const [alertOpen, setAlertOpen] = useState<boolean>(false);
 
   const handleOpenModal = (exercise: Exercise) => {
     setSelectedExercise(exercise);
@@ -66,6 +69,8 @@ const CreatingWorkout = () => {
       try {
         await addWorkout(newWorkout);
         handleClose();
+        setAlertOpen(true);
+        setTimeout(() => setAlertOpen(false), 3000);
       } catch (err) {
         if (err instanceof Error) {
           console.error("Failed to add workout:", err.message);
@@ -210,6 +215,16 @@ const CreatingWorkout = () => {
               </DialogActions>
               {error && <p style={{ color: "red" }}>{error}</p>}
             </Dialog>
+            <Snackbar
+              open={alertOpen}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              autoHideDuration={3000}
+              onClose={() => setAlertOpen(false)}
+            >
+              <Alert onClose={() => setAlertOpen(false)} severity="success">
+                Workout added successfully!
+              </Alert>
+            </Snackbar>
           </WhiteCardWrapper>
         </MaxWidthWrapper>
       </section>

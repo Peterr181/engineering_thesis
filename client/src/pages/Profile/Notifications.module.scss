@@ -34,12 +34,18 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: var(--rythm-16);
-    background-color: #fff;
+    background-color: var(--body_content);
   }
 
   &__cardContent {
     display: flex;
     flex-direction: column;
+
+    &__username {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
     h3 {
       color: green;
@@ -54,6 +60,6 @@
 
   &__messageContent {
     font-size: 1rem;
-    color: #333;
+    color: var(--body_color);
   }
 }

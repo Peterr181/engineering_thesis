@@ -13,6 +13,8 @@ import { iconFile } from "../../assets/iconFile";
 import { useMeals } from "../../hooks/useMeals";
 import axios from "axios";
 import dayjs from "dayjs";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 interface Food {
   foodId: string;
@@ -61,6 +63,7 @@ const MealsPlan = () => {
   const [searchResults, setSearchResults] = useState<Meal[]>([]);
   const [isMealAdded, setIsMealAdded] = useState(false);
   const [grams, setGrams] = useState(100);
+  const [showAlert, setShowAlert] = useState(false);
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [mealToDelete, setMealToDelete] = useState<string | null>(null);
@@ -221,9 +224,19 @@ const MealsPlan = () => {
 
       addMeal(adjustedMeal);
       setIsMealAdded(true);
+      setShowAlert(true);
       handleCloseDialog();
     }
   };
+
+  useEffect(() => {
+    if (showAlert) {
+      const timer = setTimeout(() => {
+        setShowAlert(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showAlert]);
 
   const calculateTotals = (mealType: string, mealsToCalculate: Meal[]) => {
     const mealTypeMeals = mealsToCalculate.filter(
@@ -597,6 +610,15 @@ const MealsPlan = () => {
                 <Button onClick={handleCancelDelete}>Cancel</Button>
               </DialogActions>
             </Dialog>
+            <Snackbar
+              open={showAlert}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              onClose={() => setShowAlert(false)}
+            >
+              <Alert onClose={() => setShowAlert(false)} severity="success">
+                Meal added successfully!
+              </Alert>
+            </Snackbar>
           </WhiteCardWrapper>
         </MaxWidthWrapper>
       </div>

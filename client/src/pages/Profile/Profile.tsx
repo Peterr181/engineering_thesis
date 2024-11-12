@@ -6,8 +6,8 @@ import WhiteCardWrapper from "../../components/atomic/WhiteCardWrapper/WhiteCard
 import { iconFile } from "../../assets/iconFile";
 import PersonalInfo from "./PersonalInfo";
 import EmailPassword from "./EmailPassword";
-import Notifications from "./Messages";
 import Information from "./Information";
+import Messages from "./Messages";
 
 const Profile: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("Personal info");
@@ -45,12 +45,12 @@ const Profile: React.FC = () => {
                   </div>
                   <div
                     className={`${styles.profile__nav__item} ${
-                      activeTab === "Notifications" ? styles.active : ""
+                      activeTab === "Messages" ? styles.active : ""
                     }`}
-                    onClick={() => handleNavClick("Notifications")}
+                    onClick={() => handleNavClick("Messages")}
                   >
                     {iconFile.notifyIcon}
-                    <p>Notifications</p>
+                    <p>Messages</p>
                   </div>
                   <div
                     className={`${styles.profile__nav__item} ${
@@ -65,7 +65,7 @@ const Profile: React.FC = () => {
               </div>
               {activeTab === "Personal info" && <PersonalInfo />}
               {activeTab === "Email & password" && <EmailPassword />}
-              {activeTab === "Notifications" && <Notifications />}
+              {activeTab === "Messages" && <Messages />}
               {activeTab === "Information" && <Information />}
             </div>
           </WhiteCardWrapper>

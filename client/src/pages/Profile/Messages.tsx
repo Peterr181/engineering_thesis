@@ -30,7 +30,12 @@ const Messages = () => {
   return (
     <div className={styles.notifications}>
       <div className={styles.notifications__header}>
-        <h2>Messages</h2>
+        <div>
+          <h2>Messages</h2>
+          <p>
+            You can browse messages sent by users from our community to you.
+          </p>
+        </div>
         <Button variant="contained" color="primary">
           Community
         </Button>
@@ -44,10 +49,12 @@ const Messages = () => {
             <li key={message.id} className={styles.notifications__listItem}>
               <div className={styles.notifications__card}>
                 <div className={styles.notifications__cardContent}>
-                  <h3>{message.sender_username}</h3>
-                  <p className={styles.notifications__date}>
-                    {new Date(message.date_sent).toLocaleString()}
-                  </p>
+                  <div className={styles.notifications__cardContent__username}>
+                    <h3>{message.sender_username}</h3>
+                    <p className={styles.notifications__date}>
+                      {new Date(message.date_sent).toLocaleString()}
+                    </p>
+                  </div>
                   <p className={styles.notifications__messageContent}>
                     {message.message}
                   </p>
