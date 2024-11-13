@@ -8,6 +8,8 @@ import {
   getRoutineDetails,
   savePlan,
   deleteRoutine,
+  endRoutine,
+  activateRoutine,
 } from "../controllers/gymRoutineController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 
@@ -36,5 +38,11 @@ router.post("/savePlan", authMiddleware, savePlan);
 
 // Route to delete a specific routine
 router.delete("/:routineId", authMiddleware, deleteRoutine);
+
+// Route to end the current routine
+router.post("/endRoutine", authMiddleware, endRoutine);
+
+// Route to activate a specific routine
+router.post("/activate/:routineId", authMiddleware, activateRoutine);
 
 export default router;

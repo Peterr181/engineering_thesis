@@ -161,3 +161,27 @@
     font-weight: bold;
   }
 }
+
+.daySelection__routineName {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.deleteRoutine {
+  display: flex;
+  gap: 16px;
+}
+
+.routineItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--rythm-8);
+  border: 2px solid #c5e4cf;
+  border-radius: 8px;
+  margin-top: var(--rythm-8);
+
+  button {
+    font-weight: bold;
+  }
+}

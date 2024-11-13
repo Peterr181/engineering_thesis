@@ -44,6 +44,8 @@ const GymPlanCreator: React.FC = () => {
   const [expandedDays, setExpandedDays] = useState<string[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
   const [routineCreated, setRoutineCreated] = useState<boolean>(false);
+  const [routineName, setRoutineName] = useState<string>("");
+  const [viewRoutine, setViewRoutine] = useState<boolean>(false);
 
   const {
     routines,
@@ -52,6 +54,9 @@ const GymPlanCreator: React.FC = () => {
     savePlan,
     fetchRoutineDetails,
     deleteRoutine,
+    fetchRoutineById,
+    endRoutine,
+    activateRoutine,
   } = useGymRoutine();
 
   useEffect(() => {
@@ -63,21 +68,23 @@ const GymPlanCreator: React.FC = () => {
   };
 
   const handleSavePlan = async () => {
-    if (selectedDays.length === 0) {
+    if (selectedDays.length === 0 || !routineName) {
       setAlertOpen(true);
       return;
     }
 
-    const routineName = "My Routine2"; // Replace with actual routine name input
-    const startDate = null; // Replace with actual start date input
+    const startDate = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
     await savePlan(routineName, startDate, selectedDays, workouts);
 
     setAlertOpen(true);
     setRoutineCreated(false); // Close the routine creator
     await fetchRoutines(); // Refresh routines to show the new routine
 
-    if (routines.length > 0) {
-      await handleFetchRoutineDetails(routines[0].id); // Fetch details for the first routine
+    const activeRoutines = routines.filter(
+      (routine) => routine.is_active === 1
+    );
+    if (activeRoutines.length > 0) {
+      await handleFetchRoutineDetails(activeRoutines[0].id); // Fetch details for the first active routine
     }
   };
 
@@ -91,7 +98,12 @@ const GymPlanCreator: React.FC = () => {
 
   useEffect(() => {
     if (routines.length > 0) {
-      handleFetchRoutineDetails(routines[0].id); // Fetch details for the first routine
+      const activeRoutines = routines.filter(
+        (routine) => routine.is_active === 1
+      );
+      if (activeRoutines.length > 0) {
+        handleFetchRoutineDetails(activeRoutines[0].id); // Fetch details for the first active routine
+      }
     }
   }, [routines]);
 
@@ -197,12 +209,54 @@ const GymPlanCreator: React.FC = () => {
 
   // Confirm and delete the routine
   const handleDeleteRoutine = async () => {
-    if (routines.length > 0) {
-      await deleteRoutine(routines[0].id); // Deletes the first routine for demo
+    const activeRoutine = routines.find((routine) => routine.is_active === 1);
+    if (activeRoutine) {
+      await deleteRoutine(activeRoutine.id); // Deletes the active routine
       setDeleteDialogOpen(false);
       fetchRoutines(); // Refresh routines after deletion
       setSelectedDays([]); // Clear selected days
       setWorkouts([]); // Clear workouts
+    }
+  };
+
+  const handleEndRoutine = async () => {
+    const activeRoutine = routines.find((routine) => routine.is_active === 1);
+    setViewRoutine(false);
+    if (activeRoutine) {
+      await endRoutine(activeRoutine.id); // Ends the active routine
+      setRoutineCreated(false); // Close the routine creator
+      fetchRoutines(); // Refresh routines to show the new routine
+
+      const activeRoutines = routines.filter(
+        (routine) => routine.is_active === 1
+      );
+      if (activeRoutines.length > 0) {
+        await handleFetchRoutineDetails(activeRoutines[0].id); // Fetch details for the first active routine
+      }
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    date.setDate(date.getDate() + 1);
+    return date.toISOString().split("T")[0];
+  };
+
+  const handleViewRoutine = async (routineId: number) => {
+    await activateRoutine(routineId);
+    await handleFetchRoutineDetails(routineId);
+    setRoutineCreated(false); // Close the routine creator
+    setViewRoutine(true);
+    setSelectedDays([]); // Clear selected days
+    setWorkouts([]); // Clear workouts
+    const routine = await fetchRoutineById(routineId);
+    if (routine) {
+      setSelectedDays(Object.keys(routineDetails || {}));
+      const updatedWorkouts = Object.keys(routineDetails || {}).map((day) => ({
+        day,
+        exercises: routineDetails![day],
+      }));
+      setWorkouts(updatedWorkouts);
     }
   };
 
@@ -212,8 +266,9 @@ const GymPlanCreator: React.FC = () => {
         <MaxWidthWrapper>
           <WhiteCardWrapper>
             <div className={styles.gymPlanCreator__header}>
-              <h2>Select Workout Days</h2>
-              {routines.length === 0 ? (
+              <h2>Your gym workout routine creator</h2>
+              {routines.filter((routine) => routine.is_active === 1).length ===
+              0 ? (
                 <Button
                   color="primary"
                   variant="contained"
@@ -223,19 +278,39 @@ const GymPlanCreator: React.FC = () => {
                   Create Routine
                 </Button>
               ) : (
-                <Button
-                  onClick={handleOpenDeleteDialog}
-                  color="error"
-                  variant="contained"
-                >
-                  Delete Routine
-                </Button>
+                <>
+                  <div className={styles.deleteRoutine}>
+                    <Button
+                      onClick={handleOpenDeleteDialog}
+                      color="error"
+                      variant="contained"
+                    >
+                      Delete Routine
+                    </Button>
+                    <Button
+                      onClick={handleEndRoutine}
+                      color="secondary"
+                      variant="contained"
+                    >
+                      Close Routine
+                    </Button>
+                  </div>
+                </>
               )}
             </div>
-            {routineCreated || routines.length > 0 ? (
+            {routineCreated ||
+            routines.filter((routine) => routine.is_active === 1).length > 0 ? (
               <>
                 {routineCreated && (
                   <div className={styles.daySelection}>
+                    <div className={styles.daySelection__routineName}>
+                      <TextField
+                        label="Routine Name"
+                        fullWidth
+                        value={routineName}
+                        onChange={(e) => setRoutineName(e.target.value)}
+                      />
+                    </div>
                     {daysOfWeek.map((day) => (
                       <FormControlLabel
                         key={day}
@@ -444,6 +519,29 @@ const GymPlanCreator: React.FC = () => {
                 </Button>
               </DialogActions>
             </Dialog>
+            {!routineCreated && !viewRoutine ? (
+              <div className={styles.routinesList}>
+                {routines.map((routine) => (
+                  <div key={routine.id} className={styles.routineItem}>
+                    <span>{routine.routine_name}</span>
+                    <span>
+                      {routine.start_date
+                        ? formatDate(routine.start_date)
+                        : "N/A"}
+                    </span>
+                    <Button
+                      onClick={() => handleViewRoutine(routine.id)}
+                      color="success"
+                      variant="contained"
+                    >
+                      View Routine
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div></div>
+            )}
           </WhiteCardWrapper>
         </MaxWidthWrapper>
       </section>

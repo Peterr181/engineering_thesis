@@ -26,7 +26,7 @@ export const getRoutines = async (req, res) => {
   const userId = req.user.userId;
 
   const sql =
-    "SELECT id, routine_name, start_date FROM routines WHERE user_id = ?";
+    "SELECT id, routine_name, start_date, is_active FROM routines WHERE user_id = ?";
   try {
     const [data] = await db.promise().query(sql, [userId]);
     return res.json({ routines: data });
@@ -199,6 +199,69 @@ export const deleteRoutine = async (req, res) => {
   try {
     await db.promise().query(sql, [routineId, userId]);
     return res.status(200).json({ message: "Routine deleted successfully" });
+  } catch (err) {
+    console.error("Database error:", err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// End the current routine
+export const endRoutine = async (req, res) => {
+  const { routineId } = req.body;
+  const userId = req.user.userId;
+
+  const sql = "UPDATE routines SET is_active = 0 WHERE id = ? AND user_id = ?";
+  try {
+    const [result] = await db.promise().query(sql, [routineId, userId]);
+    if (result.affectedRows === 0) {
+      return res
+        .status(404)
+        .json({ error: "Routine not found or not owned by user" });
+    }
+    return res.status(200).json({ message: "Routine ended successfully" });
+  } catch (err) {
+    console.error("Database error:", err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// Activate a specific routine by its ID
+export const activateRoutine = async (req, res) => {
+  const { routineId } = req.params;
+  const userId = req.user.userId;
+
+  const deactivateSql = "UPDATE routines SET is_active = 0 WHERE user_id = ?";
+  const activateSql =
+    "UPDATE routines SET is_active = 1 WHERE id = ? AND user_id = ?";
+
+  try {
+    await db.promise().query(deactivateSql, [userId]);
+    const [result] = await db.promise().query(activateSql, [routineId, userId]);
+    if (result.affectedRows === 0) {
+      return res
+        .status(404)
+        .json({ error: "Routine not found or not owned by user" });
+    }
+    return res.status(200).json({ message: "Routine activated successfully" });
+  } catch (err) {
+    console.error("Database error:", err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// Get a specific routine by its ID
+export const getRoutineById = async (req, res) => {
+  const { routineId } = req.params;
+  const userId = req.user.userId;
+
+  const sql =
+    "SELECT id, routine_name, start_date, is_active FROM routines WHERE id = ? AND user_id = ?";
+  try {
+    const [data] = await db.promise().query(sql, [routineId, userId]);
+    if (data.length === 0) {
+      return res.status(404).json({ error: "Routine not found" });
+    }
+    return res.json({ routine: data[0] });
   } catch (err) {
     console.error("Database error:", err);
     return res.status(500).json({ error: "Internal Server Error" });

@@ -5,6 +5,7 @@ interface Routine {
   id: number;
   routine_name: string;
   start_date: string | null;
+  is_active: number;
 }
 
 interface RoutineDay {
@@ -236,6 +237,33 @@ export const useGymRoutine = () => {
     }
   };
 
+  // Fetch a specific routine by its ID
+  const fetchRoutineById = async (routineId: number) => {
+    setLoading(true);
+    setError(null);
+
+    if (!isAuthenticated()) {
+      setError("User not authenticated. Cannot fetch routine.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      const res = await axios.get(`${apiUrl}/api/routines/${routineId}`);
+      if (res.data) {
+        return res.data.routine;
+      }
+    } catch (err) {
+      setError("Error fetching routine.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Save the entire plan
   const savePlan = async (
     routineName: string,
@@ -264,6 +292,60 @@ export const useGymRoutine = () => {
       });
     } catch (err) {
       setError("Error saving plan.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // End the current routine
+  const endRoutine = async (routineId: number) => {
+    setLoading(true);
+    setError(null);
+
+    if (!isAuthenticated()) {
+      setError("User not authenticated. Cannot end routine.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      const res = await axios.post(`${apiUrl}/api/routines/endRoutine`, {
+        routineId,
+      });
+      if (res.data) {
+        fetchRoutines(); // Refresh routines list after ending the current routine
+      }
+    } catch (err) {
+      setError("Error ending routine.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Activate a specific routine by its ID
+  const activateRoutine = async (routineId: number) => {
+    setLoading(true);
+    setError(null);
+
+    if (!isAuthenticated()) {
+      setError("User not authenticated. Cannot activate routine.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      await axios.post(`${apiUrl}/api/routines/activate/${routineId}`);
+      fetchRoutines(); // Refresh routines list after activation
+    } catch (err) {
+      setError("Error activating routine.");
       console.error(err);
     } finally {
       setLoading(false);
@@ -304,7 +386,10 @@ export const useGymRoutine = () => {
     addExercise,
     addExerciseSet,
     fetchRoutineDetails,
+    fetchRoutineById,
     savePlan,
+    endRoutine,
+    activateRoutine,
     deleteRoutine,
     error,
     loading,
