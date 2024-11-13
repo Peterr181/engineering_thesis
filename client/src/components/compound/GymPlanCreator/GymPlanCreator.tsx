@@ -19,6 +19,7 @@ import { useGymRoutine } from "../../../hooks/useGymRoutine";
 type Exercise = {
   name: string;
   sets: {
+    setNumber: number;
     repetitions: number;
     weight: number;
   }[];
@@ -91,6 +92,15 @@ const GymPlanCreator: React.FC = () => {
 
   const handleCreateRoutine = () => {
     setRoutineCreated(true);
+    setSelectedDays([]); // Clear selected days
+    setWorkouts([]); // Clear workouts
+  };
+
+  const handleCancelCreateRoutine = () => {
+    setRoutineCreated(false);
+    setRoutineName("");
+    setSelectedDays([]);
+    setWorkouts([]);
   };
 
   const handleSavePlan = async () => {
@@ -112,8 +122,9 @@ const GymPlanCreator: React.FC = () => {
     const startDate = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
     await savePlan(routineName, startDate, selectedDays, workouts);
 
-    setAlertOpen(true);
+    setAlertOpen(true); // Trigger the alert here
     setRoutineCreated(false); // Close the routine creator
+    setViewRoutine(false); // Ensure the routine creator is closed
     await fetchRoutines(); // Refresh routines to show the new routine
 
     const activeRoutines = routines.filter(
@@ -194,7 +205,8 @@ const GymPlanCreator: React.FC = () => {
       }
       return updatedWorkouts;
     });
-    setAlertOpen(true);
+    // Remove the alert trigger here
+    // setAlertOpen(true);
   };
 
   const handleAddExercise = (day: string) => {
@@ -221,7 +233,14 @@ const GymPlanCreator: React.FC = () => {
 
   const handleDialogSubmit = () => {
     if (exerciseName && sets.length > 0) {
-      const newExercise: Exercise = { name: exerciseName, sets };
+      const newExercise: Exercise = {
+        name: exerciseName,
+        sets: sets.map((set, index) => ({
+          setNumber: index + 1,
+          repetitions: set.repetitions,
+          weight: set.weight,
+        })),
+      };
       addExerciseToDay(currentDay, newExercise);
       handleDialogClose();
     }
@@ -231,6 +250,42 @@ const GymPlanCreator: React.FC = () => {
     const updatedSets = [...sets];
     updatedSets[index] = { ...updatedSets[index], [field]: value };
     setSets(updatedSets);
+  };
+
+  const handleRoutineNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length <= 50) {
+      setRoutineName(value);
+    }
+  };
+
+  const handleExerciseNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length <= 50) {
+      setExerciseName(value);
+    }
+  };
+
+  const handleNumSetsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const num = Number(value);
+    if (num <= 10 && !value.startsWith("0")) {
+      setNumSets(num);
+    }
+  };
+
+  const handleSetRepetitionsChange = (index: number, value: string) => {
+    const num = Number(value);
+    if (num <= 100 && !value.startsWith("0")) {
+      handleSetChange(index, "repetitions", num);
+    }
+  };
+
+  const handleSetWeightChange = (index: number, value: string) => {
+    const num = Number(value);
+    if (num <= 300 && !value.startsWith("0")) {
+      handleSetChange(index, "weight", num);
+    }
   };
 
   // Open delete confirmation dialog
@@ -246,12 +301,14 @@ const GymPlanCreator: React.FC = () => {
   // Confirm and delete the routine
   const handleDeleteRoutine = async () => {
     const activeRoutine = routines.find((routine) => routine.is_active === 1);
+
     if (activeRoutine) {
       await deleteRoutine(activeRoutine.id); // Deletes the active routine
       setDeleteDialogOpen(false);
       fetchRoutines(); // Refresh routines after deletion
       setSelectedDays([]); // Clear selected days
       setWorkouts([]); // Clear workouts
+      setViewRoutine(false); // Ensure the routine list is shown
     }
   };
 
@@ -305,14 +362,27 @@ const GymPlanCreator: React.FC = () => {
               <h2>Your gym workout routine creator</h2>
               {routines.filter((routine) => routine.is_active === 1).length ===
               0 ? (
-                <Button
-                  color="primary"
-                  variant="contained"
-                  onClick={handleCreateRoutine}
-                  disabled={routineCreated}
-                >
-                  Create Routine
-                </Button>
+                <>
+                  <div className={styles.deleteRoutine}>
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      onClick={handleCreateRoutine}
+                      disabled={routineCreated}
+                    >
+                      Create Routine
+                    </Button>
+                    {routineCreated && (
+                      <Button
+                        color="secondary"
+                        variant="contained"
+                        onClick={handleCancelCreateRoutine}
+                      >
+                        Cancel
+                      </Button>
+                    )}
+                  </div>
+                </>
               ) : (
                 <>
                   <div className={styles.deleteRoutine}>
@@ -344,7 +414,7 @@ const GymPlanCreator: React.FC = () => {
                         label="Routine Name"
                         fullWidth
                         value={routineName}
-                        onChange={(e) => setRoutineName(e.target.value)}
+                        onChange={handleRoutineNameChange}
                       />
                     </div>
                     {daysOfWeek.map((day) => (
@@ -484,7 +554,7 @@ const GymPlanCreator: React.FC = () => {
                       label="Exercise Name"
                       fullWidth
                       value={exerciseName}
-                      onChange={(e) => setExerciseName(e.target.value)}
+                      onChange={handleExerciseNameChange}
                     />
                     <TextField
                       margin="dense"
@@ -492,7 +562,7 @@ const GymPlanCreator: React.FC = () => {
                       type="number"
                       fullWidth
                       value={numSets}
-                      onChange={(e) => setNumSets(Number(e.target.value))}
+                      onChange={handleNumSetsChange}
                     />
                   </>
                 ) : (
@@ -506,11 +576,7 @@ const GymPlanCreator: React.FC = () => {
                           fullWidth
                           value={set.repetitions}
                           onChange={(e) =>
-                            handleSetChange(
-                              index,
-                              "repetitions",
-                              Number(e.target.value)
-                            )
+                            handleSetRepetitionsChange(index, e.target.value)
                           }
                         />
                         <TextField
@@ -520,11 +586,7 @@ const GymPlanCreator: React.FC = () => {
                           fullWidth
                           value={set.weight}
                           onChange={(e) =>
-                            handleSetChange(
-                              index,
-                              "weight",
-                              Number(e.target.value)
-                            )
+                            handleSetWeightChange(index, e.target.value)
                           }
                         />
                       </div>

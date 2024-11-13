@@ -8,29 +8,20 @@ interface Routine {
   is_active: number;
 }
 
-interface RoutineDay {
-  id: number;
-  routine_id: number;
-  day_of_week: string;
-}
-
-interface Exercise {
-  id: number;
-  routine_day_id: number;
-  exercise_name: string;
-  num_sets: number;
-}
-
-interface ExerciseSet {
-  id: number;
-  exercise_id: number;
-  set_number: number;
-  repetitions: number;
-  weight: number;
-}
-
 interface RoutineDetails {
   [dayOfWeek: string]: {
+    name: string;
+    sets: {
+      setNumber: number;
+      repetitions: number;
+      weight: number;
+    }[];
+  }[];
+}
+
+interface WorkoutDay {
+  day: string;
+  exercises: {
     name: string;
     sets: {
       setNumber: number;

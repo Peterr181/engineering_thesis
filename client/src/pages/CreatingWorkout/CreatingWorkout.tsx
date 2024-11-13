@@ -18,8 +18,7 @@ import { useWorkouts } from "../../hooks/useWorkout";
 import { allExercises, months } from "../../constants/exercises";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
-import GymPlanCreator from "../../components/compound/GymPlanCreator/GymPlanCreator";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface Exercise {
   name: string;
@@ -30,7 +29,6 @@ const filterCategories = ["All", "Cardio", "Strength", "Combat", "Flexibility"];
 
 const CreatingWorkout = () => {
   const { addWorkout, error, loading } = useWorkouts();
-  const navigate = useNavigate();
 
   const [filter, setFilter] = useState<string>("All");
   const [open, setOpen] = useState<boolean>(false);
@@ -43,7 +41,6 @@ const CreatingWorkout = () => {
   const [minutes, setMinutes] = useState<number | "">("");
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
   const [gymDialogOpen, setGymDialogOpen] = useState<boolean>(false);
-  const [gymPlanOpen, setGymPlanOpen] = useState<boolean>(false);
 
   const handleOpenModal = (exercise: Exercise) => {
     setSelectedExercise(exercise);
@@ -112,10 +109,6 @@ const CreatingWorkout = () => {
   const handleDeleteGymWorkouts = () => {
     // Logic to delete Gym workouts
     setGymDialogOpen(false);
-  };
-
-  const handleCloseGymPlan = () => {
-    setGymPlanOpen(false);
   };
 
   const filteredExercises = allExercises.filter(
