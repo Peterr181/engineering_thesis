@@ -327,8 +327,11 @@ export const useGymRoutine = () => {
     }
   };
 
-  // Activate a specific routine by its ID
-  const activateRoutine = async (routineId: number) => {
+  // Activate or deactivate a specific routine by its ID
+  const activateRoutine = async (
+    routineId: number,
+    isActive: boolean = true
+  ) => {
     setLoading(true);
     setError(null);
 
@@ -342,7 +345,9 @@ export const useGymRoutine = () => {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      await axios.post(`${apiUrl}/api/routines/activate/${routineId}`);
+      await axios.post(`${apiUrl}/api/routines/activate/${routineId}`, {
+        isActive,
+      });
       fetchRoutines(); // Refresh routines list after activation
     } catch (err) {
       setError("Error activating routine.");

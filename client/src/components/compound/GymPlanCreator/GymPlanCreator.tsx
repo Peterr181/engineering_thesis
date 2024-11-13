@@ -46,6 +46,7 @@ const GymPlanCreator: React.FC = () => {
   const [routineCreated, setRoutineCreated] = useState<boolean>(false);
   const [routineName, setRoutineName] = useState<string>("");
   const [viewRoutine, setViewRoutine] = useState<boolean>(false);
+  const [emptyDayAlertOpen, setEmptyDayAlertOpen] = useState<boolean>(false);
 
   const {
     routines,
@@ -63,6 +64,31 @@ const GymPlanCreator: React.FC = () => {
     fetchRoutines();
   }, []);
 
+  useEffect(() => {
+    return () => {
+      const activeRoutine = routines.find((routine) => routine.is_active === 1);
+      if (activeRoutine) {
+        activateRoutine(activeRoutine.id, false); // Set the active routine to inactive
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      const activeRoutine = routines.find((routine) => routine.is_active === 1);
+      if (activeRoutine) {
+        activateRoutine(activeRoutine.id, false); // Set the active routine to inactive
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      handleBeforeUnload();
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [routines]);
+
   const handleCreateRoutine = () => {
     setRoutineCreated(true);
   };
@@ -70,6 +96,16 @@ const GymPlanCreator: React.FC = () => {
   const handleSavePlan = async () => {
     if (selectedDays.length === 0 || !routineName) {
       setAlertOpen(true);
+      return;
+    }
+
+    const emptyDays = selectedDays.filter(
+      (day) =>
+        !workouts.find((workout) => workout.day === day)?.exercises.length
+    );
+
+    if (emptyDays.length > 0) {
+      setEmptyDayAlertOpen(true);
       return;
     }
 
@@ -243,7 +279,7 @@ const GymPlanCreator: React.FC = () => {
   };
 
   const handleViewRoutine = async (routineId: number) => {
-    await activateRoutine(routineId);
+    await activateRoutine(routineId, true); // Activate the routine
     await handleFetchRoutineDetails(routineId);
     setRoutineCreated(false); // Close the routine creator
     setViewRoutine(true);
@@ -418,9 +454,23 @@ const GymPlanCreator: React.FC = () => {
               open={alertOpen}
               autoHideDuration={2000}
               onClose={() => setAlertOpen(false)}
+              anchorOrigin={{ vertical: "top", horizontal: "center" }}
             >
               <Alert onClose={() => setAlertOpen(false)} severity="success">
                 Plan saved successfully!
+              </Alert>
+            </Snackbar>
+            <Snackbar
+              open={emptyDayAlertOpen}
+              autoHideDuration={5000}
+              onClose={() => setEmptyDayAlertOpen(false)}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            >
+              <Alert
+                onClose={() => setEmptyDayAlertOpen(false)}
+                severity="error"
+              >
+                Each selected day must have at least one exercise!
               </Alert>
             </Snackbar>
             <Dialog open={dialogOpen} onClose={handleDialogClose}>
@@ -523,8 +573,8 @@ const GymPlanCreator: React.FC = () => {
               <div className={styles.routinesList}>
                 {routines.map((routine) => (
                   <div key={routine.id} className={styles.routineItem}>
-                    <span>{routine.routine_name}</span>
-                    <span>
+                    <span className="routineName">{routine.routine_name}</span>
+                    <span className="routineDate">
                       {routine.start_date
                         ? formatDate(routine.start_date)
                         : "N/A"}

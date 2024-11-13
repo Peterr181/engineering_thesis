@@ -181,6 +181,16 @@
   border-radius: 8px;
   margin-top: var(--rythm-8);
 
+  .routineName {
+    flex: 1;
+    min-width: 200px; /* Adjust as needed */
+  }
+
+  .routineDate {
+    min-width: 100px; /* Adjust as needed */
+    text-align: right;
+  }
+
   button {
     font-weight: bold;
   }

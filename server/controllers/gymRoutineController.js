@@ -225,24 +225,29 @@ export const endRoutine = async (req, res) => {
   }
 };
 
-// Activate a specific routine by its ID
+// Activate or deactivate a specific routine by its ID
 export const activateRoutine = async (req, res) => {
   const { routineId } = req.params;
+  const { isActive } = req.body; // Get the active status from the request body
   const userId = req.user.userId;
 
   const deactivateSql = "UPDATE routines SET is_active = 0 WHERE user_id = ?";
   const activateSql =
-    "UPDATE routines SET is_active = 1 WHERE id = ? AND user_id = ?";
+    "UPDATE routines SET is_active = ? WHERE id = ? AND user_id = ?";
 
   try {
     await db.promise().query(deactivateSql, [userId]);
-    const [result] = await db.promise().query(activateSql, [routineId, userId]);
+    const [result] = await db
+      .promise()
+      .query(activateSql, [isActive ? 1 : 0, routineId, userId]);
     if (result.affectedRows === 0) {
       return res
         .status(404)
         .json({ error: "Routine not found or not owned by user" });
     }
-    return res.status(200).json({ message: "Routine activated successfully" });
+    return res.status(200).json({
+      message: `Routine ${isActive ? "activated" : "deactivated"} successfully`,
+    });
   } catch (err) {
     console.error("Database error:", err);
     return res.status(500).json({ error: "Internal Server Error" });
