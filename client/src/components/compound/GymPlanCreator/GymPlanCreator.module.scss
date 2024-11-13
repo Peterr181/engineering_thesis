@@ -1,0 +1,163 @@
+.gymPlanCreator {
+  margin-top: var(--rythm-32);
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
+      font-weight: bold;
+    }
+  }
+}
+
+.gymPlanCreator__day {
+  margin-top: var(--rythm-16);
+}
+
+.gymPlanCreator__exercise {
+  margin-top: var(--rythm-8);
+}
+
+.gymPlanCreator__set {
+  display: flex;
+  align-items: center;
+  gap: var(--rythm-8);
+  margin-top: var(--rythm-4);
+}
+
+.gymPlanCreator__actions {
+  margin-top: var(--rythm-16);
+}
+
+.workoutDays {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+
+  button {
+    margin-top: 8px;
+    font-weight: bold;
+  }
+}
+
+.workoutDay {
+  border: 1px solid #ccc;
+  padding: 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.workoutDayHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerIcons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dayName {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.exerciseList {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.exerciseList.expanded {
+  max-height: 1000px; /* Arbitrary large value to ensure it expands fully */
+}
+
+.setsList {
+  margin-top: var(--rythm-8);
+  padding-left: var(--rythm-16);
+}
+
+.setsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--rythm-8);
+}
+
+.setsTable th,
+.setsTable td {
+  border: 1px solid #ddd;
+  padding: var(--rythm-4);
+  text-align: center;
+}
+
+.setsTable th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.set {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--rythm-4) 0;
+}
+
+.set span {
+  flex: 1;
+  text-align: center;
+}
+
+.exercise {
+  h4 {
+    text-align: center;
+    text-transform: uppercase;
+    color: green;
+    margin-top: 8px;
+  }
+}
+
+.saveRoutineBtn {
+  margin-top: 16px;
+
+  button {
+    font-weight: bold;
+  }
+}
+
+.existingRoutines {
+  margin-top: var(--rythm-16);
+}
+
+.routine {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--rythm-8);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: var(--rythm-8);
+}
+
+.routine h4 {
+  margin: 0;
+}
+
+.saveButton {
+  margin-top: 16px;
+  button {
+    font-weight: bold;
+  }
+}

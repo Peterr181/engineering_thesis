@@ -18,6 +18,7 @@ import ChatRoom from "./components/compound/ChatRoom/ChatRoom";
 import ProtectedRoute from "./context/ProtectedRoute";
 import Leaderboard from "./pages/Leaderboard/Leaderboard";
 import UserProfile from "./components/compound/UserProfile/UserProfile";
+import GymPlanCreator from "./components/compound/GymPlanCreator/GymPlanCreator";
 import { useEffect } from "react";
 import axios from "axios";
 import useDailyStreak from "./hooks/useDailyStreak";
@@ -62,6 +63,10 @@ function App() {
             element={<ProtectedRoute element={<CreatingWorkout />} />}
           />
           <Route
+            path="/gymplancreator"
+            element={<ProtectedRoute element={<GymPlanCreator />} />}
+          />
+          <Route
             path="/personaldetails"
             element={<ProtectedRoute element={<PersonalGoals />} />}
           />
@@ -80,6 +85,10 @@ function App() {
           <Route
             path="/finder"
             element={<ProtectedRoute element={<Finder />} />}
+          />
+          <Route
+            path="/gymplancreator"
+            element={<ProtectedRoute element={<GymPlanCreator />} />}
           />
           <Route
             path="/leaderboard"

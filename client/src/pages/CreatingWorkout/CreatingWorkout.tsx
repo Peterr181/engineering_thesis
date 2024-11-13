@@ -18,6 +18,8 @@ import { useWorkouts } from "../../hooks/useWorkout";
 import { allExercises, months } from "../../constants/exercises";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
+import GymPlanCreator from "../../components/compound/GymPlanCreator/GymPlanCreator";
+import { useNavigate, Link } from "react-router-dom";
 
 interface Exercise {
   name: string;
@@ -28,6 +30,7 @@ const filterCategories = ["All", "Cardio", "Strength", "Combat", "Flexibility"];
 
 const CreatingWorkout = () => {
   const { addWorkout, error, loading } = useWorkouts();
+  const navigate = useNavigate();
 
   const [filter, setFilter] = useState<string>("All");
   const [open, setOpen] = useState<boolean>(false);
@@ -39,6 +42,8 @@ const CreatingWorkout = () => {
   const [description, setDescription] = useState<string>("");
   const [minutes, setMinutes] = useState<number | "">("");
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
+  const [gymDialogOpen, setGymDialogOpen] = useState<boolean>(false);
+  const [gymPlanOpen, setGymPlanOpen] = useState<boolean>(false);
 
   const handleOpenModal = (exercise: Exercise) => {
     setSelectedExercise(exercise);
@@ -100,6 +105,19 @@ const CreatingWorkout = () => {
     }
   };
 
+  const handleCloseGymDialog = () => {
+    setGymDialogOpen(false);
+  };
+
+  const handleDeleteGymWorkouts = () => {
+    // Logic to delete Gym workouts
+    setGymDialogOpen(false);
+  };
+
+  const handleCloseGymPlan = () => {
+    setGymPlanOpen(false);
+  };
+
   const filteredExercises = allExercises.filter(
     (exercise: Exercise) => filter === "All" || exercise.type === filter
   );
@@ -128,6 +146,11 @@ const CreatingWorkout = () => {
                   {category}
                 </Button>
               ))}
+              <Link to="/gymplancreator">
+                <Button variant="contained" color="primary">
+                  Gym
+                </Button>
+              </Link>
             </div>
             <div className={styles.creatingworkout__buttons}>
               {filteredExercises.map((exercise: Exercise) => (
@@ -225,6 +248,22 @@ const CreatingWorkout = () => {
                 Workout added successfully!
               </Alert>
             </Snackbar>
+            <Dialog open={gymDialogOpen} onClose={handleCloseGymDialog}>
+              <DialogTitle>Delete Gym Workouts</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Are you sure you want to delete all Gym workouts?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseGymDialog} color="secondary">
+                  Cancel
+                </Button>
+                <Button onClick={handleDeleteGymWorkouts} color="error">
+                  Delete
+                </Button>
+              </DialogActions>
+            </Dialog>
           </WhiteCardWrapper>
         </MaxWidthWrapper>
       </section>

@@ -26,9 +26,9 @@ const WorkoutPlan = () => {
     finishWorkout,
     weeklyWorkouts,
   } = useWorkouts();
-  const [currentView, setCurrentView] = useState<"all" | "weekly" | "finished">(
-    "all"
-  );
+  const [currentView, setCurrentView] = useState<
+    "all" | "weekly" | "finished" | "gym"
+  >("all");
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
 
   useEffect(() => {
@@ -60,6 +60,11 @@ const WorkoutPlan = () => {
     setFilterDialogOpen(false);
   };
 
+  const handleShowGymClick = () => {
+    setCurrentView("gym");
+    setFilterDialogOpen(false);
+  };
+
   // Filter workouts to highlight only unfinished workouts on the calendar
   const workoutDays = (currentView === "weekly" ? weeklyWorkouts : workouts)
     .filter((workout) => !workout.finished) // Filter out finished workouts
@@ -84,6 +89,8 @@ const WorkoutPlan = () => {
       ? workouts.filter((workout) => workout.finished)
       : currentView === "weekly"
       ? weeklyWorkouts
+      : currentView === "gym"
+      ? workouts.filter((workout) => workout.category === Category.GYM)
       : workouts.filter((workout) => !workout.finished);
 
   return (
@@ -126,6 +133,17 @@ const WorkoutPlan = () => {
                         Filter
                       </Button>
                     </div>
+                    <Link to="/gymplancreator">
+                      <div>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          onClick={handleShowGymClick}
+                        >
+                          Gym
+                        </Button>
+                      </div>
+                    </Link>
                   </div>
                 </div>
                 <div className={styles.workoutPlan__trainings__trainingsList}>
