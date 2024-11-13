@@ -3,6 +3,7 @@ import {
   getProfile,
   getAllUsers,
   getUserById,
+  addStarToUser,
 } from "../controllers/userController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 
@@ -16,5 +17,8 @@ router.get("/", authMiddleware, getAllUsers);
 
 // Route to get a specific user by ID
 router.get("/:userId", authMiddleware, getUserById); // Endpoint to get user by ID
+
+// Route to add a star to a user
+router.post("/:userId/star", authMiddleware, addStarToUser);
 
 export default router;

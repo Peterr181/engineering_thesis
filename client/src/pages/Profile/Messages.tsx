@@ -4,6 +4,7 @@ import styles from "./Notifications.module.scss";
 import useMessages from "../../hooks/useMessages";
 import useAuth from "../../hooks/useAuth";
 import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 interface Message {
   id: number;
@@ -36,9 +37,11 @@ const Messages = () => {
             You can browse messages sent by users from our community to you.
           </p>
         </div>
-        <Button variant="contained" color="primary">
-          Community
-        </Button>
+        <Link to="/leaderboard">
+          <Button variant="contained" color="primary">
+            Community
+          </Button>
+        </Link>
       </div>
 
       {filteredMessages.length === 0 ? (

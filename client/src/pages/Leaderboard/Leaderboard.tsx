@@ -10,7 +10,7 @@ import avatarImages from "../../utils/avatarImages";
 import dolar from "../../assets/images/dollar.png";
 
 const Leaderboard = () => {
-  const { users, fetchUsers } = useUsers();
+  const { users, fetchUsers } = useUsers(); // Removed addStarToUser
   const userProfile = useAuth();
 
   useEffect(() => {

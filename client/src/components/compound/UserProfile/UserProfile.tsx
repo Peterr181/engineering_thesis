@@ -13,6 +13,7 @@ import avatarImages from "../../../utils/avatarImages";
 import { iconFile } from "../../../assets/iconFile";
 import Workout, { Category } from "../Workout/Workout";
 import UserMealsPlan from "../../../pages/MealsPlan/UserMealsPlan";
+import love from "../../../assets/images/love.png";
 import {
   Button,
   Dialog,
@@ -55,7 +56,7 @@ const icons: { [key: string]: JSX.Element } = {
 const UserProfile = () => {
   const { userId } = useParams<{ userId: string }>();
   const userProfile = useAuth();
-  const { selectedUser, fetchUserById } = useUsers();
+  const { selectedUser, fetchUserById, addStarToUser } = useUsers();
   const { sendMessage } = useMessages(); // Pass userId to useMessages
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -129,6 +130,12 @@ const UserProfile = () => {
     setAlertOpen(false);
   };
 
+  // Handle adding a star to the user
+  const handleAddStar = async () => {
+    await addStarToUser(Number(userId));
+    fetchUserById(Number(userId)); // Refresh the user data to reflect the new star count
+  };
+
   return (
     <PlatformWrapper>
       <section className={styles.userprofile}>
@@ -178,9 +185,19 @@ const UserProfile = () => {
                     >
                       Message
                     </Button>
-                    <Button variant="contained" color="success">
+                    <Button
+                      variant="contained"
+                      color="success"
+                      onClick={handleAddStar}
+                    >
                       Like
                     </Button>
+                  </div>
+                  <div
+                    className={styles.userprofile__topSection__firstcol__like}
+                  >
+                    <p>{selectedUser?.stars}</p>
+                    <img src={love} alt="heart icon" />
                   </div>
                 </div>
 

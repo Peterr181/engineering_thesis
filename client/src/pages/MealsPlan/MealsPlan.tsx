@@ -432,7 +432,13 @@ const MealsPlan = () => {
                           <h3>
                             {section.charAt(0).toUpperCase() + section.slice(1)}
                           </h3>
-
+                          {sectionMeals.length > 0 && (
+                            <span className={styles.arrowIcon}>
+                              {openSections[section]
+                                ? iconFile.arrowRight
+                                : iconFile.arrowDown}
+                            </span>
+                          )}
                           {!isViewingArchived && sectionMeals.length === 0 && (
                             <Button
                               variant="contained"

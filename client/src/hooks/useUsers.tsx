@@ -10,6 +10,7 @@ interface User {
   avatar?: string;
   sportLevel?: string;
   total_points: number;
+  stars: number;
 }
 
 export const useUsers = () => {
@@ -77,11 +78,39 @@ export const useUsers = () => {
     }
   };
 
+  const addStarToUser = async (userId: number) => {
+    setLoading(true);
+    setError(null);
+
+    if (!isAuthenticated()) {
+      setError("User not authenticated. Cannot add star.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      const res = await axios.post(`${apiUrl}/api/users/${userId}/star`);
+      if (res.data) {
+        setSelectedUser(res.data.user); // Update the selected user with the new data
+        fetchUsers(); // Refresh the user list to reflect the new star count
+      }
+    } catch (err) {
+      setError("Error adding star.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     users,
     selectedUser,
     fetchUsers,
     fetchUserById,
+    addStarToUser,
     error,
     loading,
   };
