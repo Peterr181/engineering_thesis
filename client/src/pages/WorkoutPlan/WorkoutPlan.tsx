@@ -90,7 +90,7 @@ const WorkoutPlan = () => {
       : currentView === "weekly"
       ? weeklyWorkouts
       : currentView === "gym"
-      ? workouts.filter((workout) => workout.category === Category.GYM)
+      ? workouts.filter((workout) => workout.exercise_type === Category.GYM)
       : workouts.filter((workout) => !workout.finished);
 
   return (
