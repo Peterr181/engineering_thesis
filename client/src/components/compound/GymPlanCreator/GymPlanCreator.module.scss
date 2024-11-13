@@ -1,5 +1,6 @@
 .gymPlanCreator {
   margin-top: var(--rythm-32);
+  color: var(--body_color);
 
   &__header {
     display: flex;
@@ -105,7 +106,7 @@
 }
 
 .setsTable th {
-  background-color: #f4f4f4;
+  background-color: var(--body_content);
   font-weight: bold;
 }
 
@@ -165,6 +166,10 @@
 .daySelection__routineName {
   margin-top: 16px;
   margin-bottom: 16px;
+
+  input {
+    color: var(--body_color);
+  }
 }
 
 .deleteRoutine {
@@ -194,4 +199,8 @@
   button {
     font-weight: bold;
   }
+}
+
+.wrapperClass {
+  min-height: 75vh;
 }

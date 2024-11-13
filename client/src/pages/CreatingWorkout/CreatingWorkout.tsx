@@ -140,7 +140,7 @@ const CreatingWorkout = () => {
                 </Button>
               ))}
               <Link to="/gymplancreator">
-                <Button variant="contained" color="primary">
+                <Button variant="contained" color="secondary">
                   Gym
                 </Button>
               </Link>

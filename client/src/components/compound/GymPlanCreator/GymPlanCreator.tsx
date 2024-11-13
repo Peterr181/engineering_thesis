@@ -357,7 +357,7 @@ const GymPlanCreator: React.FC = () => {
     <PlatformWrapper>
       <section className={styles.gymPlanCreator}>
         <MaxWidthWrapper>
-          <WhiteCardWrapper>
+          <WhiteCardWrapper additionalClass={styles.wrapperClass}>
             <div className={styles.gymPlanCreator__header}>
               <h2>Your gym workout routine creator</h2>
               {routines.filter((routine) => routine.is_active === 1).length ===

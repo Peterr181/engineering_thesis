@@ -36,7 +36,7 @@ const Leaderboard = () => {
     <PlatformWrapper>
       <section className={styles.leaderboard}>
         <MaxWidthWrapper>
-          <WhiteCardWrapper>
+          <WhiteCardWrapper additionalClass={styles.wrapperClass}>
             <h2>Leaderboard</h2>
             <p>Browse users workout plans, diets, and special points.</p>
             <div className={styles.userList}>

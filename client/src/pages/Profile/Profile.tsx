@@ -20,7 +20,7 @@ const Profile: React.FC = () => {
     <PlatformWrapper>
       <div className={styles.profileContainer}>
         <MaxWidthWrapper>
-          <WhiteCardWrapper>
+          <WhiteCardWrapper additionalClass={styles.wrapperClass}>
             <div className={styles.profileWrapper}>
               <div className={styles.profile}>
                 <h2>User profile</h2>

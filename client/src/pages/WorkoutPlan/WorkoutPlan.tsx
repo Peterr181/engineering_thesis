@@ -99,7 +99,7 @@ const WorkoutPlan = () => {
         <MaxWidthWrapper>
           <div className={styles.workoutPlan}>
             <div className={styles.workoutPlan__trainings}>
-              <WhiteCardWrapper>
+              <WhiteCardWrapper additionalClass={styles.wrapperClass}>
                 <div className={styles.workoutPlan__trainings__header}>
                   <div>
                     <div
