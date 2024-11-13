@@ -1,4 +1,4 @@
-@import "../../styles/variables.scss";
+@use "../../styles/variables.scss" as *;
 .finder {
   margin-top: var(--rythm-32);
   z-index: 0;

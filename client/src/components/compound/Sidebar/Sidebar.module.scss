@@ -1,4 +1,5 @@
-@import ".../../../../../styles/variables.scss";
+@use ".../../../../../styles/variables.scss" as *;
+
 .sidebar {
   background-color: var(--body_sidebar);
 

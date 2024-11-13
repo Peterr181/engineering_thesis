@@ -34,18 +34,6 @@ body {
   background-color: var(--body_content);
   --rythm: 8px;
 
-  @media (max-width: 1400px) {
-    --rythm: 6px;
-  }
-
-  @media (max-width: 1200px) {
-    --rythm: 5px;
-  }
-
-  @media (max-width: 922px) {
-    --rythm: 3.5px;
-  }
-
   --rythm-4: calc(var(--rythm) * 0.5);
   --rythm-8: calc(var(--rythm) * 1);
   --rythm-12: calc(var(--rythm) * 1.5);
@@ -129,6 +117,18 @@ body {
   --rythm-1600: calc(var(--rythm) * 200);
   --rythm-1800: calc(var(--rythm) * 225);
   --rythm-2000: calc(var(--rythm) * 250);
+
+  @media (max-width: 1400px) {
+    --rythm: 6px;
+  }
+
+  @media (max-width: 1200px) {
+    --rythm: 5px;
+  }
+
+  @media (max-width: 922px) {
+    --rythm: 3.5px;
+  }
 }
 
 a {

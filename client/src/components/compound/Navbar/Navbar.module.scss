@@ -1,11 +1,6 @@
-@import ".../../../../../styles/variables.scss";
+@use ".../../../../../styles/variables.scss" as *;
 
 .navbar {
-  &__wrapper {
-    background-color: var(--body__navbar);
-    height: 100px;
-    position: relative;
-  }
   max-width: var(--rythm-1600);
   margin: 0 auto;
   font-size: var(--rythm-16);
@@ -15,6 +10,12 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--rythm-16) var(--rythm-24);
+
+  &__wrapper {
+    background-color: var(--body__navbar);
+    height: 100px;
+    position: relative;
+  }
 
   &__left {
     display: flex;

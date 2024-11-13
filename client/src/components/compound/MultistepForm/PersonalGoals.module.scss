@@ -1,4 +1,5 @@
-@import "../../../styles/variables.scss";
+@use "../../../styles/variables.scss" as *;
+@use "sass:color";
 
 .personalGoals {
   height: 100vh;
@@ -45,7 +46,7 @@
   font-weight: 600;
 
   &:hover {
-    background-color: darken($mainColor, 10%);
+    background-color: color.adjust($mainColor, $lightness: -10%);
   }
 }
 .inputField {
