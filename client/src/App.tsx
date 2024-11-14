@@ -18,7 +18,7 @@ import ChatRoom from "./components/compound/ChatRoom/ChatRoom";
 import ProtectedRoute from "./context/ProtectedRoute";
 import Leaderboard from "./pages/Leaderboard/Leaderboard";
 import UserProfile from "./components/compound/UserProfile/UserProfile";
-import GymPlanCreator from "./components/compound/GymPlanCreator/GymPlanCreator";
+import GymPlanCreator from "./pages/GymPlanCreator/GymPlanCreator";
 import { useEffect } from "react";
 import axios from "axios";
 import useDailyStreak from "./hooks/useDailyStreak";
@@ -38,18 +38,9 @@ function App() {
     <LanguageProvider>
       <BrowserRouter>
         <Routes>
-          <Route
-            path="/"
-            element={<ProtectedRoute element={<Home />} unprotected />}
-          />
-          <Route
-            path="/register"
-            element={<ProtectedRoute element={<Register />} unprotected />}
-          />
-          <Route
-            path="/login"
-            element={<ProtectedRoute element={<Login />} unprotected />}
-          />
+          <Route path="/" element={<ProtectedRoute element={<Home />} />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
           <Route
             path="/workouts"
             element={<ProtectedRoute element={<Exercises />} />}
@@ -106,10 +97,7 @@ function App() {
             path="/profile"
             element={<ProtectedRoute element={<Profile />} />}
           />
-          <Route
-            path="/multistepregister"
-            element={<ProtectedRoute element={<MultistepForm />} unprotected />}
-          />
+          <Route path="/multistepregister" element={<MultistepForm />} />
         </Routes>
       </BrowserRouter>
     </LanguageProvider>

@@ -5,17 +5,13 @@ import { usePersonalInfo } from "../hooks/usePersonalInfo";
 
 interface ProtectedRouteProps {
   element: React.ReactNode;
-  unprotected?: boolean;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
-  element,
-  unprotected,
-}) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
   const { hasPersonalData } = usePersonalInfo();
   const hasToken = localStorage.getItem("token");
 
-  if (unprotected || hasPersonalData || hasToken) {
+  if (hasPersonalData || hasToken) {
     return <>{element}</>;
   }
 

@@ -92,15 +92,9 @@ const MultistepForm = () => {
                 {stepVisible && step}
               </div>
               <div className={styles.buttonsContainer}>
-                {!isFirstStep && (
-                  <button
-                    type="button"
-                    onClick={back}
-                    className={styles.backBtn}
-                  >
-                    Back
-                  </button>
-                )}
+                <button type="button" onClick={back} className={styles.backBtn}>
+                  Back
+                </button>
                 <button type="submit" className={styles.finishBtn}>
                   {isLastStep ? "Finish" : "Next"}
                 </button>
