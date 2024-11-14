@@ -232,7 +232,7 @@ export const finishWorkout = (req, res) => {
 };
 
 export const getWorkoutsByUserId = (req, res) => {
-  const userId = req.user.userId;
+  const { userId } = req.params; // Update this line
 
   const sql = `SELECT * FROM workouts WHERE user_id = ?`;
   db.query(sql, [userId], (err, results) => {

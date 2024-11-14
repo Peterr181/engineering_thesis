@@ -70,7 +70,7 @@ const UserProfile = () => {
     workouts,
     fetchWorkouts,
     loading: workoutsLoading,
-  } = useWorkouts(userId);
+  } = useWorkouts(userId); // Ensure userId is passed here
   const { meals, fetchMeals } = useMeals(userId);
   const {
     personalInfoData,

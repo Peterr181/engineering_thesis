@@ -295,6 +295,20 @@ export const duplicateRoutineForNextWeek = async (req, res) => {
     const newStartDate = new Date(originalRoutine.start_date);
     newStartDate.setDate(newStartDate.getDate() + 7); // Add 7 days to the start date
 
+    // Check if a routine already exists for the new start date for the same user
+    const [existingRoutine] = await db
+      .promise()
+      .query("SELECT id FROM routines WHERE user_id = ? AND start_date = ?", [
+        userId,
+        newStartDate.toISOString().split("T")[0],
+      ]);
+
+    if (existingRoutine.length > 0) {
+      return res
+        .status(400)
+        .json({ error: "Routine already exists for the next week" });
+    }
+
     // Create a new routine with the new start date
     const [newRoutineResult] = await db
       .promise()

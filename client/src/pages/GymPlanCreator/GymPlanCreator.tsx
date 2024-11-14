@@ -48,6 +48,11 @@ const GymPlanCreator: React.FC = () => {
   const [routineName, setRoutineName] = useState<string>("");
   const [viewRoutine, setViewRoutine] = useState<boolean>(false);
   const [emptyDayAlertOpen, setEmptyDayAlertOpen] = useState<boolean>(false);
+  const [duplicateError, setDuplicateError] = useState<string | null>(null);
+  const [missingNameAlertOpen, setMissingNameAlertOpen] =
+    useState<boolean>(false);
+  const [missingDaysAlertOpen, setMissingDaysAlertOpen] =
+    useState<boolean>(false);
 
   const {
     routines,
@@ -105,8 +110,13 @@ const GymPlanCreator: React.FC = () => {
   };
 
   const handleSavePlan = async () => {
-    if (selectedDays.length === 0 || !routineName) {
-      setAlertOpen(true);
+    if (!routineName) {
+      setMissingNameAlertOpen(true);
+      return;
+    }
+
+    if (selectedDays.length === 0) {
+      setMissingDaysAlertOpen(true);
       return;
     }
 
@@ -123,7 +133,6 @@ const GymPlanCreator: React.FC = () => {
     const startDate = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
     await savePlan(routineName, startDate, selectedDays, workouts);
 
-    setAlertOpen(true); // Trigger the alert here
     setRoutineCreated(false); // Close the routine creator
     setViewRoutine(false); // Ensure the routine creator is closed
     await fetchRoutines(); // Refresh routines to show the new routine
@@ -134,6 +143,8 @@ const GymPlanCreator: React.FC = () => {
     if (activeRoutines.length > 0) {
       await handleFetchRoutineDetails(activeRoutines[0].id); // Fetch details for the first active routine
     }
+
+    setAlertOpen(true); // Trigger the alert here
   };
 
   const handleFetchRoutineDetails = async (routineId: number) => {
@@ -331,8 +342,13 @@ const GymPlanCreator: React.FC = () => {
   };
 
   const handleDuplicateRoutine = async (routineId: number) => {
-    await duplicateRoutine(routineId);
-    fetchRoutines(); // Refresh routines after duplication
+    setDuplicateError(null);
+    const error = await duplicateRoutine(routineId);
+    if (error !== undefined) {
+      setDuplicateError(error);
+    } else {
+      fetchRoutines(); // Refresh routines after duplication
+    }
   };
 
   const formatWeekDates = (dateString: string) => {
@@ -463,9 +479,9 @@ const GymPlanCreator: React.FC = () => {
                                 <h3>{day}</h3>
                                 {dayExercises.length > 0 &&
                                   (expandedDays.includes(day) ? (
-                                    <span>{iconFile.arrowDown}</span>
+                                    <span>{iconFile.arrowDown || "↓"}</span>
                                   ) : (
-                                    <span>{iconFile.arrowRight}</span>
+                                    <span>{iconFile.arrowRight || "→"}</span>
                                   ))}
                               </div>
                               {routineCreated && (
@@ -535,6 +551,13 @@ const GymPlanCreator: React.FC = () => {
                 Create your own weekly gym routine here in gym routine creator!
               </p>
             )}
+            {duplicateError ? (
+              <Alert severity="error" onClose={() => setDuplicateError(null)}>
+                {duplicateError}
+              </Alert>
+            ) : (
+              <div></div>
+            )}
             <Snackbar
               open={alertOpen}
               autoHideDuration={2000}
@@ -543,6 +566,32 @@ const GymPlanCreator: React.FC = () => {
             >
               <Alert onClose={() => setAlertOpen(false)} severity="success">
                 Plan saved successfully!
+              </Alert>
+            </Snackbar>
+            <Snackbar
+              open={missingNameAlertOpen}
+              autoHideDuration={5000}
+              onClose={() => setMissingNameAlertOpen(false)}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            >
+              <Alert
+                onClose={() => setMissingNameAlertOpen(false)}
+                severity="error"
+              >
+                Routine name is required!
+              </Alert>
+            </Snackbar>
+            <Snackbar
+              open={missingDaysAlertOpen}
+              autoHideDuration={5000}
+              onClose={() => setMissingDaysAlertOpen(false)}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            >
+              <Alert
+                onClose={() => setMissingDaysAlertOpen(false)}
+                severity="error"
+              >
+                At least one day must be selected!
               </Alert>
             </Snackbar>
             <Snackbar
@@ -646,6 +695,7 @@ const GymPlanCreator: React.FC = () => {
                 </Button>
               </DialogActions>
             </Dialog>
+
             {!routineCreated && !viewRoutine ? (
               <div className={styles.routinesList}>
                 {routines.map((routine) => (

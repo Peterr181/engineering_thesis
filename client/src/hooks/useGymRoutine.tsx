@@ -366,7 +366,16 @@ export const useGymRoutine = () => {
       await axios.post(`${apiUrl}/api/routines/duplicate/${routineId}`);
       fetchRoutines(); // Refresh routines list after duplication
     } catch (err) {
-      setError("Error duplicating routine.");
+      if (
+        axios.isAxiosError(err) &&
+        err.response &&
+        err.response.data &&
+        err.response.data.error
+      ) {
+        setError(err.response.data.error);
+      } else {
+        setError("Error duplicating routine.");
+      }
       console.error(err);
     } finally {
       setLoading(false);

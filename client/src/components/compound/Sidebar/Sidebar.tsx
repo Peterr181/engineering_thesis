@@ -59,24 +59,24 @@ const Sidebar = () => {
       text: t("sidebar.finder"),
       link: "/finder",
     },
-    {
-      id: "statistics",
-      icon: iconFile.statisticsIcon,
-      text: t("sidebar.statistics"),
-      link: "/statistics",
-    },
+    // {
+    //   id: "statistics",
+    //   icon: iconFile.statisticsIcon,
+    //   text: t("sidebar.statistics"),
+    //   link: "/statistics",
+    // },
     {
       id: "users",
       icon: iconFile.usersIcon,
       text: t("sidebar.users"),
       link: "/leaderboard",
     },
-    {
-      id: "goals",
-      icon: iconFile.goalsIcon,
-      text: t("sidebar.goals"),
-      link: "/goals",
-    },
+    // {
+    //   id: "goals",
+    //   icon: iconFile.goalsIcon,
+    //   text: t("sidebar.goals"),
+    //   link: "/goals",
+    // },
   ];
 
   return (

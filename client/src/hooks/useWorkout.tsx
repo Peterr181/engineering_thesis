@@ -42,7 +42,7 @@ export const useWorkouts = (userId?: string) => {
 
       // Construct the URL based on userId
       const url = userId
-        ? `${apiUrl}/api/workouts/${userId}?sorted=${sorted}`
+        ? `${apiUrl}/api/workouts/user/${userId}?sorted=${sorted}` // Update this line
         : `${apiUrl}/api/workouts?sorted=${sorted}`;
 
       const res = await axios.get(url);
