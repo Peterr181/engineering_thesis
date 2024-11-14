@@ -67,19 +67,20 @@ const WorkoutPlan = () => {
 
   // Filter workouts to highlight only unfinished workouts on the calendar
   const workoutDays = (currentView === "weekly" ? weeklyWorkouts : workouts)
-    .filter((workout) => !workout.finished) // Filter out finished workouts
+    .filter((workout) => !workout.finished)
     .map((workout) => {
       const monthNumber = monthMap[workout.month];
-      return new Date(2024, monthNumber - 1, workout.day);
+      return new Date(2024, monthNumber, workout.day);
     });
 
   const highlightWorkouts = ({ date, view }: { date: Date; view: string }) => {
     if (view === "month") {
-      return workoutDays.some(
-        (workoutDate) => workoutDate.toDateString() === date.toDateString()
-      )
-        ? styles.highlightedDay
-        : null;
+      const isWorkoutDay = workoutDays.some(
+        (workoutDate) => workoutDate.getTime() === date.getTime()
+      );
+      if (isWorkoutDay) {
+        return styles.highlightedDay;
+      }
     }
     return null;
   };

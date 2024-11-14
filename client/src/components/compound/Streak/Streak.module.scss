@@ -40,12 +40,13 @@
     padding: var(--rythm-16);
     &__header {
       border: 2px solid #c5e4cf;
+
       padding: 16px;
       border-radius: 8px;
       text-align: center;
       p {
         margin-bottom: 8px;
-        color: black !important;
+        color: var(--body_color) !important;
       }
     }
   }

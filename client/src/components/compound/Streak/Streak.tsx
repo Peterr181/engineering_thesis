@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Streak.module.scss";
 import dolar from "../../../assets/images/dollar.png";
 import confetti from "../../../assets/images/confetti.png";

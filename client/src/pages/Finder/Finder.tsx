@@ -6,6 +6,7 @@ import MaxWidthWrapper from "../../components/compound/MaxWidthWrapper/MaxWidthW
 import { LatLngExpression } from "leaflet";
 import styles from "./Finder.module.scss";
 import WhiteCardWrapper from "../../components/atomic/WhiteCardWrapper/WhiteCardWrapper";
+import { Button } from "@mui/material";
 
 interface Tags {
   name?: string;
@@ -109,7 +110,13 @@ const Finder = () => {
                   onChange={handleCityChange}
                   placeholder="Enter city name"
                 />
-                <button onClick={handleCitySearch}>Find</button>
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={handleCitySearch}
+                >
+                  Find
+                </Button>
               </div>
               <MapContainer
                 key={position ? position.toString() : "default"}
