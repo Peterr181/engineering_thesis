@@ -204,3 +204,9 @@
 .wrapperClass {
   min-height: 75vh;
 }
+
+.routineButtons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}

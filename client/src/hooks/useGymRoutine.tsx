@@ -348,6 +348,31 @@ export const useGymRoutine = () => {
     }
   };
 
+  // Duplicate a routine for the next week
+  const duplicateRoutine = async (routineId: number) => {
+    setLoading(true);
+    setError(null);
+
+    if (!isAuthenticated()) {
+      setError("User not authenticated. Cannot duplicate routine.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      await axios.post(`${apiUrl}/api/routines/duplicate/${routineId}`);
+      fetchRoutines(); // Refresh routines list after duplication
+    } catch (err) {
+      setError("Error duplicating routine.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Delete a specific routine
   const deleteRoutine = async (routineId: number) => {
     setLoading(true);
@@ -386,6 +411,7 @@ export const useGymRoutine = () => {
     savePlan,
     endRoutine,
     activateRoutine,
+    duplicateRoutine,
     deleteRoutine,
     error,
     loading,

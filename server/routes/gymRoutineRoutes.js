@@ -10,6 +10,7 @@ import {
   deleteRoutine,
   endRoutine,
   activateRoutine,
+  duplicateRoutineForNextWeek,
 } from "../controllers/gymRoutineController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 
@@ -44,5 +45,12 @@ router.post("/endRoutine", authMiddleware, endRoutine);
 
 // Route to activate a specific routine
 router.post("/activate/:routineId", authMiddleware, activateRoutine);
+
+// Route to duplicate a routine for the next week
+router.post(
+  "/duplicate/:routineId",
+  authMiddleware,
+  duplicateRoutineForNextWeek
+);
 
 export default router;

@@ -272,3 +272,97 @@ export const getRoutineById = async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+// Duplicate a routine for the next week
+export const duplicateRoutineForNextWeek = async (req, res) => {
+  const { routineId } = req.params;
+  const userId = req.user.userId;
+
+  try {
+    // Fetch the original routine
+    const [routineData] = await db
+      .promise()
+      .query(
+        "SELECT routine_name, start_date FROM routines WHERE id = ? AND user_id = ?",
+        [routineId, userId]
+      );
+
+    if (routineData.length === 0) {
+      return res.status(404).json({ error: "Routine not found" });
+    }
+
+    const originalRoutine = routineData[0];
+    const newStartDate = new Date(originalRoutine.start_date);
+    newStartDate.setDate(newStartDate.getDate() + 7); // Add 7 days to the start date
+
+    // Create a new routine with the new start date
+    const [newRoutineResult] = await db
+      .promise()
+      .query(
+        "INSERT INTO routines (user_id, routine_name, start_date) VALUES (?, ?, ?)",
+        [
+          userId,
+          originalRoutine.routine_name,
+          newStartDate.toISOString().split("T")[0],
+        ]
+      );
+    const newRoutineId = newRoutineResult.insertId;
+
+    // Duplicate routine days
+    const [routineDays] = await db
+      .promise()
+      .query("SELECT id, day_of_week FROM routine_days WHERE routine_id = ?", [
+        routineId,
+      ]);
+
+    for (const day of routineDays) {
+      const [newDayResult] = await db
+        .promise()
+        .query(
+          "INSERT INTO routine_days (routine_id, day_of_week) VALUES (?, ?)",
+          [newRoutineId, day.day_of_week]
+        );
+      const newRoutineDayId = newDayResult.insertId;
+
+      // Duplicate exercises
+      const [exercises] = await db
+        .promise()
+        .query(
+          "SELECT id, exercise_name, num_sets FROM gym_exercises WHERE routine_day_id = ?",
+          [day.id]
+        );
+
+      for (const exercise of exercises) {
+        const [newExerciseResult] = await db
+          .promise()
+          .query(
+            "INSERT INTO gym_exercises (routine_day_id, exercise_name, num_sets) VALUES (?, ?, ?)",
+            [newRoutineDayId, exercise.exercise_name, exercise.num_sets]
+          );
+        const newExerciseId = newExerciseResult.insertId;
+
+        // Duplicate sets
+        const [sets] = await db
+          .promise()
+          .query(
+            "SELECT set_number, repetitions, weight FROM gym_exercise_sets WHERE exercise_id = ?",
+            [exercise.id]
+          );
+
+        for (const set of sets) {
+          await db
+            .promise()
+            .query(
+              "INSERT INTO gym_exercise_sets (exercise_id, set_number, repetitions, weight) VALUES (?, ?, ?, ?)",
+              [newExerciseId, set.set_number, set.repetitions, set.weight]
+            );
+        }
+      }
+    }
+
+    return res.status(201).json({ message: "Routine duplicated successfully" });
+  } catch (err) {
+    console.error("Database error:", err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};

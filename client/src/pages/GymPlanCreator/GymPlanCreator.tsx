@@ -59,6 +59,7 @@ const GymPlanCreator: React.FC = () => {
     fetchRoutineById,
     endRoutine,
     activateRoutine,
+    duplicateRoutine,
   } = useGymRoutine();
 
   useEffect(() => {
@@ -324,24 +325,38 @@ const GymPlanCreator: React.FC = () => {
         (routine) => routine.is_active === 1
       );
       if (activeRoutines.length > 0) {
-        await handleFetchRoutineDetails(activeRoutines[0].id); // Fetch details for the first active routine
+        await handleFetchRoutineDetails(activeRoutines[0].id);
       }
     }
   };
 
-  const formatDate = (dateString: string) => {
+  const handleDuplicateRoutine = async (routineId: number) => {
+    await duplicateRoutine(routineId);
+    fetchRoutines(); // Refresh routines after duplication
+  };
+
+  const formatWeekDates = (dateString: string) => {
     const date = new Date(dateString);
-    date.setDate(date.getDate() + 1);
-    return date.toISOString().split("T")[0];
+    const day = date.getDay();
+    const diffToMonday = date.getDate() - day + (day === 0 ? -6 : 1);
+
+    const monday = new Date(date.setDate(diffToMonday + 1));
+
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+
+    return `${monday.toISOString().split("T")[0]} to ${
+      sunday.toISOString().split("T")[0]
+    }`;
   };
 
   const handleViewRoutine = async (routineId: number) => {
-    await activateRoutine(routineId, true); // Activate the routine
+    await activateRoutine(routineId, true);
     await handleFetchRoutineDetails(routineId);
-    setRoutineCreated(false); // Close the routine creator
+    setRoutineCreated(false);
     setViewRoutine(true);
-    setSelectedDays([]); // Clear selected days
-    setWorkouts([]); // Clear workouts
+    setSelectedDays([]);
+    setWorkouts([]);
     const routine = await fetchRoutineById(routineId);
     if (routine) {
       setSelectedDays(Object.keys(routineDetails || {}));
@@ -638,16 +653,25 @@ const GymPlanCreator: React.FC = () => {
                     <span className="routineName">{routine.routine_name}</span>
                     <span className="routineDate">
                       {routine.start_date
-                        ? formatDate(routine.start_date)
+                        ? formatWeekDates(routine.start_date)
                         : "N/A"}
                     </span>
-                    <Button
-                      onClick={() => handleViewRoutine(routine.id)}
-                      color="success"
-                      variant="contained"
-                    >
-                      View Routine
-                    </Button>
+                    <div className={styles.routineButtons}>
+                      <Button
+                        onClick={() => handleViewRoutine(routine.id)}
+                        color="success"
+                        variant="contained"
+                      >
+                        View Routine
+                      </Button>
+                      <Button
+                        onClick={() => handleDuplicateRoutine(routine.id)}
+                        color="warning"
+                        variant="contained"
+                      >
+                        Duplicate for Next Week
+                      </Button>
+                    </div>
                   </div>
                 ))}
               </div>
