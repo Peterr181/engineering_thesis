@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import styles from "./Streak.module.scss";
 import dolar from "../../../assets/images/dollar.png";
 import confetti from "../../../assets/images/confetti.png";
@@ -7,23 +8,40 @@ import useDailyStreak from "../../../hooks/useDailyStreak";
 
 const Streak = () => {
   const { streakData } = useDailyStreak();
+  const [streakPage, setStreakPage] = useState(0); // Tracks the current page of streaks
+  const streakDaysPerPage = 12;
 
-  // Sample data for illustration if needed
-  const defaultStreakData = Array.from({ length: 12 }, (_, index) => ({
-    points: (index + 1) * 10,
-    day: `Day ${index + 1}`,
-  }));
+  // Generate streak data based on the current page
+  const generateStreakData = () => {
+    const startDay = streakPage * streakDaysPerPage + 1;
+    return Array.from({ length: streakDaysPerPage }, (_, index) => {
+      const day = startDay + index;
+      return {
+        points: day * 10,
+        day: `Day ${day}`,
+        isCurrent: streakData ? day === streakData.streakCount : false,
+      };
+    });
+  };
 
-  const currentStreakData = streakData
-    ? Array.from({ length: 12 }, (_, index) => ({
-        points: (index + 1) * 10,
-        day: `Day ${index + 1}`,
-        isCurrent: index + 1 === streakData.streakCount,
-      }))
-    : defaultStreakData.map((item) => ({
-        ...item,
-        isCurrent: false,
-      }));
+  // Load initial or updated streak data
+  const [currentStreakData, setCurrentStreakData] =
+    useState(generateStreakData);
+
+  // Update streak data whenever streakPage or streakData changes
+  useEffect(() => {
+    setCurrentStreakData(generateStreakData());
+  }, [streakPage, streakData]);
+
+  // Check if the streak count is at the last day of the current page and load the next page
+  useEffect(() => {
+    if (
+      streakData &&
+      streakData.streakCount === (streakPage + 1) * streakDaysPerPage
+    ) {
+      setStreakPage((prevPage) => prevPage + 1);
+    }
+  }, [streakData, streakPage]);
 
   return (
     <div className={styles.streak}>

@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import styles from "./GymPlanCreator.module.scss";
-import PlatformWrapper from "../PlatformWrapper/PlatformWrapper";
-import WhiteCardWrapper from "../../atomic/WhiteCardWrapper/WhiteCardWrapper";
+import PlatformWrapper from "../../components/compound/PlatformWrapper/PlatformWrapper";
+import WhiteCardWrapper from "../../components/atomic/WhiteCardWrapper/WhiteCardWrapper";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
-import MaxWidthWrapper from "../MaxWidthWrapper/MaxWidthWrapper";
+import MaxWidthWrapper from "../../components/compound/MaxWidthWrapper/MaxWidthWrapper";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
-import { iconFile } from "../../../assets/iconFile";
-import { useGymRoutine } from "../../../hooks/useGymRoutine";
+import { iconFile } from "../../assets/iconFile";
+import { useGymRoutine } from "../../hooks/useGymRoutine";
 
 type Exercise = {
   name: string;
