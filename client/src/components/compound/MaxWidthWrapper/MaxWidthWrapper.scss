@@ -3,8 +3,13 @@
   margin-right: auto;
   width: 100%;
   max-width: var(--rythm-1600);
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+
+  @media (min-width: 480px) {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 
   @media (min-width: 768px) {
     padding-left: 20px;

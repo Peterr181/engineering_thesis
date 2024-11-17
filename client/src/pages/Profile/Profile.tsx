@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Profile.module.scss";
 import PlatformWrapper from "../../components/compound/PlatformWrapper/PlatformWrapper";
 import MaxWidthWrapper from "../../components/compound/MaxWidthWrapper/MaxWidthWrapper";
@@ -11,6 +11,19 @@ import Messages from "./Messages";
 
 const Profile: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("Personal info");
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setActiveTab("Personal info");
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleNavClick = (tabName: string) => {
     setActiveTab(tabName);

@@ -76,7 +76,7 @@ const EmailPassword = () => {
             characters and one special character
           </p>
         </div>
-        <div>
+        <div className={styles.saveChanges}>
           <Button
             variant="contained"
             color="success"
@@ -90,7 +90,7 @@ const EmailPassword = () => {
 
       <div className={styles.emailpassword__box}>
         <div className={styles.emailpassword__box__item}>
-          <label>Email</label>
+          <label className={styles.inputLabel}>Email</label>
           <TextField
             id="outlined-email"
             label="Email"
@@ -102,7 +102,7 @@ const EmailPassword = () => {
         </div>
 
         <div className={styles.emailpassword__box__item}>
-          <label>Current Password</label>
+          <label className={styles.inputLabel}>Current Password</label>
           <Controller
             name="currentPassword"
             control={control}
@@ -123,7 +123,7 @@ const EmailPassword = () => {
         </div>
 
         <div className={styles.emailpassword__box__item}>
-          <label>New Password</label>
+          <label className={styles.inputLabel}>New Password</label>
           <Controller
             name="newPassword"
             control={control}
@@ -154,7 +154,7 @@ const EmailPassword = () => {
         </div>
 
         <div className={styles.emailpassword__box__item}>
-          <label>Repeat New Password</label>
+          <label className={styles.inputLabel}>Repeat New Password</label>
           <Controller
             name="repeatPassword"
             control={control}

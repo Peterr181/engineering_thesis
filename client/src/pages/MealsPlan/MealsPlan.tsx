@@ -439,18 +439,21 @@ const MealsPlan = () => {
                                 : iconFile.arrowDown}
                             </span>
                           )}
-                          {!isViewingArchived && sectionMeals.length === 0 && (
-                            <Button
-                              variant="contained"
-                              color="success"
-                              onClick={() => {
-                                handleOpenDialog(section);
-                                setIsMealAdded(false);
-                              }}
-                            >
-                              Add Meal
-                            </Button>
-                          )}
+                          <div className={styles.addMealMobile}>
+                            {!isViewingArchived &&
+                              sectionMeals.length === 0 && (
+                                <Button
+                                  variant="contained"
+                                  color="success"
+                                  onClick={() => {
+                                    handleOpenDialog(section);
+                                    setIsMealAdded(false);
+                                  }}
+                                >
+                                  Add Meal
+                                </Button>
+                              )}
+                          </div>
                         </div>
                       </div>
 

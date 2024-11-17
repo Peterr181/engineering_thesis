@@ -140,7 +140,8 @@ const ChatRoom: React.FC = () => {
                     }`}
                   >
                     {iconFile.userIcon}
-                    <strong>{msg.username || msg.userId}:</strong> {msg.message}
+                    <strong>{msg.username || msg.userId}:</strong>{" "}
+                    <p className={styles.contentMessage}>{msg.message}</p>
                     <div className={styles.timestampContainer}>
                       {msg.timestamp && (
                         <span className={styles.timestamp}>
@@ -170,7 +171,9 @@ const ChatRoom: React.FC = () => {
         </MaxWidthWrapper>
       </PlatformWrapper>
       <div className={styles.chatRoomWrapper__images}>
-        <img src={chat2} alt="chat" className={styles.image1} />
+        <div className={styles.firstImg}>
+          <img src={chat2} alt="chat" className={styles.image1} />
+        </div>
         <img src={chat} alt="chat2" className={styles.image2} />
       </div>
     </div>

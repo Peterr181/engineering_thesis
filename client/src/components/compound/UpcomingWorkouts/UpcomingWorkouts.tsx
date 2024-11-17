@@ -20,10 +20,10 @@ const UpcomingWorkouts = () => {
     workouts?.filter((workout) => !workout.finished) || [];
 
   return (
-    <div className={styles.upcomingWorkouts}>
+    <div className={`${styles.upcomingWorkouts} ${styles.responsive}`}>
       <WhiteCardWrapper additionalClass={styles.upcomingWorkouts__container}>
         <div className={styles.upcomingWorkouts__container__header}>
-          <div>
+          <div className={styles.header}>
             <h2 className={styles.upcomingWorkouts__container__header__title}>
               {t("upcomingWorkouts.upcomingWorkouts")}
             </h2>

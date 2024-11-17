@@ -8,6 +8,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
+    flex-wrap: wrap;
   }
 
   &__item {
@@ -49,6 +50,12 @@
   &__fats {
     border: 2px solid rgb(235, 107, 235);
   }
+
+  &__column {
+    display: flex;
+
+    gap: 16px;
+  }
 }
 
 .mealsPlanInitial {
@@ -59,8 +66,52 @@
   button {
     font-weight: 600;
   }
+
+  &__text {
+    text-align: left;
+  }
 }
 
 .mealssummary {
   margin-top: var(--rythm-32);
+}
+
+@media (max-width: 768px) {
+  .mealsPlanInitial__text {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .mealsBtn {
+    display: none;
+  }
+  .mealCalories {
+    flex-direction: column;
+
+    margin-top: 32px;
+  }
+
+  .mealCalories__total {
+    flex-direction: column;
+  }
+
+  .mealCalories__item {
+    width: 100%;
+  }
+
+  .mealCalories__column {
+    flex-direction: column; /* Add this line to make columns stack vertically */
+    gap: 24px; /* Increase the gap between items */
+  }
+
+  .mealsPlanInitial {
+    gap: 16px;
+  }
+}
+
+.responsive {
+  margin-bottom: 16px;
 }

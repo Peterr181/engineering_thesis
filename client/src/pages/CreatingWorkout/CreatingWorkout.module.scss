@@ -17,11 +17,17 @@
     margin-top: var(--rythm-16);
     display: flex;
     gap: var(--rythm-16);
+    flex-wrap: wrap;
+
+    button {
+      flex-grow: 1;
+    }
   }
 }
 
 @media screen and (max-width: 768px) {
   .creatingworkout {
+    margin-bottom: 16px;
     &__buttons {
       grid-template-columns: repeat(1, 1fr);
       button {

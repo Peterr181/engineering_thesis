@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./LineChartObject.module.scss";
 import {
   LineChart,
   Line,
@@ -15,11 +16,9 @@ interface Props {
 
 const LineChartObject: React.FC<Props> = ({ data }) => {
   return (
-    <div style={{ height: 250, width: 900, marginLeft: -30 }}>
+    <div className={styles.chartContainer}>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
-          width={300}
-          height={250}
           data={data}
           margin={{
             top: 20,

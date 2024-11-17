@@ -10,9 +10,25 @@
 
     margin-left: var(--rythm-24);
     border-radius: var(--rythm-24);
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      margin-left: 0;
+    }
   }
   &__activitiesWrapper {
     display: flex;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  &__responsiveWrapper {
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: center;
+    }
   }
 }
 
@@ -23,5 +39,20 @@
   p {
     color: $mainGray;
     margin-bottom: var(--rythm-24);
+  }
+  @media (max-width: 768px) {
+    width: 100%;
+    h2 {
+      text-align: center;
+    }
+    p {
+      text-align: center;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .home__activitesCardsContainer {
+    display: none;
   }
 }

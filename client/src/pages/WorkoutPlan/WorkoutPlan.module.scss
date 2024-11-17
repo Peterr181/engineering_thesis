@@ -12,6 +12,7 @@
       align-items: center;
       gap: var(--rythm-16);
       margin-bottom: var(--rythm-32);
+      flex-direction: row;
 
       &__heading {
         display: flex;
@@ -84,6 +85,14 @@
 }
 
 @media screen and (max-width: 768px) {
+  .workoutPlan__trainings__buttons {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+  .workoutPlan__trainings__header {
+    flex-direction: column;
+    gap: var(--rythm-16);
+  }
   .workoutPlan {
     flex-direction: column;
     gap: var(--rythm-16);
@@ -97,6 +106,10 @@
       margin-top: var(--rythm-16);
     }
 
+    &__header {
+      flex-direction: column !important;
+      gap: var(--rythm-16);
+    }
     .react-calendar {
       width: 100%;
     }
@@ -122,6 +135,9 @@
         gap: var(--rythm-4);
       }
     }
+  }
+  .workoutPlanWrapper {
+    margin-bottom: 16px;
   }
 }
 

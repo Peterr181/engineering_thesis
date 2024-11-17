@@ -67,3 +67,30 @@
 .wrapperClass {
   min-height: 75vh;
 }
+
+@media (max-width: 1024px) {
+  .userList {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .userList {
+    grid-template-columns: 1fr;
+  }
+
+  .userItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dollars {
+    margin-top: 0.5rem;
+    justify-content: flex-end;
+    width: 100%;
+    img {
+      width: 25px;
+      height: 25px;
+    }
+  }
+}

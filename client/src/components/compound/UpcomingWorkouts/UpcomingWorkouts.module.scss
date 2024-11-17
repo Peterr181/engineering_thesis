@@ -2,7 +2,7 @@
 
 .upcomingWorkouts {
   margin-top: var(--rythm-32);
-
+  margin-bottom: var(--rythm-16);
   animation: slideIn 0.6s ease forwards;
   &__container {
     h2 {
@@ -43,5 +43,42 @@
 .workoutPlanBtn {
   button {
     font-weight: 600;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .upcomingWorkouts {
+    margin-top: var(--rythm-16);
+
+    &__container {
+      &__header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--rythm-8);
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+    }
+
+    &__workouts {
+      gap: var(--rythm-16);
+    }
+  }
+
+  .workoutPlanBtn {
+    display: none;
+    button {
+      width: 100%;
+    }
   }
 }

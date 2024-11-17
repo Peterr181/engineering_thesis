@@ -7,6 +7,13 @@
     grid-template-columns: 1fr 1fr 1fr;
     margin-top: var(--rythm-24);
     gap: var(--rythm-40);
+
+    @media (max-width: 1024px) {
+      grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
   }
 
   &__header {

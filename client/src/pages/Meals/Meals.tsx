@@ -109,7 +109,9 @@ const Meals = () => {
       <MaxWidthWrapper>
         <section className={styles.meals}>
           <WhiteCardWrapper>
-            <div className={styles.meals__header}>
+            <div
+              className={`${styles.meals__header} ${styles.responsiveHeader}`}
+            >
               <div>
                 <h2>Meals</h2>
                 <p>
@@ -127,13 +129,20 @@ const Meals = () => {
                 </Button>
               </div>
             </div>
-            <div className={styles.meals__content}>
+            <div
+              className={`${styles.meals__content} ${styles.responsiveContent}`}
+            >
               {loading && <p>Loading...</p>}
               {results?.hints
                 .filter((hint) => hint.food.image)
                 .map((hint, index) => (
-                  <div key={index} className={styles.meals__item}>
-                    <div className={styles.meals__item__image}>
+                  <div
+                    key={index}
+                    className={`${styles.meals__item} ${styles.responsiveItem}`}
+                  >
+                    <div
+                      className={`${styles.meals__item__image} ${styles.responsiveImage}`}
+                    >
                       <img src={hint.food.image} alt={hint.food.label} />
                       <div className={styles.meals__item__name}>
                         <h3>
@@ -142,8 +151,12 @@ const Meals = () => {
                         <p>{hint.food.category}</p>
                       </div>
                     </div>
-                    <div className={styles.meals__item__nutrients}>
-                      <div className={styles.meals__item__nutrients__details}>
+                    <div
+                      className={`${styles.meals__item__nutrients} ${styles.responsiveNutrients}`}
+                    >
+                      <div
+                        className={`${styles.meals__item__nutrients__details} `}
+                      >
                         <span
                           className={styles.meals__item__nutrients__calories}
                         >
@@ -158,8 +171,7 @@ const Meals = () => {
                           Fat: {hint.food.nutrients.FAT.toFixed(1)}g{" "}
                         </span>
                         <span className={styles.meals__item__nutrients__carbs}>
-                          Carbohydrates: {hint.food.nutrients.CHOCDF.toFixed(1)}
-                          g
+                          Carbs: {hint.food.nutrients.CHOCDF.toFixed(1)}g
                         </span>
                       </div>
                     </div>

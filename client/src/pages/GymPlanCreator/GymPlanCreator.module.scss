@@ -210,3 +210,123 @@
   align-items: center;
   gap: 16px;
 }
+
+@media (max-width: 900px) {
+  .gymPlanCreator__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .workoutDay {
+    padding: 12px;
+  }
+
+  .workoutDayHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .routineItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+
+    .routineName,
+    .routineDate {
+      min-width: auto;
+      text-align: left;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .deleteRoutine {
+    margin-bottom: 16px;
+  }
+  .gymPlanCreator__header {
+    gap: 12px;
+  }
+
+  .workoutDay {
+    padding: 8px;
+  }
+
+  .workoutDayHeader {
+    gap: 4px;
+  }
+
+  .routineItem {
+    gap: 4px;
+  }
+}
+
+.mobile {
+  .gymPlanCreator__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .workoutDay {
+    padding: 8px;
+  }
+
+  .workoutDayHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .routineItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+
+    .routineName,
+    .routineDate {
+      min-width: auto;
+      text-align: left;
+    }
+  }
+}
+
+.tablet {
+  .gymPlanCreator__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .workoutDay {
+    padding: 12px;
+  }
+
+  .workoutDayHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .routineItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+
+    .routineName,
+    .routineDate {
+      min-width: auto;
+      text-align: left;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .routineButtons {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+  }
+}

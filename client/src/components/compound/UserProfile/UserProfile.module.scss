@@ -163,3 +163,49 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .userprofile {
+    &__topSection {
+      flex-direction: column;
+      align-items: center;
+
+      &__firstcol {
+        padding-right: 0;
+        border-right: none;
+      }
+
+      &__personalInfo {
+        &__items {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+    }
+
+    &__workouts,
+    &__meals {
+      h3 {
+        font-size: var(--rythm-20);
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .userprofile {
+    &__topSection {
+      &__personalInfo {
+        &__items {
+          grid-template-columns: 1fr 1fr; // Change to 2 columns
+        }
+      }
+    }
+
+    &__workouts,
+    &__meals {
+      h3 {
+        font-size: var(--rythm-18);
+      }
+    }
+  }
+}

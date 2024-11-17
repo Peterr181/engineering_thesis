@@ -51,7 +51,7 @@ const Streak = () => {
             <h2>Streak</h2>
             <p>Look how consistent you are as a person on Gymero platform</p>
           </div>
-          <div>
+          <div className={styles.streakImage}>
             <img src={confetti} alt="confetti" />
           </div>
         </div>

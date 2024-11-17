@@ -58,9 +58,11 @@ const Messages = () => {
                       {new Date(message.date_sent).toLocaleString()}
                     </p>
                   </div>
-                  <p className={styles.notifications__messageContent}>
-                    {message.message}
-                  </p>
+                  <div className={styles.messageContent}>
+                    <p className={styles.notifications__messageContent}>
+                      {message.message}
+                    </p>
+                  </div>
                 </div>
               </div>
             </li>

@@ -55,38 +55,40 @@ const Home = () => {
       <PlatformWrapper>
         <MaxWidthWrapper>
           <div className={styles.home}>
-            <div className={styles.home__activitiesWrapper}>
-              <WhiteCardWrapper additionalClass={styles.lineChartContainer}>
-                <h2>{t(`home.weekActivity`)}</h2>
-                <p>{averageTimeString}</p>
-                <LineChartObject data={chartData} />
-              </WhiteCardWrapper>
-              <div className={styles.home__activitesCardsContainer}>
-                <ActivityCard
-                  icon={iconFile.iconSteps}
-                  title="totalSteps"
-                  number={getValueByLabel("steps_daily")}
-                />
-                <ActivityCard
-                  icon={iconFile.iconWater}
-                  title="waterDrinked"
-                  number={`${getValueByLabel("water_drunk_daily")}l`}
-                />
-                <ActivityCard
-                  icon={iconFile.iconMeal}
-                  title="caloriesEaten"
-                  number={getValueByLabel("caloric_intake_goal")}
-                />
-                <ActivityCard
-                  icon={iconFile.progressIcon}
-                  title="progress"
-                  number="20%"
-                />
+            <div className={styles.home__responsiveWrapper}>
+              <div className={styles.home__activitiesWrapper}>
+                <WhiteCardWrapper additionalClass={styles.lineChartContainer}>
+                  <h2>{t(`home.weekActivity`)}</h2>
+                  <p>{averageTimeString}</p>
+                  <LineChartObject data={chartData} />
+                </WhiteCardWrapper>
+                <div className={styles.home__activitesCardsContainer}>
+                  <ActivityCard
+                    icon={iconFile.iconSteps}
+                    title="totalSteps"
+                    number={getValueByLabel("steps_daily")}
+                  />
+                  <ActivityCard
+                    icon={iconFile.iconWater}
+                    title="waterDrinked"
+                    number={`${getValueByLabel("water_drunk_daily")}l`}
+                  />
+                  <ActivityCard
+                    icon={iconFile.iconMeal}
+                    title="caloriesEaten"
+                    number={getValueByLabel("caloric_intake_goal")}
+                  />
+                  <ActivityCard
+                    icon={iconFile.progressIcon}
+                    title="progress"
+                    number="20%"
+                  />
+                </div>
               </div>
+              <Streak />
+              <MealsSummary />
+              <UpcomingWorkouts />
             </div>
-            <Streak />
-            <MealsSummary />
-            <UpcomingWorkouts />
           </div>
         </MaxWidthWrapper>
       </PlatformWrapper>

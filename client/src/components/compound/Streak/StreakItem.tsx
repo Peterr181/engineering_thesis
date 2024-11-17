@@ -15,9 +15,11 @@ const StreakItem: React.FC<StreakItemProps> = ({
   additionalClass,
 }) => {
   return (
-    <div className={`${styles.streak__item}`}>
+    <div className={`${styles.streak__item} ${styles.responsive__item}`}>
       <div
-        className={`${styles.streak__item__header}  ${additionalClass || ""}`}
+        className={`${styles.streak__item__header} ${
+          styles.responsive__header
+        } ${additionalClass || ""}`}
       >
         <p>{points}pt</p>
         <img src={image} alt="dolar" />

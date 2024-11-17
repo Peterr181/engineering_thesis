@@ -15,6 +15,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import { iconFile } from "../../assets/iconFile";
 import { useGymRoutine } from "../../hooks/useGymRoutine";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 type Exercise = {
   name: string;
@@ -66,6 +67,9 @@ const GymPlanCreator: React.FC = () => {
     activateRoutine,
     duplicateRoutine,
   } = useGymRoutine();
+
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  const isTablet = useMediaQuery("(max-width: 900px)");
 
   useEffect(() => {
     fetchRoutines();
@@ -388,7 +392,11 @@ const GymPlanCreator: React.FC = () => {
     <PlatformWrapper>
       <section className={styles.gymPlanCreator}>
         <MaxWidthWrapper>
-          <WhiteCardWrapper additionalClass={styles.wrapperClass}>
+          <WhiteCardWrapper
+            additionalClass={`${styles.wrapperClass} ${
+              isMobile ? styles.mobile : isTablet ? styles.tablet : ""
+            }`}
+          >
             <div className={styles.gymPlanCreator__header}>
               <h2>Your gym workout routine creator</h2>
               {routines.filter((routine) => routine.is_active === 1).length ===

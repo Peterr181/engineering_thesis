@@ -94,3 +94,25 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .workout__name h3 {
+    font-size: var(--rythm-16);
+  }
+
+  .workout__name p {
+    font-size: var(--rythm-12);
+  }
+
+  .status {
+    p {
+      font-size: 6px !important;
+    }
+  }
+
+  .workout__date__day {
+    & {
+      width: 40px;
+    }
+  }
+}

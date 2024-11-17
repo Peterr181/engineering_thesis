@@ -223,6 +223,9 @@
         left: 0;
       }
     }
+    .arrowIcon {
+      margin-left: auto;
+    }
   }
 }
 
@@ -304,4 +307,26 @@
 
 .emptyMessage {
   text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .mealCalories {
+    span {
+      padding: var(--rythm-4) var(--rythm-12);
+      border-radius: 11px;
+      color: #333;
+      font-weight: 500;
+      font-size: 12px;
+    }
+  }
+
+  .addMealMobile {
+    display: none;
+  }
+
+  .mealsPlanInitial {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
 }
