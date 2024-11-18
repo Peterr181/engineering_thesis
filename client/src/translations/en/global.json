@@ -34,6 +34,7 @@
     "logout": "Logout",
     "goals": "Goals"
   },
+  "finish": "Finish",
   "upcomingWorkouts": {
     "keepTrack": "Keep track of your upcoming workouts",
     "upcomingWorkouts": "Upcoming workouts",

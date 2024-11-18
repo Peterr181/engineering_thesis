@@ -47,6 +47,7 @@ const Leaderboard = () => {
             <div className={styles.userList}>
               {users
                 .filter((user) => user.id !== userProfile?.id)
+                .sort((a, b) => b.total_points - a.total_points)
                 .map((user) => (
                   <Link to={`/users/${user.id}`} key={user.id}>
                     <div className={styles.userItem}>

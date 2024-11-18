@@ -282,7 +282,7 @@
   "workoutPlan": {
     "title": "Plan treningowy",
     "description": "Tutaj możesz zobaczyć wszystkie swoje treningi. Możesz je filtrować według tygodnia lub sprawdzić ukończone treningi.",
-    "addNew": "Dodaj nowy",
+    "addNew": "Nowy",
     "filter": "Filtruj",
     "gym": "Siłownia",
     "loading": "Ładowanie treningów...",
@@ -295,6 +295,7 @@
     "checkFinished": "Sprawdź ukończone",
     "cancel": "Anuluj"
   },
+  "finish": "Zakończ",
   "creatingWorkout": {
     "addNewWorkout": "Dodaj nowy trening do swojego planu treningowego",
     "selectType": "Wybierz rodzaj treningu, który chcesz dodać do swojej rutyny ćwiczeń i zacznij budować niestandardowy plan treningowy. Możesz je zobaczyć w sekcji planu treningowego.",
