@@ -19,6 +19,9 @@
     "noNotifications": "No new messages",
     "languageChanged": "Language changed successfully!"
   },
+  "advanced": "Advanced",
+  "beginner": "Beginner",
+  "intermediate": "Intermediate",
   "sidebar": {
     "dashboard": "Start",
     "workouts": "Workouts",
@@ -276,7 +279,8 @@
     "adding": "Adding...",
     "workoutAdded": "Workout added successfully!",
     "deleteGymWorkouts": "Delete Gym Workouts",
-    "confirmDeleteGymWorkouts": "Are you sure you want to delete all Gym workouts?"
+    "confirmDeleteGymWorkouts": "Are you sure you want to delete all Gym workouts?",
+    "enterDetails": "Enter workout day"
   },
   "exercisesList": {
     "Cardio": "Cardio",
@@ -401,7 +405,8 @@
     "confirmDelete": "Confirm Delete",
     "viewRoutine": "View Routine",
     "duplicateForNextWeek": "Duplicate for Next Week",
-    "notAvailable": "N/A"
+    "notAvailable": "N/A",
+    "add": "Add Exercise"
   },
   "daysOfWeek": {
     "Monday": "Monday",

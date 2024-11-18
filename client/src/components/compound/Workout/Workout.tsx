@@ -2,6 +2,7 @@ import styles from "./Workout.module.scss";
 import Button from "../../atomic/Button/Button";
 import { iconFile } from "../../../assets/iconFile";
 import { useLanguage } from "../../../context/LanguageProvider";
+import { allExercises as getAllExercises } from "../../../constants/exercises";
 
 export enum Status {
   IN_PROGRESS = "INPROGRESS",
@@ -19,11 +20,11 @@ export enum Category {
 
 interface WorkoutProps {
   id: number;
-  exercise_name?: string;
+  workout_id: string;
   exercise_type?: string;
   day: number;
   month: string;
-  name: string;
+  name?: string;
   status?: Status;
   category: Category;
   onFinish?: () => void;
@@ -33,13 +34,24 @@ interface WorkoutProps {
 const Workout = ({
   day,
   month,
-  name,
+  workout_id,
   status,
   category,
   minutes,
   onFinish,
 }: WorkoutProps) => {
   const { t } = useLanguage();
+  const allExercises = getAllExercises(t);
+
+  console.log("Workout ID: ", workout_id);
+  console.log("All Exercises: ", allExercises);
+
+  const exercise = allExercises.find((ex) => ex.workout_id === workout_id);
+  console.log("Found Exercise: ", exercise);
+
+  const name = exercise ? exercise.name : t("unnamedWorkout");
+
+  const localizedMonth = t(`monthsList.${month}`, month);
 
   const getStatusColor = (status: Status = Status.NOT_STARTED) => {
     switch (status) {
@@ -93,9 +105,7 @@ const Workout = ({
       <div className={styles.workout__date}>
         <div className={styles.workout__date__day}>
           <p className={styles.workout__date__day__number}>{day}</p>
-          <p className={styles.workout__date__day__month}>
-            {t(`monthsList.${month}`, month)}
-          </p>
+          <p className={styles.workout__date__day__month}>{localizedMonth}</p>
         </div>
         <div className={styles.workout__name}>
           <h3>{name}</h3>

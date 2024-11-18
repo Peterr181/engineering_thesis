@@ -253,7 +253,7 @@ const UserProfile = () => {
                         <Workout
                           key={workout.id}
                           id={workout.id}
-                          exercise_name={workout.exercise_name}
+                          workout_id={workout.workout_id}
                           exercise_type={workout.exercise_type}
                           day={workout.day}
                           month={workout.month}

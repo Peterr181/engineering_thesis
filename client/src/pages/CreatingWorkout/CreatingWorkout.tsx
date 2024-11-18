@@ -25,6 +25,7 @@ import {
 } from "../../constants/exercises";
 
 interface Exercise {
+  workout_id: string;
   name: string;
   type: string;
 }
@@ -43,7 +44,20 @@ const CreatingWorkout = () => {
 
   // Fetch dynamically translated constants
   const allExercises = getAllExercises(t);
-  const months = getMonths(t);
+  const months = [
+    { label: t("monthsList.January"), id: "January" },
+    { label: t("monthsList.February"), id: "February" },
+    { label: t("monthsList.March"), id: "March" },
+    { label: t("monthsList.April"), id: "April" },
+    { label: t("monthsList.May"), id: "May" },
+    { label: t("monthsList.June"), id: "June" },
+    { label: t("monthsList.July"), id: "July" },
+    { label: t("monthsList.August"), id: "August" },
+    { label: t("monthsList.September"), id: "September" },
+    { label: t("monthsList.October"), id: "October" },
+    { label: t("monthsList.November"), id: "November" },
+    { label: t("monthsList.December"), id: "December" },
+  ];
 
   const [filter, setFilter] = useState<string>("");
 
@@ -79,9 +93,9 @@ const CreatingWorkout = () => {
     if (selectedExercise && day && month && minutes !== "") {
       const newWorkout = {
         day: parseInt(day, 10),
-        month,
+        month, // Store the month as a unique identifier
         description,
-        exercise_name: selectedExercise.name,
+        workout_id: selectedExercise.workout_id,
         exercise_type: selectedExercise.type,
         minutes: minutes,
         id: 0,
@@ -135,6 +149,8 @@ const CreatingWorkout = () => {
     (exercise: Exercise) =>
       filter === t("filterCategories.All") || exercise.type === filter
   );
+
+  console.log("Selected Exercise: ", selectedExercise);
 
   return (
     <PlatformWrapper>
@@ -206,7 +222,7 @@ const CreatingWorkout = () => {
                     label={t("creatingWorkout.month")}
                   >
                     {months.map((m) => (
-                      <MenuItem key={m.value} value={m.value}>
+                      <MenuItem key={m.id} value={m.id}>
                         {m.label}
                       </MenuItem>
                     ))}

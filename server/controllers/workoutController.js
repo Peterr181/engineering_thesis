@@ -1,12 +1,19 @@
 import db from "../db/db.js";
 
 export const createWorkout = (req, res) => {
-  const { day, month, description, exercise_name, exercise_type, minutes } =
-    req.body;
+  const {
+    day,
+    month,
+    description,
+    exercise_name,
+    exercise_type,
+    minutes,
+    workout_id,
+  } = req.body;
   const userId = req.user.userId;
 
   const sql =
-    "INSERT INTO workouts (user_id, day, month, description, exercise_name, exercise_type, minutes) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    "INSERT INTO workouts (user_id, day, month, description, exercise_name, exercise_type, minutes, workout_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   const values = [
     userId,
     day,
@@ -15,6 +22,7 @@ export const createWorkout = (req, res) => {
     exercise_name,
     exercise_type,
     minutes,
+    workout_id,
   ];
 
   db.query(sql, values, (err, result) => {

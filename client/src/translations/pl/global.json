@@ -309,8 +309,12 @@
     "adding": "Dodawanie...",
     "workoutAdded": "Trening został pomyślnie dodany!",
     "deleteGymWorkouts": "Usuń treningi na siłowni",
-    "confirmDeleteGymWorkouts": "Czy na pewno chcesz usunąć wszystkie treningi na siłowni?"
+    "confirmDeleteGymWorkouts": "Czy na pewno chcesz usunąć wszystkie treningi na siłowni?",
+    "enterDetails": "Wprowadź dzień ćwiczenia"
   },
+  "advanced": "Zaawansowany",
+  "beginner": "Początkujący",
+  "intermediate": "Średniozaawansowany",
   "monthsList": {
     "January": "Styczeń",
     "February": "Luty",
@@ -402,7 +406,8 @@
     "confirmDelete": "Potwierdź usunięcie",
     "viewRoutine": "Zobacz plan",
     "duplicateForNextWeek": "Powiel na następny tydzień",
-    "notAvailable": "Niedostępne"
+    "notAvailable": "Niedostępne",
+    "add": "Dodaj Ćwiczenie"
   },
   "daysOfWeek": {
     "Monday": "Poniedziałek",

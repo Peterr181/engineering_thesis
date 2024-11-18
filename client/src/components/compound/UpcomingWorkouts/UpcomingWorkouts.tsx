@@ -47,6 +47,7 @@ const UpcomingWorkouts = () => {
               <Workout
                 key={index}
                 id={workout.id}
+                workout_id={workout.workout_id}
                 day={workout.day}
                 month={workout.month}
                 minutes={workout.minutes}

@@ -159,6 +159,7 @@ const WorkoutPlan = () => {
                     return (
                       <Workout
                         key={index}
+                        workout_id={workout.workout_id}
                         id={workout.id}
                         day={workout.day}
                         month={workout.month}

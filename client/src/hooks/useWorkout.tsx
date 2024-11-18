@@ -11,6 +11,7 @@ interface Workout {
   exercise_type?: string;
   exercise_name?: string;
   minutes: number;
+  workout_id: string;
 }
 
 export const useWorkouts = (userId?: string) => {
