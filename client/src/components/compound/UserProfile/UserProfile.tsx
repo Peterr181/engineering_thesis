@@ -25,33 +25,7 @@ import {
   Snackbar,
 } from "@mui/material";
 import useAuth from "../../../hooks/useAuth";
-
-const labelMappings: { [key: string]: string } = {
-  favorite_training_type: "Favorite Training",
-  current_fitness_goals: "Current Fitness Goals",
-  water_drunk_daily: "Water Drunk Daily",
-  steps_daily: "Steps Daily",
-  skill_level: "Level of Skill in Sports",
-  caloric_intake_goal: "Daily Caloric",
-  body_measurements: "Height",
-  workout_frequency: "Workout Frequency",
-  personal_bests: "Personal Bests",
-  weight: "Weight",
-};
-
-const icons: { [key: string]: JSX.Element } = {
-  nickname: iconFile.profileColorIcon,
-  favorite_training_type: iconFile.trainingColorIcon,
-  current_fitness_goals: iconFile.goalColorIcon,
-  water_drunk_daily: iconFile.waterColorIcon,
-  steps_daily: iconFile.stepsColorIcon,
-  skill_level: iconFile.skillColorIcon,
-  caloric_intake_goal: iconFile.mealColorIcon,
-  body_measurements: iconFile.heightColorIcon,
-  workout_frequency: iconFile.timeColorIcon,
-  personal_bests: iconFile.personalColorIcon,
-  weight: iconFile.weightColorIcon,
-};
+import { useLanguage } from "../../../context/LanguageProvider";
 
 const UserProfile = () => {
   const { userId } = useParams<{ userId: string }>();
@@ -61,6 +35,34 @@ const UserProfile = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [alertOpen, setAlertOpen] = useState(false); // State for alert
+  const { t } = useLanguage();
+
+  const labelMappings: { [key: string]: string } = {
+    favorite_training_type: t("favoriteTraining"),
+    current_fitness_goals: t("currentFitnessGoals"),
+    water_drunk_daily: t("waterDrunkDaily"),
+    steps_daily: t("stepsDaily"),
+    skill_level: t("skillLevel"),
+    caloric_intake_goal: t("caloricIntakeGoal"),
+    body_measurements: t("bodyMeasurements"),
+    workout_frequency: t("workoutFrequency"),
+    personal_bests: t("personalBests"),
+    weight: t("weight"),
+  };
+
+  const icons: { [key: string]: JSX.Element } = {
+    nickname: iconFile.profileColorIcon,
+    favorite_training_type: iconFile.trainingColorIcon,
+    current_fitness_goals: iconFile.goalColorIcon,
+    water_drunk_daily: iconFile.waterColorIcon,
+    steps_daily: iconFile.stepsColorIcon,
+    skill_level: iconFile.skillColorIcon,
+    caloric_intake_goal: iconFile.mealColorIcon,
+    body_measurements: iconFile.heightColorIcon,
+    workout_frequency: iconFile.timeColorIcon,
+    personal_bests: iconFile.personalColorIcon,
+    weight: iconFile.weightColorIcon,
+  };
 
   useEffect(() => {
     fetchUserById(Number(userId));
@@ -121,7 +123,7 @@ const UserProfile = () => {
       setMessage(""); // Reset message input on send
       setAlertOpen(true); // Show alert
     } else if (wordCount > 200) {
-      alert("Message cannot exceed 200 words.");
+      alert(t("messageWordLimit"));
     }
   };
 
@@ -152,7 +154,7 @@ const UserProfile = () => {
                             "avatar1.png"
                         ]
                       }
-                      alt="User avatar"
+                      alt={t("userAvatar")}
                     />
                   </div>
                   <p
@@ -168,10 +170,10 @@ const UserProfile = () => {
                     }
                   >
                     {selectedUser?.sportLevel === "1"
-                      ? "Beginner"
+                      ? t("beginner")
                       : selectedUser?.sportLevel === "2"
-                      ? "Intermediate"
-                      : "Advanced"}
+                      ? t("intermediate")
+                      : t("advanced")}
                   </p>
                   <div
                     className={
@@ -183,21 +185,21 @@ const UserProfile = () => {
                       color="primary"
                       onClick={handleOpenDialog}
                     >
-                      Message
+                      {t("message")}
                     </Button>
                     <Button
                       variant="contained"
                       color="success"
                       onClick={handleAddStar}
                     >
-                      Like
+                      {t("like")}
                     </Button>
                   </div>
                   <div
                     className={styles.userprofile__topSection__firstcol__like}
                   >
                     <p>{selectedUser?.stars}</p>
-                    <img src={love} alt="heart icon" />
+                    <img src={love} alt={t("heartIcon")} />
                   </div>
                 </div>
 
@@ -208,7 +210,7 @@ const UserProfile = () => {
                     }
                   >
                     {personalInfoData.map((info) => {
-                      const label = labelMappings[info.label] || info.label;
+                      const label = t(labelMappings[info.label] || info.label);
                       const icon = icons[info.label] || null;
 
                       return (
@@ -228,7 +230,7 @@ const UserProfile = () => {
                             </span>
                             <strong>{label}</strong>
                           </div>
-                          <div>{info.value || "N/A"}</div>
+                          <div>{info.value || t("notAvailable")}</div>
                         </li>
                       );
                     })}
@@ -237,15 +239,15 @@ const UserProfile = () => {
               </div>
 
               {workoutsLoading || personalInfoLoading ? (
-                <p>Loading data...</p>
+                <p>{t("loadingData")}</p>
               ) : (
                 <>
                   <div className={styles.userprofile__workouts}>
                     <h3 className={styles.userprofile__workouts__header}>
-                      Workouts
+                      {t("workouts")}
                     </h3>
                     {workouts.length === 0 ? (
-                      <p>No workouts found for this user.</p>
+                      <p>{t("noWorkoutsFound")}</p>
                     ) : (
                       workouts.map((workout) => (
                         <Workout
@@ -255,7 +257,7 @@ const UserProfile = () => {
                           exercise_type={workout.exercise_type}
                           day={workout.day}
                           month={workout.month}
-                          name={workout.exercise_name ?? "Unnamed Workout"}
+                          name={workout.exercise_name ?? t("unnamedWorkout")}
                           category={getWorkoutCategory(
                             workout.exercise_type ?? "gym"
                           )}
@@ -266,7 +268,9 @@ const UserProfile = () => {
                   </div>
 
                   <div className={styles.userprofile__meals}>
-                    <h3 className={styles.userprofile__meals__header}>Meals</h3>
+                    <h3 className={styles.userprofile__meals__header}>
+                      {t("meals")}
+                    </h3>
                     <UserMealsPlan meals={meals} />
                   </div>
                 </>
@@ -278,12 +282,14 @@ const UserProfile = () => {
 
       {/* Message Dialog */}
       <Dialog open={isDialogOpen} onClose={handleCloseDialog} maxWidth="lg">
-        <DialogTitle>Send Message to {selectedUser?.username}</DialogTitle>
+        <DialogTitle>
+          {t("sendMessageTo")} {selectedUser?.username}
+        </DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
-            label="Your Message"
+            label={t("yourMessage")}
             type="text"
             fullWidth
             multiline
@@ -295,10 +301,10 @@ const UserProfile = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color="secondary">
-            Cancel
+            {t("cancel")}
           </Button>
           <Button onClick={handleSendMessage} color="primary">
-            Send
+            {t("send")}
           </Button>
         </DialogActions>
       </Dialog>
@@ -315,7 +321,7 @@ const UserProfile = () => {
           severity="success"
           sx={{ width: "100%" }}
         >
-          Message successfully sent!
+          {t("messageSent")}
         </Alert>
       </Snackbar>
     </PlatformWrapper>

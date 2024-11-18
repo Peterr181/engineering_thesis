@@ -8,6 +8,7 @@ import Button from "../../components/atomic/Button/Button";
 import { iconFile } from "../../assets/iconFile";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
+import { useLanguage } from "../../context/LanguageProvider";
 
 interface Nutrients {
   ENERC_KCAL: number;
@@ -53,6 +54,7 @@ const Meals = () => {
   const apiId: string | undefined = import.meta.env.VITE_REACT_APP_MEALS_API_ID;
   const apiKey: string | undefined = import.meta.env
     .VITE_REACT_APP_MEALS_API_KEY;
+  const { t } = useLanguage();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -113,11 +115,8 @@ const Meals = () => {
               className={`${styles.meals__header} ${styles.responsiveHeader}`}
             >
               <div>
-                <h2>Meals</h2>
-                <p>
-                  Browse between a numerous numbers of food be careful nutrients
-                  are for 100g
-                </p>
+                <h2>{t("meals")}</h2>
+                <p>{t("browseFood")}</p>
               </div>
               <div>
                 <Button
@@ -125,14 +124,14 @@ const Meals = () => {
                   leftIcon={iconFile.filterIcon}
                   onClick={onOpenModal}
                 >
-                  Filter
+                  {t("filter")}
                 </Button>
               </div>
             </div>
             <div
               className={`${styles.meals__content} ${styles.responsiveContent}`}
             >
-              {loading && <p>Loading...</p>}
+              {loading && <p>{t("loading")}</p>}
               {results?.hints
                 .filter((hint) => hint.food.image)
                 .map((hint, index) => (
@@ -160,18 +159,20 @@ const Meals = () => {
                         <span
                           className={styles.meals__item__nutrients__calories}
                         >
-                          Calories: {hint.food.nutrients.ENERC_KCAL.toFixed(0)}{" "}
+                          {t("calories")}:{" "}
+                          {hint.food.nutrients.ENERC_KCAL.toFixed(0)}{" "}
                         </span>
                         <span
                           className={styles.meals__item__nutrients__protein}
                         >
-                          Protein: {hint.food.nutrients.PROCNT.toFixed(1)}g{" "}
+                          {t("protein")}:{" "}
+                          {hint.food.nutrients.PROCNT.toFixed(1)}g{" "}
                         </span>
                         <span className={styles.meals__item__nutrients__fat}>
-                          Fat: {hint.food.nutrients.FAT.toFixed(1)}g{" "}
+                          {t("fat")}: {hint.food.nutrients.FAT.toFixed(1)}g{" "}
                         </span>
                         <span className={styles.meals__item__nutrients__carbs}>
-                          Carbs: {hint.food.nutrients.CHOCDF.toFixed(1)}g
+                          {t("carbs")}: {hint.food.nutrients.CHOCDF.toFixed(1)}g
                         </span>
                       </div>
                     </div>
@@ -180,13 +181,13 @@ const Meals = () => {
                         variant="almostGreen"
                         rightIcon={iconFile.addIcon}
                       >
-                        Add
+                        {t('add')}
                       </Button>
                     </div> */}
                   </div>
                 ))}
               <Button variant="primary" onClick={fetchNextPage}>
-                Show more meals
+                {t("showMoreMeals")}
               </Button>
             </div>
           </WhiteCardWrapper>
@@ -199,17 +200,17 @@ const Meals = () => {
               modal: styles.modalContent,
             }}
           >
-            <h2 className={styles.modalHeader}>Find your favourite meal</h2>
+            <h2 className={styles.modalHeader}>{t("findMeal")}</h2>
             <input
               type="text"
               value={searchQuery}
               onChange={handleSearchInputChange}
-              placeholder="Search by meal name"
+              placeholder={t("searchMeal")}
               className={styles.modalInput}
             />
             <div className={styles.filterButton}>
               <Button variant="filter" onClick={handleFilterSubmit}>
-                Search
+                {t("search")}
               </Button>{" "}
             </div>
           </Modal>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./MealsPlan.module.scss";
 import { iconFile } from "../../assets/iconFile";
+import { useLanguage } from "../../context/LanguageProvider";
 
 interface Meal {
   id?: string;
@@ -18,6 +19,7 @@ interface UserMealsPlanProps {
 }
 
 const UserMealsPlan = ({ meals }: UserMealsPlanProps) => {
+  const { t } = useLanguage();
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     breakfast: false,
     lunch: false,
@@ -67,7 +69,7 @@ const UserMealsPlan = ({ meals }: UserMealsPlanProps) => {
                       className={styles.mealHeader}
                       onClick={() => toggleSection(section)}
                     >
-                      {section.charAt(0).toUpperCase() + section.slice(1)}
+                      {t(`mealsPlan.${section}`)}
                     </h3>
                     <span className={styles.sectionToggle}>
                       {openSections[section]
@@ -78,16 +80,16 @@ const UserMealsPlan = ({ meals }: UserMealsPlanProps) => {
 
                   <div className={styles.mealCalories}>
                     <span className={styles.mealCalories__calories}>
-                      {totals.totalCalories} kcal
+                      {totals.totalCalories} {t("mealsPlan.kcal")}
                     </span>
                     <span className={styles.mealCalories__protein}>
-                      {totals.totalProtein}g Protein
+                      {totals.totalProtein}g {t("mealsPlan.protein")}
                     </span>
                     <span className={styles.mealCalories__carbs}>
-                      {totals.totalCarbs}g Carbs
+                      {totals.totalCarbs}g {t("mealsPlan.carbs")}
                     </span>
                     <span className={styles.mealCalories__fats}>
-                      {totals.totalFats}g Fats
+                      {totals.totalFats}g {t("mealsPlan.fats")}
                     </span>
                   </div>
 
@@ -108,10 +110,21 @@ const UserMealsPlan = ({ meals }: UserMealsPlanProps) => {
                               </div>
                             </div>
                             <div className={styles.totalsSummary}>
-                              <span>{Math.round(meal.calories)} kcal</span>
-                              <span>Protein: {Math.round(meal.protein)}g</span>
-                              <span>Carbs: {Math.round(meal.carbs)}g</span>
-                              <span>Fats: {Math.round(meal.fats)}g</span>
+                              <span>
+                                {Math.round(meal.calories)}{" "}
+                                {t("mealsPlan.kcal")}
+                              </span>
+                              <span>
+                                {t("mealsPlan.protein")}:{" "}
+                                {Math.round(meal.protein)}g
+                              </span>
+                              <span>
+                                {t("mealsPlan.carbs")}: {Math.round(meal.carbs)}
+                                g
+                              </span>
+                              <span>
+                                {t("mealsPlan.fats")}: {Math.round(meal.fats)}g
+                              </span>
                             </div>
                           </li>
                         ))}

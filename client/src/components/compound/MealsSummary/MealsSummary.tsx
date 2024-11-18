@@ -5,10 +5,12 @@ import WhiteCardWrapper from "../../atomic/WhiteCardWrapper/WhiteCardWrapper";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { usePersonalInfo } from "../../../hooks/usePersonalInfo";
+import { useLanguage } from "../../../context/LanguageProvider";
 
 const MealsSummary = () => {
   const { fetchMeals, mealSummaryData } = useMeals();
   const { personalInfoData } = usePersonalInfo();
+  const { t } = useLanguage();
 
   useEffect(() => {
     fetchMeals();
@@ -31,13 +33,13 @@ const MealsSummary = () => {
       <WhiteCardWrapper>
         <div className={styles.mealsPlanInitial}>
           <div className={styles.mealsPlanInitial__text}>
-            <h2>Calories summary</h2>
-            <p>Check your total daily calories</p>
+            <h2>{t("caloriesSummary")}</h2>
+            <p>{t("checkTotalDailyCalories")}</p>
           </div>
           <Link to="/mealsplan">
             <div className={styles.mealsBtn}>
               <Button variant="contained" color="info">
-                MEALS PLAN
+                {t("mealsPlanBtn")}
               </Button>
             </div>
           </Link>
@@ -48,7 +50,9 @@ const MealsSummary = () => {
             <div className={styles.mealCalories__total}>
               <div className={styles.mealCalories__column}>
                 <div className={styles.mealCalories__item}>
-                  <span className={styles.mealCalories__label}>kcal</span>
+                  <span className={styles.mealCalories__label}>
+                    {t("kcal")}
+                  </span>
                   <span className={styles.mealCalories__calories}>
                     {Math.round(mealSummaryData.totalCalories) || 0} /{" "}
                     {caloricIntakeGoal || 0}
@@ -56,7 +60,9 @@ const MealsSummary = () => {
                 </div>
 
                 <div className={styles.mealCalories__item}>
-                  <span className={styles.mealCalories__label}>Protein</span>
+                  <span className={styles.mealCalories__label}>
+                    {t("protein")}
+                  </span>
                   <span className={styles.mealCalories__protein}>
                     {Math.round(mealSummaryData.totalProtein) || 0}g /{" "}
                     {Math.round(proteinGoal) || 0}g
@@ -65,7 +71,9 @@ const MealsSummary = () => {
               </div>
               <div className={styles.mealCalories__column}>
                 <div className={styles.mealCalories__item}>
-                  <span className={styles.mealCalories__label}>Carbs</span>
+                  <span className={styles.mealCalories__label}>
+                    {t("carbs")}
+                  </span>
                   <span className={styles.mealCalories__carbs}>
                     {Math.round(mealSummaryData.totalCarbs) || 0}g /{" "}
                     {Math.round(carbsGoal) || 0}g
@@ -73,7 +81,9 @@ const MealsSummary = () => {
                 </div>
 
                 <div className={styles.mealCalories__item}>
-                  <span className={styles.mealCalories__label}>Fats</span>
+                  <span className={styles.mealCalories__label}>
+                    {t("fats")}
+                  </span>
                   <span className={styles.mealCalories__fats}>
                     {Math.round(mealSummaryData.totalFats) || 0}g /{" "}
                     {Math.round(fatsGoal) || 0}g
@@ -83,7 +93,7 @@ const MealsSummary = () => {
             </div>
           </div>
         ) : (
-          <p>Please sign in to see calories summary</p>
+          <p>{t("pleaseSignInToSeeCaloriesSummary")}</p>
         )}
       </WhiteCardWrapper>
     </div>

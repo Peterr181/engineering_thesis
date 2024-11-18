@@ -1,9 +1,11 @@
+import { useLanguage } from "../../context/LanguageProvider";
 import styles from "./Notifications.module.scss";
 const Information = () => {
+  const { t } = useLanguage();
   return (
     <div className={styles.notifications}>
-      <h2>Information</h2>
-      <p>Buy author some coffe for hard work.</p>
+      <h2>{t("information.title")}</h2>
+      <p>{t("information.description")}</p>
       <a href="https://buycoffee.to/peter181" target="_blank">
         <img
           src="https://buycoffee.to/img/share-button-primary.png"

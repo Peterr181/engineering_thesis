@@ -10,6 +10,7 @@ import { iconFile } from "../../../assets/iconFile";
 import chat from "../../../assets/images/chat.png";
 import chat2 from "../../../assets/images/chat2.png";
 import Button from "../../atomic/Button/Button";
+import { useLanguage } from "../../../context/LanguageProvider";
 
 interface Message {
   nickname: string;
@@ -20,6 +21,7 @@ interface Message {
 }
 
 const ChatRoom: React.FC = () => {
+  const { t } = useLanguage();
   const userProfile = useAuth();
   const { roomId } = useParams<{ roomId: string }>();
   const userId = String(userProfile?.id);
@@ -40,11 +42,11 @@ const ChatRoom: React.FC = () => {
         );
         setRoomName(response.data.roomName);
       } catch (error) {
-        console.error("Error fetching room name:", error);
+        console.error(t("error.fetchRoomName"), error);
       }
     };
     fetchRoomName(Number(roomId));
-  }, [roomId]);
+  }, [roomId, t]);
 
   useEffect(() => {
     const fetchChatHistory = async () => {
@@ -54,12 +56,12 @@ const ChatRoom: React.FC = () => {
         );
         setMessages(response.data.messages);
       } catch (error) {
-        console.error("Error fetching chat history:", error);
+        console.error(t("error.fetchChatHistory"), error);
       }
     };
 
     fetchChatHistory();
-  }, [roomId]);
+  }, [roomId, t]);
 
   useEffect(() => {
     if (!socketRef.current) {
@@ -124,9 +126,11 @@ const ChatRoom: React.FC = () => {
         <MaxWidthWrapper>
           <div className={styles.chatRoomContainer}>
             <div className={styles.chatRoomContainer__header}>
-              <div className={styles.chatHeader}>{roomName} Room</div>
+              <div className={styles.chatHeader}>
+                {roomName} {t("chatRoom.room")}
+              </div>
               <Link to="/chatrooms">
-                <Button variant="primaryOutline">Back</Button>
+                <Button variant="primaryOutline">{t("chatRoom.back")}</Button>
               </Link>
             </div>
             <div className={styles.chatMessages}>
@@ -161,10 +165,10 @@ const ChatRoom: React.FC = () => {
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={handleKeyDown}
                 className={styles.chatInput}
-                placeholder="Type your message..."
+                placeholder={t("chatRoom.placeholder")}
               />
               <button onClick={sendMessage} className={styles.sendButton}>
-                Send
+                {t("chatRoom.send")}
               </button>
             </div>
           </div>
@@ -172,9 +176,17 @@ const ChatRoom: React.FC = () => {
       </PlatformWrapper>
       <div className={styles.chatRoomWrapper__images}>
         <div className={styles.firstImg}>
-          <img src={chat2} alt="chat" className={styles.image1} />
+          <img
+            src={chat2}
+            alt={t("chatRoom.chatImageAlt")}
+            className={styles.image1}
+          />
         </div>
-        <img src={chat} alt="chat2" className={styles.image2} />
+        <img
+          src={chat}
+          alt={t("chatRoom.chatImageAlt2")}
+          className={styles.image2}
+        />
       </div>
     </div>
   );

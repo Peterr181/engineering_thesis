@@ -3,8 +3,10 @@ import styles from "./Register.module.scss";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/atomic/Button/Button";
+import { useLanguage } from "../../context/LanguageProvider";
 
 const Register = () => {
+  const { t } = useLanguage();
   const [registerValues, setRegisterValues] = useState({
     username: "",
     password: "",
@@ -33,7 +35,7 @@ const Register = () => {
       <div className={styles.register__box}>
         <div className={styles.register__info}>
           <h2>Gymero</h2>
-          <p>Sign up your account</p>
+          <p>{t("register.signUpYourAccount")}</p>
         </div>
         <form className={styles.register__form} onSubmit={handleSubmit}>
           <div className={styles.register__form__group}>

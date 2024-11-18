@@ -8,14 +8,20 @@ import PersonalInfo from "./PersonalInfo";
 import EmailPassword from "./EmailPassword";
 import Information from "./Information";
 import Messages from "./Messages";
+import { useLanguage } from "../../context/LanguageProvider";
 
 const Profile: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>("Personal info");
+  const { t } = useLanguage();
+  const [activeTab, setActiveTab] = useState<string>(t("personalInfo"));
+
+  useEffect(() => {
+    setActiveTab(t("personalInfo"));
+  }, [t]);
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
-        setActiveTab("Personal info");
+        setActiveTab(t("personalInfo"));
       }
     };
 
@@ -23,7 +29,7 @@ const Profile: React.FC = () => {
     handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [t]);
 
   const handleNavClick = (tabName: string) => {
     setActiveTab(tabName);
@@ -36,50 +42,50 @@ const Profile: React.FC = () => {
           <WhiteCardWrapper additionalClass={styles.wrapperClass}>
             <div className={styles.profileWrapper}>
               <div className={styles.profile}>
-                <h2>User profile</h2>
+                <h2>{t("userProfile")}</h2>
                 <div className={styles.profile__nav}>
                   <div
                     className={`${styles.profile__nav__item} ${
-                      activeTab === "Personal info" ? styles.active : ""
+                      activeTab === t("personalInfo") ? styles.active : ""
                     }`}
-                    onClick={() => handleNavClick("Personal info")}
+                    onClick={() => handleNavClick(t("personalInfo"))}
                   >
                     {iconFile.usersIcon}
-                    <p>Personal info</p>
+                    <p>{t("personalInfo")}</p>
                   </div>
                   <div
                     className={`${styles.profile__nav__item} ${
-                      activeTab === "Email & password" ? styles.active : ""
+                      activeTab === t("emailPasswordTab") ? styles.active : ""
                     }`}
-                    onClick={() => handleNavClick("Email & password")}
+                    onClick={() => handleNavClick(t("emailPasswordTab"))}
                   >
                     {iconFile.emailIcon}
-                    <p>Email & password</p>
+                    <p>{t("emailPasswordTab")}</p>
                   </div>
                   <div
                     className={`${styles.profile__nav__item} ${
-                      activeTab === "Messages" ? styles.active : ""
+                      activeTab === t("messagesTab") ? styles.active : ""
                     }`}
-                    onClick={() => handleNavClick("Messages")}
+                    onClick={() => handleNavClick(t("messagesTab"))}
                   >
                     {iconFile.notifyIcon}
-                    <p>Messages</p>
+                    <p>{t("messagesTab")}</p>
                   </div>
                   <div
                     className={`${styles.profile__nav__item} ${
-                      activeTab === "Information" ? styles.active : ""
+                      activeTab === t("informationTab") ? styles.active : ""
                     }`}
-                    onClick={() => handleNavClick("Information")}
+                    onClick={() => handleNavClick(t("informationTab"))}
                   >
                     {iconFile.infoIcon}
-                    <p>Information</p>
+                    <p>{t("informationTab")}</p>
                   </div>
                 </div>
               </div>
-              {activeTab === "Personal info" && <PersonalInfo />}
-              {activeTab === "Email & password" && <EmailPassword />}
-              {activeTab === "Messages" && <Messages />}
-              {activeTab === "Information" && <Information />}
+              {activeTab === t("personalInfo") && <PersonalInfo />}
+              {activeTab === t("emailPasswordTab") && <EmailPassword />}
+              {activeTab === t("messagesTab") && <Messages />}
+              {activeTab === t("informationTab") && <Information />}
             </div>
           </WhiteCardWrapper>
         </MaxWidthWrapper>

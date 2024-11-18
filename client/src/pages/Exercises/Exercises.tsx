@@ -8,6 +8,7 @@ import { iconFile } from "../../assets/iconFile";
 import Exercise from "../../components/compound/Exercise/Exercise";
 import Button from "../../components/atomic/Button/Button";
 import Modal from "react-responsive-modal";
+import { useLanguage } from "../../context/LanguageProvider";
 
 interface ExerciseData {
   name: string;
@@ -17,6 +18,7 @@ interface ExerciseData {
 }
 
 const Exercises: React.FC = () => {
+  const { t } = useLanguage();
   const [exercises, setExercises] = useState<ExerciseData[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [exercisesPerPage] = useState(9);
@@ -84,6 +86,10 @@ const Exercises: React.FC = () => {
 
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
+
+  const filteredNamesOfExercises = exercises.map((exercise) => exercise.name);
+
+  console.log(filteredNamesOfExercises);
   return (
     <PlatformWrapper>
       <MaxWidthWrapper>
@@ -91,8 +97,8 @@ const Exercises: React.FC = () => {
           <WhiteCardWrapper>
             <div className={styles.exercises__header}>
               <div>
-                <h2>Exercises</h2>
-                <p>Browse many exercises and add them to favorites</p>
+                <h2>{t("exercises.title")}</h2>
+                <p>{t("exercises.subtitle")}</p>
               </div>
               <div>
                 <Button
@@ -100,7 +106,7 @@ const Exercises: React.FC = () => {
                   leftIcon={iconFile.filterIcon}
                   onClick={onOpenModal}
                 >
-                  Filter
+                  {t("exercises.filter")}
                 </Button>
               </div>
             </div>
@@ -173,13 +179,11 @@ const Exercises: React.FC = () => {
               modal: styles.modalContent,
             }}
           >
-            <h2 className={styles.modalHeader}>
-              Select body part that you want to train
-            </h2>
+            <h2 className={styles.modalHeader}>{t("exercises.modalHeader")}</h2>
             <div className={styles.modalSelect}>
               <select name="target" id="target" onChange={handleChange}>
                 <option value="all" className={styles.selectDropdown}>
-                  All
+                  {t("exercises.all")}
                 </option>
                 {filteredTargets.map((target, index) => (
                   <option

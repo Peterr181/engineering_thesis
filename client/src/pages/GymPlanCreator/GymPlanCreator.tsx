@@ -16,6 +16,7 @@ import TextField from "@mui/material/TextField";
 import { iconFile } from "../../assets/iconFile";
 import { useGymRoutine } from "../../hooks/useGymRoutine";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useLanguage } from "../../context/LanguageProvider";
 
 type Exercise = {
   name: string;
@@ -32,6 +33,7 @@ type WorkoutDay = {
 };
 
 const GymPlanCreator: React.FC = () => {
+  const { t } = useLanguage();
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [workouts, setWorkouts] = useState<WorkoutDay[]>([]);
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
@@ -398,7 +400,7 @@ const GymPlanCreator: React.FC = () => {
             }`}
           >
             <div className={styles.gymPlanCreator__header}>
-              <h2>Your gym workout routine creator</h2>
+              <h2>{t("gymPlanCreator.header")}</h2>
               {routines.filter((routine) => routine.is_active === 1).length ===
               0 ? (
                 <>
@@ -409,7 +411,7 @@ const GymPlanCreator: React.FC = () => {
                       onClick={handleCreateRoutine}
                       disabled={routineCreated}
                     >
-                      Create Routine
+                      {t("gymPlanCreator.createRoutine")}
                     </Button>
                     {routineCreated && (
                       <Button
@@ -417,7 +419,7 @@ const GymPlanCreator: React.FC = () => {
                         variant="contained"
                         onClick={handleCancelCreateRoutine}
                       >
-                        Cancel
+                        {t("gymPlanCreator.cancel")}
                       </Button>
                     )}
                   </div>
@@ -430,14 +432,14 @@ const GymPlanCreator: React.FC = () => {
                       color="error"
                       variant="contained"
                     >
-                      Delete Routine
+                      {t("gymPlanCreator.deleteRoutine")}
                     </Button>
                     <Button
                       onClick={handleEndRoutine}
                       color="secondary"
                       variant="contained"
                     >
-                      Close Routine
+                      {t("gymPlanCreator.closeRoutine")}
                     </Button>
                   </div>
                 </>
@@ -450,7 +452,7 @@ const GymPlanCreator: React.FC = () => {
                   <div className={styles.daySelection}>
                     <div className={styles.daySelection__routineName}>
                       <TextField
-                        label="Routine Name"
+                        label={t("gymPlanCreator.routineName")}
                         fullWidth
                         value={routineName}
                         onChange={handleRoutineNameChange}
@@ -465,7 +467,7 @@ const GymPlanCreator: React.FC = () => {
                             onChange={() => toggleDaySelection(day)}
                           />
                         }
-                        label={day}
+                        label={t(`daysOfWeek.${day}`)}
                       />
                     ))}
                   </div>
@@ -484,7 +486,7 @@ const GymPlanCreator: React.FC = () => {
                               onClick={() => toggleDayExpansion(day)}
                             >
                               <div className={styles.dayName}>
-                                <h3>{day}</h3>
+                                <h3>{t(`daysOfWeek.${day}`)}</h3>
                                 {dayExercises.length > 0 &&
                                   (expandedDays.includes(day) ? (
                                     <span>{iconFile.arrowDown || "↓"}</span>
@@ -501,7 +503,7 @@ const GymPlanCreator: React.FC = () => {
                                   color="primary"
                                   variant="contained"
                                 >
-                                  Add Exercise
+                                  {t("gymPlanCreator.addExercise")}
                                 </Button>
                               )}
                             </div>
@@ -518,9 +520,11 @@ const GymPlanCreator: React.FC = () => {
                                   <table className={styles.setsTable}>
                                     <thead>
                                       <tr>
-                                        <th>Set</th>
-                                        <th>Repetitions</th>
-                                        <th>Weight (kg)</th>
+                                        <th>{t("gymPlanCreator.set")}</th>
+                                        <th>
+                                          {t("gymPlanCreator.repetitions")}
+                                        </th>
+                                        <th>{t("gymPlanCreator.weight")}</th>
                                       </tr>
                                     </thead>
                                     <tbody>
@@ -549,15 +553,13 @@ const GymPlanCreator: React.FC = () => {
                       color="success"
                       variant="contained"
                     >
-                      Save Plan
+                      {t("gymPlanCreator.savePlan")}
                     </Button>
                   </div>
                 )}
               </>
             ) : (
-              <p>
-                Create your own weekly gym routine here in gym routine creator!
-              </p>
+              <p>{t("gymPlanCreator.createRoutinePrompt")}</p>
             )}
             {duplicateError ? (
               <Alert severity="error" onClose={() => setDuplicateError(null)}>
@@ -573,7 +575,7 @@ const GymPlanCreator: React.FC = () => {
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
             >
               <Alert onClose={() => setAlertOpen(false)} severity="success">
-                Plan saved successfully!
+                {t("gymPlanCreator.planSaved")}
               </Alert>
             </Snackbar>
             <Snackbar
@@ -586,7 +588,7 @@ const GymPlanCreator: React.FC = () => {
                 onClose={() => setMissingNameAlertOpen(false)}
                 severity="error"
               >
-                Routine name is required!
+                {t("gymPlanCreator.missingRoutineName")}
               </Alert>
             </Snackbar>
             <Snackbar
@@ -599,7 +601,7 @@ const GymPlanCreator: React.FC = () => {
                 onClose={() => setMissingDaysAlertOpen(false)}
                 severity="error"
               >
-                At least one day must be selected!
+                {t("gymPlanCreator.missingDays")}
               </Alert>
             </Snackbar>
             <Snackbar
@@ -612,25 +614,25 @@ const GymPlanCreator: React.FC = () => {
                 onClose={() => setEmptyDayAlertOpen(false)}
                 severity="error"
               >
-                Each selected day must have at least one exercise!
+                {t("gymPlanCreator.emptyDay")}
               </Alert>
             </Snackbar>
             <Dialog open={dialogOpen} onClose={handleDialogClose}>
-              <DialogTitle>Add Exercise</DialogTitle>
+              <DialogTitle>{t("gymPlanCreator.addExercise")}</DialogTitle>
               <DialogContent>
                 {dialogStep === 0 ? (
                   <>
                     <TextField
                       autoFocus
                       margin="dense"
-                      label="Exercise Name"
+                      label={t("gymPlanCreator.exerciseName")}
                       fullWidth
                       value={exerciseName}
                       onChange={handleExerciseNameChange}
                     />
                     <TextField
                       margin="dense"
-                      label="Number of Sets"
+                      label={t("gymPlanCreator.numSets")}
                       type="number"
                       fullWidth
                       value={numSets}
@@ -643,7 +645,9 @@ const GymPlanCreator: React.FC = () => {
                       <div key={index} style={{ flex: 1 }}>
                         <TextField
                           margin="dense"
-                          label={`Set ${index + 1} Repetitions`}
+                          label={t("gymPlanCreator.setRepetitions", {
+                            index: index + 1,
+                          })}
                           type="number"
                           fullWidth
                           value={set.repetitions}
@@ -653,7 +657,9 @@ const GymPlanCreator: React.FC = () => {
                         />
                         <TextField
                           margin="dense"
-                          label={`Set ${index + 1} Weight (kg)`}
+                          label={t("gymPlanCreator.setWeight", {
+                            index: index + 1,
+                          })}
                           type="number"
                           fullWidth
                           value={set.weight}
@@ -669,15 +675,15 @@ const GymPlanCreator: React.FC = () => {
               <DialogActions>
                 {dialogStep === 0 ? (
                   <Button onClick={handleNextStep} color="primary">
-                    Next
+                    {t("gymPlanCreator.next")}
                   </Button>
                 ) : (
                   <>
                     <Button onClick={handleDialogClose} color="primary">
-                      Cancel
+                      {t("gymPlanCreator.cancel")}
                     </Button>
                     <Button onClick={handleDialogSubmit} color="primary">
-                      Add
+                      {t("gymPlanCreator.add")}
                     </Button>
                   </>
                 )}
@@ -686,20 +692,20 @@ const GymPlanCreator: React.FC = () => {
 
             {/* Delete confirmation dialog */}
             <Dialog open={deleteDialogOpen} onClose={handleCloseDeleteDialog}>
-              <DialogTitle>Confirm Deletion</DialogTitle>
+              <DialogTitle>{t("gymPlanCreator.confirmDeletion")}</DialogTitle>
               <DialogContent>
-                Are you sure you want to delete this routine?
+                {t("gymPlanCreator.confirmDeletionMessage")}
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleCloseDeleteDialog} color="primary">
-                  Cancel
+                  {t("gymPlanCreator.cancel")}
                 </Button>
                 <Button
                   onClick={handleDeleteRoutine}
                   color="error"
                   variant="contained"
                 >
-                  Confirm Delete
+                  {t("gymPlanCreator.confirmDelete")}
                 </Button>
               </DialogActions>
             </Dialog>
@@ -712,7 +718,7 @@ const GymPlanCreator: React.FC = () => {
                     <span className="routineDate">
                       {routine.start_date
                         ? formatWeekDates(routine.start_date)
-                        : "N/A"}
+                        : t("gymPlanCreator.notAvailable")}
                     </span>
                     <div className={styles.routineButtons}>
                       <Button
@@ -720,14 +726,14 @@ const GymPlanCreator: React.FC = () => {
                         color="success"
                         variant="contained"
                       >
-                        View Routine
+                        {t("gymPlanCreator.viewRoutine")}
                       </Button>
                       <Button
                         onClick={() => handleDuplicateRoutine(routine.id)}
                         color="warning"
                         variant="contained"
                       >
-                        Duplicate for Next Week
+                        {t("gymPlanCreator.duplicateForNextWeek")}
                       </Button>
                     </div>
                   </div>

@@ -5,8 +5,10 @@ import confetti from "../../../assets/images/confetti.png";
 import WhiteCardWrapper from "../../atomic/WhiteCardWrapper/WhiteCardWrapper";
 import StreakItem from "./StreakItem";
 import useDailyStreak from "../../../hooks/useDailyStreak";
+import { useLanguage } from "../../../context/LanguageProvider";
 
 const Streak = () => {
+  const { t } = useLanguage();
   const { streakData } = useDailyStreak();
   const [streakPage, setStreakPage] = useState(0); // Tracks the current page of streaks
   const streakDaysPerPage = 12;
@@ -48,11 +50,11 @@ const Streak = () => {
       <WhiteCardWrapper additionalClass={styles.streak__wrapper}>
         <div className={styles.streak__header}>
           <div>
-            <h2>Streak</h2>
-            <p>Look how consistent you are as a person on Gymero platform</p>
+            <h2>{t("streakTitle")}</h2>
+            <p>{t("streakDescription")}</p>
           </div>
           <div className={styles.streakImage}>
-            <img src={confetti} alt="confetti" />
+            <img src={confetti} alt={t("confettiAlt")} />
           </div>
         </div>
         <div className={styles.streak__items}>

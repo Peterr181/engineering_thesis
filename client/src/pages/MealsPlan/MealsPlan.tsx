@@ -15,6 +15,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { useLanguage } from "../../context/LanguageProvider";
 
 interface Food {
   foodId: string;
@@ -48,6 +49,7 @@ interface ArchivedMeal extends Meal {
   date_added: string;
 }
 const MealsPlan = () => {
+  const { t } = useLanguage();
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     breakfast: false,
     lunch: false,
@@ -290,7 +292,7 @@ const MealsPlan = () => {
               <div className={styles.mealsPlanInitial}>
                 <div>
                   <h2>
-                    Your personal meals plan
+                    {t("mealsPlan.yourPersonalMealsPlan")}
                     {selectedDate && (
                       <span className={styles.selectedDate}>
                         {" "}
@@ -305,9 +307,10 @@ const MealsPlan = () => {
                     fullWidth
                     maxWidth="sm"
                   >
-                    <DialogTitle align="center">Archived Meals</DialogTitle>
+                    <DialogTitle align="center">
+                      {t("mealsPlan.archivedMeals")}
+                    </DialogTitle>
                     <DialogContent>
-                      {/* Date Buttons */}
                       <div className={styles.mealsPlanButtons}>
                         {uniqueDates.length > 0 ? (
                           uniqueDates.map((date) => (
@@ -321,7 +324,7 @@ const MealsPlan = () => {
                           ))
                         ) : (
                           <div className={styles.emptyMessage}>
-                            <p>Oops, there are no archived days.</p>
+                            <p>{t("mealsPlan.noArchivedDays")}</p>
                           </div>
                         )}
                       </div>
@@ -331,14 +334,11 @@ const MealsPlan = () => {
                         onClick={handleCloseArchivedDialog}
                         color="primary"
                       >
-                        Close
+                        {t("mealsPlan.cancel")}
                       </Button>
                     </DialogActions>
                   </Dialog>
-                  <p>
-                    Here you can find your personal meals plan. It is generated
-                    based on your preferences and goals.
-                  </p>
+                  <p>{t("mealsPlan.personalMealsPlanDescription")}</p>
                 </div>
                 <div className={styles.mealsPlanButtons}>
                   <Button
@@ -346,14 +346,14 @@ const MealsPlan = () => {
                     color="info"
                     onClick={handleOpenSummaryDialog}
                   >
-                    Day summary
+                    {t("mealsPlan.daySummary")}
                   </Button>
                   <Button
                     variant="contained"
                     color="warning"
                     onClick={handleShowArchivedDialog}
                   >
-                    Archived Meals
+                    {t("mealsPlan.archivedMeals")}
                   </Button>
                   {isViewingArchived && (
                     <Button
@@ -361,7 +361,7 @@ const MealsPlan = () => {
                       color="success"
                       onClick={handleShowTodayMeals}
                     >
-                      Today
+                      {t("mealsPlan.today")}
                     </Button>
                   )}
                 </div>
@@ -374,23 +374,27 @@ const MealsPlan = () => {
                   maxWidth="sm"
                 >
                   <DialogTitle align="center" fontWeight={500}>
-                    Day Summary
+                    {t("mealsPlan.daySummaryTitle")}
                   </DialogTitle>
                   <DialogContent>
                     {mealSummaryData ? (
                       <div className={styles.mealCalories}>
                         <div className={styles.mealCalories__total}>
                           <span className={styles.mealCalories__calories}>
-                            {Math.round(mealSummaryData.totalCalories)} kcal
+                            {Math.round(mealSummaryData.totalCalories)}{" "}
+                            {t("mealsPlan.kcal")}
                           </span>
                           <span className={styles.mealCalories__protein}>
-                            {Math.round(mealSummaryData.totalProtein)}g Protein
+                            {Math.round(mealSummaryData.totalProtein)}g{" "}
+                            {t("mealsPlan.protein")}
                           </span>
                           <span className={styles.mealCalories__carbs}>
-                            {Math.round(mealSummaryData.totalCarbs)}g Carbs
+                            {Math.round(mealSummaryData.totalCarbs)}g{" "}
+                            {t("mealsPlan.carbs")}
                           </span>
                           <span className={styles.mealCalories__fats}>
-                            {Math.round(mealSummaryData.totalFats)}g Fats
+                            {Math.round(mealSummaryData.totalFats)}g{" "}
+                            {t("mealsPlan.fats")}
                           </span>
                         </div>
                       </div>
@@ -398,14 +402,13 @@ const MealsPlan = () => {
                       <p>Loading...</p>
                     ) : (
                       <p className={styles.emptyMessage}>
-                        Add some meals to display the total summary.
+                        {t("mealsPlan.addSomeMeals")}
                       </p>
                     )}
                   </DialogContent>
                   <div className={styles.dialogClose}>
                     <DialogActions>
                       <Button onClick={handleCloseSummaryDialog}>
-                        {" "}
                         {iconFile.iconClose}
                       </Button>
                     </DialogActions>
@@ -429,9 +432,7 @@ const MealsPlan = () => {
                           className={styles.mealHeader}
                           onClick={() => toggleSection(section)}
                         >
-                          <h3>
-                            {section.charAt(0).toUpperCase() + section.slice(1)}
-                          </h3>
+                          <h3>{t(`mealsPlan.${section}`)}</h3>
                           {sectionMeals.length > 0 && (
                             <span className={styles.arrowIcon}>
                               {openSections[section]
@@ -450,7 +451,7 @@ const MealsPlan = () => {
                                     setIsMealAdded(false);
                                   }}
                                 >
-                                  Add Meal
+                                  {t("mealsPlan.addMeal")}
                                 </Button>
                               )}
                           </div>
@@ -459,16 +460,16 @@ const MealsPlan = () => {
 
                       <div className={styles.mealCalories}>
                         <span className={styles.mealCalories__calories}>
-                          {totals.totalCalories} kcal
+                          {totals.totalCalories} {t("mealsPlan.kcal")}
                         </span>
                         <span className={styles.mealCalories__protein}>
-                          {totals.totalProtein}g Protein
+                          {totals.totalProtein}g {t("mealsPlan.protein")}
                         </span>
                         <span className={styles.mealCalories__carbs}>
-                          {totals.totalCarbs}g Carbs
+                          {totals.totalCarbs}g {t("mealsPlan.carbs")}
                         </span>
                         <span className={styles.mealCalories__fats}>
-                          {totals.totalFats}g Fats
+                          {totals.totalFats}g {t("mealsPlan.fats")}
                         </span>
                       </div>
                       {sectionMeals.length > 0 ? (
@@ -495,12 +496,22 @@ const MealsPlan = () => {
                                 )}
                               </div>
                               <div className={styles.totalsSummary}>
-                                <span>{Math.round(meal.calories)} kcal</span>
                                 <span>
-                                  Protein: {Math.round(meal.protein)}g
+                                  {Math.round(meal.calories)}{" "}
+                                  {t("mealsPlan.kcal")}
                                 </span>
-                                <span>Carbs: {Math.round(meal.carbs)}g</span>
-                                <span>Fats: {Math.round(meal.fats)}g</span>
+                                <span>
+                                  {t("mealsPlan.protein")}:{" "}
+                                  {Math.round(meal.protein)}g
+                                </span>
+                                <span>
+                                  {t("mealsPlan.carbs")}:{" "}
+                                  {Math.round(meal.carbs)}g
+                                </span>
+                                <span>
+                                  {t("mealsPlan.fats")}: {Math.round(meal.fats)}
+                                  g
+                                </span>
                               </div>
                             </li>
                           ))}
@@ -514,7 +525,7 @@ const MealsPlan = () => {
                                   setIsMealAdded(false);
                                 }}
                               >
-                                Add Meal
+                                {t("mealsPlan.addMeal")}
                               </Button>
                             </div>
                           )}
@@ -533,14 +544,14 @@ const MealsPlan = () => {
                 maxWidth="sm"
               >
                 <DialogTitle align="center" fontWeight={500}>
-                  Search for a meal that you want to add
+                  {t("mealsPlan.searchForMeal")}
                 </DialogTitle>
                 <DialogContent>
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={handleSearchQueryChange}
-                    placeholder="Search for a meal..."
+                    placeholder={t("mealsPlan.searchForMealPlaceholder")}
                     className={styles.searchInput}
                   />
                   <div className={styles.gramsInput}>
@@ -548,13 +559,13 @@ const MealsPlan = () => {
                       type="number"
                       value={grams}
                       onChange={handleGramsChange}
-                      placeholder="Enter grams"
+                      placeholder={t("mealsPlan.enterGrams")}
                       className={styles.searchInput}
                     />
                   </div>
                   <div className={styles.buttonSearch}>
                     <ButtonMy variant="filter" onClick={handleSearch}>
-                      Search
+                      {t("mealsPlan.search")}
                     </ButtonMy>
                   </div>
                   <ul className={styles.searchResults}>
@@ -569,17 +580,20 @@ const MealsPlan = () => {
                           />
                           <div className={styles.mealCalories}>
                             <span className={styles.mealCalories__calories}>
-                              {Math.round((meal.calories * grams) / 100)} kcal
+                              {Math.round((meal.calories * grams) / 100)}{" "}
+                              {t("mealsPlan.kcal")}
                             </span>
                             <span className={styles.mealCalories__protein}>
-                              Protein:{" "}
+                              {t("mealsPlan.protein")}:{" "}
                               {Math.round((meal.protein * grams) / 100)}g
                             </span>
                             <span className={styles.mealCalories__carbs}>
-                              Carbs: {Math.round((meal.carbs * grams) / 100)}g
+                              {t("mealsPlan.carbs")}:{" "}
+                              {Math.round((meal.carbs * grams) / 100)}g
                             </span>
                             <span className={styles.mealCalories__fats}>
-                              Fats: {Math.round((meal.fats * grams) / 100)}g
+                              {t("mealsPlan.fats")}:{" "}
+                              {Math.round((meal.fats * grams) / 100)}g
                             </span>
                           </div>
                         </div>
@@ -587,7 +601,7 @@ const MealsPlan = () => {
                           variant="contained"
                           onClick={() => handleAddMeal(meal)}
                         >
-                          Add
+                          {t("mealsPlan.addMeal")}
                         </Button>
                       </li>
                     ))}
@@ -610,13 +624,15 @@ const MealsPlan = () => {
               fullWidth={true}
             >
               <DialogTitle align="center" fontWeight={500}>
-                Are you sure you want to delete this meal?
+                {t("mealsPlan.areYouSureDeleteMeal")}
               </DialogTitle>
               <DialogActions>
                 <Button onClick={handleConfirmDeleteMeal} color="error">
-                  Yes, delete
+                  {t("mealsPlan.yesDelete")}
                 </Button>
-                <Button onClick={handleCancelDelete}>Cancel</Button>
+                <Button onClick={handleCancelDelete}>
+                  {t("mealsPlan.cancel")}
+                </Button>
               </DialogActions>
             </Dialog>
             <Snackbar
@@ -625,7 +641,7 @@ const MealsPlan = () => {
               onClose={() => setShowAlert(false)}
             >
               <Alert onClose={() => setShowAlert(false)} severity="success">
-                Meal added successfully!
+                {t("mealsPlan.mealAddedSuccessfully")}
               </Alert>
             </Snackbar>
           </WhiteCardWrapper>

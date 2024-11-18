@@ -45,7 +45,7 @@ const Home = () => {
     weeklyWorkouts.length > 0 ? totalMinutes / weeklyWorkouts.length : 0;
 
   const averageMinutes = Math.round(averageActivityTime % 60);
-  const averageTimeString = `Your average time exercising is ${averageMinutes}m`;
+  const averageTimeString = t("home.averageTimeString", { averageMinutes });
 
   const getValueByLabel = (label: string) =>
     personalInfoData.find((info) => info.label === label)?.value || "0";

@@ -15,8 +15,9 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-
+import { useLanguage } from "../../context/LanguageProvider";
 const WorkoutPlan = () => {
+  const { t } = useLanguage();
   const {
     workouts,
     fetchWorkouts,
@@ -106,21 +107,18 @@ const WorkoutPlan = () => {
                     <div
                       className={styles.workoutPlan__trainings__header__heading}
                     >
-                      <h2>Workout plan</h2>
+                      <h2>{t("workoutPlan.title")}</h2>
                       <span
                         className={styles.currentView}
                       >{`(${currentView.toUpperCase()})`}</span>
                     </div>
-                    <p>
-                      Here you can see all your workouts. You can filter them by
-                      week or check finished workouts.
-                    </p>
+                    <p>{t("workoutPlan.description")}</p>
                   </div>
                   <div className={styles.workoutPlan__trainings__buttons}>
                     <Link to="/creatingworkout">
                       <div>
                         <Button variant="contained" color="success">
-                          Add new
+                          {t("workoutPlan.addNew")}
                         </Button>
                       </div>
                     </Link>
@@ -131,7 +129,7 @@ const WorkoutPlan = () => {
                         color="primary"
                         onClick={handleFilterClick}
                       >
-                        Filter
+                        {t("workoutPlan.filter")}
                       </Button>
                     </div>
                     <Link to="/gymplancreator">
@@ -141,15 +139,17 @@ const WorkoutPlan = () => {
                           color="secondary"
                           onClick={handleShowGymClick}
                         >
-                          Gym
+                          {t("workoutPlan.gym")}
                         </Button>
                       </div>
                     </Link>
                   </div>
                 </div>
                 <div className={styles.workoutPlan__trainings__trainingsList}>
-                  {loading && <p>Loading workouts...</p>}
-                  {error && <p style={{ color: "red" }}>{error}</p>}
+                  {loading && <p>{t("workoutPlan.loading")}</p>}
+                  {error && (
+                    <p style={{ color: "red" }}>{t("workoutPlan.error")}</p>
+                  )}
                   {displayedWorkouts.map((workout, index) => {
                     const workoutCategory =
                       Category[
@@ -180,8 +180,8 @@ const WorkoutPlan = () => {
 
             <div className={styles.workoutPlan__calendar}>
               <WhiteCardWrapper>
-                <h2>Kalendarz</h2>
-                <p>Sprawdź kiedy masz treningi</p>
+                <h2>{t("workoutPlan.calendarTitle")}</h2>
+                <p>{t("workoutPlan.calendarDescription")}</p>
                 <div className={styles.workoutPlan__calendar__content}>
                   <Calendar
                     tileClassName={highlightWorkouts}
@@ -196,7 +196,7 @@ const WorkoutPlan = () => {
 
       {/* Filter Dialog */}
       <Dialog open={filterDialogOpen} onClose={handleCloseDialog}>
-        <DialogTitle>Filter Workouts</DialogTitle>
+        <DialogTitle>{t("workoutPlan.filterDialogTitle")}</DialogTitle>
         <DialogContent>
           <div className={styles.workoutPlan__trainings__buttons}>
             <Button
@@ -204,14 +204,14 @@ const WorkoutPlan = () => {
               color="primary"
               variant="contained"
             >
-              Show All
+              {t("workoutPlan.showAll")}
             </Button>
             <Button
               onClick={handleCurrentWeekClick}
               color="primary"
               variant="contained"
             >
-              Current Week
+              {t("workoutPlan.currentWeek")}
             </Button>
 
             <Button
@@ -219,13 +219,13 @@ const WorkoutPlan = () => {
               color="error"
               onClick={handleShowFinishedClick}
             >
-              Check finished
+              {t("workoutPlan.checkFinished")}
             </Button>
           </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color="secondary">
-            Cancel
+            {t("workoutPlan.cancel")}
           </Button>
         </DialogActions>
       </Dialog>

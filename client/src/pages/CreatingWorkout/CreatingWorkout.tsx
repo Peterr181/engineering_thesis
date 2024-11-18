@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./CreatingWorkout.module.scss";
 import PlatformWrapper from "../../components/compound/PlatformWrapper/PlatformWrapper";
 import MaxWidthWrapper from "../../components/compound/MaxWidthWrapper/MaxWidthWrapper";
@@ -14,23 +14,43 @@ import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
-import { useWorkouts } from "../../hooks/useWorkout";
-import { allExercises, months } from "../../constants/exercises";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../../context/LanguageProvider";
+import { useWorkouts } from "../../hooks/useWorkout";
+import {
+  allExercises as getAllExercises,
+  months as getMonths,
+} from "../../constants/exercises";
 
 interface Exercise {
   name: string;
   type: string;
 }
 
-const filterCategories = ["All", "Cardio", "Strength", "Combat", "Flexibility"];
-
 const CreatingWorkout = () => {
   const { addWorkout, error, loading } = useWorkouts();
+  const { t } = useLanguage();
 
-  const [filter, setFilter] = useState<string>("All");
+  const filterCategories = [
+    t("filterCategories.All"),
+    t("filterCategories.Cardio"),
+    t("filterCategories.Strength"),
+    t("filterCategories.Combat"),
+    t("filterCategories.Flexibility"),
+  ];
+
+  // Fetch dynamically translated constants
+  const allExercises = getAllExercises(t);
+  const months = getMonths(t);
+
+  const [filter, setFilter] = useState<string>("");
+
+  useEffect(() => {
+    setFilter(t("filterCategories.All"));
+  }, [t]);
+
   const [open, setOpen] = useState<boolean>(false);
   const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(
     null
@@ -76,14 +96,14 @@ const CreatingWorkout = () => {
       } catch (err) {
         if (err instanceof Error) {
           console.error("Failed to add workout:", err.message);
-          alert("Failed to add workout: " + err.message);
+          alert(t("errors.addWorkoutFailed", { error: err.message }));
         } else {
           console.error("Unknown error", err);
-          alert("An unknown error occurred.");
+          alert(t("errors.unknownError"));
         }
       }
     } else {
-      alert("Please fill all fields.");
+      alert(t("errors.fillAllFields"));
     }
   };
 
@@ -112,7 +132,8 @@ const CreatingWorkout = () => {
   };
 
   const filteredExercises = allExercises.filter(
-    (exercise: Exercise) => filter === "All" || exercise.type === filter
+    (exercise: Exercise) =>
+      filter === t("filterCategories.All") || exercise.type === filter
   );
 
   return (
@@ -121,13 +142,9 @@ const CreatingWorkout = () => {
         <MaxWidthWrapper>
           <WhiteCardWrapper>
             <div className={styles.creatingworkout__header}>
-              <h2>Add new workout to your workout plan</h2>
+              <h2>{t("creatingWorkout.addNewWorkout")}</h2>
             </div>
-            <p>
-              Select a type of workout you want to add to your exercise routine
-              and start building a custom workout plan. You can view them in
-              your workout plan section.
-            </p>
+            <p>{t("creatingWorkout.selectType")}</p>
             <div className={styles.creatingworkout__filter}>
               {filterCategories.map((category) => (
                 <Button
@@ -161,31 +178,32 @@ const CreatingWorkout = () => {
 
             <Dialog open={open} onClose={handleClose}>
               <DialogTitle>
-                Add {selectedExercise?.name} to your plan
+                {t("creatingWorkout.add")} {selectedExercise?.name}{" "}
+                {t("creatingWorkout.toYourPlan")}
               </DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  Please enter the details for your workout.
+                  {t("creatingWorkout.enterDetails")}
                 </DialogContentText>
 
                 <TextField
                   autoFocus
                   margin="dense"
-                  label="Day"
+                  label={t("creatingWorkout.day")}
                   type="text"
                   fullWidth
                   value={day}
                   onChange={handleDayChange}
                   inputProps={{ maxLength: 2 }}
-                  helperText="Enter a day (1-31)"
+                  helperText={t("creatingWorkout.enterDay")}
                 />
 
                 <FormControl fullWidth margin="dense">
-                  <InputLabel>Month</InputLabel>
+                  <InputLabel>{t("creatingWorkout.month")}</InputLabel>
                   <Select
                     value={month}
                     onChange={(e) => setMonth(e.target.value)}
-                    label="Month"
+                    label={t("creatingWorkout.month")}
                   >
                     {months.map((m) => (
                       <MenuItem key={m.value} value={m.value}>
@@ -195,38 +213,29 @@ const CreatingWorkout = () => {
                   </Select>
                 </FormControl>
 
-                {/* <TextField
-                  margin="dense"
-                  label="Description"
-                  type="text"
-                  fullWidth
-                  multiline
-                  rows={4}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                /> */}
-
                 <TextField
                   margin="dense"
-                  label="Minutes"
+                  label={t("creatingWorkout.minutes")}
                   type="text"
                   fullWidth
                   value={minutes.toString()}
                   onChange={handleMinutesChange}
                   inputProps={{ maxLength: 3 }}
-                  helperText="Enter workout duration in minutes (max 500)"
+                  helperText={t("creatingWorkout.enterMinutes")}
                 />
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose} color="secondary">
-                  Cancel
+                  {t("creatingWorkout.cancel")}
                 </Button>
                 <Button
                   onClick={handleAddWorkout}
                   color="primary"
                   disabled={loading}
                 >
-                  {loading ? "Adding..." : "Add"}
+                  {loading
+                    ? t("creatingWorkout.adding")
+                    : t("creatingWorkout.add")}
                 </Button>
               </DialogActions>
               {error && <p style={{ color: "red" }}>{error}</p>}
@@ -238,22 +247,24 @@ const CreatingWorkout = () => {
               onClose={() => setAlertOpen(false)}
             >
               <Alert onClose={() => setAlertOpen(false)} severity="success">
-                Workout added successfully!
+                {t("creatingWorkout.workoutAdded")}
               </Alert>
             </Snackbar>
             <Dialog open={gymDialogOpen} onClose={handleCloseGymDialog}>
-              <DialogTitle>Delete Gym Workouts</DialogTitle>
+              <DialogTitle>
+                {t("creatingWorkout.deleteGymWorkouts")}
+              </DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  Are you sure you want to delete all Gym workouts?
+                  {t("creatingWorkout.confirmDeleteGymWorkouts")}
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleCloseGymDialog} color="secondary">
-                  Cancel
+                  {t("creatingWorkout.cancel")}
                 </Button>
                 <Button onClick={handleDeleteGymWorkouts} color="error">
-                  Delete
+                  {t("creatingWorkout.delete")}
                 </Button>
               </DialogActions>
             </Dialog>

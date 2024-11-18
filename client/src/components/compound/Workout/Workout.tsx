@@ -1,6 +1,7 @@
 import styles from "./Workout.module.scss";
 import Button from "../../atomic/Button/Button";
 import { iconFile } from "../../../assets/iconFile";
+import { useLanguage } from "../../../context/LanguageProvider";
 
 export enum Status {
   IN_PROGRESS = "INPROGRESS",
@@ -38,6 +39,8 @@ const Workout = ({
   minutes,
   onFinish,
 }: WorkoutProps) => {
+  const { t } = useLanguage();
+
   const getStatusColor = (status: Status = Status.NOT_STARTED) => {
     switch (status) {
       case Status.IN_PROGRESS:
@@ -90,12 +93,16 @@ const Workout = ({
       <div className={styles.workout__date}>
         <div className={styles.workout__date__day}>
           <p className={styles.workout__date__day__number}>{day}</p>
-          <p className={styles.workout__date__day__month}>{month}</p>
+          <p className={styles.workout__date__day__month}>
+            {t(`monthsList.${month}`, month)}
+          </p>
         </div>
         <div className={styles.workout__name}>
           <h3>{name}</h3>
           <div className={`${styles.status} ${getStatusColor(status)}`}>
-            <p>{minutes} minutes</p>
+            <p>
+              {minutes} {t("minutes")}
+            </p>
           </div>
         </div>
       </div>
@@ -103,7 +110,7 @@ const Workout = ({
         className={`${styles.workout__category} ${getCategoryColor(category)}`}
       >
         {getCategoryIcon(category)}
-        <p>{category}</p>
+        <p>{t(`category.${category}`)}</p>
       </div>
       {onFinish && status !== Status.FINISHED && (
         <div className={styles.workout__buttons}>
@@ -112,7 +119,7 @@ const Workout = ({
             rightIcon={iconFile.iconFinish}
             onClick={onFinish}
           >
-            <span>Finish</span>
+            <span>{t("finish")}</span>
           </Button>
         </div>
       )}

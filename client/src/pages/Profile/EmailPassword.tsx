@@ -4,10 +4,12 @@ import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { useLogin } from "../../hooks/useLogin";
 import { useForm, Controller } from "react-hook-form";
+import { useLanguage } from "../../context/LanguageProvider";
 
 const EmailPassword = () => {
   const userProfile = useAuth();
   const { handlePasswordChange, error, loading } = useLogin();
+  const { t } = useLanguage();
 
   const {
     control,
@@ -38,7 +40,7 @@ const EmailPassword = () => {
     const { currentPassword, newPassword, repeatPassword } = data;
 
     if (newPassword !== repeatPassword) {
-      setErrorMessage("New passwords do not match.");
+      setErrorMessage(t("error.newPasswordsDoNotMatch"));
       return;
     }
 
@@ -50,7 +52,7 @@ const EmailPassword = () => {
 
     if (result && result.status === "Success") {
       reset();
-      setSuccessMessage("Your password has been successfully changed!");
+      setSuccessMessage(t("success.passwordChanged"));
 
       setTimeout(() => {
         setSuccessMessage(null);
@@ -70,11 +72,8 @@ const EmailPassword = () => {
     <div className={styles.emailpassword}>
       <div className={styles.emailpassword__header}>
         <div>
-          <h2>Email & Password</h2>
-          <p>
-            Change your profile security data, password must contain 12
-            characters and one special character
-          </p>
+          <h2>{t("emailPassword.title")}</h2>
+          <p>{t("emailPassword.description")}</p>
         </div>
         <div className={styles.saveChanges}>
           <Button
@@ -83,17 +82,21 @@ const EmailPassword = () => {
             onClick={handleSubmit(onSubmit)}
             disabled={loading}
           >
-            {loading ? "Saving..." : "Save changes"}
+            {loading
+              ? t("emailPassword.saving")
+              : t("emailPassword.saveChanges")}
           </Button>
         </div>
       </div>
 
       <div className={styles.emailpassword__box}>
         <div className={styles.emailpassword__box__item}>
-          <label className={styles.inputLabel}>Email</label>
+          <label className={styles.inputLabel}>
+            {t("emailPassword.email")}
+          </label>
           <TextField
             id="outlined-email"
-            label="Email"
+            label={t("emailPassword.email")}
             variant="outlined"
             value={userProfile?.email || ""}
             className={styles.emailpassword__textfield}
@@ -102,16 +105,18 @@ const EmailPassword = () => {
         </div>
 
         <div className={styles.emailpassword__box__item}>
-          <label className={styles.inputLabel}>Current Password</label>
+          <label className={styles.inputLabel}>
+            {t("emailPassword.currentPassword")}
+          </label>
           <Controller
             name="currentPassword"
             control={control}
-            rules={{ required: "Current password is required" }}
+            rules={{ required: t("emailPassword.currentPasswordRequired") }}
             render={({ field }) => (
               <TextField
                 {...field}
                 id="outlined-password-actual"
-                label="Current Password"
+                label={t("emailPassword.currentPassword")}
                 variant="outlined"
                 type="password"
                 className={styles.emailpassword__textfield}
@@ -123,26 +128,28 @@ const EmailPassword = () => {
         </div>
 
         <div className={styles.emailpassword__box__item}>
-          <label className={styles.inputLabel}>New Password</label>
+          <label className={styles.inputLabel}>
+            {t("emailPassword.newPassword")}
+          </label>
           <Controller
             name="newPassword"
             control={control}
             rules={{
-              required: "New password is required",
+              required: t("emailPassword.newPasswordRequired"),
               minLength: {
                 value: 12,
-                message: "Password must be at least 12 characters long",
+                message: t("emailPassword.passwordMinLength"),
               },
               pattern: {
                 value: /[^A-Za-z0-9]/,
-                message: "Password must contain at least one special character",
+                message: t("emailPassword.passwordSpecialChar"),
               },
             }}
             render={({ field }) => (
               <TextField
                 {...field}
                 id="outlined-password"
-                label="New Password"
+                label={t("emailPassword.newPassword")}
                 variant="outlined"
                 type="password"
                 className={styles.emailpassword__textfield}
@@ -154,16 +161,18 @@ const EmailPassword = () => {
         </div>
 
         <div className={styles.emailpassword__box__item}>
-          <label className={styles.inputLabel}>Repeat New Password</label>
+          <label className={styles.inputLabel}>
+            {t("emailPassword.repeatNewPassword")}
+          </label>
           <Controller
             name="repeatPassword"
             control={control}
-            rules={{ required: "Please repeat the new password" }}
+            rules={{ required: t("emailPassword.repeatPasswordRequired") }}
             render={({ field }) => (
               <TextField
                 {...field}
                 id="outlined-repeat-password"
-                label="Repeat New Password"
+                label={t("emailPassword.repeatNewPassword")}
                 variant="outlined"
                 type="password"
                 className={styles.emailpassword__textfield}

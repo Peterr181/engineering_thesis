@@ -15,7 +15,8 @@ import useMessages from "../../../hooks/useMessages";
 import MaxWidthWrapper from "../MaxWidthWrapper/MaxWidthWrapper";
 
 const Navbar: React.FC = () => {
-  const { t, changeLanguage, language } = useLanguage();
+  const { t } = useLanguage();
+  const { changeLanguage, language } = useLanguage();
   const { fetchWorkouts, workouts } = useWorkouts();
   const userProfile = useAuth();
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -91,6 +92,8 @@ const Navbar: React.FC = () => {
   const [notifyDropdownOpen, setNotifyDropdownOpen] = useState(false);
   const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
+  const [showLanguageChangeMessage, setShowLanguageChangeMessage] =
+    useState(false);
 
   const handleDropdownToggle = () => {
     setDropdownOpen(!dropdownOpen);
@@ -140,6 +143,14 @@ const Navbar: React.FC = () => {
     document.body.classList.toggle("hamburger-menu-open", !isHamburgerOpen);
   };
 
+  const handleLanguageChange = () => {
+    changeLanguage(language === "en" ? "pl" : "en");
+    setShowLanguageChangeMessage(true);
+    setTimeout(() => {
+      setShowLanguageChangeMessage(false);
+    }, 2000);
+  };
+
   return (
     <nav className={styles.navbar__wrapper}>
       <section>
@@ -149,14 +160,14 @@ const Navbar: React.FC = () => {
               {!hasPersonalData && userProfile && (
                 <>
                   <div className={styles.topText}>
-                    <Text textStyle="lg">
-                      Set your personal details to use platform correctly
-                    </Text>
+                    <Text textStyle="lg">{t("navbar.setWorkoutPlan")}</Text>
                   </div>
                   <div className={styles.topText}>
                     <Link to="/personaldetails">
                       <Button variant="primaryOutlineRed">
-                        <Text textStyle="md">Set Details</Text>
+                        <Text textStyle="md">
+                          {t("navbar.setWorkoutButton")}
+                        </Text>
                       </Button>
                     </Link>
                   </div>
@@ -205,13 +216,14 @@ const Navbar: React.FC = () => {
                       )}
                     </div>
 
-                    <span
-                      onClick={() =>
-                        changeLanguage(language === "en" ? "pl" : "en")
-                      }
-                    >
+                    <span onClick={handleLanguageChange}>
                       {iconFile.languageIcon}
                     </span>
+                    {showLanguageChangeMessage && (
+                      <div className={styles.languageChangeMessage}>
+                        {t("navbar.languageChanged")}
+                      </div>
+                    )}
                   </div>
                   <div className={styles.navbar__right__profile}>
                     <div
@@ -249,10 +261,10 @@ const Navbar: React.FC = () => {
                               }
                             >
                               {userProfile?.sportLevel === 1
-                                ? "Beginner"
+                                ? t("navbar.beginner")
                                 : userProfile?.sportLevel === 2
-                                ? "Intermediate"
-                                : "Advanced"}
+                                ? t("navbar.intermediate")
+                                : t("navbar.advanced")}
                             </p>
                           </div>
                         </div>
@@ -332,10 +344,10 @@ const Navbar: React.FC = () => {
                 <Text textStyle="lg">{userProfile?.username}</Text>
                 <p className={styles.navbar__right__profile__data__level}>
                   {userProfile?.sportLevel === 1
-                    ? "Beginner"
+                    ? t("navbar.beginner")
                     : userProfile?.sportLevel === 2
-                    ? "Intermediate"
-                    : "Advanced"}
+                    ? t("navbar.intermediate")
+                    : t("navbar.advanced")}
                 </p>
               </div>
 
@@ -395,13 +407,14 @@ const Navbar: React.FC = () => {
                     )}
                   </div>
 
-                  <span
-                    onClick={() =>
-                      changeLanguage(language === "en" ? "pl" : "en")
-                    }
-                  >
+                  <span onClick={handleLanguageChange}>
                     {iconFile.languageIcon}
                   </span>
+                  {showLanguageChangeMessage && (
+                    <div className={styles.languageChangeMessage}>
+                      {t("navbar.languageChanged")}
+                    </div>
+                  )}
                 </div>
               </div>
             </>
@@ -419,12 +432,12 @@ const Navbar: React.FC = () => {
         <div className={styles.dropdownMessages}>
           {unreadMessages.length === 0 ? (
             <div className={styles.noNotificationsMessage}>
-              You don't have any notifications
+              {t("navbar.noNotifications")}
             </div>
           ) : (
             unreadMessages.map((message) => (
               <div key={message.id} className={styles.dropdownMessageItem}>
-                <span>{message.sender_username}</span> sent you a message
+                <span>{message.sender_username}</span> {t("navbar.sentMessage")}
               </div>
             ))
           )}

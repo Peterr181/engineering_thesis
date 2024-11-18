@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./Exercise.module.scss";
+import { useLanguage } from "../../../context/LanguageProvider";
 
 interface ExerciseProps {
   name: string;
@@ -14,12 +15,13 @@ const Exercise: React.FC<ExerciseProps> = ({
   bodyPart,
   image,
 }) => {
+  const { t } = useLanguage();
   return (
     <div className={styles.exercise}>
-      <img src={image} alt="exercise" />
+      <img src={image} alt={t("exercise.imageAlt")} />
       <div>
-        <span>{target}</span>
-        <span>{bodyPart}</span>
+        <span>{t(`exercise.target.${target}`)}</span>
+        <span>{t(`exercise.bodyPart.${bodyPart}`)}</span>
       </div>
       <h3>{name}</h3>
     </div>

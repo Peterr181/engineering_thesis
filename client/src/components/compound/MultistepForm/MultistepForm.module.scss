@@ -38,10 +38,34 @@
   }
 
   select {
-    box-shadow: none;
-    border-radius: 8px;
+    min-height: 58px;
+    cursor: pointer;
     background-color: #f9f9fb;
     border: 1px solid #f9f9fb;
+    border-top-style: solid;
+    border-top-color: rgb(249, 249, 251);
+    border-right-style: solid;
+    border-right-color: rgb(249, 249, 251);
+    border-bottom-style: solid;
+    border-bottom-color: rgb(249, 249, 251);
+    border-left-style: solid;
+    border-left-color: rgb(249, 249, 251);
+    border-radius: 8px;
+    margin-bottom: 0;
+    padding-left: 16px;
+    font-size: 16px;
+    transition: all 0.2s;
+    position: relative;
+    outline: none;
+
+    border-width: 0;
+
+    transition: border-width 1s ease;
+
+    &:focus {
+      border-width: 2px;
+      border-color: $mainColor;
+    }
   }
 
   &__container {
@@ -183,4 +207,36 @@
 
 .sportLevel__container {
   animation: slideIn 2s ease;
+}
+
+@media screen and (max-width: 768px) {
+  .backBtn {
+    margin-right: 0;
+  }
+  .multiStepForm {
+    height: 100%;
+    margin: 32px;
+  }
+
+  .userBasicInfo {
+    &__intro {
+      h2 {
+        font-size: 24px;
+      }
+      p {
+        font-size: 16px;
+      }
+    }
+  }
+
+  .buttonsContainer {
+    flex-direction: column;
+    gap: var(--rythm-16);
+  }
+
+  .sportLevel {
+    &__container {
+      flex-direction: column;
+    }
+  }
 }

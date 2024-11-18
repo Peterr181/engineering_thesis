@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import styles from "./Notifications.module.scss";
-
 import useMessages from "../../hooks/useMessages";
 import useAuth from "../../hooks/useAuth";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../../context/LanguageProvider";
 
 interface Message {
   id: number;
@@ -16,6 +16,7 @@ interface Message {
 }
 
 const Messages = () => {
+  const { t } = useLanguage();
   const userProfile = useAuth();
   const otherUserId = Number(userProfile?.id);
   const { messages, fetchMessages } = useMessages();
@@ -32,20 +33,18 @@ const Messages = () => {
     <div className={styles.notifications}>
       <div className={styles.notifications__header}>
         <div>
-          <h2>Messages</h2>
-          <p>
-            You can browse messages sent by users from our community to you.
-          </p>
+          <h2>{t("messages.title")}</h2>
+          <p>{t("messages.description")}</p>
         </div>
         <Link to="/leaderboard">
           <Button variant="contained" color="primary">
-            Community
+            {t("messages.communityButton")}
           </Button>
         </Link>
       </div>
 
       {filteredMessages.length === 0 ? (
-        <p>No new messages</p>
+        <p>{t("messages.noNewMessages")}</p>
       ) : (
         <ul className={styles.notifications__list}>
           {filteredMessages.map((message: Message) => (

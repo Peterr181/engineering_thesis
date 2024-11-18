@@ -7,6 +7,7 @@ import { LatLngExpression } from "leaflet";
 import styles from "./Finder.module.scss";
 import WhiteCardWrapper from "../../components/atomic/WhiteCardWrapper/WhiteCardWrapper";
 import { Button } from "@mui/material";
+import { useLanguage } from "../../context/LanguageProvider";
 
 interface Tags {
   name?: string;
@@ -28,7 +29,9 @@ interface SportsFacility {
   lon: number;
   tags: Tags;
 }
+
 const Finder = () => {
+  const { t } = useLanguage();
   const [position, setPosition] = useState<LatLngExpression | null>(null);
   const [sportsFacilities, setSportsFacilities] = useState<SportsFacility[]>(
     []
@@ -58,7 +61,7 @@ const Finder = () => {
 
       setSportsFacilities(facilities);
     } catch (error) {
-      console.error("Failed to fetch sports facilities:", error);
+      console.error(t("error.fetchSportsFacilities"), error);
     }
   };
 
@@ -78,7 +81,7 @@ const Finder = () => {
       );
 
       if (response.data.length === 0) {
-        throw new Error("City not found");
+        throw new Error(t("error.cityNotFound"));
       }
 
       const { lat, lon } = response.data[0];
@@ -86,7 +89,7 @@ const Finder = () => {
 
       fetchSportsFacilities(lat, lon);
     } catch (error) {
-      console.error("Failed to fetch coordinates:", error);
+      console.error(t("error.fetchCoordinates"), error);
     }
   };
 
@@ -97,25 +100,22 @@ const Finder = () => {
       <section className={styles.finder}>
         <MaxWidthWrapper>
           <WhiteCardWrapper>
-            <h2>Look for new sport places</h2>
-            <p>
-              Simply enter a city name and look for sport places near your home!
-              Be careful it only works well for bigger cities
-            </p>
+            <h2>{t("finder.title")}</h2>
+            <p>{t("finder.description")}</p>
             <div>
               <div className={styles.finder__input}>
                 <input
                   type="text"
                   value={city}
                   onChange={handleCityChange}
-                  placeholder="Enter city name"
+                  placeholder={t("finder.placeholder")}
                 />
                 <Button
                   variant="contained"
                   color="success"
                   onClick={handleCitySearch}
                 >
-                  Find
+                  {t("finder.button")}
                 </Button>
               </div>
               <MapContainer
@@ -128,17 +128,19 @@ const Finder = () => {
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                 {position && (
                   <Marker position={position}>
-                    <Popup>You are here</Popup>
+                    <Popup>{t("finder.youAreHere")}</Popup>
                   </Marker>
                 )}
                 {sportsFacilities.map((facility, index) => (
                   <Marker key={index} position={[facility.lat, facility.lon]}>
                     <Popup>
                       <div>
-                        <h3>{facility.tags.name || "Unnamed facility"}</h3>
+                        <h3>
+                          {facility.tags.name || t("finder.unnamedFacility")}
+                        </h3>
                         <p>
                           {facility.tags["addr:housenumber"] ||
-                            "No address specified"}{" "}
+                            t("finder.noAddress")}{" "}
                           {facility.tags["addr:street"] || ""}{" "}
                           {facility.tags["addr:city"] || ""}
                         </p>

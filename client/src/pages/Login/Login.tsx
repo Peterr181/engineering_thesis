@@ -5,8 +5,10 @@ import Button from "../../components/atomic/Button/Button";
 import { useLogin } from "../../hooks/useLogin";
 import signIn1 from "../../assets/images/signIn1.png";
 import signIn2 from "../../assets/images/signIn2.png";
+import { useLanguage } from "../../context/LanguageProvider";
 
 const Login = () => {
+  const { t } = useLanguage();
   const [loginValues, setLoginValues] = useState({
     email: "",
     password: "",
@@ -24,7 +26,7 @@ const Login = () => {
       <div className={styles.login__box}>
         <div className={styles.login__info}>
           <h2>Gymero</h2>
-          <p>Log in to your account</p>
+          <p>{t("login.logInToYourAccount")}</p>
         </div>
         <form className={styles.login__form} onSubmit={handleSubmit}>
           <div className={styles.login__form__group}>

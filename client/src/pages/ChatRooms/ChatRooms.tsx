@@ -6,6 +6,7 @@ import MaxWidthWrapper from "../../components/compound/MaxWidthWrapper/MaxWidthW
 import WhiteCardWrapper from "../../components/atomic/WhiteCardWrapper/WhiteCardWrapper";
 import PlatformWrapper from "../../components/compound/PlatformWrapper/PlatformWrapper";
 import { roomIcons } from "../../constants/exercises";
+import { useLanguage } from "../../context/LanguageProvider";
 
 interface ChatRoom {
   id: number;
@@ -13,27 +14,29 @@ interface ChatRoom {
 }
 
 const ChatRooms: React.FC = () => {
+  const { t } = useLanguage();
   const [rooms, setRooms] = useState<ChatRoom[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
   useEffect(() => {
     const fetchRooms = async () => {
       try {
         const response = await axios.get(`${apiUrl}/api/chat/rooms`);
         setRooms(response.data.rooms);
       } catch (err) {
-        setError("Failed to fetch chat rooms");
+        setError(t("error.fetchChatRooms"));
       } finally {
         setLoading(false);
       }
     };
 
     fetchRooms();
-  }, []);
+  }, [t]);
 
   if (loading) {
-    return <p>loading</p>;
+    return <p>{t("loading")}</p>;
   }
 
   if (error) {
@@ -45,8 +48,8 @@ const ChatRooms: React.FC = () => {
       <div className={styles.chatRoomsWrapper}>
         <MaxWidthWrapper>
           <WhiteCardWrapper>
-            <h2>Fitness Chat Rooms</h2>
-            <p>Find a buddy that shares your interests and start chatting!</p>
+            <h2>{t("chatRooms.title")}</h2>
+            <p>{t("chatRooms.description")}</p>
             <div className={styles.roomsGrid}>
               {rooms.map((room) => (
                 <Link
@@ -56,7 +59,7 @@ const ChatRooms: React.FC = () => {
                 >
                   <div className={styles.roomDetails}>
                     <h3>{room.name}</h3>
-                    <p>Join to discuss fitness goals.</p>
+                    <p>{t("chatRooms.joinMessage")}</p>
                   </div>
                   <div className={styles.roomIcon}>
                     {roomIcons[room.name] || "💬"}{" "}

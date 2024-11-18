@@ -13,20 +13,7 @@ import {
   Snackbar,
 } from "@mui/material";
 import { usePersonalInfo, PersonalInfoType } from "../../hooks/usePersonalInfo";
-
-const labelMappings: { [key: string]: string } = {
-  nickname: "Nickname",
-  favorite_training_type: "Favorite Training",
-  current_fitness_goals: "Current Fitness Goals",
-  water_drunk_daily: "Water Drunk Daily",
-  steps_daily: "Steps Daily",
-  skill_level: "Level of Skill in Sports",
-  caloric_intake_goal: "Daily Caloric",
-  body_measurements: "Height",
-  workout_frequency: "Workout Frequency",
-  personal_bests: "Personal Bests",
-  weight: "Weight",
-};
+import { useLanguage } from "../../context/LanguageProvider";
 
 const icons: { [key: string]: JSX.Element } = {
   nickname: iconFile.profileColorIcon,
@@ -43,6 +30,7 @@ const icons: { [key: string]: JSX.Element } = {
 };
 
 const PersonalInfo: React.FC = () => {
+  const { t } = useLanguage();
   const { personalInfoData, updatePersonalInfo, loading, error } =
     usePersonalInfo();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -51,6 +39,20 @@ const PersonalInfo: React.FC = () => {
   );
   const [editedValue, setEditedValue] = useState<string>("");
   const [showAlert, setShowAlert] = useState<boolean>(false);
+
+  const labelMappings: { [key: string]: string } = {
+    nickname: t("nickname"),
+    favorite_training_type: t("favoriteTraining"),
+    current_fitness_goals: t("currentFitnessGoals"),
+    water_drunk_daily: t("waterDrunkDaily"),
+    steps_daily: t("stepsDaily"),
+    skill_level: t("skillLevel"),
+    caloric_intake_goal: t("caloricIntakeGoal"),
+    body_measurements: t("bodyMeasurements"),
+    workout_frequency: t("workoutFrequency"),
+    personal_bests: t("personalBests"),
+    weight: t("weight"),
+  };
 
   const handleItemClick = (item: PersonalInfoType) => {
     setSelectedItem(item);
@@ -87,8 +89,8 @@ const PersonalInfo: React.FC = () => {
   return (
     <>
       <div className={styles.profile__data}>
-        <h2>Personal Info</h2>
-        <p>Change your personal informations that are very important here!</p>
+        <h2>{t("personalInfo")}</h2>
+        <p>{t("changePersonalInfo")}</p>
         <div className={styles.profile__data__box}>
           {personalInfoData.map((info, index) => (
             <div
@@ -101,7 +103,7 @@ const PersonalInfo: React.FC = () => {
                 <span>{labelMappings[info.label] || info.label}</span>{" "}
                 <span>{icons[info.label]}</span>{" "}
               </label>
-              <p>{info.value || "No data set"}</p>
+              <p>{info.value || t("noDataSet")}</p>
             </div>
           ))}
         </div>
@@ -109,7 +111,7 @@ const PersonalInfo: React.FC = () => {
 
       <Dialog open={openDialog} onClose={handleClose}>
         <DialogTitle>
-          Edit {labelMappings[selectedItem?.label || ""]}
+          {t("edit")} {labelMappings[selectedItem?.label || ""]}
         </DialogTitle>
         <DialogContent>
           <div className={styles.dialogContent}>
@@ -122,9 +124,9 @@ const PersonalInfo: React.FC = () => {
           </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>{t("cancel")}</Button>
           <Button onClick={handleSave} color="primary">
-            Save
+            {t("save")}
           </Button>
         </DialogActions>
       </Dialog>
@@ -136,7 +138,7 @@ const PersonalInfo: React.FC = () => {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={() => setShowAlert(false)} severity="success">
-          Setting updated successfully!
+          {t("settingUpdated")}
         </Alert>
       </Snackbar>
     </>

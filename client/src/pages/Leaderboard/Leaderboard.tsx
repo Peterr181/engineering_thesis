@@ -8,27 +8,32 @@ import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import avatarImages from "../../utils/avatarImages";
 import dolar from "../../assets/images/dollar.png";
+import { useLanguage } from "../../context/LanguageProvider";
 
 const Leaderboard = () => {
-  const { users, fetchUsers } = useUsers(); // Removed addStarToUser
+  const { users, fetchUsers } = useUsers();
   const userProfile = useAuth();
+  const { t } = useLanguage();
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  console.log(users);
+  useEffect(() => {
+    // Trigger re-render when language changes
+    // Add any necessary logic here if needed
+  }, [t]);
 
   const getSportLevelLabel = (level: number): string => {
     switch (level) {
       case 3:
-        return "Advanced";
+        return t("advanced");
       case 2:
-        return "Intermediate";
+        return t("intermediate");
       case 1:
-        return "Beginner";
+        return t("beginner");
       default:
-        return "Unknown";
+        return t("unknown");
     }
   };
 
@@ -37,8 +42,8 @@ const Leaderboard = () => {
       <section className={styles.leaderboard}>
         <MaxWidthWrapper>
           <WhiteCardWrapper additionalClass={styles.wrapperClass}>
-            <h2>Leaderboard</h2>
-            <p>Browse users workout plans, diets, and special points.</p>
+            <h2>{t("leaderboard")}</h2>
+            <p>{t("browseUsers")}</p>
             <div className={styles.userList}>
               {users
                 .filter((user) => user.id !== userProfile?.id)
@@ -69,7 +74,7 @@ const Leaderboard = () => {
                       </div>
                       <div className={styles.dollars}>
                         <p className={styles.points}>{user.total_points}</p>
-                        <img src={dolar} alt="dolar" />
+                        <img src={dolar} alt={t("dollarAlt")} />
                       </div>
                     </div>
                   </Link>

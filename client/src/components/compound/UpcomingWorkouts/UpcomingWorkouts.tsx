@@ -34,13 +34,13 @@ const UpcomingWorkouts = () => {
           <Link to="/workoutplan">
             <div className={styles.workoutPlanBtn}>
               <Button2 variant="contained" color="success">
-                WORKOUT PLAN
+                {t("upcomingWorkouts.showWorkoutPlan")}
               </Button2>
             </div>
           </Link>
         </div>
         <div className={styles.upcomingWorkouts__workouts}>
-          {loading && <p>Loading workouts...</p>}
+          {loading && <p>{t("loading")}</p>}
 
           {upcomingWorkouts.length > 0 ? (
             upcomingWorkouts.map((workout, index) => (
@@ -50,7 +50,7 @@ const UpcomingWorkouts = () => {
                 day={workout.day}
                 month={workout.month}
                 minutes={workout.minutes}
-                name={workout.exercise_name || "Unnamed Workout"}
+                name={workout.exercise_name || t("unnamedWorkout")}
                 status={workout.finished ? Status.FINISHED : Status.NOT_STARTED}
                 category={
                   Category[workout.exercise_type as keyof typeof Category] ||
@@ -60,7 +60,7 @@ const UpcomingWorkouts = () => {
               />
             ))
           ) : (
-            <p>No upcoming workouts available.</p>
+            <p>{t("upcomingWorkouts.noUpcomingWorkouts")}</p>
           )}
         </div>
       </WhiteCardWrapper>
