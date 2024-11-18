@@ -6,6 +6,7 @@ interface Routine {
   routine_name: string;
   start_date: string | null;
   is_active: number;
+  duplicated: number;
 }
 
 interface RoutineDetails {

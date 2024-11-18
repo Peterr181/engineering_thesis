@@ -26,7 +26,7 @@ export const getRoutines = async (req, res) => {
   const userId = req.user.userId;
 
   const sql =
-    "SELECT id, routine_name, start_date, is_active FROM routines WHERE user_id = ?";
+    "SELECT id, routine_name, start_date, is_active, duplicated FROM routines WHERE user_id = ?";
   try {
     const [data] = await db.promise().query(sql, [userId]);
     return res.json({ routines: data });
@@ -373,6 +373,10 @@ export const duplicateRoutineForNextWeek = async (req, res) => {
         }
       }
     }
+
+    const updateDuplicatedSql =
+      "UPDATE routines SET duplicated = 1 WHERE id = ?";
+    await db.promise().query(updateDuplicatedSql, [routineId]);
 
     return res.status(201).json({ message: "Routine duplicated successfully" });
   } catch (err) {

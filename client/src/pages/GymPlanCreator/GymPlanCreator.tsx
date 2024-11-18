@@ -379,7 +379,7 @@ const GymPlanCreator: React.FC = () => {
     if (error !== undefined) {
       setDuplicateError(error);
     } else {
-      fetchRoutines(); // Refresh routines after duplication
+      await fetchRoutines(); // Refresh routines after duplication
     }
   };
 
@@ -433,6 +433,8 @@ const GymPlanCreator: React.FC = () => {
       setWorkouts(updatedWorkouts);
     }
   };
+
+  console.log(routines);
 
   return (
     <PlatformWrapper>
@@ -797,13 +799,15 @@ const GymPlanCreator: React.FC = () => {
                       >
                         {t("gymPlanCreator.editRoutine")}
                       </Button>
-                      <Button
-                        onClick={() => handleDuplicateRoutine(routine.id)}
-                        color="warning"
-                        variant="contained"
-                      >
-                        {t("gymPlanCreator.duplicateForNextWeek")}
-                      </Button>
+                      {routine.duplicated === 0 && (
+                        <Button
+                          onClick={() => handleDuplicateRoutine(routine.id)}
+                          color="warning"
+                          variant="contained"
+                        >
+                          {t("gymPlanCreator.duplicateForNextWeek")}
+                        </Button>
+                      )}
                     </div>
                   </div>
                 ))}
