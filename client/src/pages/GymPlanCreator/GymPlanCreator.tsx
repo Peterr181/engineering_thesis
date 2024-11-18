@@ -434,8 +434,6 @@ const GymPlanCreator: React.FC = () => {
     }
   };
 
-  console.log(routines);
-
   return (
     <PlatformWrapper>
       <section className={styles.gymPlanCreator}>
