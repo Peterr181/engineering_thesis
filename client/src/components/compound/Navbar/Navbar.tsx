@@ -13,10 +13,12 @@ import { usePersonalInfo } from "../../../hooks/usePersonalInfo";
 import avatarImages from "../../../utils/avatarImages";
 import useMessages from "../../../hooks/useMessages";
 import MaxWidthWrapper from "../MaxWidthWrapper/MaxWidthWrapper";
+import englishFlag from "../../../assets/images/englishFlag.png";
+import polishFlag from "../../../assets/images/polishFlag.png";
 
 const Navbar: React.FC = () => {
   const { t } = useLanguage();
-  const { changeLanguage, language } = useLanguage();
+  const { changeLanguage } = useLanguage();
   const { fetchWorkouts, workouts } = useWorkouts();
   const userProfile = useAuth();
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -94,6 +96,7 @@ const Navbar: React.FC = () => {
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const [showLanguageChangeMessage, setShowLanguageChangeMessage] =
     useState(false);
+  const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
 
   const handleDropdownToggle = () => {
     setDropdownOpen(!dropdownOpen);
@@ -143,12 +146,17 @@ const Navbar: React.FC = () => {
     document.body.classList.toggle("hamburger-menu-open", !isHamburgerOpen);
   };
 
-  const handleLanguageChange = () => {
-    changeLanguage(language === "en" ? "pl" : "en");
+  const handleLanguageIconClick = () => {
+    setLanguageDropdownOpen(!languageDropdownOpen);
+  };
+
+  const handleLanguageSelect = (lang: string) => {
+    changeLanguage(lang);
     setShowLanguageChangeMessage(true);
     setTimeout(() => {
       setShowLanguageChangeMessage(false);
     }, 2000);
+    setLanguageDropdownOpen(false);
   };
 
   return (
@@ -216,9 +224,27 @@ const Navbar: React.FC = () => {
                       )}
                     </div>
 
-                    <span onClick={handleLanguageChange}>
+                    <span onClick={handleLanguageIconClick}>
                       {iconFile.languageIcon}
                     </span>
+                    {languageDropdownOpen && (
+                      <div className={styles.languageDropdown}>
+                        <div
+                          className={styles.languageDropdown__item}
+                          onClick={() => handleLanguageSelect("en")}
+                        >
+                          <p>ENG</p>
+                          <img src={englishFlag} alt="English flag" />
+                        </div>
+                        <div
+                          className={styles.languageDropdown__item}
+                          onClick={() => handleLanguageSelect("pl")}
+                        >
+                          <p>PL</p>
+                          <img src={polishFlag} alt="English flag" />
+                        </div>
+                      </div>
+                    )}
                     {showLanguageChangeMessage && (
                       <div className={styles.languageChangeMessage}>
                         {t("navbar.languageChanged")}
@@ -407,9 +433,15 @@ const Navbar: React.FC = () => {
                     )}
                   </div>
 
-                  <span onClick={handleLanguageChange}>
+                  <span onClick={handleLanguageIconClick}>
                     {iconFile.languageIcon}
                   </span>
+                  {languageDropdownOpen && (
+                    <div className={styles.languageDropdown}>
+                      <div onClick={() => handleLanguageSelect("en")}>ENG</div>
+                      <div onClick={() => handleLanguageSelect("pl")}>PL</div>
+                    </div>
+                  )}
                   {showLanguageChangeMessage && (
                     <div className={styles.languageChangeMessage}>
                       {t("navbar.languageChanged")}
