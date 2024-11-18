@@ -11,6 +11,7 @@ import {
   endRoutine,
   activateRoutine,
   duplicateRoutineForNextWeek,
+  updateRoutine, // Add this import
 } from "../controllers/gymRoutineController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 
@@ -52,5 +53,8 @@ router.post(
   authMiddleware,
   duplicateRoutineForNextWeek
 );
+
+// Route to update an existing routine
+router.put("/update/:routineId", authMiddleware, updateRoutine);
 
 export default router;

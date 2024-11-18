@@ -407,8 +407,11 @@
     "viewRoutine": "Zobacz plan",
     "duplicateForNextWeek": "Powiel na następny tydzień",
     "notAvailable": "Niedostępne",
-    "add": "Dodaj Ćwiczenie"
+    "add": "Dodaj Ćwiczenie",
+    "deleteExercise": "Usuń Ćwiczenie",
+    "editRoutine": "Edytuj"
   },
+  "minutes": "Minut",
   "daysOfWeek": {
     "Monday": "Poniedziałek",
     "Tuesday": "Wtorek",

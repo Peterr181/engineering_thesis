@@ -43,11 +43,7 @@ const Workout = ({
   const { t } = useLanguage();
   const allExercises = getAllExercises(t);
 
-  console.log("Workout ID: ", workout_id);
-  console.log("All Exercises: ", allExercises);
-
   const exercise = allExercises.find((ex) => ex.workout_id === workout_id);
-  console.log("Found Exercise: ", exercise);
 
   const name = exercise ? exercise.name : t("unnamedWorkout");
 

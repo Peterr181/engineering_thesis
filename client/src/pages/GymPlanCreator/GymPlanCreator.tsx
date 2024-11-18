@@ -68,6 +68,7 @@ const GymPlanCreator: React.FC = () => {
     endRoutine,
     activateRoutine,
     duplicateRoutine,
+    updateRoutine,
   } = useGymRoutine();
 
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -116,7 +117,7 @@ const GymPlanCreator: React.FC = () => {
   };
 
   const handleSavePlan = async () => {
-    if (!routineName) {
+    if (routineCreated && !viewRoutine && !routineName) {
       setMissingNameAlertOpen(true);
       return;
     }
@@ -136,8 +137,16 @@ const GymPlanCreator: React.FC = () => {
       return;
     }
 
-    const startDate = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
-    await savePlan(routineName, startDate, selectedDays, workouts);
+    if (routineCreated && !viewRoutine) {
+      const startDate = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
+      await savePlan(routineName, startDate, selectedDays, workouts);
+    } else {
+      // Update existing routine logic here
+      const activeRoutine = routines.find((routine) => routine.is_active === 1);
+      if (activeRoutine) {
+        await updateRoutine(activeRoutine.id, selectedDays, workouts);
+      }
+    }
 
     setRoutineCreated(false); // Close the routine creator
     setViewRoutine(false); // Ensure the routine creator is closed
@@ -225,6 +234,23 @@ const GymPlanCreator: React.FC = () => {
     });
     // Remove the alert trigger here
     // setAlertOpen(true);
+  };
+
+  const deleteExerciseFromDay = (day: string, exerciseName: string) => {
+    setWorkouts((prevWorkouts) => {
+      const updatedWorkouts = prevWorkouts.map((workout) => {
+        if (workout.day === day) {
+          return {
+            ...workout,
+            exercises: workout.exercises.filter(
+              (exercise) => exercise.name !== exerciseName
+            ),
+          };
+        }
+        return workout;
+      });
+      return updatedWorkouts;
+    });
   };
 
   const handleAddExercise = (day: string) => {
@@ -390,6 +416,24 @@ const GymPlanCreator: React.FC = () => {
     }
   };
 
+  const handleEditRoutine = async (routineId: number) => {
+    await activateRoutine(routineId, true);
+    await handleFetchRoutineDetails(routineId);
+    setRoutineCreated(true);
+    setViewRoutine(true);
+    setSelectedDays([]);
+    setWorkouts([]);
+    const routine = await fetchRoutineById(routineId);
+    if (routine) {
+      setSelectedDays(Object.keys(routineDetails || {}));
+      const updatedWorkouts = Object.keys(routineDetails || {}).map((day) => ({
+        day,
+        exercises: routineDetails![day],
+      }));
+      setWorkouts(updatedWorkouts);
+    }
+  };
+
   return (
     <PlatformWrapper>
       <section className={styles.gymPlanCreator}>
@@ -450,14 +494,16 @@ const GymPlanCreator: React.FC = () => {
               <>
                 {routineCreated && (
                   <div className={styles.daySelection}>
-                    <div className={styles.daySelection__routineName}>
-                      <TextField
-                        label={t("gymPlanCreator.routineName")}
-                        fullWidth
-                        value={routineName}
-                        onChange={handleRoutineNameChange}
-                      />
-                    </div>
+                    {!viewRoutine && (
+                      <div className={styles.daySelection__routineName}>
+                        <TextField
+                          label={t("gymPlanCreator.routineName")}
+                          fullWidth
+                          value={routineName}
+                          onChange={handleRoutineNameChange}
+                        />
+                      </div>
+                    )}
                     {daysOfWeek.map((day) => (
                       <FormControlLabel
                         key={day}
@@ -516,7 +562,23 @@ const GymPlanCreator: React.FC = () => {
                             >
                               {dayExercises.map((exercise, i) => (
                                 <div key={i} className={styles.exercise}>
-                                  <h4>{exercise.name}</h4>
+                                  <div className={styles.exercise__header}>
+                                    <h4>{exercise.name}</h4>
+                                    {routineCreated && (
+                                      <Button
+                                        onClick={() =>
+                                          deleteExerciseFromDay(
+                                            day,
+                                            exercise.name
+                                          )
+                                        }
+                                        color="error"
+                                        variant="contained"
+                                      >
+                                        {t("gymPlanCreator.deleteExercise")}
+                                      </Button>
+                                    )}
+                                  </div>
                                   <table className={styles.setsTable}>
                                     <thead>
                                       <tr>
@@ -727,6 +789,13 @@ const GymPlanCreator: React.FC = () => {
                         variant="contained"
                       >
                         {t("gymPlanCreator.viewRoutine")}
+                      </Button>
+                      <Button
+                        onClick={() => handleEditRoutine(routine.id)}
+                        color="primary"
+                        variant="contained"
+                      >
+                        {t("gymPlanCreator.editRoutine")}
                       </Button>
                       <Button
                         onClick={() => handleDuplicateRoutine(routine.id)}

@@ -380,3 +380,67 @@ export const duplicateRoutineForNextWeek = async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+// Update an existing routine
+export const updateRoutine = async (req, res) => {
+  const { routineId } = req.params;
+  const { selectedDays, workouts } = req.body;
+  const userId = req.user.userId;
+
+  try {
+    // Delete existing routine days, exercises, and sets
+    const deleteSetsSql = `
+      DELETE s FROM gym_exercise_sets s
+      JOIN gym_exercises e ON s.exercise_id = e.id
+      JOIN routine_days rd ON e.routine_day_id = rd.id
+      WHERE rd.routine_id = ?`;
+    await db.promise().query(deleteSetsSql, [routineId]);
+
+    const deleteExercisesSql = `
+      DELETE e FROM gym_exercises e
+      JOIN routine_days rd ON e.routine_day_id = rd.id
+      WHERE rd.routine_id = ?`;
+    await db.promise().query(deleteExercisesSql, [routineId]);
+
+    const deleteDaysSql = "DELETE FROM routine_days WHERE routine_id = ?";
+    await db.promise().query(deleteDaysSql, [routineId]);
+
+    // Add new routine days, exercises, and sets
+    for (const day of selectedDays) {
+      const daySql =
+        "INSERT INTO routine_days (routine_id, day_of_week) VALUES (?, ?)";
+      const [dayResult] = await db.promise().query(daySql, [routineId, day]);
+      const routineDayId = dayResult.insertId;
+
+      const workout = workouts.find((w) => w.day === day);
+      if (workout) {
+        for (const exercise of workout.exercises) {
+          const exerciseSql =
+            "INSERT INTO gym_exercises (routine_day_id, exercise_name, num_sets) VALUES (?, ?, ?)";
+          const [exerciseResult] = await db
+            .promise()
+            .query(exerciseSql, [
+              routineDayId,
+              exercise.name,
+              exercise.sets.length,
+            ]);
+          const exerciseId = exerciseResult.insertId;
+
+          for (let i = 0; i < exercise.sets.length; i++) {
+            const set = exercise.sets[i];
+            const setSql =
+              "INSERT INTO gym_exercise_sets (exercise_id, set_number, repetitions, weight) VALUES (?, ?, ?, ?)";
+            await db
+              .promise()
+              .query(setSql, [exerciseId, i + 1, set.repetitions, set.weight]);
+          }
+        }
+      }
+    }
+
+    return res.status(200).json({ message: "Routine updated successfully" });
+  } catch (err) {
+    console.error("Database error:", err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};

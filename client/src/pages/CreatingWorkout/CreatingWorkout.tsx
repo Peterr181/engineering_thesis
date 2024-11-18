@@ -19,10 +19,7 @@ import Snackbar from "@mui/material/Snackbar";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageProvider";
 import { useWorkouts } from "../../hooks/useWorkout";
-import {
-  allExercises as getAllExercises,
-  months as getMonths,
-} from "../../constants/exercises";
+import { allExercises as getAllExercises } from "../../constants/exercises";
 
 interface Exercise {
   workout_id: string;
@@ -149,8 +146,6 @@ const CreatingWorkout = () => {
     (exercise: Exercise) =>
       filter === t("filterCategories.All") || exercise.type === filter
   );
-
-  console.log("Selected Exercise: ", selectedExercise);
 
   return (
     <PlatformWrapper>

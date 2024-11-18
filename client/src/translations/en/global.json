@@ -282,6 +282,7 @@
     "confirmDeleteGymWorkouts": "Are you sure you want to delete all Gym workouts?",
     "enterDetails": "Enter workout day"
   },
+  "minutes": "Minutes",
   "exercisesList": {
     "Cardio": "Cardio",
     "Yoga": "Yoga",
@@ -406,7 +407,9 @@
     "viewRoutine": "View Routine",
     "duplicateForNextWeek": "Duplicate for Next Week",
     "notAvailable": "N/A",
-    "add": "Add Exercise"
+    "add": "Add Exercise",
+    "deleteExercise": "Delete Exercise",
+    "editRoutine": "Edit"
   },
   "daysOfWeek": {
     "Monday": "Monday",

@@ -122,14 +122,18 @@
 }
 
 .exercise {
-  h4 {
-    text-align: center;
-    text-transform: uppercase;
-    color: green;
-    margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
   }
 }
-
 .saveRoutineBtn {
   margin-top: 16px;
 

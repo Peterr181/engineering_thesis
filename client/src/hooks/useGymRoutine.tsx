@@ -407,6 +407,36 @@ export const useGymRoutine = () => {
     }
   };
 
+  const updateRoutine = async (
+    routineId: number,
+    selectedDays: string[],
+    workouts: WorkoutDay[]
+  ) => {
+    setLoading(true);
+    setError(null);
+
+    if (!isAuthenticated()) {
+      setError("User not authenticated. Cannot update routine.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      await axios.put(`${apiUrl}/api/routines/update/${routineId}`, {
+        selectedDays,
+        workouts,
+      });
+    } catch (err) {
+      setError("Error updating routine.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     routines,
     routineDetails,
@@ -422,6 +452,7 @@ export const useGymRoutine = () => {
     activateRoutine,
     duplicateRoutine,
     deleteRoutine,
+    updateRoutine,
     error,
     loading,
   };
