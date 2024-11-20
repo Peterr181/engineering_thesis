@@ -87,9 +87,6 @@ const Exercises: React.FC = () => {
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
 
-  const filteredNamesOfExercises = exercises.map((exercise) => exercise.name);
-
-  console.log(filteredNamesOfExercises);
   return (
     <PlatformWrapper>
       <MaxWidthWrapper>
