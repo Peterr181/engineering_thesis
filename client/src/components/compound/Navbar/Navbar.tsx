@@ -312,6 +312,14 @@ const Navbar: React.FC = () => {
                               <p>{t("navbar.trainings")}</p>
                             </div>
                           </Link>
+                          <Link to="/messages">
+                            <div
+                              className={styles.dropdownMenu__elements__element}
+                            >
+                              {iconFile.messagesIcon}
+                              <p>{t("navbar.messages")}</p>
+                            </div>
+                          </Link>
                           <Link to="/profile">
                             <div
                               className={styles.dropdownMenu__elements__element}
@@ -384,12 +392,14 @@ const Navbar: React.FC = () => {
                     <p>{t("navbar.diet")}</p>
                   </div>
                 </Link>
+
                 <Link to="/workoutplan">
                   <div className={styles.hamburgerMenu__element}>
                     {iconFile.workoutPlan}
                     <p>{t("navbar.trainings")}</p>
                   </div>
                 </Link>
+
                 <Link to="/profile">
                   <div className={styles.hamburgerMenu__element}>
                     {iconFile.settingsIcon}

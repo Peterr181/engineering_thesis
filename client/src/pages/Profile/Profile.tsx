@@ -7,7 +7,7 @@ import { iconFile } from "../../assets/iconFile";
 import PersonalInfo from "./PersonalInfo";
 import EmailPassword from "./EmailPassword";
 import Information from "./Information";
-import Messages from "./Messages";
+import Messages from "./Notifications";
 import { useLanguage } from "../../context/LanguageProvider";
 
 const Profile: React.FC = () => {
@@ -64,12 +64,12 @@ const Profile: React.FC = () => {
                   </div>
                   <div
                     className={`${styles.profile__nav__item} ${
-                      activeTab === t("messagesTab") ? styles.active : ""
+                      activeTab === t("notificationsTab") ? styles.active : ""
                     }`}
-                    onClick={() => handleNavClick(t("messagesTab"))}
+                    onClick={() => handleNavClick(t("notificationsTab"))}
                   >
                     {iconFile.notifyIcon}
-                    <p>{t("messagesTab")}</p>
+                    <p>{t("notificationsTab")}</p>
                   </div>
                   <div
                     className={`${styles.profile__nav__item} ${
@@ -84,7 +84,7 @@ const Profile: React.FC = () => {
               </div>
               {activeTab === t("personalInfo") && <PersonalInfo />}
               {activeTab === t("emailPasswordTab") && <EmailPassword />}
-              {activeTab === t("messagesTab") && <Messages />}
+              {activeTab === t("notificationsTab") && <Messages />}
               {activeTab === t("informationTab") && <Information />}
             </div>
           </WhiteCardWrapper>

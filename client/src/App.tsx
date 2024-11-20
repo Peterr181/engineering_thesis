@@ -22,6 +22,7 @@ import GymPlanCreator from "./pages/GymPlanCreator/GymPlanCreator";
 import { useEffect } from "react";
 import axios from "axios";
 import useDailyStreak from "./hooks/useDailyStreak";
+import Messages from "./pages/Messages/Messages";
 
 function App() {
   const { fetchStreak } = useDailyStreak();
@@ -64,6 +65,10 @@ function App() {
           <Route
             path="/chatrooms"
             element={<ProtectedRoute element={<ChatRooms />} />}
+          />
+          <Route
+            path="/messages"
+            element={<ProtectedRoute element={<Messages />} />}
           />
           <Route
             path="/chat/:roomId"

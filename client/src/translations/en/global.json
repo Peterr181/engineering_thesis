@@ -19,7 +19,9 @@
     "noNotifications": "No new messages",
     "languageChanged": "Language changed successfully!",
     "setPersonalButton": "Set personal info",
-    "setPersonalDesc": "Oops you didn't set urgent data yet!"
+    "setPersonalDesc": "Oops you didn't set urgent data yet!",
+    "messages": "Messages",
+    "sentMessage": "sent you a message"
   },
   "advanced": "Advanced",
   "beginner": "Beginner",
@@ -84,6 +86,8 @@
   "findMeal": "Find your favourite meal",
   "searchMeal": "Search by meal name",
   "search": "Search",
+  "messagesHeader": "Messages from other users",
+  "messagesDescription": "Here you can find messages from other users. You can also send them a message.",
   "streakTitle": "Streak",
   "streakDescription": "Look how consistent you are as a person on Gymero platform",
   "confettiAlt": "confetti",
@@ -345,12 +349,13 @@
   "userProfile": "User profile",
   "personalInfo": "Personal info",
   "emailPasswordTab": "Email & password",
-  "messagesTab": "Messages",
+  "notificationsTab": "Notifications",
   "messages": {
     "title": "Messages",
     "description": "You can browse messages sent by users from our community to you.",
     "communityButton": "Community",
-    "noNewMessages": "No new messages"
+    "noNewMessages": "No new notifications",
+    "markAllAsRead": "Mark all as read"
   },
   "informationTab": "Information",
   "information": {

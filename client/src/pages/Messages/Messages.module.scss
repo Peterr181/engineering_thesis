@@ -1,0 +1,87 @@
+.notifications {
+  padding: var(--rythm-32);
+  border-left: 1px solid #f5f5f5;
+  padding-left: var(--rythm-32);
+  margin-left: var(--rythm-16);
+  width: 100%;
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--rythm-32);
+    button {
+      font-weight: bold;
+    }
+  }
+
+  @media (max-width: 767px) {
+    &__header {
+      flex-direction: column;
+      align-items: flex-start;
+      button {
+        margin-top: var(--rythm-16);
+      }
+    }
+  }
+
+  h2 {
+    font-weight: 700 !important;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__listItem {
+    margin-top: var(--rythm-16);
+    margin-bottom: var(--rythm-16);
+  }
+
+  &__card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: var(--rythm-16);
+    background-color: var(--body_content);
+  }
+
+  &__cardContent {
+    display: flex;
+    flex-direction: column;
+
+    &__username {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    h3 {
+      color: green;
+    }
+  }
+
+  &__date {
+    font-size: 0.875rem;
+    color: #888;
+    margin-bottom: var(--rythm-8);
+  }
+
+  &__messageContent {
+    font-size: 1rem;
+    color: var(--body_color);
+  }
+}
+
+.messageContent {
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.wrapper {
+  min-height: 75vh;
+}

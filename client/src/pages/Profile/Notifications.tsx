@@ -6,28 +6,21 @@ import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageProvider";
 
-interface Message {
-  id: number;
-  sender_id: number;
-  recipient_id: number;
-  message: string;
-  date_sent: string;
-  sender_username?: string;
-}
-
 const Messages = () => {
   const { t } = useLanguage();
   const userProfile = useAuth();
   const otherUserId = Number(userProfile?.id);
-  const { messages, fetchMessages } = useMessages();
+  const { unreadMessages, fetchUnreadMessages, markAllMessagesAsRead } =
+    useMessages();
 
   useEffect(() => {
-    fetchMessages();
+    fetchUnreadMessages();
   }, []);
 
-  const filteredMessages = messages.filter(
-    (message: Message) => message.recipient_id === otherUserId
-  );
+  const handleMarkAllAsRead = async () => {
+    await markAllMessagesAsRead();
+    fetchUnreadMessages();
+  };
 
   return (
     <div className={styles.notifications}>
@@ -43,12 +36,12 @@ const Messages = () => {
         </Link>
       </div>
 
-      {filteredMessages.length === 0 ? (
+      {unreadMessages.length === 0 ? (
         <p>{t("messages.noNewMessages")}</p>
       ) : (
-        <ul className={styles.notifications__list}>
-          {filteredMessages.map((message: Message) => (
-            <li key={message.id} className={styles.notifications__listItem}>
+        <div className={styles.notifications__list}>
+          {unreadMessages.map((message) => (
+            <div key={message.id} className={styles.notifications__listItem}>
               <div className={styles.notifications__card}>
                 <div className={styles.notifications__cardContent}>
                   <div className={styles.notifications__cardContent__username}>
@@ -59,14 +52,21 @@ const Messages = () => {
                   </div>
                   <div className={styles.messageContent}>
                     <p className={styles.notifications__messageContent}>
-                      {message.message}
+                      {t("navbar.sentMessage")}
                     </p>
                   </div>
                 </div>
               </div>
-            </li>
+            </div>
           ))}
-        </ul>
+          <Button
+            onClick={handleMarkAllAsRead}
+            variant="contained"
+            color="secondary"
+          >
+            {t("messages.markAllAsRead")}
+          </Button>
+        </div>
       )}
     </div>
   );

@@ -19,7 +19,9 @@
     "noNotifications": "Brak powiadomień",
     "languageChanged": "Język zmieniony pomyślnie!",
     "setPersonalButton": "Ustaw dane osobowe",
-    "setPersonalDesc": "Ustaw ważne informację na swój temat"
+    "setPersonalDesc": "Ustaw ważne informację na swój temat",
+    "messages": "Wiadomości",
+    "sentMessage": "wysłał Ci wiadomość"
   },
   "sidebar": {
     "dashboard": "Start",
@@ -75,6 +77,8 @@
   "confettiAlt": "konfetti",
   "dollarAlt": "dolar",
   "day": "Dzień",
+  "messagesHeader": "Wiadomości od innych użytkowników",
+  "messagesDescription": "Czatuj z innymi użytkownikami i znajdź partnera do treningu!",
   "caloriesSummary": "Podsumowanie kalorii",
   "checkTotalDailyCalories": "Sprawdź swoje dzienne kalorie",
   "mealsPlan": {
@@ -347,7 +351,7 @@
   "userProfile": "Profil użytkownika",
   "personalInfo": "Informacje osobiste",
   "emailPasswordTab": "Email i hasło",
-  "messagesTab": "Wiadomości",
+  "notificationsTab": "Powiadomienia",
   "information": "Informacje",
   "changePersonalInfo": "Zmień swoje osobiste informacje, które są bardzo ważne tutaj!",
   "noDataSet": "Brak danych",
@@ -375,7 +379,8 @@
     "title": "Wiadomości",
     "description": "Możesz przeglądać wiadomości wysłane przez użytkowników naszej społeczności do Ciebie.",
     "communityButton": "Społeczność",
-    "noNewMessages": "Brak nowych wiadomości"
+    "noNewMessages": "Brak nowych notyfikacji",
+    "markAllAsRead": "Oznacz wszystkie jako przeczytane"
   },
   "information": {
     "title": "Informacje",
