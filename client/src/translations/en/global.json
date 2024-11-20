@@ -17,7 +17,9 @@
     "intermediate": "Intermediate",
     "advanced": "Advanced",
     "noNotifications": "No new messages",
-    "languageChanged": "Language changed successfully!"
+    "languageChanged": "Language changed successfully!",
+    "setPersonalButton": "Set personal info",
+    "setPersonalDesc": "Oops you didn't set urgent data yet!"
   },
   "advanced": "Advanced",
   "beginner": "Beginner",

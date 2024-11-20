@@ -17,7 +17,9 @@
     "intermediate": "Średniozaawansowany",
     "advanced": "Zaawansowany",
     "noNotifications": "Brak powiadomień",
-    "languageChanged": "Język zmieniony pomyślnie!"
+    "languageChanged": "Język zmieniony pomyślnie!",
+    "setPersonalButton": "Ustaw dane osobowe",
+    "setPersonalDesc": "Ustaw ważne informację na swój temat"
   },
   "sidebar": {
     "dashboard": "Start",

@@ -168,13 +168,13 @@ const Navbar: React.FC = () => {
               {!hasPersonalData && userProfile && (
                 <>
                   <div className={styles.topText}>
-                    <Text textStyle="lg">{t("navbar.setWorkoutPlan")}</Text>
+                    <Text textStyle="lg">{t("navbar.setPersonalDesc")}</Text>
                   </div>
                   <div className={styles.topText}>
                     <Link to="/personaldetails">
                       <Button variant="primaryOutlineRed">
                         <Text textStyle="md">
-                          {t("navbar.setWorkoutButton")}
+                          {t("navbar.setPersonalButton")}
                         </Text>
                       </Button>
                     </Link>
