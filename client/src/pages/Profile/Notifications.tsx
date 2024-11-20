@@ -1,15 +1,14 @@
 import { useEffect } from "react";
 import styles from "./Notifications.module.scss";
 import useMessages from "../../hooks/useMessages";
-import useAuth from "../../hooks/useAuth";
+
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageProvider";
 
 const Messages = () => {
   const { t } = useLanguage();
-  const userProfile = useAuth();
-  const otherUserId = Number(userProfile?.id);
+
   const { unreadMessages, fetchUnreadMessages, markAllMessagesAsRead } =
     useMessages();
 
