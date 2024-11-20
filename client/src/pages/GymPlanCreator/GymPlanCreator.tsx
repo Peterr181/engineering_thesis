@@ -313,21 +313,21 @@ const GymPlanCreator: React.FC = () => {
   const handleNumSetsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const num = Number(value);
-    if (num <= 10 && !value.startsWith("0")) {
+    if (num >= 0 && num <= 10) {
       setNumSets(num);
     }
   };
 
   const handleSetRepetitionsChange = (index: number, value: string) => {
     const num = Number(value);
-    if (num <= 100 && !value.startsWith("0")) {
+    if (num >= 0 && num <= 100) {
       handleSetChange(index, "repetitions", num);
     }
   };
 
   const handleSetWeightChange = (index: number, value: string) => {
     const num = Number(value);
-    if (num <= 300 && !value.startsWith("0")) {
+    if (num >= 0 && num <= 300) {
       handleSetChange(index, "weight", num);
     }
   };
@@ -699,6 +699,7 @@ const GymPlanCreator: React.FC = () => {
                       fullWidth
                       value={numSets}
                       onChange={handleNumSetsChange}
+                      inputProps={{ min: 0 }}
                     />
                   </>
                 ) : (
@@ -716,6 +717,7 @@ const GymPlanCreator: React.FC = () => {
                           onChange={(e) =>
                             handleSetRepetitionsChange(index, e.target.value)
                           }
+                          inputProps={{ min: 0 }}
                         />
                         <TextField
                           margin="dense"
@@ -728,6 +730,7 @@ const GymPlanCreator: React.FC = () => {
                           onChange={(e) =>
                             handleSetWeightChange(index, e.target.value)
                           }
+                          inputProps={{ min: 0 }}
                         />
                       </div>
                     ))}

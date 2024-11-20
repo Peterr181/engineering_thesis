@@ -394,7 +394,7 @@
     "closeRoutine": "Zamknij plan",
     "routineName": "Nazwa planu",
     "addExercise": "Dodaj ćwiczenie",
-    "set": "Zestaw",
+    "set": "Seria",
     "repetitions": "Powtórzenia",
     "weight": "Waga (kg)",
     "savePlan": "Zapisz plan",
@@ -404,9 +404,9 @@
     "missingDays": "Należy wybrać co najmniej jeden dzień!",
     "emptyDay": "Każdy wybrany dzień musi zawierać co najmniej jedno ćwiczenie!",
     "exerciseName": "Nazwa ćwiczenia",
-    "numSets": "Liczba zestawów",
-    "setRepetitions": "Powtórzenia zestawu {{index}}",
-    "setWeight": "Waga zestawu {{index}} (kg)",
+    "numSets": "Liczba serii (max 10)",
+    "setRepetitions": "Powtórzenia w serii {{index}}",
+    "setWeight": "Waga serii {{index}} (kg)",
     "next": "Dalej",
     "confirmDeletion": "Potwierdź usunięcie",
     "confirmDeletionMessage": "Czy na pewno chcesz usunąć ten plan?",
@@ -461,5 +461,11 @@
   },
   "login": {
     "logInToYourAccount": "Zaloguj się na swoje konto"
+  },
+  "currentView": {
+    "all": "Wszystkie",
+    "weekly": "Tygodniowy",
+    "finished": "Ukończone",
+    "gym": "Siłownia"
   }
 }

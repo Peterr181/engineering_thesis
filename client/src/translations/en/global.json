@@ -404,7 +404,7 @@
     "missingDays": "At least one day must be selected!",
     "emptyDay": "Each selected day must have at least one exercise!",
     "exerciseName": "Exercise Name",
-    "numSets": "Number of Sets",
+    "numSets": "Number of Sets (max 10)",
     "setRepetitions": "Set {{index}} Repetitions",
     "setWeight": "Set {{index}} Weight (kg)",
     "next": "Next",
@@ -454,5 +454,11 @@
       "3-4": "3-4 workouts per week",
       "4-5": "4-5 workouts per week"
     }
+  },
+  "currentView": {
+    "all": "All",
+    "weekly": "Weekly",
+    "finished": "Finished",
+    "gym": "Gym"
   }
 }

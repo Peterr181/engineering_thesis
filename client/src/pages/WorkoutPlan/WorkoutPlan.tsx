@@ -108,9 +108,9 @@ const WorkoutPlan = () => {
                       className={styles.workoutPlan__trainings__header__heading}
                     >
                       <h2>{t("workoutPlan.title")}</h2>
-                      <span
-                        className={styles.currentView}
-                      >{`(${currentView.toUpperCase()})`}</span>
+                      <span className={styles.currentView}>
+                        {`(${t(`currentView.${currentView}`)})`}
+                      </span>
                     </div>
                     <p>{t("workoutPlan.description")}</p>
                   </div>
