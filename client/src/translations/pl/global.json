@@ -524,5 +524,11 @@
     "yearly": "Rocznie"
   },
   "statisticsSectionHeader": "Statystyki",
-  "statisticsSectionDesc": "Sprawdź swoje statystyki treningowe, aby zobaczyć swój postęp."
+  "statisticsSectionDesc": "Sprawdź swoje statystyki treningowe, aby zobaczyć swój postęp.",
+  "mealsStatistics": {
+    "title": "Statystyki odżywiania (ostatnie 14 dni)",
+    "calories": "Kalorie",
+    "selectRange": "Wybierz przedział dni",
+    "selectDays": "Dni"
+  }
 }

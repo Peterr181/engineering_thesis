@@ -518,5 +518,11 @@
     "yearly": "Yearly"
   },
   "statisticsSectionHeader": "Statistics",
-  "statisticsSectionDesc": "Here you can find all your workout statistics. You can filter them by day, week, month, or year."
+  "statisticsSectionDesc": "Here you can find all your workout statistics. You can filter them by day, week, month, or year.",
+  "mealsStatistics": {
+    "title": "Nutrition Statistics (last 14 days)",
+    "calories": "Calories",
+    "selectRange": "Select days range",
+    "selectDays": "Days"
+  }
 }

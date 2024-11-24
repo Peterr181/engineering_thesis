@@ -7,6 +7,8 @@ import {
   getMealSummary,
   getMealsByUserId,
   getArchivedMeals,
+  getDailyNutrientSummary,
+  getAvailableMealDates,
 } from "../controllers/mealsController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 
@@ -19,6 +21,8 @@ router.get("/", getMeals);
 router.get("/summary", getMealSummary);
 router.get("/user/:userId", getMealsByUserId);
 router.get("/archived", getArchivedMeals);
+router.get("/summary/daily/:date", getDailyNutrientSummary);
+router.get("/available-dates", getAvailableMealDates);
 router.put("/:mealId", updateMeal);
 router.delete("/:mealId", deleteMeal);
 

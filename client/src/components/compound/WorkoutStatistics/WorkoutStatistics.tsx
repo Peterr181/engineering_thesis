@@ -41,10 +41,6 @@ const WorkoutStatistics: React.FC<WorkoutStatisticsProps> = ({ userId }) => {
     }
   }, [currentMode, userId]);
 
-  useEffect(() => {
-    console.log("Fetched workouts:", workouts);
-  }, [workouts]);
-
   const handleModeChange = (newMode: "day" | "week" | "month" | "year") => {
     setCurrentMode(newMode);
   };
@@ -73,10 +69,8 @@ const WorkoutStatistics: React.FC<WorkoutStatisticsProps> = ({ userId }) => {
       case "week": {
         const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-        // Initialize chart data with default values
         const chartData = daysOfWeek.map((day) => ({ day, minutes: 0 }));
 
-        // Accumulate minutes for each day
         dataToFormat.forEach((workout) => {
           if (workout.dayName) {
             const formattedDayName = workout.dayName.substring(0, 3);
