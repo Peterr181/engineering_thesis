@@ -30,6 +30,7 @@ Done:
 - Display basic (for now) statistics about workouts, meals
 - Added sending messages between users and notification about new message
 - Streak days for logging in (virtual dollars giving to each user for logging in)
+- Statistics for workouts and meals nutritions (daily,weekly,monthly,yearly) or days range
 
 Closest things to be done:
 
