@@ -509,5 +509,14 @@
     "birthYearTitle": "Please enter a valid 4-digit year"
   },
   "back": "Back",
-  "next": "Next"
+  "next": "Next",
+  "workoutStatistics": {
+    "title": "Workout Statistics",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "yearly": "Yearly"
+  },
+  "statisticsSectionHeader": "Statistics",
+  "statisticsSectionDesc": "Here you can find all your workout statistics. You can filter them by day, week, month, or year."
 }

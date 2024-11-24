@@ -515,5 +515,14 @@
     "birthYearLabel": "Rok urodzenia",
     "birthYearPlaceholder": "RRRR",
     "birthYearTitle": "Proszę wprowadzić prawidłowy 4-cyfrowy rok"
-  }
+  },
+  "workoutStatistics": {
+    "title": "Statystyki Treningów",
+    "daily": "Dziennie",
+    "weekly": "Tygodniowo",
+    "monthly": "Miesięcznie",
+    "yearly": "Rocznie"
+  },
+  "statisticsSectionHeader": "Statystyki",
+  "statisticsSectionDesc": "Sprawdź swoje statystyki treningowe, aby zobaczyć swój postęp."
 }

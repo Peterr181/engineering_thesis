@@ -23,6 +23,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import useDailyStreak from "./hooks/useDailyStreak";
 import Messages from "./pages/Messages/Messages";
+import Statistics from "./pages/Statistics/Statistics";
 
 function App() {
   const { fetchStreak } = useDailyStreak();
@@ -101,6 +102,10 @@ function App() {
           <Route
             path="/profile"
             element={<ProtectedRoute element={<Profile />} />}
+          />
+          <Route
+            path="/statistics"
+            element={<ProtectedRoute element={<Statistics />} />}
           />
           <Route path="/multistepregister" element={<MultistepForm />} />
         </Routes>

@@ -12,6 +12,7 @@ interface Workout {
   exercise_name?: string;
   minutes: number;
   workout_id: string;
+  created_at: string;
 }
 
 export const useWorkouts = (userId?: string) => {
@@ -124,17 +125,121 @@ export const useWorkouts = (userId?: string) => {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      // Construct the URL based on userId
       const url = userId
         ? `${apiUrl}/api/workouts/weekly/${userId}`
         : `${apiUrl}/api/workouts/weekly`;
 
-      const res = await axios.get(url); // Adjust this URL based on your backend endpoint
+      const res = await axios.get(url);
+
+      let weeklyData = [];
       if (res.data) {
-        setWeeklyWorkouts(res.data.workouts); // Store weekly workouts
+        weeklyData = res.data.workouts;
+      } else {
+        // Fallback: Filter all workouts for the current week
+        const currentDate = new Date();
+        const startOfWeek = new Date(
+          currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 1)
+        ); // Monday
+        const endOfWeek = new Date(
+          startOfWeek.setDate(startOfWeek.getDate() + 6)
+        ); // Sunday
+
+        weeklyData = workouts.filter((workout) => {
+          const workoutDate = new Date(workout.created_at);
+          return workoutDate >= startOfWeek && workoutDate <= endOfWeek;
+        });
       }
+
+      setWeeklyWorkouts(weeklyData);
     } catch (err) {
       setError("Error fetching weekly workouts.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const fetchDailyWorkouts = async () => {
+    setLoading(true);
+    setError(null);
+
+    if (!isAuthenticated()) {
+      setError("User not authenticated. Cannot fetch daily workouts.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      const url = `${apiUrl}/api/workouts/daily`;
+
+      const res = await axios.get(url);
+      if (res.data) {
+        setWorkouts(res.data.workouts);
+      }
+    } catch (err) {
+      setError("Error fetching daily workouts.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchMonthlyWorkouts = async () => {
+    setLoading(true);
+    setError(null);
+
+    if (!isAuthenticated()) {
+      setError("User not authenticated. Cannot fetch monthly workouts.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      const url = userId
+        ? `${apiUrl}/api/workouts/monthly/${userId}`
+        : `${apiUrl}/api/workouts/monthly`;
+
+      const res = await axios.get(url);
+      if (res.data) {
+        setWorkouts(res.data.workouts);
+      }
+    } catch (err) {
+      setError("Error fetching monthly workouts.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchYearlyWorkouts = async () => {
+    setLoading(true);
+    setError(null);
+
+    if (!isAuthenticated()) {
+      setError("User not authenticated. Cannot fetch yearly workouts.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      const url = userId
+        ? `${apiUrl}/api/workouts/yearly/${userId}`
+        : `${apiUrl}/api/workouts/yearly`;
+
+      const res = await axios.get(url);
+      if (res.data) {
+        setWorkouts(res.data.workouts);
+      }
+    } catch (err) {
+      setError("Error fetching yearly workouts.");
       console.error(err);
     } finally {
       setLoading(false);
@@ -146,6 +251,9 @@ export const useWorkouts = (userId?: string) => {
     weeklyWorkouts,
     fetchWorkouts,
     fetchWeeklyWorkouts,
+    fetchDailyWorkouts,
+    fetchMonthlyWorkouts,
+    fetchYearlyWorkouts,
     addWorkout,
     finishWorkout,
     error,

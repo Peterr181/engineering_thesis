@@ -256,3 +256,47 @@ export const getWorkoutsByUserId = (req, res) => {
     return res.status(200).json({ workouts: results });
   });
 };
+
+export const getDailyWorkouts = (req, res) => {
+  const userId = req.user.userId;
+  const today = new Date().toISOString().split("T")[0]; // Format to YYYY-MM-DD
+
+  const sql = `SELECT * FROM workouts WHERE user_id = ? AND DATE(created_at) = ?`;
+  db.query(sql, [userId, today], (err, results) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Database error." });
+    }
+    return res.status(200).json({ workouts: results });
+  });
+};
+
+export const getMonthlyWorkouts = (req, res) => {
+  const userId = req.user.userId;
+  const today = new Date();
+  const month = today.getMonth() + 1; // Get current month (1-12)
+  const year = today.getFullYear();
+
+  const sql = `SELECT * FROM workouts WHERE user_id = ? AND MONTH(created_at) = ? AND YEAR(created_at) = ?`;
+  db.query(sql, [userId, month, year], (err, results) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Database error." });
+    }
+    return res.status(200).json({ workouts: results });
+  });
+};
+
+export const getYearlyWorkouts = (req, res) => {
+  const userId = req.user.userId;
+  const year = new Date().getFullYear();
+
+  const sql = `SELECT * FROM workouts WHERE user_id = ? AND YEAR(created_at) = ?`;
+  db.query(sql, [userId, year], (err, results) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Database error." });
+    }
+    return res.status(200).json({ workouts: results });
+  });
+};
