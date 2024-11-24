@@ -365,6 +365,7 @@ body.hamburger-menu-open .hamburgerMenu {
 }
 
 .languageDropdown {
+  color: var(--body_color);
   position: absolute;
   top: 85%; // Position it directly below the language icon
   left: 82%; // Center it horizontally relative to the language icon

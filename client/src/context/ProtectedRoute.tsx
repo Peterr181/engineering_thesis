@@ -1,4 +1,3 @@
-// context/ProtectedRoute.tsx
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { usePersonalInfo } from "../hooks/usePersonalInfo";

@@ -6,6 +6,7 @@ import avatar3 from "../../../assets/images/avatar3.png";
 import avatar4 from "../../../assets/images/avatar4.png";
 import avatar5 from "../../../assets/images/avatar5.png";
 import avatar6 from "../../../assets/images/avatar6.png";
+import { useLanguage } from "../../../context/LanguageProvider";
 
 // Define avatars with labels and values
 const avatars = [
@@ -43,11 +44,13 @@ const ChooseAvatar: React.FC<ChooseAvatarProps> = ({
   gender,
   updateFields,
 }) => {
+  const { t } = useLanguage();
+
   return (
     <div className={styles.chooseAvatar}>
       <div className={styles.avatarHeader}>
-        <h2>Choose Your Avatar</h2>
-        <p>Please choose the avatar that will be the best for you</p>
+        <h2>{t("chooseAvatar.title")}</h2>
+        <p>{t("chooseAvatar.description")}</p>
       </div>
       <div className={styles.avatarsContainer}>
         {avatars

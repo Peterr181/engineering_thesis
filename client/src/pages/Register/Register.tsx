@@ -39,12 +39,12 @@ const Register = () => {
         </div>
         <form className={styles.register__form} onSubmit={handleSubmit}>
           <div className={styles.register__form__group}>
-            <label htmlFor="username">Username:</label>
+            <label htmlFor="username">{t("register.username")}:</label>
             <input
               type="text"
               id="username"
               name="username"
-              placeholder="username"
+              placeholder={t("register.username")}
               onChange={(e) =>
                 setRegisterValues({
                   ...registerValues,
@@ -54,12 +54,12 @@ const Register = () => {
             />
           </div>
           <div className={styles.register__form__group}>
-            <label htmlFor="password">Password:</label>
+            <label htmlFor="password">{t("register.password")}:</label>
             <input
               type="password"
               id="password"
               name="password"
-              placeholder="password"
+              placeholder={t("register.password")}
               onChange={(e) =>
                 setRegisterValues({
                   ...registerValues,
@@ -69,12 +69,12 @@ const Register = () => {
             />
           </div>
           <div className={styles.register__form__group}>
-            <label htmlFor="email">Email:</label>
+            <label htmlFor="email">{t("register.email")}:</label>
             <input
               type="email"
               id="email"
               name="email"
-              placeholder="hello@example.com"
+              placeholder={t("register.email")}
               onChange={(e) =>
                 setRegisterValues({
                   ...registerValues,
@@ -84,12 +84,14 @@ const Register = () => {
             />
           </div>
           <Button variant="loginRegister" submit>
-            Sign Up
+            {t("register.signUpYourAccount")}
           </Button>
           <p>
-            Already have an account?{" "}
+            {t("register.alreadyHaveAccount")}{" "}
             <Link to="/login">
-              <span className={styles.signIn}>Sign in</span>
+              <span className={styles.signIn}>
+                {t("login.logInToYourAccount")}
+              </span>
             </Link>
           </p>
         </form>

@@ -9,9 +9,11 @@ import MaxWidthWrapper from "../MaxWidthWrapper/MaxWidthWrapper";
 import ProgressBar from "@ramonak/react-progress-bar";
 import form from "../../../assets/images/form.png";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "../../../context/LanguageProvider"; // Import useLanguage
 
 const MultistepForm = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage(); // Use the language context
   const [data, setData] = useState({
     nickname: "",
     email: "",
@@ -68,13 +70,13 @@ const MultistepForm = () => {
           <div className={styles.multiStepForm__infoBox}>
             <img src={form} alt="step form image" />
             <div className={styles.stepInfo}>
-              <p>{`Step ${currentStepIndex + 1}/${steps.length}`}</p>
+              <p>{`${t("step")} ${currentStepIndex + 1}/${steps.length}`}</p>
               <h3>
                 {isFirstStep
-                  ? "User Info"
+                  ? t("userInfo")
                   : isLastStep
-                  ? "Sport Level"
-                  : "Choose Avatar"}
+                  ? t("sportLevelHeader")
+                  : t("chooseAvatarHeader")}
               </h3>
             </div>
             <div className={styles.progressBarContainer}>
@@ -93,10 +95,10 @@ const MultistepForm = () => {
               </div>
               <div className={styles.buttonsContainer}>
                 <button type="button" onClick={back} className={styles.backBtn}>
-                  Back
+                  {t("back")}
                 </button>
                 <button type="submit" className={styles.finishBtn}>
-                  {isLastStep ? "Finish" : "Next"}
+                  {isLastStep ? t("finish") : t("next")}
                 </button>
               </div>
             </form>

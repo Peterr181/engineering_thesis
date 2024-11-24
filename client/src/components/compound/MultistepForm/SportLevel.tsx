@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLanguage } from "../../../context/LanguageProvider";
 import styles from "./MultistepForm.module.scss";
 import beginner from "../../../assets/images/begginer.png";
 import intermediate from "../../../assets/images/intermediate.png";
@@ -15,6 +16,7 @@ interface SportLevelProps {
 const SportLevel = ({ updateFields }: SportLevelProps) => {
   const [activeLevel, setActiveLevel] = useState<number>(0);
   const [animate, setAnimate] = useState<boolean>(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     setAnimate(true);
@@ -33,11 +35,8 @@ const SportLevel = ({ updateFields }: SportLevelProps) => {
     >
       <div>
         <div className={styles.userBasicInfo__intro}>
-          <h2>We can't wait to meet you.</h2>
-          <p>
-            Please fill in the details below so that we can get in contact with
-            you.
-          </p>
+          <h2>{t("sportLevel.weCantWait")}</h2>
+          <p>{t("sportLevel.fillDetails")}</p>
         </div>
         <div className={styles.sportLevel__items}>
           <div className={styles.sportLevel__container}>
@@ -47,8 +46,8 @@ const SportLevel = ({ updateFields }: SportLevelProps) => {
                 activeLevel === 1 ? styles["sportLevel__item--active"] : ""
               }`}
             >
-              <img src={beginner} alt="Beginner" />
-              <p>Beginner</p>
+              <img src={beginner} alt={t("beginner")} />
+              <p>{t("beginner")}</p>
             </div>
             <div
               onClick={() => handleLevelClick(2)}
@@ -56,8 +55,8 @@ const SportLevel = ({ updateFields }: SportLevelProps) => {
                 activeLevel === 2 ? styles["sportLevel__item--active"] : ""
               }`}
             >
-              <img src={intermediate} alt="Intermediate" />
-              <p>Intermediate</p>
+              <img src={intermediate} alt={t("intermediate")} />
+              <p>{t("intermediate")}</p>
             </div>
             <div
               onClick={() => handleLevelClick(3)}
@@ -65,8 +64,8 @@ const SportLevel = ({ updateFields }: SportLevelProps) => {
                 activeLevel === 3 ? styles["sportLevel__item--active"] : ""
               }`}
             >
-              <img src={advanced} alt="Advanced" />
-              <p>Advanced</p>
+              <img src={advanced} alt={t("advanced")} />
+              <p>{t("advanced")}</p>
             </div>
           </div>
         </div>

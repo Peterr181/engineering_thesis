@@ -72,7 +72,7 @@ export const login = (req, res) => {
 
     bcrypt.compare(password.toString(), user.password, (err, isMatch) => {
       if (err) {
-        console.error("Error comparing password:", err); // Log password comparison errors
+        console.error("Error comparing password:", err);
         return handleError(res, 500, "Internal Server Error");
       }
 

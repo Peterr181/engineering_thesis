@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./MultistepForm.module.scss";
+import { useLanguage } from "../../../context/LanguageProvider";
 
 interface UpdateFields {
   nickname?: string;
@@ -26,60 +27,59 @@ const UserBasicData: React.FC<UserBasicDataProps> = ({
   password,
   updateFields,
 }) => {
+  const { t } = useLanguage();
+
   return (
     <div className={styles.userBasicInfo}>
       <div className={styles.userBasicInfo__intro}>
-        <h2>We can't wait to meet you.</h2>
-        <p>
-          Please fill in the details below so that we can get in contact with
-          you.
-        </p>
+        <h2>{t("userBasicData.introTitle")}</h2>
+        <p>{t("userBasicData.introDescription")}</p>
       </div>
-      <label>Nickname</label>
+      <label>{t("userBasicData.nicknameLabel")}</label>
       <input
         autoFocus
         required
         type="text"
         value={nickname}
         onChange={(e) => updateFields({ nickname: e.target.value })}
-        placeholder="Nickname"
+        placeholder={t("userBasicData.nicknamePlaceholder")}
       />
-      <label>Email</label>
+      <label>{t("userBasicData.emailLabel")}</label>
       <input
         required
         type="email"
         value={email}
         onChange={(e) => updateFields({ email: e.target.value })}
-        placeholder="example@gmail.com"
+        placeholder={t("userBasicData.emailPlaceholder")}
       />
-      <label>Password</label>
+      <label>{t("userBasicData.passwordLabel")}</label>
       <input
         required
         type="password"
         value={password}
         onChange={(e) => updateFields({ password: e.target.value })}
-        placeholder="●●●●●●"
+        placeholder={t("userBasicData.passwordPlaceholder")}
       />
-      <label>Gender</label>
+      <label>{t("userBasicData.genderLabel")}</label>
       <select
         required
         value={gender}
         onChange={(e) => updateFields({ gender: e.target.value })}
       >
-        <option value="">Select Gender</option>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
+        <option value="">{t("userBasicData.genderPlaceholder")}</option>
+        <option value="male">{t("userBasicData.genderMale")}</option>
+        <option value="female">{t("userBasicData.genderFemale")}</option>
       </select>
-      <label>Birth Year</label>
+      <label>{t("userBasicData.birthYearLabel")}</label>
       <input
         required
         type="text"
         value={birthYear}
         onChange={(e) => updateFields({ birthYear: e.target.value })}
-        placeholder="YYYY"
+        placeholder={t("userBasicData.birthYearPlaceholder")}
         maxLength={4}
         pattern="\d{4}"
-        title="Please enter a valid 4-digit year"
+        title={t("userBasicData.birthYearTitle")}
       />
     </div>
   );

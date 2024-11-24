@@ -38,7 +38,6 @@
     "logout": "Wyloguj się",
     "goals": "Cele"
   },
-
   "upcomingWorkouts": {
     "keepTrack": "Śledź swoje treningi",
     "upcomingWorkouts": "Nadchodzące treningi",
@@ -316,7 +315,8 @@
     "workoutAdded": "Trening został pomyślnie dodany!",
     "deleteGymWorkouts": "Usuń treningi na siłowni",
     "confirmDeleteGymWorkouts": "Czy na pewno chcesz usunąć wszystkie treningi na siłowni?",
-    "enterDetails": "Wprowadź dzień ćwiczenia"
+    "enterDetails": "Wprowadź dzień ćwiczenia",
+    "toYourPlan": "do swojego planu treningowego"
   },
   "advanced": "Zaawansowany",
   "beginner": "Początkujący",
@@ -358,7 +358,6 @@
   "edit": "Edytuj",
   "save": "Zapisz",
   "settingUpdated": "Ustawienie zostało pomyślnie zaktualizowane!",
-
   "emailPassword": {
     "title": "Email i hasło",
     "description": "Zmień swoje dane zabezpieczające profil, hasło musi zawierać 12 znaków i jeden znak specjalny",
@@ -379,7 +378,7 @@
     "title": "Wiadomości",
     "description": "Możesz przeglądać wiadomości wysłane przez użytkowników naszej społeczności do Ciebie.",
     "communityButton": "Społeczność",
-    "noNewMessages": "Brak nowych notyfikacji",
+    "noNewMessages": "Brak nowych wiadomości",
     "markAllAsRead": "Oznacz wszystkie jako przeczytane"
   },
   "information": {
@@ -457,15 +456,64 @@
     }
   },
   "register": {
-    "signUpYourAccount": "Zarejestruj swoje konto"
+    "signUpYourAccount": "Zarejestruj swoje konto",
+    "username": "Nazwa użytkownika",
+    "password": "Hasło",
+    "email": "Email",
+    "alreadyHaveAccount": "Masz już konto?"
   },
   "login": {
-    "logInToYourAccount": "Zaloguj się na swoje konto"
+    "logInToYourAccount": "Zaloguj się na swoje konto",
+    "email": "Email",
+    "password": "Hasło",
+    "loggingIn": "Logowanie...",
+    "noAccount": "Nie masz konta?"
   },
   "currentView": {
     "all": "Wszystkie",
     "weekly": "Tygodniowy",
     "finished": "Ukończone",
     "gym": "Siłownia"
+  },
+  "chooseAvatar": {
+    "title": "Wybierz swój awatar",
+    "description": "Proszę wybrać awatar, który będzie dla Ciebie najlepszy",
+    "avatar1": "Awatar 1",
+    "avatar2": "Awatar 2",
+    "avatar3": "Awatar 3",
+    "avatar4": "Awatar 4",
+    "avatar5": "Awatar 5",
+    "avatar6": "Awatar 6",
+    "male": "Mężczyzna",
+    "female": "Kobieta"
+  },
+  "chooseAvatarHeader": "Wybieranie zdjęcia",
+  "sportLevelHeader": "Stopień zaawansowania",
+  "step": "Krok",
+  "userInfo": "Informacje o użytkowniku",
+  "sportLevel": "Poziom sportowy",
+  "back": "Wstecz",
+  "next": "Dalej",
+  "finish": "Zakończ",
+  "sportLevel": {
+    "weCantWait": "Nie możemy się doczekać, aby Cię poznać.",
+    "fillDetails": "Proszę wypełnij poniższe dane, abyśmy mogli się z Tobą skontaktować."
+  },
+  "userBasicData": {
+    "introTitle": "Nie możemy się doczekać, aby Cię poznać.",
+    "introDescription": "Proszę wypełnij poniższe dane, abyśmy mogli się z Tobą skontaktować.",
+    "nicknameLabel": "Pseudonim",
+    "nicknamePlaceholder": "Pseudonim",
+    "emailLabel": "Email",
+    "emailPlaceholder": "example@gmail.com",
+    "passwordLabel": "Hasło",
+    "passwordPlaceholder": "●●●●●●",
+    "genderLabel": "Płeć",
+    "genderPlaceholder": "Wybierz płeć",
+    "genderMale": "Mężczyzna",
+    "genderFemale": "Kobieta",
+    "birthYearLabel": "Rok urodzenia",
+    "birthYearPlaceholder": "RRRR",
+    "birthYearTitle": "Proszę wprowadzić prawidłowy 4-cyfrowy rok"
   }
 }

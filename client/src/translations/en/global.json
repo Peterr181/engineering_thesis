@@ -213,10 +213,18 @@
     "search": "Search"
   },
   "register": {
-    "signUpYourAccount": "Sign up your account"
+    "signUpYourAccount": "Sign up your account",
+    "username": "Username",
+    "password": "Password",
+    "email": "Email",
+    "alreadyHaveAccount": "Already have an account?"
   },
   "login": {
-    "logInToYourAccount": "Log in to your account"
+    "logInToYourAccount": "Log in to your account",
+    "email": "Email",
+    "password": "Password",
+    "loggingIn": "Logging in...",
+    "noAccount": "Don't have an account?"
   },
   "finder": {
     "title": "Look for new sport places",
@@ -286,7 +294,8 @@
     "workoutAdded": "Workout added successfully!",
     "deleteGymWorkouts": "Delete Gym Workouts",
     "confirmDeleteGymWorkouts": "Are you sure you want to delete all Gym workouts?",
-    "enterDetails": "Enter workout day"
+    "enterDetails": "Enter workout day",
+    "toYourPlan": "to your plan"
   },
   "minutes": "Minutes",
   "exercisesList": {
@@ -460,5 +469,45 @@
     "weekly": "Weekly",
     "finished": "Finished",
     "gym": "Gym"
-  }
+  },
+  "chooseAvatar": {
+    "title": "Choose Your Avatar",
+    "description": "Please choose the avatar that will be the best for you",
+    "avatar1": "Avatar 1",
+    "avatar2": "Avatar 2",
+    "avatar3": "Avatar 3",
+    "avatar4": "Avatar 4",
+    "avatar5": "Avatar 5",
+    "avatar6": "Avatar 6",
+    "male": "Male",
+    "female": "Female"
+  },
+  "chooseAvatarHeader": "Choose your avatar",
+  "sportLevelHeader": "Choose sport level",
+  "step": "Step",
+  "userInfo": "User Info",
+  "sportLevel": "Sport Level",
+  "sportLevel": {
+    "weCantWait": "We can't wait to meet you.",
+    "fillDetails": "Please fill in the details below so that we can get in contact with you."
+  },
+  "userBasicData": {
+    "introTitle": "We can't wait to meet you.",
+    "introDescription": "Please fill in the details below so that we can get in contact with you.",
+    "nicknameLabel": "Nickname",
+    "nicknamePlaceholder": "Nickname",
+    "emailLabel": "Email",
+    "emailPlaceholder": "example@gmail.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "●●●●●●",
+    "genderLabel": "Gender",
+    "genderPlaceholder": "Select Gender",
+    "genderMale": "Male",
+    "genderFemale": "Female",
+    "birthYearLabel": "Birth Year",
+    "birthYearPlaceholder": "YYYY",
+    "birthYearTitle": "Please enter a valid 4-digit year"
+  },
+  "back": "Back",
+  "next": "Next"
 }

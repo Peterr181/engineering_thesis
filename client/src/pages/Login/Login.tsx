@@ -34,7 +34,7 @@ const Login = () => {
               type="email"
               id="email"
               name="email"
-              placeholder="E-mail"
+              placeholder={t("login.email")}
               onChange={(e) =>
                 setLoginValues({
                   ...loginValues,
@@ -48,7 +48,7 @@ const Login = () => {
               type="password"
               id="password"
               name="password"
-              placeholder="Password"
+              placeholder={t("login.password")}
               onChange={(e) =>
                 setLoginValues({
                   ...loginValues,
@@ -58,13 +58,15 @@ const Login = () => {
             />
           </div>
           <Button variant="loginRegister" submit disabled={loading}>
-            {loading ? "Logging in..." : "Log In"}
+            {loading ? t("login.loggingIn") : t("login.logInToYourAccount")}
           </Button>
           {error && <p className={styles.error}>{error}</p>}
           <p>
-            Don't have an account?{" "}
+            {t("login.noAccount")}{" "}
             <Link to="/multistepregister">
-              <span className={styles.signUp}>Sign up</span>
+              <span className={styles.signUp}>
+                {t("register.signUpYourAccount")}
+              </span>
             </Link>
           </p>
         </form>
