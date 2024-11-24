@@ -9,12 +9,14 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { ChartDataType } from "../../../data/chartData";
+import { useLanguage } from "../../../context/LanguageProvider";
 
 interface Props {
   data: ChartDataType[];
 }
 
 const LineChartObject: React.FC<Props> = ({ data }) => {
+  const { t } = useLanguage();
   return (
     <div className={styles.chartContainer}>
       <ResponsiveContainer width="100%" height="100%">
@@ -35,7 +37,12 @@ const LineChartObject: React.FC<Props> = ({ data }) => {
             stroke="#C0C0C0"
           />
           <Tooltip />
-          <Line type="monotone" dataKey="minutes" stroke="#4cbb17" />
+          <Line
+            type="monotone"
+            dataKey="minutes"
+            stroke="#4cbb17"
+            name={t("minutes")}
+          />
         </LineChart>
       </ResponsiveContainer>
     </div>

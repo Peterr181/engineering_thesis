@@ -1,0 +1,29 @@
+.mealsStatistics {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--rythm-32);
+
+    @media screen and (max-width: 1100px) {
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    h2 {
+      font-size: 18px;
+    }
+  }
+}
+
+.calories {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.selectRange {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}

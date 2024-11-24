@@ -342,6 +342,21 @@
     "November": "November",
     "December": "December"
   },
+  "monthsList2": {
+    "styczen": "January",
+    "luty": "February",
+    "marzec": "March",
+    "kwiecien": "April",
+    "maj": "May",
+    "czerwiec": "June",
+    "lipiec": "July",
+    "sierpien": "August",
+    "wrzesien": "September",
+    "pazdziernik": "October",
+    "listopad": "November",
+    "grudzien": "December"
+  },
+
   "filterCategories": {
     "All": "All",
     "Cardio": "Cardio",
@@ -509,5 +524,20 @@
     "birthYearTitle": "Please enter a valid 4-digit year"
   },
   "back": "Back",
-  "next": "Next"
+  "next": "Next",
+  "workoutStatistics": {
+    "title": "Workout Statistics",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "yearly": "Yearly"
+  },
+  "statisticsSectionHeader": "Statistics",
+  "statisticsSectionDesc": "Here you can find all your workout statistics. You can filter them by day, week, month, or year.",
+  "mealsStatistics": {
+    "title": "Nutrition Statistics (last 14 days)",
+    "calories": "Calories",
+    "selectRange": "Select days range",
+    "selectDays": "Days"
+  }
 }

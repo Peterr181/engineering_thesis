@@ -97,6 +97,7 @@ const CreatingWorkout = () => {
         minutes: minutes,
         id: 0,
         finished: false,
+        created_at: new Date().toISOString(), // Add this line
       };
 
       try {

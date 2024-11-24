@@ -335,6 +335,21 @@
     "November": "Listopad",
     "December": "Grudzień"
   },
+  "monthsList2": {
+    "styczen": "Styczeń",
+    "luty": "Luty",
+    "marzec": "Marzec",
+    "kwiecien": "Kwiecień",
+    "maj": "Maj",
+    "czerwiec": "Czerwiec",
+    "lipiec": "Lipiec",
+    "sierpien": "Sierpień",
+    "wrzesien": "Wrzesień",
+    "pazdziernik": "Październik",
+    "listopad": "Listopad",
+    "grudzien": "Grudzień"
+  },
+
   "filterCategories": {
     "All": "Wszystkie",
     "Cardio": "Cardio",
@@ -515,5 +530,20 @@
     "birthYearLabel": "Rok urodzenia",
     "birthYearPlaceholder": "RRRR",
     "birthYearTitle": "Proszę wprowadzić prawidłowy 4-cyfrowy rok"
+  },
+  "workoutStatistics": {
+    "title": "Statystyki Treningów",
+    "daily": "Dziennie",
+    "weekly": "Tygodniowo",
+    "monthly": "Miesięcznie",
+    "yearly": "Rocznie"
+  },
+  "statisticsSectionHeader": "Statystyki",
+  "statisticsSectionDesc": "Sprawdź swoje statystyki treningowe, aby zobaczyć swój postęp.",
+  "mealsStatistics": {
+    "title": "Statystyki odżywiania (ostatnie 14 dni)",
+    "calories": "Kalorie",
+    "selectRange": "Wybierz przedział dni",
+    "selectDays": "Dni"
   }
 }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import dayjs from "dayjs";
 
 interface Meal {
   id?: string;
@@ -12,6 +13,10 @@ interface Meal {
   grams: number;
 }
 
+interface ArchivedMeal {
+  date_added: string;
+}
+
 export const useMeals = (userId?: string) => {
   const [meals, setMeals] = useState<Meal[]>([]);
   const [mealSummaryData, setMealSummaryData] = useState<{
@@ -20,8 +25,12 @@ export const useMeals = (userId?: string) => {
     totalCarbs: number;
     totalFats: number;
   } | null>(null);
+
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [availableDates, setAvailableDates] = useState<string[]>([]);
+
+  const [uniqueDates, setUniqueDates] = useState<string[]>([]);
 
   axios.defaults.withCredentials = true;
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -97,6 +106,38 @@ export const useMeals = (userId?: string) => {
     }
   };
 
+  const fetchDailyNutrientSummary = async (date: string) => {
+    if (!isAuthenticated()) {
+      setError("User not authenticated.");
+      return null;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      }
+
+      const res = await axios.get(`${apiUrl}/api/meals/summary/daily/${date}`);
+
+      if (res.data) {
+        return res.data;
+      } else {
+        return null;
+      }
+    } catch (err) {
+      setError("Error fetching daily nutrient summary.");
+      console.error("Error fetching daily nutrient summary:", err);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const addMeal = async (newMeal: Meal) => {
     if (!isAuthenticated()) {
       setError("User not authenticated.");
@@ -154,6 +195,28 @@ export const useMeals = (userId?: string) => {
     return [];
   };
 
+  const fetchAllArchivedMeals = async () => {
+    try {
+      const meals = await fetchArchivedMeals();
+
+      const dates: string[] = Array.from(
+        new Set(
+          meals.map((meal: ArchivedMeal) =>
+            dayjs(meal.date_added).format("YYYY-MM-DD")
+          )
+        )
+      );
+
+      const filteredDates = dates.filter((date: string) =>
+        dayjs(date).isBefore(dayjs(), "day")
+      );
+
+      setUniqueDates(filteredDates as string[]);
+    } catch (error) {
+      console.error("Error fetching archived meals:", error);
+    }
+  };
+
   const deleteMeal = async (mealId: string) => {
     if (!isAuthenticated()) {
       setError("User not authenticated.");
@@ -180,6 +243,35 @@ export const useMeals = (userId?: string) => {
     }
   };
 
+  const fetchAvailableMealDates = async () => {
+    if (!isAuthenticated()) {
+      setError("User not authenticated.");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      }
+
+      const res = await axios.get(`${apiUrl}/api/meals/available-dates`);
+
+      if (res.data) {
+        setAvailableDates(res.data.dates);
+      }
+    } catch (err) {
+      setError("Error fetching available meal dates.");
+      console.error("Error fetching available meal dates:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     meals,
     fetchMeals,
@@ -187,6 +279,12 @@ export const useMeals = (userId?: string) => {
     mealSummaryData,
     addMeal,
     deleteMeal,
+    fetchDailyNutrientSummary,
+
+    fetchAvailableMealDates,
+    availableDates,
+    fetchAllArchivedMeals,
+    uniqueDates,
     error,
     loading,
   };

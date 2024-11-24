@@ -130,3 +130,52 @@ export const getArchivedMeals = (req, res) => {
     return res.status(200).json({ meals: results });
   });
 };
+
+export const getDailyNutrientSummary = (req, res) => {
+  const userId = req.user.userId;
+  const { date } = req.params;
+
+  const sql = `SELECT SUM(calories) AS totalCalories, 
+                      SUM(protein) AS totalProtein, 
+                      SUM(carbs) AS totalCarbs, 
+                      SUM(fats) AS totalFats 
+               FROM meals 
+               WHERE user_id = ? AND DATE(date_added) = ?`;
+
+  db.query(sql, [userId, date], (err, results) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Database error occurred." });
+    }
+
+    const summary = results[0];
+    return res.status(200).json({
+      totalCalories: summary.totalCalories || 0,
+      totalProtein: summary.totalProtein || 0,
+      totalCarbs: summary.totalCarbs || 0,
+      totalFats: summary.totalFats || 0,
+    });
+  });
+};
+
+export const getAvailableMealDates = (req, res) => {
+  const userId = req.user.userId;
+
+  const sql = `SELECT date FROM (
+                 SELECT DISTINCT DATE(date_added) AS date
+                 FROM meals
+                 WHERE user_id = ?
+                 AND archived = 0
+               ) AS subquery
+               ORDER BY date DESC`;
+
+  db.query(sql, [userId], (err, results) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Database error occurred." });
+    }
+
+    const dates = results.map((row) => row.date);
+    return res.status(200).json({ dates });
+  });
+};
