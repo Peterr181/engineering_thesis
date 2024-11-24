@@ -342,6 +342,21 @@
     "November": "November",
     "December": "December"
   },
+  "monthsList2": {
+    "styczen": "January",
+    "luty": "February",
+    "marzec": "March",
+    "kwiecien": "April",
+    "maj": "May",
+    "czerwiec": "June",
+    "lipiec": "July",
+    "sierpien": "August",
+    "wrzesien": "September",
+    "pazdziernik": "October",
+    "listopad": "November",
+    "grudzien": "December"
+  },
+
   "filterCategories": {
     "All": "All",
     "Cardio": "Cardio",

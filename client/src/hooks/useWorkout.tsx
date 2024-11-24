@@ -12,7 +12,7 @@ interface Workout {
   exercise_name?: string;
   minutes: number;
   workout_id: string;
-  created_at: string;
+  created_at?: string;
 }
 
 export const useWorkouts = (userId?: string) => {
@@ -145,6 +145,7 @@ export const useWorkouts = (userId?: string) => {
         ); // Sunday
 
         weeklyData = workouts.filter((workout) => {
+          if (!workout.created_at) return false;
           const workoutDate = new Date(workout.created_at);
           return workoutDate >= startOfWeek && workoutDate <= endOfWeek;
         });

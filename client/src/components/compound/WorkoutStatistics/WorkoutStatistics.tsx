@@ -57,6 +57,7 @@ const WorkoutStatistics: React.FC<WorkoutStatisticsProps> = ({ userId }) => {
         const hours = Array.from({ length: 24 }, (_, i) => `${i}:00`);
         return hours.map((hour) => {
           const workoutForHour = dataToFormat.find((workout) => {
+            if (!workout.created_at) return false;
             const workoutDate = new Date(workout.created_at);
             return workoutDate.getHours() === parseInt(hour.split(":")[0]);
           });
@@ -89,13 +90,21 @@ const WorkoutStatistics: React.FC<WorkoutStatisticsProps> = ({ userId }) => {
           new Date().getMonth() + 1,
           0
         ).getDate();
-        const days = Array.from({ length: daysInMonth }, (_, i) => `${i + 1}`);
+        const monthName = t(
+          `monthsList2.${new Date().toLocaleString("default", {
+            month: "long",
+          })}`
+        );
+        const days = Array.from(
+          { length: daysInMonth },
+          (_, i) => `${i + 1} ${monthName}`
+        );
         return days.map((day) => {
           const totalMinutes = dataToFormat
-            .filter(
-              (workout) =>
-                new Date(workout.created_at).getDate() === parseInt(day)
-            )
+            .filter((workout) => {
+              if (!workout.created_at) return false;
+              return new Date(workout.created_at).getDate() === parseInt(day);
+            })
             .reduce((sum, workout) => sum + workout.minutes, 0);
           return {
             day,
@@ -107,9 +116,10 @@ const WorkoutStatistics: React.FC<WorkoutStatisticsProps> = ({ userId }) => {
         const months = Array.from({ length: 12 }, (_, i) => `Month ${i + 1}`);
         return months.map((month, index) => {
           const totalMinutes = dataToFormat
-            .filter(
-              (workout) => new Date(workout.created_at).getMonth() === index
-            )
+            .filter((workout) => {
+              if (!workout.created_at) return false;
+              return new Date(workout.created_at).getMonth() === index;
+            })
             .reduce((sum, workout) => sum + workout.minutes, 0);
           return {
             day: month,

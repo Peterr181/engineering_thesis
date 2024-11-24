@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./MealsStatistics.module.scss";
 import { useMeals } from "../../../hooks/useMeals";
 import StackedBarChart from "../PieChart/StackedBarChart";
