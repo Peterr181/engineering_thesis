@@ -29,22 +29,10 @@ const Sidebar = () => {
       link: "/",
     },
     {
-      id: "workouts",
-      icon: iconFile.barbellIcon,
-      text: t("sidebar.workouts"),
-      link: "/workouts",
-    },
-    {
-      id: "chats",
-      icon: iconFile.onlineChat,
-      text: t("sidebar.chats"),
-      link: "/chatrooms",
-    },
-    {
       id: "meals",
       icon: iconFile.mealIcon,
       text: t("sidebar.diet"),
-      link: "/meals",
+      link: "/mealsplan",
     },
     {
       id: "workoutplan",
@@ -64,6 +52,12 @@ const Sidebar = () => {
       icon: iconFile.statisticsIcon,
       text: t("sidebar.statistics"),
       link: "/statistics",
+    },
+    {
+      id: "chats",
+      icon: iconFile.onlineChat,
+      text: t("sidebar.chats"),
+      link: "/chatrooms",
     },
     {
       id: "users",

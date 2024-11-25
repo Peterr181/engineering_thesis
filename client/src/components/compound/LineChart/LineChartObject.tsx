@@ -13,12 +13,14 @@ import { useLanguage } from "../../../context/LanguageProvider";
 
 interface Props {
   data: ChartDataType[];
+  monthName?: string;
 }
 
-const LineChartObject: React.FC<Props> = ({ data }) => {
+const LineChartObject: React.FC<Props> = ({ data, monthName }) => {
   const { t } = useLanguage();
   return (
     <div className={styles.chartContainer}>
+      {monthName && <div className={styles.monthName}>{monthName}</div>}
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
           data={data}

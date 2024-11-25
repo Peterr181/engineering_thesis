@@ -11,11 +11,38 @@
   margin: 0 auto;
   position: relative;
 
+  @media (max-width: 700px) {
+    width: 100%;
+    margin-top: 20px !important;
+    margin-bottom: 50px !important;
+    padding: 1rem;
+
+    img {
+      display: none;
+    }
+  }
+
+  @media (max-width: 700px) {
+    width: 100%;
+    margin-top: 100px !important;
+    margin-bottom: 50px !important;
+    padding: 1rem;
+
+    img {
+      display: none;
+    }
+  }
+
   &__buttons {
     display: flex;
     justify-content: end;
     margin-top: 2rem;
     gap: 1rem;
+
+    @media (max-width: 700px) {
+      flex-direction: column;
+      align-items: center;
+    }
   }
 }
 

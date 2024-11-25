@@ -9,7 +9,21 @@
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+
   position: relative;
+  @media (max-width: 700px) {
+    width: 100%;
+    margin-top: 100px !important;
+    margin-bottom: 50px !important;
+  }
+
+  @media (max-width: 500px) {
+    width: 100%;
+    margin-top: 200px !important;
+    margin-bottom: 50px !important;
+  }
 
   &__buttons {
     display: flex;
@@ -86,4 +100,50 @@ img {
 
   opacity: 0.3; // Slightly visible
   z-index: 1; // Ensure it's behind the form but above the background
+}
+
+@media (max-width: 1200px) {
+  .personalGoals {
+    width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .personalGoals {
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  .inputField {
+    margin-bottom: 1rem;
+  }
+
+  .backBtn,
+  .finishBtn {
+    padding: 15px 20px;
+    font-size: 14px;
+  }
+
+  .questionMarkOverlay img,
+  .fitnessAppOverlay img {
+    width: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .personalGoals {
+    width: 100%;
+    padding: 0 0.5rem;
+  }
+
+  .backBtn,
+  .finishBtn {
+    padding: 10px 15px;
+    font-size: 12px;
+  }
+
+  .questionMarkOverlay img,
+  .fitnessAppOverlay img {
+    width: 100px;
+  }
 }

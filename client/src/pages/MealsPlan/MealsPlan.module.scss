@@ -62,6 +62,11 @@
   padding: 16px;
   flex-direction: column;
 
+  @media screen and (max-width: 768px) {
+    justify-content: center;
+    align-items: center;
+  }
+
   border-bottom: 1px solid #e6e6e6;
 
   button {
@@ -104,6 +109,10 @@
   color: gray;
   display: flex;
   gap: 8px;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 }
 
 .mealList.show {
@@ -193,6 +202,11 @@
   margin-bottom: 16px;
   button {
     font-weight: 600;
+  }
+
+  @media screen and (max-width: 768px) {
+    display: flex;
+    justify-content: center;
   }
 }
 
@@ -305,8 +319,61 @@
   justify-content: center;
 }
 
+.mealCalories2 {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+
+  span {
+    color: var(--body_color) !important;
+  }
+
+  &__total {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 0 auto;
+  }
+
+  &__calories {
+    border: 2px solid rgb(119, 235, 119);
+  }
+  &__protein {
+    border: 2px solid rgb(124, 124, 235);
+  }
+  &__carbs {
+    border: 2px solid rgb(233, 177, 74);
+  }
+  &__fats {
+    border: 2px solid rgb(235, 107, 235);
+  }
+  span {
+    padding: var(--rythm-8) var(--rythm-16);
+    border-radius: 21px;
+    color: #333;
+    font-weight: 500;
+  }
+}
+
 .emptyMessage {
   text-align: center;
+}
+
+.addMealMobile1 {
+  display: none;
+}
+
+@media screen and (max-width: 1000px) {
+  .mealsPlanButtons {
+    flex-direction: column;
+    gap: 16px;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -318,6 +385,17 @@
       font-weight: 500;
       font-size: 12px;
     }
+
+    &__total {
+      flex-direction: column;
+      margin-top: 0px;
+    }
+  }
+
+  .addMealMobile1 {
+    display: block;
+    margin-top: 16px;
+    display: flex;
   }
 
   .addMealMobile {
@@ -328,5 +406,11 @@
     flex-direction: column;
     gap: 16px;
     text-align: center;
+  }
+
+  .mealCalories {
+    span {
+      font-size: 10px;
+    }
   }
 }

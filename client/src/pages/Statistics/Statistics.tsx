@@ -17,7 +17,9 @@ const Statistics = () => {
             <p>{t("statisticsSectionDesc")}</p>
             <div className={styles.statistics__workouts}>
               <WorkoutStatistics />
+              <div className={styles.divider}></div>
               <MealsStatistics />
+              <div className={styles.divider}></div>
               <GoalsStatistics />
             </div>
           </WhiteCardWrapper>

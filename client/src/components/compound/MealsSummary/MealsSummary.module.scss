@@ -9,6 +9,10 @@
     align-items: center;
     gap: 16px;
     flex-wrap: wrap;
+
+    @media (max-width: 1200px) {
+      margin-top: 16px;
+    }
   }
 
   &__item {
@@ -96,6 +100,7 @@
 
   .mealCalories__total {
     flex-direction: column;
+    margin-top: 0px;
   }
 
   .mealCalories__item {

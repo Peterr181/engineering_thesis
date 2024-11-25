@@ -416,7 +416,7 @@ const MealsPlan = () => {
                 </Dialog>
               </div>
               {["breakfast", "lunch", "dinner", "snacks", "supper"].map(
-                (section) => {
+                (section: string) => {
                   const sectionMeals = isViewingArchived
                     ? selectedDateMeals.filter((meal) => meal.type === section)
                     : meals.filter((meal) => meal.type === section);
@@ -472,6 +472,20 @@ const MealsPlan = () => {
                           {totals.totalFats}g {t("mealsPlan.fats")}
                         </span>
                       </div>
+                      {!isViewingArchived && sectionMeals.length === 0 && (
+                        <div className={styles.addMealMobile1}>
+                          <Button
+                            variant="contained"
+                            color="success"
+                            onClick={() => {
+                              handleOpenDialog(section);
+                              setIsMealAdded(false);
+                            }}
+                          >
+                            {t("mealsPlan.addMeal")}
+                          </Button>
+                        </div>
+                      )}
                       {sectionMeals.length > 0 ? (
                         <ul
                           className={`${styles.mealList} ${
@@ -578,7 +592,7 @@ const MealsPlan = () => {
                             alt={meal.name}
                             className={styles.mealImage}
                           />
-                          <div className={styles.mealCalories}>
+                          <div className={styles.mealCalories2}>
                             <span className={styles.mealCalories__calories}>
                               {Math.round((meal.calories * grams) / 100)}{" "}
                               {t("mealsPlan.kcal")}

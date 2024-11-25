@@ -12,6 +12,7 @@ const WorkoutStatistics: React.FC<WorkoutStatisticsProps> = ({ userId }) => {
   const [currentMode, setCurrentMode] = useState<
     "day" | "week" | "month" | "year"
   >("week");
+  const [currentMonthName, setCurrentMonthName] = useState<string>("");
   const { t } = useLanguage();
   const {
     workouts,
@@ -31,6 +32,13 @@ const WorkoutStatistics: React.FC<WorkoutStatisticsProps> = ({ userId }) => {
         fetchWeeklyWorkouts();
         break;
       case "month":
+        setCurrentMonthName(
+          t(
+            `monthsList2.${new Date().toLocaleString("default", {
+              month: "long",
+            })}`
+          )
+        );
         fetchMonthlyWorkouts();
         break;
       case "year":
@@ -90,15 +98,7 @@ const WorkoutStatistics: React.FC<WorkoutStatisticsProps> = ({ userId }) => {
           new Date().getMonth() + 1,
           0
         ).getDate();
-        const monthName = t(
-          `monthsList2.${new Date().toLocaleString("default", {
-            month: "long",
-          })}`
-        );
-        const days = Array.from(
-          { length: daysInMonth },
-          (_, i) => `${i + 1} ${monthName}`
-        );
+        const days = Array.from({ length: daysInMonth }, (_, i) => `${i + 1}`);
         return days.map((day) => {
           const totalMinutes = dataToFormat
             .filter((workout) => {
@@ -137,7 +137,12 @@ const WorkoutStatistics: React.FC<WorkoutStatisticsProps> = ({ userId }) => {
   return (
     <div className={styles.workoutStatistics}>
       <div className={styles.header}>
-        <h2>{t("workoutStatistics.title")}</h2>
+        <div className={styles.header__heading}>
+          <h2>{t("workoutStatistics.title")}</h2>
+          {currentMode === "month" && (
+            <div className={styles.monthName}>({currentMonthName})</div>
+          )}
+        </div>
         <div className={styles.buttons}>
           <button onClick={() => handleModeChange("day")}>
             {t("workoutStatistics.daily")}
@@ -153,6 +158,7 @@ const WorkoutStatistics: React.FC<WorkoutStatisticsProps> = ({ userId }) => {
           </button>
         </div>
       </div>
+
       <LineChartObject data={formatChartData()} />
     </div>
   );

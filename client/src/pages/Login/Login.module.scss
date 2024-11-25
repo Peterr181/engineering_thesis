@@ -9,6 +9,10 @@
   font-size: var(--rythm-16);
   position: relative;
 
+  @media screen and (max-width: 768px) {
+    padding: 0 1rem;
+  }
+
   &__info {
     display: flex;
     flex-direction: column;

@@ -78,12 +78,15 @@ const PersonalGoals: React.FC = () => {
   };
 
   return (
-    <div className={styles.personalGoals}>
+    <div className={`${styles.personalGoals} ${styles.responsive}`}>
       <WhiteCardWrapper>
         <h2>{t("personalGoals.title")}</h2>
         <p>{t("personalGoals.description")}</p>
 
-        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className={`${styles.form} ${styles.responsiveForm}`}
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <Controller
             name="favorite_training_type"
             control={control}
@@ -100,9 +103,15 @@ const PersonalGoals: React.FC = () => {
                   helperText={errors.favorite_training_type?.message}
                 >
                   <MenuItem value="Gym">{t("personalGoals.gym")}</MenuItem>
-                  <MenuItem value="Cardio">{t("personalGoals.cardio")}</MenuItem>
-                  <MenuItem value="Flexibility">{t("personalGoals.flexibility")}</MenuItem>
-                  <MenuItem value="Combat">{t("personalGoals.combat")}</MenuItem>
+                  <MenuItem value="Cardio">
+                    {t("personalGoals.cardio")}
+                  </MenuItem>
+                  <MenuItem value="Flexibility">
+                    {t("personalGoals.flexibility")}
+                  </MenuItem>
+                  <MenuItem value="Combat">
+                    {t("personalGoals.combat")}
+                  </MenuItem>
                   <MenuItem value="Other">{t("personalGoals.other")}</MenuItem>
                 </TextField>
               </div>
@@ -123,9 +132,15 @@ const PersonalGoals: React.FC = () => {
                   error={!!errors.current_fitness_goals}
                   helperText={errors.current_fitness_goals?.message}
                 >
-                  <MenuItem value="Lose weight">{t("personalGoals.loseWeight")}</MenuItem>
-                  <MenuItem value="Gain weight">{t("personalGoals.gainWeight")}</MenuItem>
-                  <MenuItem value="Just stay healthy">{t("personalGoals.stayHealthy")}</MenuItem>
+                  <MenuItem value="Lose weight">
+                    {t("personalGoals.loseWeight")}
+                  </MenuItem>
+                  <MenuItem value="Gain weight">
+                    {t("personalGoals.gainWeight")}
+                  </MenuItem>
+                  <MenuItem value="Just stay healthy">
+                    {t("personalGoals.stayHealthy")}
+                  </MenuItem>
                 </TextField>
               </div>
             )}
@@ -263,15 +278,25 @@ const PersonalGoals: React.FC = () => {
                   error={!!errors.workout_frequency}
                   helperText={errors.workout_frequency?.message}
                 >
-                  <MenuItem value="1-2 workouts per week">{t("personalGoals.workoutFrequencyOptions.1-2")}</MenuItem>
-                  <MenuItem value="2-3 workouts per week">{t("personalGoals.workoutFrequencyOptions.2-3")}</MenuItem>
-                  <MenuItem value="3-4 workouts per week">{t("personalGoals.workoutFrequencyOptions.3-4")}</MenuItem>
-                  <MenuItem value="4-5 workouts per week">{t("personalGoals.workoutFrequencyOptions.4-5")}</MenuItem>
+                  <MenuItem value="1-2 workouts per week">
+                    {t("personalGoals.workoutFrequencyOptions.1-2")}
+                  </MenuItem>
+                  <MenuItem value="2-3 workouts per week">
+                    {t("personalGoals.workoutFrequencyOptions.2-3")}
+                  </MenuItem>
+                  <MenuItem value="3-4 workouts per week">
+                    {t("personalGoals.workoutFrequencyOptions.3-4")}
+                  </MenuItem>
+                  <MenuItem value="4-5 workouts per week">
+                    {t("personalGoals.workoutFrequencyOptions.4-5")}
+                  </MenuItem>
                 </TextField>
               </div>
             )}
           />
-          <div className={styles.personalGoals__buttons}>
+          <div
+            className={`${styles.personalGoals__buttons} ${styles.responsiveButtons}`}
+          >
             <Link to="/">
               <button type="button" className={styles.backBtn}>
                 {t("personalGoals.back")}
