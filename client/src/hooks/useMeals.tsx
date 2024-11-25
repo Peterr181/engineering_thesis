@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { create } from "zustand";
 import axios from "axios";
 import dayjs from "dayjs";
 
@@ -11,44 +11,68 @@ interface Meal {
   carbs: number;
   fats: number;
   grams: number;
+  date_added: string; // Add this line
 }
 
-interface ArchivedMeal {
-  date_added: string;
+interface MealSummaryData {
+  totalCalories: number;
+  totalProtein: number;
+  totalCarbs: number;
+  totalFats: number;
 }
 
-export const useMeals = (userId?: string) => {
-  const [meals, setMeals] = useState<Meal[]>([]);
-  const [mealSummaryData, setMealSummaryData] = useState<{
-    totalCalories: number;
-    totalProtein: number;
-    totalCarbs: number;
-    totalFats: number;
-  } | null>(null);
+interface MealsState {
+  meals: Meal[];
+  mealSummaryData: MealSummaryData | null;
+  error: string | null;
+  loading: boolean;
+  availableDates: string[];
+  uniqueDates: string[];
+  setMeals: (meals: Meal[]) => void;
+  setMealSummaryData: (data: MealSummaryData) => void;
+  setError: (error: string | null) => void;
+  setLoading: (loading: boolean) => void;
+  setAvailableDates: (dates: string[]) => void;
+  setUniqueDates: (dates: string[]) => void;
+  fetchMeals: (userId?: string) => Promise<void>;
+  fetchMealSummary: (userId?: string) => Promise<void>;
+  fetchDailyNutrientSummary: (date: string) => Promise<MealSummaryData | null>;
+  addMeal: (newMeal: Meal) => Promise<void>;
+  fetchArchivedMeals: () => Promise<Meal[]>;
+  fetchAllArchivedMeals: () => Promise<void>;
+  deleteMeal: (mealId: string) => Promise<void>;
+  fetchAvailableMealDates: () => Promise<void>;
+}
 
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [availableDates, setAvailableDates] = useState<string[]>([]);
+axios.defaults.withCredentials = true;
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-  const [uniqueDates, setUniqueDates] = useState<string[]>([]);
+const isAuthenticated = () => {
+  const token = localStorage.getItem("token");
+  return !!token;
+};
 
-  axios.defaults.withCredentials = true;
-  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
-  const isAuthenticated = () => {
-    const token = localStorage.getItem("token");
-    return !!token;
-  };
-
-  const fetchMeals = async () => {
+export const useMealsStore = create<MealsState>((set) => ({
+  meals: [],
+  mealSummaryData: null,
+  error: null,
+  loading: false,
+  availableDates: [],
+  uniqueDates: [],
+  setMeals: (meals) => set({ meals }),
+  setMealSummaryData: (data) => set({ mealSummaryData: data }),
+  setError: (error) => set({ error }),
+  setLoading: (loading) => set({ loading }),
+  setAvailableDates: (dates) => set({ availableDates: dates }),
+  setUniqueDates: (dates) => set({ uniqueDates: dates }),
+  fetchMeals: async (userId) => {
     if (!isAuthenticated()) {
-      setError("User not authenticated.");
+      set({ error: "User not authenticated." });
       return;
     }
 
-    setLoading(true);
-    setError(null);
-    await fetchMealSummary();
+    set({ loading: true, error: null });
+    await useMealsStore.getState().fetchMealSummary(userId);
 
     try {
       const token = localStorage.getItem("token");
@@ -64,24 +88,22 @@ export const useMeals = (userId?: string) => {
       const res = await axios.get(url);
 
       if (res.data) {
-        setMeals(res.data.meals);
+        set({ meals: res.data.meals });
       }
     } catch (err) {
-      setError("Error fetching meals.");
+      set({ error: "Error fetching meals." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  const fetchMealSummary = async () => {
+  },
+  fetchMealSummary: async (userId) => {
     if (!isAuthenticated()) {
-      setError("User not authenticated.");
+      set({ error: "User not authenticated." });
       return;
     }
 
-    setLoading(true);
-    setError(null);
+    set({ loading: true, error: null });
 
     try {
       const token = localStorage.getItem("token");
@@ -96,24 +118,22 @@ export const useMeals = (userId?: string) => {
       const res = await axios.get(summaryUrl);
 
       if (res.data) {
-        setMealSummaryData(res.data);
+        set({ mealSummaryData: res.data });
       }
     } catch (err) {
-      setError("Error fetching meal summary.");
+      set({ error: "Error fetching meal summary." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  const fetchDailyNutrientSummary = async (date: string) => {
+  },
+  fetchDailyNutrientSummary: async (date) => {
     if (!isAuthenticated()) {
-      setError("User not authenticated.");
+      set({ error: "User not authenticated." });
       return null;
     }
 
-    setLoading(true);
-    setError(null);
+    set({ loading: true, error: null });
 
     try {
       const token = localStorage.getItem("token");
@@ -130,22 +150,20 @@ export const useMeals = (userId?: string) => {
         return null;
       }
     } catch (err) {
-      setError("Error fetching daily nutrient summary.");
+      set({ error: "Error fetching daily nutrient summary." });
       console.error("Error fetching daily nutrient summary:", err);
       return null;
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  const addMeal = async (newMeal: Meal) => {
+  },
+  addMeal: async (newMeal) => {
     if (!isAuthenticated()) {
-      setError("User not authenticated.");
+      set({ error: "User not authenticated." });
       return;
     }
 
-    setLoading(true);
-    setError(null);
+    set({ loading: true, error: null });
     try {
       const token = localStorage.getItem("token");
 
@@ -155,25 +173,23 @@ export const useMeals = (userId?: string) => {
 
       const res = await axios.post(`${apiUrl}/api/meals`, newMeal);
       if (res.data) {
-        setMeals((prevMeals) => [...prevMeals, res.data]);
-        await fetchMealSummary();
+        set((state) => ({ meals: [...state.meals, res.data] }));
+        await useMealsStore.getState().fetchMealSummary();
       }
     } catch (err) {
-      setError("Error adding new meal.");
+      set({ error: "Error adding new meal." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  const fetchArchivedMeals = async () => {
+  },
+  fetchArchivedMeals: async () => {
     if (!isAuthenticated()) {
-      setError("User not authenticated.");
-      return;
+      set({ error: "User not authenticated." });
+      return [];
     }
 
-    setLoading(true);
-    setError(null);
+    set({ loading: true, error: null });
 
     try {
       const token = localStorage.getItem("token");
@@ -187,44 +203,39 @@ export const useMeals = (userId?: string) => {
         return res.data.meals; // Return the archived meals
       }
     } catch (err) {
-      setError("Error fetching archived meals.");
+      set({ error: "Error fetching archived meals." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
     return [];
-  };
-
-  const fetchAllArchivedMeals = async () => {
+  },
+  fetchAllArchivedMeals: async () => {
     try {
-      const meals = await fetchArchivedMeals();
+      const meals = await useMealsStore.getState().fetchArchivedMeals();
 
-      const dates: string[] = Array.from(
+      const dates = Array.from(
         new Set(
-          meals.map((meal: ArchivedMeal) =>
-            dayjs(meal.date_added).format("YYYY-MM-DD")
-          )
+          meals.map((meal) => dayjs(meal.date_added).format("YYYY-MM-DD"))
         )
       );
 
-      const filteredDates = dates.filter((date: string) =>
+      const filteredDates = dates.filter((date) =>
         dayjs(date).isBefore(dayjs(), "day")
       );
 
-      setUniqueDates(filteredDates as string[]);
+      set({ uniqueDates: filteredDates });
     } catch (error) {
       console.error("Error fetching archived meals:", error);
     }
-  };
-
-  const deleteMeal = async (mealId: string) => {
+  },
+  deleteMeal: async (mealId) => {
     if (!isAuthenticated()) {
-      setError("User not authenticated.");
+      set({ error: "User not authenticated." });
       return;
     }
 
-    setLoading(true);
-    setError(null);
+    set({ loading: true, error: null });
     try {
       const token = localStorage.getItem("token");
 
@@ -233,24 +244,22 @@ export const useMeals = (userId?: string) => {
       }
 
       await axios.delete(`${apiUrl}/api/meals/${mealId}`);
-      fetchMeals();
-      await fetchMealSummary();
+      useMealsStore.getState().fetchMeals();
+      await useMealsStore.getState().fetchMealSummary();
     } catch (err) {
-      setError("Error deleting meal.");
+      set({ error: "Error deleting meal." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  const fetchAvailableMealDates = async () => {
+  },
+  fetchAvailableMealDates: async () => {
     if (!isAuthenticated()) {
-      setError("User not authenticated.");
+      set({ error: "User not authenticated." });
       return;
     }
 
-    setLoading(true);
-    setError(null);
+    set({ loading: true, error: null });
 
     try {
       const token = localStorage.getItem("token");
@@ -262,30 +271,15 @@ export const useMeals = (userId?: string) => {
       const res = await axios.get(`${apiUrl}/api/meals/available-dates`);
 
       if (res.data) {
-        setAvailableDates(res.data.dates);
+        set({ availableDates: res.data.dates });
       }
     } catch (err) {
-      setError("Error fetching available meal dates.");
+      set({ error: "Error fetching available meal dates." });
       console.error("Error fetching available meal dates:", err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
+  },
+}));
 
-  return {
-    meals,
-    fetchMeals,
-    fetchArchivedMeals,
-    mealSummaryData,
-    addMeal,
-    deleteMeal,
-    fetchDailyNutrientSummary,
-
-    fetchAvailableMealDates,
-    availableDates,
-    fetchAllArchivedMeals,
-    uniqueDates,
-    error,
-    loading,
-  };
-};
+export const useMeals = () => useMealsStore((state) => state);

@@ -1,6 +1,7 @@
 @use "../../styles/variables.scss" as *;
 .finder {
   margin-top: var(--rythm-32);
+  margin-bottom: 16px;
   z-index: 0;
   &__input {
     display: flex;

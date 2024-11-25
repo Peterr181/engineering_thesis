@@ -6,7 +6,7 @@ import questionMark from "../../assets/images/questionMark.png";
 import fitnessApp from "../../assets/images/fitnessApp.png";
 import { useForm, Controller } from "react-hook-form";
 import { useLanguage } from "../../context/LanguageProvider";
-import { useDailySettings } from "../../hooks/useDailySettings";
+import useDailySettings from "../../hooks/useDailySettings";
 import { Link, useNavigate } from "react-router-dom";
 
 interface DailyDataFormValues {
@@ -84,7 +84,7 @@ const DailyData: React.FC = () => {
     if (openSnackbar) {
       const timer = setTimeout(() => {
         navigate("/"); // Redirect after showing the Snackbar
-      }, 2000);
+      }, 1000); // Delay of 1 second to show the Snackbar
       return () => clearTimeout(timer);
     }
   }, [openSnackbar, navigate]);
@@ -120,13 +120,14 @@ const DailyData: React.FC = () => {
             rules={{
               required: t("dailyData.caloriesEaten"),
               min: { value: 0, message: "Must be at least 0 calories." },
+              max: { value: 20000, message: "Cannot exceed 20000 calories." },
             }}
             render={({ field }) => (
               <div className={styles.inputField}>
                 <TextField
                   label={t("dailyData.caloriesEaten")}
                   type="number"
-                  inputProps={{ min: "0" }}
+                  inputProps={{ min: "0", max: "20000" }}
                   onKeyPress={handleNumericInput}
                   {...field}
                   fullWidth
@@ -143,13 +144,14 @@ const DailyData: React.FC = () => {
             rules={{
               required: t("dailyData.stepsTaken"),
               min: { value: 0, message: "Must be at least 0 steps." },
+              max: { value: 100000, message: "Cannot exceed 100000 steps." },
             }}
             render={({ field }) => (
               <div className={styles.inputField}>
                 <TextField
                   label={t("dailyData.stepsTaken")}
                   type="number"
-                  inputProps={{ min: "0" }}
+                  inputProps={{ min: "0", max: "100000" }}
                   onKeyPress={handleNumericInput}
                   {...field}
                   fullWidth
@@ -166,13 +168,14 @@ const DailyData: React.FC = () => {
             rules={{
               required: t("dailyData.waterConsumed"),
               min: { value: 0, message: "Must be at least 0 liters." },
+              max: { value: 30, message: "Cannot exceed 30 liters." },
             }}
             render={({ field }) => (
               <div className={styles.inputField}>
                 <TextField
                   label={t("dailyData.waterConsumed")}
                   type="number"
-                  inputProps={{ min: "0", step: "0.1" }}
+                  inputProps={{ min: "0", max: "30", step: "0.1" }}
                   onKeyPress={handleNumericInput}
                   {...field}
                   fullWidth
@@ -189,13 +192,14 @@ const DailyData: React.FC = () => {
             rules={{
               required: t("dailyData.sleepDuration"),
               min: { value: 0, message: "Must be at least 0 hours." },
+              max: { value: 50, message: "Cannot exceed 50 hours." },
             }}
             render={({ field }) => (
               <div className={styles.inputField}>
                 <TextField
                   label={t("dailyData.sleepDuration")}
                   type="number"
-                  inputProps={{ min: "0", step: "0.1" }}
+                  inputProps={{ min: "0", max: "50", step: "0.1" }}
                   onKeyPress={handleNumericInput}
                   {...field}
                   fullWidth

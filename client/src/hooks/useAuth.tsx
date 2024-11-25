@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
+import { create } from "zustand";
 
 interface UserProfile {
   id: number;
@@ -11,8 +12,18 @@ interface UserProfile {
   sportLevel: number;
 }
 
+interface AuthState {
+  userProfile: UserProfile | null;
+  setUserProfile: (profile: UserProfile | null) => void;
+}
+
+const useAuthStore = create<AuthState>((set) => ({
+  userProfile: null,
+  setUserProfile: (profile) => set({ userProfile: profile }),
+}));
+
 const useAuth = (): UserProfile | null => {
-  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const { userProfile, setUserProfile } = useAuthStore();
 
   axios.defaults.withCredentials = true;
 
@@ -36,7 +47,7 @@ const useAuth = (): UserProfile | null => {
         console.log(err);
         setUserProfile(null);
       });
-  }, []);
+  }, [setUserProfile]);
 
   return userProfile;
 };

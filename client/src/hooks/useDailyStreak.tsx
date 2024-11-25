@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
+import { create } from "zustand";
 
 interface StreakData {
   streakCount: number;
@@ -7,45 +8,54 @@ interface StreakData {
   totalPoints: number;
 }
 
-export const useDailyStreak = () => {
-  const [streakData, setStreakData] = useState<StreakData | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+interface StreakState {
+  streakData: StreakData | null;
+  error: string | null;
+  loading: boolean;
+  fetchStreak: () => void;
+}
 
-  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-  axios.defaults.withCredentials = true;
+const useStreakStore = create<StreakState>((set) => ({
+  streakData: null,
+  error: null,
+  loading: false,
+  fetchStreak: async () => {
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+    axios.defaults.withCredentials = true;
 
-  const isAuthenticated = () => {
-    const token = localStorage.getItem("token");
-    return !!token;
-  };
+    const isAuthenticated = () => {
+      const token = localStorage.getItem("token");
+      return !!token;
+    };
 
-  const fetchStreak = async () => {
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot fetch streak.");
+      set({ error: "User not authenticated. Cannot fetch streak." });
       return;
     }
 
-    setLoading(true);
-    setError(null);
+    set({ loading: true, error: null });
 
     try {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       const response = await axios.post(`${apiUrl}/api/streak/update-streak`);
-      setStreakData(response.data);
+      set({ streakData: response.data });
     } catch (err) {
-      setError("Error fetching streak.");
+      set({ error: "Error fetching streak." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
+  },
+}));
+
+export const useDailyStreak = () => {
+  const { streakData, fetchStreak, error, loading } = useStreakStore();
 
   useEffect(() => {
     fetchStreak();
-  }, []);
+  }, [fetchStreak]);
 
   return {
     streakData,

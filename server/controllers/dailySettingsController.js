@@ -161,9 +161,7 @@ export const getDailySettings = (req, res) => {
 
       return res.json({ settings });
     } else {
-      return res
-        .status(404)
-        .json({ error: "No daily settings found for this date" });
+      return res.json({ settings: {} });
     }
   });
 };

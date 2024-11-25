@@ -560,7 +560,8 @@
     "noStimulants": "Bez stymulantów",
     "back": "Wstecz",
     "submit": "Zatwierdź",
-    "successMessage": "Dane zostały zapisane pomyślnie!"
+    "successMessage": "Dane zostały zapisane pomyślnie!",
+    "stretching": "Rozciąganie"
   },
   "goalsStatistics": {
     "title": "Statystyki Celów",

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { create } from "zustand";
 import axios from "axios";
 
 interface Habit {
@@ -11,81 +11,99 @@ interface DailySettings {
   steps_taken: number | null;
   water_consumed: number | null;
   sleep_duration: number | null;
-  mood_energy: number | null; // Changed from mood_energy_level to mood_energy
+  mood_energy: number | null;
   habits: Habit[];
   created_at: string | null;
 }
 
-export const useDailySettings = () => {
-  const [dailySettings, setDailySettings] = useState<DailySettings | null>(
-    null
-  );
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [wasUpdated, setWasUpdated] = useState<boolean | null>(null);
+interface DailySettingsState {
+  dailySettings: DailySettings | null;
+  error: string | null;
+  loading: boolean;
+  wasUpdated: boolean | null;
+  fetchDailySettings: () => Promise<void>;
+  fetchAllDailySettings: () => Promise<void>;
+  saveDailySettings: (settings: DailySettings) => Promise<void>;
+}
 
-  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-  axios.defaults.withCredentials = true;
+const useDailySettings = create<DailySettingsState>((set) => ({
+  dailySettings: null,
+  error: null,
+  loading: false,
+  wasUpdated: null,
+  fetchDailySettings: async () => {
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+    axios.defaults.withCredentials = true;
 
-  const isAuthenticated = () => {
-    const token = localStorage.getItem("token");
-    return !!token;
-  };
+    const isAuthenticated = () => {
+      const token = localStorage.getItem("token");
+      return !!token;
+    };
 
-  const fetchDailySettings = async () => {
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot fetch daily settings.");
+      set({ error: "User not authenticated. Cannot fetch daily settings." });
       return;
     }
 
-    setLoading(true);
-    setError(null);
+    set({ loading: true, error: null });
 
     try {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       const response = await axios.get(`${apiUrl}/api/daily-settings`);
-      setDailySettings(response.data.settings);
+      set({ dailySettings: response.data.settings || null });
     } catch (err) {
-      setError("Error fetching daily settings.");
+      set({ error: "Error fetching daily settings." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
+  },
+  fetchAllDailySettings: async () => {
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+    axios.defaults.withCredentials = true;
 
-  const fetchAllDailySettings = async () => {
+    const isAuthenticated = () => {
+      const token = localStorage.getItem("token");
+      return !!token;
+    };
+
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot fetch daily settings.");
+      set({ error: "User not authenticated. Cannot fetch daily settings." });
       return;
     }
 
-    setLoading(true);
-    setError(null);
+    set({ loading: true, error: null });
 
     try {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       const response = await axios.get(`${apiUrl}/api/daily-settings/all`);
-      setDailySettings(response.data.settings);
+      set({ dailySettings: response.data.settings });
     } catch (err) {
-      setError("Error fetching all daily settings.");
+      set({ error: "Error fetching all daily settings." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
+  },
+  saveDailySettings: async (settings: DailySettings) => {
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+    axios.defaults.withCredentials = true;
 
-  const saveDailySettings = async (settings: DailySettings) => {
+    const isAuthenticated = () => {
+      const token = localStorage.getItem("token");
+      return !!token;
+    };
+
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot save daily settings.");
+      set({ error: "User not authenticated. Cannot save daily settings." });
       return;
     }
 
-    setLoading(true);
-    setError(null);
+    set({ loading: true, error: null });
 
     try {
       const token = localStorage.getItem("token");
@@ -95,25 +113,14 @@ export const useDailySettings = () => {
         `${apiUrl}/api/daily-settings`,
         settings
       );
-      setDailySettings(settings); // Update the state after successful save
-      setWasUpdated(response.data.wasUpdated);
+      set({ dailySettings: settings, wasUpdated: response.data.wasUpdated });
     } catch (err) {
-      setError("Error saving daily settings.");
+      set({ error: "Error saving daily settings." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  return {
-    dailySettings,
-    fetchDailySettings,
-    saveDailySettings,
-    fetchAllDailySettings,
-    error,
-    loading,
-    wasUpdated,
-  };
-};
+  },
+}));
 
 export default useDailySettings;
