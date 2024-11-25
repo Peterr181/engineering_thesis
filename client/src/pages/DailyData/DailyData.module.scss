@@ -1,0 +1,89 @@
+@use "../../styles/variables.scss" as *;
+@use "sass:color";
+
+.personalGoals {
+  height: 100vh;
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  position: relative;
+
+  &__buttons {
+    display: flex;
+    justify-content: end;
+    margin-top: 2rem;
+    gap: 1rem;
+  }
+}
+
+.backBtn {
+  color: #8687a8;
+  border-radius: 16px;
+  margin-right: 20px;
+  padding: 20px 30px;
+  font-size: 16px;
+  text-decoration: none;
+  transition: all 0.2s;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.finishBtn {
+  color: #fff;
+  text-align: center;
+  background-color: $mainColor;
+  border-radius: 16px;
+  padding: 20px 44px;
+  font-size: 16px;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  font-weight: 600;
+
+  &:hover {
+    background-color: color.adjust($mainColor, $lightness: -10%);
+  }
+}
+.inputField {
+  label {
+    color: var(--body_color);
+  }
+  input {
+    color: var(--body_color) !important;
+  }
+}
+
+.inputField div:last-child {
+  color: var(--body_color) !important;
+}
+
+.questionMarkOverlay {
+  position: absolute;
+  right: -40%;
+
+  opacity: 0.1; // Slightly visible
+  z-index: 1; // Ensure it's behind the form but above the background
+}
+
+img {
+  width: 200px; // Adjust this size as needed
+  height: auto;
+}
+
+.WhiteCardWrapper {
+  position: relative;
+  z-index: 2; // Ensures the form is above the background question mark image
+}
+.fitnessAppOverlay {
+  position: absolute;
+  left: -40%;
+  top: 10%;
+
+  opacity: 0.3; // Slightly visible
+  z-index: 1; // Ensure it's behind the form but above the background
+}

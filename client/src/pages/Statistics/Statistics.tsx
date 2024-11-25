@@ -5,6 +5,7 @@ import MaxWidthWrapper from "../../components/compound/MaxWidthWrapper/MaxWidthW
 import WorkoutStatistics from "../../components/compound/WorkoutStatistics/WorkoutStatistics";
 import { useLanguage } from "../../context/LanguageProvider";
 import MealsStatistics from "../../components/compound/MealsStatistics/MealsStatistics";
+import GoalsStatistics from "../../components/compound/GoalsStatistics/GoalsStatistics";
 const Statistics = () => {
   const { t } = useLanguage();
   return (
@@ -17,6 +18,7 @@ const Statistics = () => {
             <div className={styles.statistics__workouts}>
               <WorkoutStatistics />
               <MealsStatistics />
+              <GoalsStatistics />
             </div>
           </WhiteCardWrapper>
         </MaxWidthWrapper>

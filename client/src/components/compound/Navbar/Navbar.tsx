@@ -15,6 +15,7 @@ import useMessages from "../../../hooks/useMessages";
 import MaxWidthWrapper from "../MaxWidthWrapper/MaxWidthWrapper";
 import englishFlag from "../../../assets/images/englishFlag.png";
 import polishFlag from "../../../assets/images/polishFlag.png";
+import { useDailySettings } from "../../../hooks/useDailySettings";
 
 const Navbar: React.FC = () => {
   const { t } = useLanguage();
@@ -24,6 +25,22 @@ const Navbar: React.FC = () => {
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   const { unreadMessages, markAllMessagesAsRead, fetchUnreadMessages } =
     useMessages();
+  const { dailySettings, fetchDailySettings } = useDailySettings();
+
+  useEffect(() => {
+    fetchDailySettings();
+  }, []);
+
+  const isTodaySettingsCreated = () => {
+    if (dailySettings && dailySettings.created_at) {
+      const createdAtDate = new Date(
+        dailySettings.created_at
+      ).toLocaleDateString();
+      const todayDate = new Date().toLocaleDateString();
+      return createdAtDate === todayDate;
+    }
+    return false;
+  };
 
   const menuItems = [
     {
@@ -63,12 +80,12 @@ const Navbar: React.FC = () => {
       text: t("sidebar.finder"),
       link: "/finder",
     },
-    // {
-    //   id: "statistics",
-    //   icon: iconFile.statisticsIcon,
-    //   text: t("sidebar.statistics"),
-    //   link: "/statistics",
-    // },
+    {
+      id: "statistics",
+      icon: iconFile.statisticsIcon,
+      text: t("sidebar.statistics"),
+      link: "/statistics",
+    },
     {
       id: "users",
       icon: iconFile.usersIcon,
@@ -181,18 +198,41 @@ const Navbar: React.FC = () => {
                   </div>
                 </>
               )}
-              {hasPersonalData && workouts && (
+              {hasPersonalData && (
                 <>
-                  <div className={styles.topText}>
-                    <Text textStyle="lg">{t("navbar.workoutPlan")}</Text>
-                  </div>
-                  <Link to="/workoutplan">
-                    <Button variant="primaryOutline">
-                      <Text textStyle="md">
-                        {t("navbar.workoutPlanButton")}
-                      </Text>
-                    </Button>
-                  </Link>
+                  {!isTodaySettingsCreated() ? (
+                    <div className={styles.dailySettings}>
+                      <div>
+                        <Text textStyle="lg">
+                          {t("navbar.dailySettingsDesc")}
+                        </Text>
+                      </div>
+                      <div>
+                        <Link to="/dailydata">
+                          <Button variant="primaryOutline">
+                            <Text textStyle="md">
+                              {t("navbar.dailySettings")}
+                            </Text>
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  ) : (
+                    workouts && (
+                      <>
+                        <div className={styles.topText}>
+                          <Text textStyle="lg">{t("navbar.workoutPlan")}</Text>
+                        </div>
+                        <Link to="/workoutplan">
+                          <Button variant="primaryOutline">
+                            <Text textStyle="md">
+                              {t("navbar.workoutPlanButton")}
+                            </Text>
+                          </Button>
+                        </Link>
+                      </>
+                    )
+                  )}
                 </>
               )}
             </div>

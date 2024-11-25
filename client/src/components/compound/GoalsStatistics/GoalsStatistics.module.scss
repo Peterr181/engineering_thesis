@@ -1,0 +1,54 @@
+.goalsStatistics {
+  margin-top: var(--rythm-32);
+  padding-bottom: 64px;
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    h2 {
+      font-size: 18px;
+    }
+  }
+}
+
+.currentMonth {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+
+  button {
+    padding: 5px 10px;
+    background: green;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.5s all;
+
+    &:hover {
+      background: inherit;
+      color: green;
+    }
+  }
+}
+
+.buttonsContainer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  .MuiSelect-root {
+    padding: 5px 10px;
+  }
+}
+
+.currentMonth {
+  padding: 40px;
+}

@@ -396,3 +396,9 @@ body.hamburger-menu-open .hamburgerMenu {
     }
   }
 }
+
+.dailySettings {
+  display: flex;
+  align-items: center;
+  gap: var(--rythm-16);
+}
