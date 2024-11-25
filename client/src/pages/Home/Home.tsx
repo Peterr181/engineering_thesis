@@ -13,6 +13,8 @@ import { usePersonalInfo } from "../../hooks/usePersonalInfo";
 import { useEffect } from "react";
 import { useWorkouts } from "../../hooks/useWorkout";
 import Streak from "../../components/compound/Streak/Streak";
+import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const { t } = useLanguage();
@@ -58,8 +60,19 @@ const Home = () => {
             <div className={styles.home__responsiveWrapper}>
               <div className={styles.home__activitiesWrapper}>
                 <WhiteCardWrapper additionalClass={styles.lineChartContainer}>
-                  <h2>{t(`home.weekActivity`)}</h2>
-                  <p>{averageTimeString}</p>
+                  <div className={styles.activitiesHeader}>
+                    <div>
+                      <h2>{t(`home.weekActivity`)}</h2>
+                      <p>{averageTimeString}</p>
+                    </div>
+                    <Link to="/statistics">
+                      <div>
+                        <Button variant="contained" color="info">
+                          {t(`sidebar.statistics`)}
+                        </Button>
+                      </div>
+                    </Link>
+                  </div>
                   <LineChartObject data={chartData} />
                 </WhiteCardWrapper>
                 <div className={styles.home__activitesCardsContainer}>

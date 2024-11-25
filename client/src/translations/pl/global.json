@@ -21,7 +21,9 @@
     "setPersonalButton": "Ustaw dane osobowe",
     "setPersonalDesc": "Ustaw ważne informację na swój temat",
     "messages": "Wiadomości",
-    "sentMessage": "wysłał Ci wiadomość"
+    "sentMessage": "wysłał Ci wiadomość",
+    "dailySettings": "Codzienne informacje",
+    "dailySettingsDesc": "Ustaw swoje codzienne informacje"
   },
   "sidebar": {
     "dashboard": "Start",
@@ -349,7 +351,6 @@
     "listopad": "Listopad",
     "grudzien": "Grudzień"
   },
-
   "filterCategories": {
     "All": "Wszystkie",
     "Cardio": "Cardio",
@@ -545,5 +546,38 @@
     "calories": "Kalorie",
     "selectRange": "Wybierz przedział dni",
     "selectDays": "Dni"
+  },
+  "dailyData": {
+    "title": "Dane dzienne",
+    "description": "Proszę wypełnić poniższe dane, abyśmy mogli śledzić Twoje codzienne nawyki.",
+    "caloriesEaten": "Kalorie zjedzone",
+    "stepsTaken": "Kroki wykonane",
+    "waterConsumed": "Woda spożyta (litry)",
+    "sleepDuration": "Czas snu (godziny)",
+    "moodEnergyLevel": "Poziom nastroju i energii (1-5)",
+    "habits": "Nawyki",
+    "noSugar": "Bez cukru",
+    "noStimulants": "Bez stymulantów",
+    "back": "Wstecz",
+    "submit": "Zatwierdź",
+    "successMessage": "Dane zostały zapisane pomyślnie!"
+  },
+  "goalsStatistics": {
+    "title": "Statystyki Celów",
+    "today": "Dzisiaj",
+    "week": "Tydzień",
+    "month": "Miesiąc",
+    "calories": "Kalorie",
+    "steps": "Kroki",
+    "water": "Woda",
+    "sleep": "Sen"
+  },
+  "actual": "Rzeczywiste",
+  "goal": "Cel",
+  "chart": {
+    "actual": "Rzeczywiste",
+    "goal": "Cel",
+    "stepsActual": "Kroki Rzeczywiste",
+    "stepsGoal": "Kroki Cel"
   }
 }

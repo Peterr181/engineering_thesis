@@ -15,6 +15,7 @@ import personalInfoRoutes from "./routes/personalInfoRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
 import streakRoutes from "./routes/streakRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
+import dailySettingsRoutes from "./routes/dailySettingsRoutes.js";
 import gymRoutineRoutes from "./routes/gymRoutineRoutes.js";
 import { saveMessage } from "./controllers/chatController.js";
 import expressSslify from "express-sslify";
@@ -74,6 +75,7 @@ app.use("/api/chat", chatRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/streak", streakRoutes);
 app.use("/api/routines", gymRoutineRoutes);
+app.use("/api/daily-settings", dailySettingsRoutes);
 
 // Serve static files only in production
 if (isProduction) {

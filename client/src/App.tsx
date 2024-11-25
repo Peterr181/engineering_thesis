@@ -24,6 +24,7 @@ import axios from "axios";
 import useDailyStreak from "./hooks/useDailyStreak";
 import Messages from "./pages/Messages/Messages";
 import Statistics from "./pages/Statistics/Statistics";
+import DailyData from "./pages/DailyData/DailyData";
 
 function App() {
   const { fetchStreak } = useDailyStreak();
@@ -62,6 +63,10 @@ function App() {
           <Route
             path="/personaldetails"
             element={<ProtectedRoute element={<PersonalGoals />} />}
+          />
+          <Route
+            path="/dailydata"
+            element={<ProtectedRoute element={<DailyData />} />}
           />
           <Route
             path="/chatrooms"

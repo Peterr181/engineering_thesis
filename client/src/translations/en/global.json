@@ -21,7 +21,9 @@
     "setPersonalButton": "Set personal info",
     "setPersonalDesc": "Oops you didn't set urgent data yet!",
     "messages": "Messages",
-    "sentMessage": "sent you a message"
+    "sentMessage": "sent you a message",
+    "dailySettings": "Daily settings",
+    "dailySettingsDesc": "Set your daily settings"
   },
   "advanced": "Advanced",
   "beginner": "Beginner",
@@ -356,7 +358,6 @@
     "listopad": "November",
     "grudzien": "December"
   },
-
   "filterCategories": {
     "All": "All",
     "Cardio": "Cardio",
@@ -539,5 +540,38 @@
     "calories": "Calories",
     "selectRange": "Select days range",
     "selectDays": "Days"
+  },
+  "dailyData": {
+    "title": "Daily Data",
+    "description": "Please fill in the details below so we can track your daily habits.",
+    "caloriesEaten": "Calories eaten",
+    "stepsTaken": "Steps taken",
+    "waterConsumed": "Water consumed (liters)",
+    "sleepDuration": "Sleep duration (hours)",
+    "moodEnergyLevel": "Mood and energy level (1-5)",
+    "habits": "Habits",
+    "noSugar": "No sugar",
+    "noStimulants": "No stimulants",
+    "back": "Back",
+    "submit": "Submit",
+    "successMessage": "Daily data submitted successfully!"
+  },
+  "goalsStatistics": {
+    "title": "Goals Statistics",
+    "today": "Today",
+    "week": "Week",
+    "month": "Month",
+    "calories": "Calories",
+    "steps": "Steps",
+    "water": "Water",
+    "sleep": "Sleep"
+  },
+  "actual": "Actual",
+  "goal": "Goal",
+  "chart": {
+    "actual": "Actual",
+    "goal": "Goal",
+    "stepsActual": "Steps Actual",
+    "stepsGoal": "Steps Goal"
   }
 }
