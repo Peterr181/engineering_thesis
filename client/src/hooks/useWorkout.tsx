@@ -27,6 +27,7 @@ interface WorkoutState {
   fetchYearlyWorkouts: (userId?: string) => Promise<void>;
   addWorkout: (newWorkout: Workout) => Promise<void>;
   finishWorkout: (workoutId: number) => Promise<void>;
+  fetchUpcomingWorkouts: () => Promise<void>;
 }
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -37,7 +38,7 @@ const isAuthenticated = () => {
   return !!token;
 };
 
-export const useWorkouts = create<WorkoutState>((set, get) => ({
+const store = create<WorkoutState>((set, get) => ({
   workouts: [],
   weeklyWorkouts: [],
   error: null,
@@ -268,4 +269,49 @@ export const useWorkouts = create<WorkoutState>((set, get) => ({
       set({ loading: false });
     }
   },
+
+  fetchUpcomingWorkouts: async () => {
+    set({ loading: true, error: null });
+
+    if (!isAuthenticated()) {
+      set({
+        error: "User not authenticated. Cannot fetch upcoming workouts.",
+        loading: false,
+      });
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      const url = `${apiUrl}/api/workouts/upcoming`;
+
+      const res = await axios.get(url);
+
+      if (res.data) {
+        set({ workouts: res.data.workouts });
+      }
+    } catch (err) {
+      set({ error: "Error fetching upcoming workouts." });
+      console.error(err);
+    } finally {
+      set({ loading: false });
+    }
+  },
 }));
+
+export const useWorkouts = () => {
+  const storeInstance = store();
+  return {
+    ...storeInstance,
+    fetchWorkouts: storeInstance.fetchWorkouts,
+    fetchWeeklyWorkouts: storeInstance.fetchWeeklyWorkouts,
+    finishWorkout: storeInstance.finishWorkout,
+    addWorkout: storeInstance.addWorkout,
+    fetchDailyWorkouts: storeInstance.fetchDailyWorkouts,
+    fetchMonthlyWorkouts: storeInstance.fetchMonthlyWorkouts,
+    fetchYearlyWorkouts: storeInstance.fetchYearlyWorkouts,
+    fetchUpcomingWorkouts: storeInstance.fetchUpcomingWorkouts,
+  };
+};
