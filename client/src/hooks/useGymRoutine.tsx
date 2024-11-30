@@ -1,5 +1,5 @@
-import { useState } from "react";
 import axios from "axios";
+import { create } from "zustand";
 
 interface Routine {
   id: number;
@@ -32,59 +32,67 @@ interface WorkoutDay {
   }[];
 }
 
-export const useGymRoutine = () => {
-  const [routines, setRoutines] = useState<Routine[]>([]);
-  const [routineDetails, setRoutineDetails] = useState<RoutineDetails | null>(
-    null
-  );
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-  axios.defaults.withCredentials = true;
-
-  const isAuthenticated = () => {
-    const token = localStorage.getItem("token");
-    return !!token;
-  };
-
-  // Fetch all routines for the authenticated user
-  const fetchRoutines = async () => {
-    setLoading(true);
-    setError(null);
-
-    if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot fetch routines.");
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-      const res = await axios.get(`${apiUrl}/api/routines`);
-      if (res.data) {
-        setRoutines(res.data.routines);
-      }
-    } catch (err) {
-      setError("Error fetching routines.");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Create a new routine
-  const createRoutine = async (
+interface GymRoutineState {
+  routines: Routine[];
+  routineDetails: RoutineDetails | null;
+  error: string | null;
+  loading: boolean;
+  apiUrl: string;
+  fetchRoutines: () => Promise<void>;
+  createRoutine: (
     routineName: string,
     startDate: string | null
-  ) => {
-    setLoading(true);
-    setError(null);
+  ) => Promise<void>;
+  addRoutineDay: (routineId: number, dayOfWeek: string) => Promise<void>;
+  addExercise: (
+    routineDayId: number,
+    exerciseName: string,
+    numSets: number
+  ) => Promise<{ success: boolean; message: string }>;
+  addExerciseSet: (
+    exerciseId: number,
+    setNumber: number,
+    repetitions: number,
+    weight: number
+  ) => Promise<void>;
+  fetchRoutineDetails: (routineId: number) => Promise<void>;
+  fetchRoutineById: (routineId: number) => Promise<Routine | null>;
+  savePlan: (
+    routineName: string,
+    startDate: string | null,
+    selectedDays: string[],
+    workouts: WorkoutDay[]
+  ) => Promise<void>;
+  endRoutine: (routineId: number) => Promise<void>;
+  activateRoutine: (routineId: number, isActive: boolean) => Promise<void>;
+  duplicateRoutine: (routineId: number) => Promise<void>;
+  deleteRoutine: (routineId: number) => Promise<void>;
+  updateRoutine: (
+    routineId: number,
+    selectedDays: string[],
+    workouts: WorkoutDay[]
+  ) => Promise<void>;
+}
+
+const isAuthenticated = () => {
+  const token = localStorage.getItem("token");
+  return !!token;
+};
+
+export const useGymRoutine = create<GymRoutineState>((set, get) => ({
+  routines: [],
+  routineDetails: null,
+  error: null,
+  loading: false,
+  apiUrl: import.meta.env.VITE_REACT_APP_API_URL,
+  fetchRoutines: async () => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot create routine.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot fetch routines.",
+        loading: false,
+      });
       return;
     }
 
@@ -92,29 +100,54 @@ export const useGymRoutine = () => {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      const res = await axios.post(`${apiUrl}/api/routines/create`, {
+      const res = await axios.get(`${get().apiUrl}/api/routines`);
+      if (res.data) {
+        set({ routines: res.data.routines });
+      }
+    } catch (err) {
+      set({ error: "Error fetching routines." });
+      console.error(err);
+    } finally {
+      set({ loading: false });
+    }
+  },
+  createRoutine: async (routineName, startDate) => {
+    set({ loading: true, error: null });
+
+    if (!isAuthenticated()) {
+      set({
+        error: "User not authenticated. Cannot create routine.",
+        loading: false,
+      });
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      const res = await axios.post(`${get().apiUrl}/api/routines/create`, {
         routineName,
         startDate,
       });
       if (res.data) {
-        fetchRoutines(); // Refresh routines list after creation
+        get().fetchRoutines(); // Refresh routines list after creation
       }
     } catch (err) {
-      setError("Error creating routine.");
+      set({ error: "Error creating routine." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  // Add a day to a specific routine
-  const addRoutineDay = async (routineId: number, dayOfWeek: string) => {
-    setLoading(true);
-    setError(null);
+  },
+  addRoutineDay: async (routineId, dayOfWeek) => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot add day to routine.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot add day to routine.",
+        loading: false,
+      });
       return;
     }
 
@@ -122,30 +155,25 @@ export const useGymRoutine = () => {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      await axios.post(`${apiUrl}/api/routines/day`, {
+      await axios.post(`${get().apiUrl}/api/routines/day`, {
         routineId,
         dayOfWeek,
       });
     } catch (err) {
-      setError("Error adding day to routine.");
+      set({ error: "Error adding day to routine." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  // Add an exercise to a routine day
-  const addExercise = async (
-    routineDayId: number,
-    exerciseName: string,
-    numSets: number
-  ) => {
-    setLoading(true);
-    setError(null);
+  },
+  addExercise: async (routineDayId, exerciseName, numSets) => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot add exercise.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot add exercise.",
+        loading: false,
+      });
       return;
     }
 
@@ -153,7 +181,7 @@ export const useGymRoutine = () => {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      const res = await axios.post(`${apiUrl}/api/routines/exercise`, {
+      const res = await axios.post(`${get().apiUrl}/api/routines/exercise`, {
         routineDayId,
         exerciseName,
         numSets,
@@ -161,26 +189,20 @@ export const useGymRoutine = () => {
 
       return res.data; // Return the response data
     } catch (err) {
-      setError("Error adding exercise.");
+      set({ error: "Error adding exercise." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  // Add a set to an exercise
-  const addExerciseSet = async (
-    exerciseId: number,
-    setNumber: number,
-    repetitions: number,
-    weight: number
-  ) => {
-    setLoading(true);
-    setError(null);
+  },
+  addExerciseSet: async (exerciseId, setNumber, repetitions, weight) => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot add exercise set.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot add exercise set.",
+        loading: false,
+      });
       return;
     }
 
@@ -188,28 +210,27 @@ export const useGymRoutine = () => {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      await axios.post(`${apiUrl}/api/routines/exercise/set`, {
+      await axios.post(`${get().apiUrl}/api/routines/exercise/set`, {
         exerciseId,
         setNumber,
         repetitions,
         weight,
       });
     } catch (err) {
-      setError("Error adding exercise set.");
+      set({ error: "Error adding exercise set." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  // Get details for a specific routine with days, exercises, and sets
-  const fetchRoutineDetails = async (routineId: number) => {
-    setLoading(true);
-    setError(null);
+  },
+  fetchRoutineDetails: async (routineId) => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot fetch routine details.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot fetch routine details.",
+        loading: false,
+      });
       return;
     }
 
@@ -217,26 +238,25 @@ export const useGymRoutine = () => {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      const res = await axios.get(`${apiUrl}/api/routines/${routineId}`);
+      const res = await axios.get(`${get().apiUrl}/api/routines/${routineId}`);
       if (res.data) {
-        setRoutineDetails(res.data.routineDetails);
+        set({ routineDetails: res.data.routineDetails });
       }
     } catch (err) {
-      setError("Error fetching routine details.");
+      set({ error: "Error fetching routine details." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  // Fetch a specific routine by its ID
-  const fetchRoutineById = async (routineId: number) => {
-    setLoading(true);
-    setError(null);
+  },
+  fetchRoutineById: async (routineId) => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot fetch routine.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot fetch routine.",
+        loading: false,
+      });
       return;
     }
 
@@ -244,31 +264,25 @@ export const useGymRoutine = () => {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      const res = await axios.get(`${apiUrl}/api/routines/${routineId}`);
+      const res = await axios.get(`${get().apiUrl}/api/routines/${routineId}`);
       if (res.data) {
         return res.data.routine;
       }
     } catch (err) {
-      setError("Error fetching routine.");
+      set({ error: "Error fetching routine." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  // Save the entire plan
-  const savePlan = async (
-    routineName: string,
-    startDate: string | null,
-    selectedDays: string[],
-    workouts: WorkoutDay[]
-  ) => {
-    setLoading(true);
-    setError(null);
+  },
+  savePlan: async (routineName, startDate, selectedDays, workouts) => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot save plan.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot save plan.",
+        loading: false,
+      });
       return;
     }
 
@@ -276,28 +290,27 @@ export const useGymRoutine = () => {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      await axios.post(`${apiUrl}/api/routines/savePlan`, {
+      await axios.post(`${get().apiUrl}/api/routines/savePlan`, {
         routineName,
         startDate,
         selectedDays,
         workouts,
       });
     } catch (err) {
-      setError("Error saving plan.");
+      set({ error: "Error saving plan." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  // End the current routine
-  const endRoutine = async (routineId: number) => {
-    setLoading(true);
-    setError(null);
+  },
+  endRoutine: async (routineId) => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot end routine.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot end routine.",
+        loading: false,
+      });
       return;
     }
 
@@ -305,31 +318,27 @@ export const useGymRoutine = () => {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      const res = await axios.post(`${apiUrl}/api/routines/endRoutine`, {
+      const res = await axios.post(`${get().apiUrl}/api/routines/endRoutine`, {
         routineId,
       });
       if (res.data) {
-        fetchRoutines(); // Refresh routines list after ending the current routine
+        get().fetchRoutines(); // Refresh routines list after ending the current routine
       }
     } catch (err) {
-      setError("Error ending routine.");
+      set({ error: "Error ending routine." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  // Activate or deactivate a specific routine by its ID
-  const activateRoutine = async (
-    routineId: number,
-    isActive: boolean = true
-  ) => {
-    setLoading(true);
-    setError(null);
+  },
+  activateRoutine: async (routineId, isActive = true) => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot activate routine.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot activate routine.",
+        loading: false,
+      });
       return;
     }
 
@@ -337,26 +346,25 @@ export const useGymRoutine = () => {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      await axios.post(`${apiUrl}/api/routines/activate/${routineId}`, {
+      await axios.post(`${get().apiUrl}/api/routines/activate/${routineId}`, {
         isActive,
       });
-      fetchRoutines(); // Refresh routines list after activation
+      get().fetchRoutines(); // Refresh routines list after activation
     } catch (err) {
-      setError("Error activating routine.");
+      set({ error: "Error activating routine." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  // Duplicate a routine for the next week
-  const duplicateRoutine = async (routineId: number) => {
-    setLoading(true);
-    setError(null);
+  },
+  duplicateRoutine: async (routineId) => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot duplicate routine.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot duplicate routine.",
+        loading: false,
+      });
       return;
     }
 
@@ -364,8 +372,8 @@ export const useGymRoutine = () => {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      await axios.post(`${apiUrl}/api/routines/duplicate/${routineId}`);
-      fetchRoutines(); // Refresh routines list after duplication
+      await axios.post(`${get().apiUrl}/api/routines/duplicate/${routineId}`);
+      get().fetchRoutines(); // Refresh routines list after duplication
     } catch (err) {
       if (
         axios.isAxiosError(err) &&
@@ -373,24 +381,23 @@ export const useGymRoutine = () => {
         err.response.data &&
         err.response.data.error
       ) {
-        setError(err.response.data.error);
+        set({ error: err.response.data.error });
       } else {
-        setError("Error duplicating routine.");
+        set({ error: "Error duplicating routine." });
       }
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  // Delete a specific routine
-  const deleteRoutine = async (routineId: number) => {
-    setLoading(true);
-    setError(null);
+  },
+  deleteRoutine: async (routineId) => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot delete routine.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot delete routine.",
+        loading: false,
+      });
       return;
     }
 
@@ -398,27 +405,23 @@ export const useGymRoutine = () => {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      await axios.delete(`${apiUrl}/api/routines/${routineId}`);
-      fetchRoutines(); // Refresh routines list after deletion
+      await axios.delete(`${get().apiUrl}/api/routines/${routineId}`);
+      get().fetchRoutines(); // Refresh routines list after deletion
     } catch (err) {
-      setError("Error deleting routine.");
+      set({ error: "Error deleting routine." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  const updateRoutine = async (
-    routineId: number,
-    selectedDays: string[],
-    workouts: WorkoutDay[]
-  ) => {
-    setLoading(true);
-    setError(null);
+  },
+  updateRoutine: async (routineId, selectedDays, workouts) => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot update routine.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot update routine.",
+        loading: false,
+      });
       return;
     }
 
@@ -426,37 +429,17 @@ export const useGymRoutine = () => {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      await axios.put(`${apiUrl}/api/routines/update/${routineId}`, {
+      await axios.put(`${get().apiUrl}/api/routines/update/${routineId}`, {
         selectedDays,
         workouts,
       });
     } catch (err) {
-      setError("Error updating routine.");
+      set({ error: "Error updating routine." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  return {
-    routines,
-    routineDetails,
-    fetchRoutines,
-    createRoutine,
-    addRoutineDay,
-    addExercise,
-    addExerciseSet,
-    fetchRoutineDetails,
-    fetchRoutineById,
-    savePlan,
-    endRoutine,
-    activateRoutine,
-    duplicateRoutine,
-    deleteRoutine,
-    updateRoutine,
-    error,
-    loading,
-  };
-};
+  },
+}));
 
 export default useGymRoutine;

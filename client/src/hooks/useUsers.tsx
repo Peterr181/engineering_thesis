@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { create } from "zustand";
 import axios from "axios";
 
 interface User {
@@ -13,26 +13,37 @@ interface User {
   stars: number;
 }
 
-export const useUsers = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-  axios.defaults.withCredentials = true;
+interface UsersState {
+  users: User[];
+  selectedUser: User | null;
+  error: string | null;
+  loading: boolean;
+  fetchUsers: () => Promise<void>;
+  fetchUserById: (userId: number) => Promise<void>;
+  addStarToUser: (userId: number) => Promise<void>;
+}
 
-  const isAuthenticated = () => {
-    const token = localStorage.getItem("token");
-    return !!token;
-  };
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+axios.defaults.withCredentials = true;
 
-  const fetchUsers = async () => {
-    setLoading(true);
-    setError(null);
+const isAuthenticated = (): boolean => {
+  const token = localStorage.getItem("token");
+  return !!token;
+};
+
+export const useUsers = create<UsersState>((set) => ({
+  users: [],
+  selectedUser: null,
+  error: null,
+  loading: false,
+  fetchUsers: async () => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot fetch users.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot fetch users.",
+        loading: false,
+      });
       return;
     }
 
@@ -42,23 +53,23 @@ export const useUsers = () => {
 
       const res = await axios.get(`${apiUrl}/api/users`);
       if (res.data) {
-        setUsers(res.data.users);
+        set({ users: res.data.users });
       }
     } catch (err) {
-      setError("Error fetching users.");
+      set({ error: "Error fetching users." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  const fetchUserById = async (userId: number) => {
-    setLoading(true);
-    setError(null);
+  },
+  fetchUserById: async (userId: number) => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot fetch user data.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot fetch user data.",
+        loading: false,
+      });
       return;
     }
 
@@ -68,23 +79,23 @@ export const useUsers = () => {
 
       const res = await axios.get(`${apiUrl}/api/users/${userId}`);
       if (res.data) {
-        setSelectedUser(res.data.user);
+        set({ selectedUser: res.data.user });
       }
     } catch (err) {
-      setError("Error fetching user data.");
+      set({ error: "Error fetching user data." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  const addStarToUser = async (userId: number) => {
-    setLoading(true);
-    setError(null);
+  },
+  addStarToUser: async (userId: number) => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot add star.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot add star.",
+        loading: false,
+      });
       return;
     }
 
@@ -94,26 +105,16 @@ export const useUsers = () => {
 
       const res = await axios.post(`${apiUrl}/api/users/${userId}/star`);
       if (res.data) {
-        setSelectedUser(res.data.user); // Update the selected user with the new data
-        fetchUsers(); // Refresh the user list to reflect the new star count
+        set({ selectedUser: res.data.user });
+        useUsers.getState().fetchUsers();
       }
     } catch (err) {
-      setError("Error adding star.");
+      set({ error: "Error adding star." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  return {
-    users,
-    selectedUser,
-    fetchUsers,
-    fetchUserById,
-    addStarToUser,
-    error,
-    loading,
-  };
-};
+  },
+}));
 
 export default useUsers;

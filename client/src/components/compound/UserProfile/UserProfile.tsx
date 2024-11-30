@@ -68,12 +68,8 @@ const UserProfile = () => {
     fetchUserById(Number(userId));
   }, [userId]);
 
-  const {
-    workouts,
-    fetchWorkouts,
-    loading: workoutsLoading,
-  } = useWorkouts(userId); // Ensure userId is passed here
-  const { meals, fetchMeals } = useMeals(userId);
+  const { workouts, fetchWorkouts, loading: workoutsLoading } = useWorkouts();
+  const { meals, fetchMeals } = useMeals();
   const {
     personalInfoData,
     fetchPersonalInfo,

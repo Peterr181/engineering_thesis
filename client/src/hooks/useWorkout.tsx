@@ -1,5 +1,5 @@
-import { useState } from "react";
 import axios from "axios";
+import { create } from "zustand";
 
 interface Workout {
   dayName?: string;
@@ -15,26 +15,43 @@ interface Workout {
   created_at?: string;
 }
 
-export const useWorkouts = (userId?: string) => {
-  const [workouts, setWorkouts] = useState<Workout[]>([]);
-  const [weeklyWorkouts, setWeeklyWorkouts] = useState<Workout[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-  axios.defaults.withCredentials = true;
+interface WorkoutState {
+  workouts: Workout[];
+  weeklyWorkouts: Workout[];
+  error: string | null;
+  loading: boolean;
+  fetchWorkouts: (sorted?: boolean, userId?: string) => Promise<void>;
+  fetchWeeklyWorkouts: (userId?: string) => Promise<void>;
+  fetchDailyWorkouts: () => Promise<void>;
+  fetchMonthlyWorkouts: (userId?: string) => Promise<void>;
+  fetchYearlyWorkouts: (userId?: string) => Promise<void>;
+  addWorkout: (newWorkout: Workout) => Promise<void>;
+  finishWorkout: (workoutId: number) => Promise<void>;
+  fetchUpcomingWorkouts: () => Promise<void>;
+}
 
-  const isAuthenticated = () => {
-    const token = localStorage.getItem("token");
-    return !!token;
-  };
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+axios.defaults.withCredentials = true;
 
-  const fetchWorkouts = async (sorted: boolean = true) => {
-    setLoading(true);
-    setError(null);
+const isAuthenticated = () => {
+  const token = localStorage.getItem("token");
+  return !!token;
+};
+
+const store = create<WorkoutState>((set, get) => ({
+  workouts: [],
+  weeklyWorkouts: [],
+  error: null,
+  loading: false,
+
+  fetchWorkouts: async (sorted = true, userId?: string) => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot fetch workouts.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot fetch workouts.",
+        loading: false,
+      });
       return;
     }
 
@@ -42,31 +59,31 @@ export const useWorkouts = (userId?: string) => {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      // Construct the URL based on userId
       const url = userId
-        ? `${apiUrl}/api/workouts/user/${userId}?sorted=${sorted}` // Update this line
+        ? `${apiUrl}/api/workouts/user/${userId}?sorted=${sorted}`
         : `${apiUrl}/api/workouts?sorted=${sorted}`;
 
       const res = await axios.get(url);
 
       if (res.data) {
-        setWorkouts(res.data.workouts);
+        set({ workouts: res.data.workouts });
       }
     } catch (err) {
-      setError("Error fetching workouts.");
+      set({ error: "Error fetching workouts." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
+  },
 
-  const addWorkout = async (newWorkout: Workout) => {
-    setLoading(true);
-    setError(null);
+  addWorkout: async (newWorkout: Workout) => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot add workout.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot add workout.",
+        loading: false,
+      });
       return;
     }
 
@@ -76,23 +93,24 @@ export const useWorkouts = (userId?: string) => {
 
       const res = await axios.post(`${apiUrl}/api/workouts`, newWorkout);
       if (res.data) {
-        setWorkouts((prevWorkouts) => [...prevWorkouts, res.data]);
+        set((state) => ({ workouts: [...state.workouts, res.data] }));
       }
     } catch (err) {
-      setError("Error adding new workout.");
+      set({ error: "Error adding new workout." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
+  },
 
-  const finishWorkout = async (workoutId: number) => {
-    setLoading(true);
-    setError(null);
+  finishWorkout: async (workoutId: number) => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot finish workout.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot finish workout.",
+        loading: false,
+      });
       return;
     }
 
@@ -102,22 +120,23 @@ export const useWorkouts = (userId?: string) => {
 
       await axios.post(`${apiUrl}/api/workouts/${workoutId}/finish`);
 
-      fetchWorkouts(false);
+      await get().fetchWorkouts(false);
     } catch (error) {
-      setError("Error finishing the workout.");
+      set({ error: "Error finishing the workout." });
       console.error(error);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
+  },
 
-  const fetchWeeklyWorkouts = async () => {
-    setLoading(true);
-    setError(null);
+  fetchWeeklyWorkouts: async (userId?: string) => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot fetch weekly workouts.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot fetch weekly workouts.",
+        loading: false,
+      });
       return;
     }
 
@@ -135,15 +154,15 @@ export const useWorkouts = (userId?: string) => {
       if (res.data) {
         weeklyData = res.data.workouts;
       } else {
-        // Fallback: Filter all workouts for the current week
         const currentDate = new Date();
         const startOfWeek = new Date(
           currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 1)
-        ); // Monday
+        );
         const endOfWeek = new Date(
           startOfWeek.setDate(startOfWeek.getDate() + 6)
-        ); // Sunday
+        );
 
+        const workouts = get().workouts;
         weeklyData = workouts.filter((workout) => {
           if (!workout.created_at) return false;
           const workoutDate = new Date(workout.created_at);
@@ -151,21 +170,23 @@ export const useWorkouts = (userId?: string) => {
         });
       }
 
-      setWeeklyWorkouts(weeklyData);
+      set({ weeklyWorkouts: weeklyData });
     } catch (err) {
-      setError("Error fetching weekly workouts.");
+      set({ error: "Error fetching weekly workouts." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-  const fetchDailyWorkouts = async () => {
-    setLoading(true);
-    setError(null);
+  },
+
+  fetchDailyWorkouts: async () => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot fetch daily workouts.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot fetch daily workouts.",
+        loading: false,
+      });
       return;
     }
 
@@ -177,23 +198,24 @@ export const useWorkouts = (userId?: string) => {
 
       const res = await axios.get(url);
       if (res.data) {
-        setWorkouts(res.data.workouts);
+        set({ workouts: res.data.workouts });
       }
     } catch (err) {
-      setError("Error fetching daily workouts.");
+      set({ error: "Error fetching daily workouts." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
+  },
 
-  const fetchMonthlyWorkouts = async () => {
-    setLoading(true);
-    setError(null);
+  fetchMonthlyWorkouts: async (userId?: string) => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot fetch monthly workouts.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot fetch monthly workouts.",
+        loading: false,
+      });
       return;
     }
 
@@ -207,23 +229,24 @@ export const useWorkouts = (userId?: string) => {
 
       const res = await axios.get(url);
       if (res.data) {
-        setWorkouts(res.data.workouts);
+        set({ workouts: res.data.workouts });
       }
     } catch (err) {
-      setError("Error fetching monthly workouts.");
+      set({ error: "Error fetching monthly workouts." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
+  },
 
-  const fetchYearlyWorkouts = async () => {
-    setLoading(true);
-    setError(null);
+  fetchYearlyWorkouts: async (userId?: string) => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot fetch yearly workouts.");
-      setLoading(false);
+      set({
+        error: "User not authenticated. Cannot fetch yearly workouts.",
+        loading: false,
+      });
       return;
     }
 
@@ -237,27 +260,58 @@ export const useWorkouts = (userId?: string) => {
 
       const res = await axios.get(url);
       if (res.data) {
-        setWorkouts(res.data.workouts);
+        set({ workouts: res.data.workouts });
       }
     } catch (err) {
-      setError("Error fetching yearly workouts.");
+      set({ error: "Error fetching yearly workouts." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
+  },
 
+  fetchUpcomingWorkouts: async () => {
+    set({ loading: true, error: null });
+
+    if (!isAuthenticated()) {
+      set({
+        error: "User not authenticated. Cannot fetch upcoming workouts.",
+        loading: false,
+      });
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      const url = `${apiUrl}/api/workouts/upcoming`;
+
+      const res = await axios.get(url);
+
+      if (res.data) {
+        set({ workouts: res.data.workouts });
+      }
+    } catch (err) {
+      set({ error: "Error fetching upcoming workouts." });
+      console.error(err);
+    } finally {
+      set({ loading: false });
+    }
+  },
+}));
+
+export const useWorkouts = () => {
+  const storeInstance = store();
   return {
-    workouts,
-    weeklyWorkouts,
-    fetchWorkouts,
-    fetchWeeklyWorkouts,
-    fetchDailyWorkouts,
-    fetchMonthlyWorkouts,
-    fetchYearlyWorkouts,
-    addWorkout,
-    finishWorkout,
-    error,
-    loading,
+    ...storeInstance,
+    fetchWorkouts: storeInstance.fetchWorkouts,
+    fetchWeeklyWorkouts: storeInstance.fetchWeeklyWorkouts,
+    finishWorkout: storeInstance.finishWorkout,
+    addWorkout: storeInstance.addWorkout,
+    fetchDailyWorkouts: storeInstance.fetchDailyWorkouts,
+    fetchMonthlyWorkouts: storeInstance.fetchMonthlyWorkouts,
+    fetchYearlyWorkouts: storeInstance.fetchYearlyWorkouts,
+    fetchUpcomingWorkouts: storeInstance.fetchUpcomingWorkouts,
   };
 };

@@ -36,6 +36,8 @@ const WorkoutPlan = () => {
     fetchWorkouts(false);
   }, []);
 
+
+
   const handleFilterClick = () => {
     setFilterDialogOpen(true);
   };
@@ -94,6 +96,8 @@ const WorkoutPlan = () => {
       : currentView === "gym"
       ? workouts.filter((workout) => workout.exercise_type === Category.GYM)
       : workouts.filter((workout) => !workout.finished);
+
+
 
   return (
     <PlatformWrapper>

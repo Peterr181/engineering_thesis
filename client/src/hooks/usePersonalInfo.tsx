@@ -1,9 +1,21 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
+import { create } from "zustand";
 
 export interface PersonalInfoType {
   label: string;
   value: string;
+}
+
+interface PersonalInfoState {
+  personalInfoData: PersonalInfoType[];
+  loading: boolean;
+  error: string | null;
+  hasPersonalData: boolean;
+  fetchPersonalInfo: (userId?: string) => Promise<void>;
+  updatePersonalInfo: (
+    updatedInfo: PersonalInfoType | PersonalInfoType[]
+  ) => Promise<void>;
 }
 
 const defaultPersonalInfoData: PersonalInfoType[] = [
@@ -18,20 +30,13 @@ const defaultPersonalInfoData: PersonalInfoType[] = [
   { label: "weight", value: "" },
 ];
 
-export const usePersonalInfo = (userId?: string) => {
-  const [personalInfoData, setPersonalInfoData] = useState<PersonalInfoType[]>(
-    defaultPersonalInfoData
-  );
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [hasPersonalData, setHasPersonalData] = useState<boolean>(false);
-
-  axios.defaults.withCredentials = true;
-  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
-  const fetchPersonalInfo = async () => {
-    setLoading(true);
-    setError(null);
+const usePersonalInfoStore = create<PersonalInfoState>((set) => ({
+  personalInfoData: defaultPersonalInfoData,
+  loading: true,
+  error: null,
+  hasPersonalData: false,
+  fetchPersonalInfo: async (userId?: string) => {
+    set({ loading: true, error: null });
 
     try {
       const token = localStorage.getItem("token");
@@ -41,6 +46,8 @@ export const usePersonalInfo = (userId?: string) => {
       }
 
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      axios.defaults.withCredentials = true;
+      const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
       const url = userId
         ? `${apiUrl}/api/personal-info/${userId}`
@@ -54,32 +61,32 @@ export const usePersonalInfo = (userId?: string) => {
         value: fetchedData[info.label] || "",
       }));
 
-      setPersonalInfoData(updatedPersonalInfoData);
-
       const hasData = updatedPersonalInfoData.some((info) => info.value !== "");
-      setHasPersonalData(hasData);
+
+      set({
+        personalInfoData: updatedPersonalInfoData,
+        hasPersonalData: hasData,
+        loading: false,
+      });
     } catch (err) {
       if (axios.isAxiosError(err)) {
         if (err.response?.status === 401) {
-          setError("Unauthorized access - please log in.");
+          set({ error: "Unauthorized access - please log in." });
         } else {
-          setError("Failed to fetch personal information");
+          set({ error: "Failed to fetch personal information" });
         }
         console.error(err.response?.data || err.message);
       } else {
         console.error("Unexpected error:", err);
-        setError("An unexpected error occurred.");
+        set({ error: "An unexpected error occurred." });
       }
-    } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
-
-  const updatePersonalInfo = async (
+  },
+  updatePersonalInfo: async (
     updatedInfo: PersonalInfoType | PersonalInfoType[]
   ) => {
-    setLoading(true);
-    setError(null);
+    set({ loading: true, error: null });
 
     try {
       const token = localStorage.getItem("token");
@@ -89,6 +96,8 @@ export const usePersonalInfo = (userId?: string) => {
       }
 
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      axios.defaults.withCredentials = true;
+      const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
       let updatedFields: Record<string, string> = {};
 
@@ -99,45 +108,58 @@ export const usePersonalInfo = (userId?: string) => {
         }, {} as Record<string, string>);
       } else {
         updatedFields = {
-          ...personalInfoData.reduce((acc, info) => {
-            acc[info.label] = info.value || "";
-            return acc;
-          }, {} as Record<string, string>),
+          ...usePersonalInfoStore
+            .getState()
+            .personalInfoData.reduce((acc, info) => {
+              acc[info.label] = info.value || "";
+              return acc;
+            }, {} as Record<string, string>),
           [updatedInfo.label]: updatedInfo.value || "",
         };
       }
 
       await axios.post(`${apiUrl}/api/personal-info`, updatedFields);
 
-      setPersonalInfoData((prev) =>
-        prev.map((info) =>
+      set((state) => ({
+        personalInfoData: state.personalInfoData.map((info) =>
           Array.isArray(updatedInfo)
             ? updatedInfo.find((update) => update.label === info.label) || info
             : info.label === updatedInfo.label
             ? { ...info, value: updatedInfo.value }
             : info
-        )
-      );
+        ),
+        loading: false,
+      }));
     } catch (err) {
       if (axios.isAxiosError(err)) {
         if (err.response?.status === 401) {
-          setError("Unauthorized access - please log in.");
+          set({ error: "Unauthorized access - please log in." });
         } else {
-          setError("Failed to update personal information");
+          set({ error: "Failed to update personal information" });
         }
         console.error(err.response?.data || err.message);
       } else {
         console.error("Unexpected error:", err);
-        setError("An unexpected error occurred.");
+        set({ error: "An unexpected error occurred." });
       }
-    } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
+  },
+}));
+
+export const usePersonalInfo = (userId?: string) => {
+  const {
+    personalInfoData,
+    fetchPersonalInfo,
+    updatePersonalInfo,
+    loading,
+    error,
+    hasPersonalData,
+  } = usePersonalInfoStore();
 
   useEffect(() => {
-    fetchPersonalInfo();
-  }, [userId]);
+    fetchPersonalInfo(userId);
+  }, [userId, fetchPersonalInfo]);
 
   return {
     personalInfoData,

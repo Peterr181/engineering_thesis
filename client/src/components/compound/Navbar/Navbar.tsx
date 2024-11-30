@@ -15,7 +15,7 @@ import useMessages from "../../../hooks/useMessages";
 import MaxWidthWrapper from "../MaxWidthWrapper/MaxWidthWrapper";
 import englishFlag from "../../../assets/images/englishFlag.png";
 import polishFlag from "../../../assets/images/polishFlag.png";
-import { useDailySettings } from "../../../hooks/useDailySettings";
+import useDailySettings from "../../../hooks/useDailySettings";
 
 const Navbar: React.FC = () => {
   const { t } = useLanguage();

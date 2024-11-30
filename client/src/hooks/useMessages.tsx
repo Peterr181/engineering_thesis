@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { create } from "zustand";
 import axios from "axios";
 
 interface Message {
@@ -8,31 +8,42 @@ interface Message {
   sender_id: number;
   recipient_id: number;
   date_sent: string;
-  is_read: boolean; // Add is_read field to track the read status
+  is_read: boolean;
 }
 
-export const useMessages = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [unreadMessages, setUnreadMessages] = useState<Message[]>([]); // State for unread messages
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [showUnreadIndicator, setShowUnreadIndicator] = useState(false); // Indicator for unread messages
+interface MessagesState {
+  messages: Message[];
+  unreadMessages: Message[];
+  error: string | null;
+  loading: boolean;
+  showUnreadIndicator: boolean;
+  fetchMessages: () => Promise<void>;
+  fetchUnreadMessages: () => Promise<void>;
+  markMessagesAsRead: () => Promise<void>;
+  markAllMessagesAsRead: () => Promise<void>;
+  sendMessage: (recipient_id: number, message: string, sender_username?: string) => Promise<void>;
+}
 
-  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-  axios.defaults.withCredentials = true;
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+axios.defaults.withCredentials = true;
 
-  const isAuthenticated = () => {
-    const token = localStorage.getItem("token");
-    return !!token;
-  };
+const isAuthenticated = (): boolean => {
+  const token = localStorage.getItem("token");
+  return !!token;
+};
 
-  const fetchMessages = async () => {
-    setLoading(true);
-    setError(null);
+export const useMessages = create<MessagesState>((set) => ({
+  messages: [],
+  unreadMessages: [],
+  error: null,
+  loading: false,
+  showUnreadIndicator: false,
+
+  fetchMessages: async () => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot fetch messages.");
-      setLoading(false);
+      set({ error: "User not authenticated. Cannot fetch messages.", loading: false });
       return;
     }
 
@@ -42,29 +53,24 @@ export const useMessages = () => {
 
       const res = await axios.get(`${apiUrl}/api/messages`);
       if (res.data && res.data.messages) {
-        setMessages(res.data.messages);
-        const hasUnreadMessages = res.data.messages.some(
-          (message: Message) => !message.is_read
-        );
-        setShowUnreadIndicator(hasUnreadMessages);
+        const hasUnreadMessages = res.data.messages.some((message: Message) => !message.is_read);
+        set({ messages: res.data.messages, showUnreadIndicator: hasUnreadMessages });
       } else {
         console.log("No messages found in API response");
       }
     } catch (err) {
-      setError("Error fetching messages.");
+      set({ error: "Error fetching messages." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
+  },
 
-  const fetchUnreadMessages = async () => {
-    setLoading(true);
-    setError(null);
+  fetchUnreadMessages: async () => {
+    set({ loading: true, error: null });
 
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot fetch unread messages.");
-      setLoading(false);
+      set({ error: "User not authenticated. Cannot fetch unread messages.", loading: false });
       return;
     }
 
@@ -74,23 +80,21 @@ export const useMessages = () => {
 
       const res = await axios.get(`${apiUrl}/api/messages/unread`);
       if (res.data && res.data.messages) {
-        setUnreadMessages(res.data.messages);
-        setShowUnreadIndicator(res.data.messages.length > 0);
+        set({ unreadMessages: res.data.messages, showUnreadIndicator: res.data.messages.length > 0 });
       } else {
-        setUnreadMessages([]);
-        setShowUnreadIndicator(false);
+        set({ unreadMessages: [], showUnreadIndicator: false });
       }
     } catch (err) {
-      setError("Error fetching unread messages.");
+      set({ error: "Error fetching unread messages." });
       console.error(err);
     } finally {
-      setLoading(false);
+      set({ loading: false });
     }
-  };
+  },
 
-  const markMessagesAsRead = async () => {
+  markMessagesAsRead: async () => {
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot mark messages as read.");
+      set({ error: "User not authenticated. Cannot mark messages as read." });
       return;
     }
 
@@ -99,16 +103,16 @@ export const useMessages = () => {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       await axios.put(`${apiUrl}/api/messages/mark-as-read`);
-      fetchUnreadMessages(); // Refresh unread messages after marking as read
+      useMessages.getState().fetchUnreadMessages();
     } catch (err) {
-      setError("Error marking messages as read.");
+      set({ error: "Error marking messages as read." });
       console.error(err);
     }
-  };
+  },
 
-  const markAllMessagesAsRead = async () => {
+  markAllMessagesAsRead: async () => {
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot mark messages as read.");
+      set({ error: "User not authenticated. Cannot mark messages as read." });
       return;
     }
 
@@ -117,23 +121,19 @@ export const useMessages = () => {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       await axios.put(`${apiUrl}/api/messages/mark-all-as-read`);
-      setMessages((prevMessages) =>
-        prevMessages.map((message) => ({ ...message, is_read: true }))
-      );
-      setShowUnreadIndicator(false); // Ensure the indicator is set to false
+      set((state) => ({
+        messages: state.messages.map((message) => ({ ...message, is_read: true })),
+        showUnreadIndicator: false,
+      }));
     } catch (err) {
-      setError("Error marking messages as read.");
+      set({ error: "Error marking messages as read." });
       console.error(err);
     }
-  };
+  },
 
-  const sendMessage = async (
-    recipient_id: number,
-    message: string,
-    sender_username?: string
-  ) => {
+  sendMessage: async (recipient_id: number, message: string, sender_username?: string) => {
     if (!isAuthenticated()) {
-      setError("User not authenticated. Cannot send message.");
+      set({ error: "User not authenticated. Cannot send message." });
       return;
     }
 
@@ -144,27 +144,14 @@ export const useMessages = () => {
       await axios.post(`${apiUrl}/api/messages/send`, {
         message,
         recipient_id,
-        sender_username, // Include sender_username in the request payload
+        sender_username,
       });
-      fetchMessages(); // Refresh messages after sending
+      useMessages.getState().fetchMessages();
     } catch (err) {
-      setError("Error sending message.");
+      set({ error: "Error sending message." });
       console.error(err);
     }
-  };
-
-  return {
-    messages,
-    unreadMessages,
-    fetchMessages,
-    fetchUnreadMessages,
-    markMessagesAsRead,
-    markAllMessagesAsRead, // Expose the new method
-    sendMessage,
-    showUnreadIndicator, // Expose the unread indicator state
-    error,
-    loading,
-  };
-};
+  },
+}));
 
 export default useMessages;
