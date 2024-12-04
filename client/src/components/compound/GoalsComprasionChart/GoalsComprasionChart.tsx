@@ -22,7 +22,8 @@ interface GoalsComparisonChartProps {
   }[];
   view: string;
   weekMetric: string;
-  language: string; // Add language prop
+  language: string;
+  currentMonth: number;
 }
 
 interface GoalsComparisonChartState {
@@ -108,13 +109,23 @@ export default class GoalsComparisonChart extends PureComponent<
   }
 
   updateGoalsData() {
-    const { personalInfoData, dailySettings, view, weekMetric } = this.props;
+    const { personalInfoData, dailySettings, view, weekMetric, currentMonth } =
+      this.props;
     let goalsData:
       | { day: number; actual: number; goal: number }[]
       | { metric: string; actual: number; goal: number }[] = [];
 
     if (view === "today") {
-      const latestDailySetting = dailySettings[0] || {};
+      const today = new Date().toISOString().split("T")[0];
+      const latestDailySetting = dailySettings.find(
+        (setting) => setting.created_at.split("T")[0] === today
+      ) || {
+        calories_eaten: 0,
+        steps_taken: 0,
+        water_consumed: 0,
+        sleep_duration: 0,
+        created_at: "",
+      };
       goalsData = [
         {
           metric: "Calories (Kalorie)",
@@ -145,11 +156,28 @@ export default class GoalsComparisonChart extends PureComponent<
         },
       ];
     } else if (view === "week") {
-      const weekDays = [1, 2, 3, 4, 5, 6, 7];
-      goalsData = weekDays.map((day, index) => {
-        const dailySetting = dailySettings[index] || {};
+      const startOfWeek = new Date();
+      startOfWeek.setDate(
+        startOfWeek.getDate() - (startOfWeek.getDay() || 7) + 1
+      ); // Adjust to start from Monday
+      const weekDays = Array.from({ length: 7 }, (_, i) => {
+        const date = new Date(startOfWeek);
+        date.setDate(startOfWeek.getDate() + i);
+        return date.toISOString().split("T")[0];
+      });
+
+      goalsData = weekDays.map((date, index) => {
+        const dailySetting = dailySettings.find(
+          (setting) => setting.created_at.split("T")[0] === date
+        ) || {
+          calories_eaten: 0,
+          steps_taken: 0,
+          water_consumed: 0,
+          sleep_duration: 0,
+          created_at: "",
+        };
         return {
-          day,
+          day: index + 1, // Correctly map the day of the week starting from Monday
           actual: this.metricActual(dailySetting, weekMetric),
           goal: this.metricGoal(personalInfoData, weekMetric),
         };
@@ -157,7 +185,17 @@ export default class GoalsComparisonChart extends PureComponent<
     } else if (view === "month") {
       const daysInMonth = Array.from({ length: 31 }, (_, i) => i + 1);
       goalsData = daysInMonth.map((day) => {
-        const dailySetting = dailySettings[day - 1] || {};
+        const dailySetting = dailySettings.find(
+          (setting) =>
+            new Date(setting.created_at).getDate() === day &&
+            new Date(setting.created_at).getMonth() + 1 === currentMonth
+        ) || {
+          calories_eaten: 0,
+          steps_taken: 0,
+          water_consumed: 0,
+          sleep_duration: 0,
+          created_at: "",
+        };
         return {
           day,
           actual: this.metricActual(dailySetting, weekMetric),

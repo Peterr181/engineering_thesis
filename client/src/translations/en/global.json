@@ -356,7 +356,7 @@
     "wrzesien": "September",
     "pazdziernik": "October",
     "listopad": "November",
-    "grudzien": "December"
+    "grudzień": "December"
   },
   "filterCategories": {
     "All": "All",
@@ -554,7 +554,8 @@
     "noStimulants": "No stimulants",
     "back": "Back",
     "submit": "Submit",
-    "successMessage": "Daily data submitted successfully!"
+    "successMessage": "Daily data submitted successfully!",
+    "stretching": "Stretching"
   },
   "goalsStatistics": {
     "title": "Goals Statistics",

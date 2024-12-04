@@ -46,7 +46,17 @@ export const useDailySettings = () => {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       const response = await axios.get(`${apiUrl}/api/daily-settings`);
-      setDailySettings(response.data.settings);
+      setDailySettings(
+        response.data.settings || {
+          calories_eaten: null,
+          steps_taken: null,
+          water_consumed: null,
+          sleep_duration: null,
+          mood_energy: null,
+          habits: [],
+          created_at: null,
+        }
+      );
     } catch (err) {
       setError("Error fetching daily settings.");
       console.error(err);
@@ -69,7 +79,7 @@ export const useDailySettings = () => {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       const response = await axios.get(`${apiUrl}/api/daily-settings/all`);
-      setDailySettings(response.data.settings);
+      setDailySettings(response.data.settings || []);
     } catch (err) {
       setError("Error fetching all daily settings.");
       console.error(err);

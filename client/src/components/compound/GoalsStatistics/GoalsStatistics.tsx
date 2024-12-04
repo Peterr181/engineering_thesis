@@ -39,6 +39,11 @@ const GoalsStatistics = () => {
     return date.toLocaleString("default", { month: "long" });
   };
 
+  const getCurrentMonth = () => {
+    const date = new Date();
+    return date.getMonth() + 1; // getMonth() returns 0-11, so add 1 to get 1-12
+  };
+
   return (
     <div className={styles.goalsStatistics}>
       <div className={styles.goalsStatistics__header}>
@@ -92,6 +97,7 @@ const GoalsStatistics = () => {
           view={view}
           weekMetric={weekMetric}
           language={language} // Pass language prop
+          currentMonth={getCurrentMonth()} // Pass current month prop
         />
       )}
       {view === "month" && (
