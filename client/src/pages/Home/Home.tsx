@@ -25,6 +25,8 @@ const Home = () => {
     fetchWeeklyWorkouts();
   }, []);
 
+  console.log("test");
+
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   const chartData = daysOfWeek.map((day) => ({ day, minutes: 0 }));
