@@ -88,6 +88,7 @@ jobs:
         run: |
           npm install
           npm run build
+          mv ./dist ../server/public # Move built React files to the server's public directory
 
       # Debug step: MySQL logs
       - name: MySQL Logs
@@ -101,5 +102,10 @@ jobs:
         run: |
           echo "Adding Heroku remote..."
           git remote add heroku https://apikey:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/gymero.git
+          echo "Committing built frontend..."
+          git config user.name "CI/CD Pipeline"
+          git config user.email "ci@example.com"
+          git add server/public
+          git commit -m "Include frontend build artifacts [skip ci]" || echo "No changes to commit"
           echo "Pushing to Heroku..."
           git push heroku main --force # Ensure you are pushing the right branch
