@@ -77,6 +77,9 @@ app.use("/api/streak", streakRoutes);
 app.use("/api/routines", gymRoutineRoutes);
 app.use("/api/daily-settings", dailySettingsRoutes);
 
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, "public")));
+
 // Serve static files only in production
 if (isProduction) {
   const clientPath = path.resolve(__dirname, "../client/dist");

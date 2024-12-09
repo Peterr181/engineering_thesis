@@ -46,6 +46,19 @@ jobs:
         working-directory: ./server
         run: npm install
 
+      # Install and build frontend (client)
+      - name: Install and build client
+        working-directory: ./client
+        env:
+          VITE_REACT_APP_CLIENT_ID: ${{ secrets.VITE_REACT_APP_CLIENT_ID }}
+          VITE_REACT_APP_MEALS_API_ID: ${{ secrets.VITE_REACT_APP_MEALS_API_ID }}
+          VITE_REACT_APP_MEALS_API_KEY: ${{ secrets.VITE_REACT_APP_MEALS_API_KEY }}
+          VITE_REACT_APP_GEOCODING_API_KEY: ${{ secrets.VITE_REACT_APP_GEOCODING_API_KEY }}
+        run: |
+          npm install
+          npm run build
+          mv ./dist ../server/public # Move built React files to the server's public directory
+
       # Start the Express backend
       - name: Start Express backend
         working-directory: ./server
@@ -77,19 +90,6 @@ jobs:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: npm test
 
-      # Install and build frontend (client)
-      - name: Install and build client
-        working-directory: ./client
-        env:
-          VITE_REACT_APP_CLIENT_ID: ${{ secrets.VITE_REACT_APP_CLIENT_ID }}
-          VITE_REACT_APP_MEALS_API_ID: ${{ secrets.VITE_REACT_APP_MEALS_API_ID }}
-          VITE_REACT_APP_MEALS_API_KEY: ${{ secrets.VITE_REACT_APP_MEALS_API_KEY }}
-          VITE_REACT_APP_GEOCODING_API_KEY: ${{ secrets.VITE_REACT_APP_GEOCODING_API_KEY }}
-        run: |
-          npm install
-          npm run build
-          mv ./dist ../server/public # Move built React files to the server's public directory
-
       # Debug step: MySQL logs
       - name: MySQL Logs
         run: docker logs $(docker ps -q --filter "ancestor=mysql:8.0")
@@ -102,10 +102,5 @@ jobs:
         run: |
           echo "Adding Heroku remote..."
           git remote add heroku https://apikey:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/gymero.git
-          echo "Committing built frontend..."
-          git config user.name "CI/CD Pipeline"
-          git config user.email "ci@example.com"
-          git add server/public
-          git commit -m "Include frontend build artifacts [skip ci]" || echo "No changes to commit"
           echo "Pushing to Heroku..."
           git push heroku main --force # Ensure you are pushing the right branch
