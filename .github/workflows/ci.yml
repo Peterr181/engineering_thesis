@@ -46,27 +46,6 @@ jobs:
         working-directory: ./server
         run: npm install
 
-      # Install and build frontend (client)
-      - name: Install and build client
-        working-directory: ./client
-        env:
-          VITE_REACT_APP_CLIENT_ID: ${{ secrets.VITE_REACT_APP_CLIENT_ID }}
-          VITE_REACT_APP_MEALS_API_ID: ${{ secrets.VITE_REACT_APP_MEALS_API_ID }}
-          VITE_REACT_APP_MEALS_API_KEY: ${{ secrets.VITE_REACT_APP_MEALS_API_KEY }}
-          VITE_REACT_APP_GEOCODING_API_KEY: ${{ secrets.VITE_REACT_APP_GEOCODING_API_KEY }}
-        run: |
-          npm install
-          npm run build
-          mv ./dist ../server/public # Move built React files to the server's public directory
-
-      # Commit built frontend files
-      - name: Commit built frontend files
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add server/public
-          git commit -m "Add built frontend files" || echo "No changes to commit"
-
       # Start the Express backend
       - name: Start Express backend
         working-directory: ./server
@@ -97,6 +76,18 @@ jobs:
           DBPORT: 33306 # Match the changed port
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: npm test
+
+      # Install and build frontend (client)
+      - name: Install and build client
+        working-directory: ./client
+        env:
+          VITE_REACT_APP_CLIENT_ID: ${{ secrets.VITE_REACT_APP_CLIENT_ID }}
+          VITE_REACT_APP_MEALS_API_ID: ${{ secrets.VITE_REACT_APP_MEALS_API_ID }}
+          VITE_REACT_APP_MEALS_API_KEY: ${{ secrets.VITE_REACT_APP_MEALS_API_KEY }}
+          VITE_REACT_APP_GEOCODING_API_KEY: ${{ secrets.VITE_REACT_APP_GEOCODING_API_KEY }}
+        run: |
+          npm install
+          npm run build
 
       # Debug step: MySQL logs
       - name: MySQL Logs
