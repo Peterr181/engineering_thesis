@@ -59,6 +59,14 @@ jobs:
           npm run build
           mv ./dist ../server/public # Move built React files to the server's public directory
 
+      # Commit built frontend files
+      - name: Commit built frontend files
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add server/public
+          git commit -m "Add built frontend files" || echo "No changes to commit"
+
       # Start the Express backend
       - name: Start Express backend
         working-directory: ./server
