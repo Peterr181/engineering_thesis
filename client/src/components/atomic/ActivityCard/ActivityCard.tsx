@@ -6,7 +6,7 @@ import { useMediaQuery } from "react-responsive";
 interface ActivityCardProps {
   icon: string | JSX.Element;
   title: string;
-  number: string;
+  number: string | number;
 }
 
 const ActivityCard = ({ icon, title, number }: ActivityCardProps) => {

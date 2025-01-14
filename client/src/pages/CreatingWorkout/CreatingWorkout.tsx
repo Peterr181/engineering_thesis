@@ -16,7 +16,6 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
-import { Link } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageProvider";
 import { useWorkouts } from "../../hooks/useWorkout";
 import { allExercises as getAllExercises } from "../../constants/exercises";
@@ -168,11 +167,6 @@ const CreatingWorkout = () => {
                   {category}
                 </Button>
               ))}
-              <Link to="/gymplancreator">
-                <Button variant="contained" color="secondary">
-                  Gym
-                </Button>
-              </Link>
             </div>
             <div className={styles.creatingworkout__buttons}>
               {filteredExercises.map((exercise: Exercise) => (

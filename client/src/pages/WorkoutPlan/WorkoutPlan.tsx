@@ -71,7 +71,7 @@ const WorkoutPlan = () => {
     .filter((workout) => !workout.finished)
     .map((workout) => {
       const monthNumber = monthMap[workout.month];
-      return new Date(2024, monthNumber, workout.day);
+      return new Date(2025, monthNumber, workout.day); // Updated year to 2025
     });
 
   const highlightWorkouts = ({ date, view }: { date: Date; view: string }) => {

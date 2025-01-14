@@ -69,7 +69,14 @@
     "totalSteps": "Total steps",
     "waterDrinked": "Water drinked",
     "caloriesEaten": "Calories eaten",
-    "progress": "Progress"
+    "moodEnergy": "Feeling"
+  },
+  "mood": {
+    "bad": "Bad",
+    "better": "Better",
+    "good": "Good",
+    "great": "Great",
+    "excellent": "Excellent"
   },
   "home": {
     "weekActivity": "Week activity",
@@ -108,6 +115,7 @@
     "daySummaryTitle": "Day Summary",
     "addSomeMeals": "Add some meals to display the total summary.",
     "searchForMeal": "Search for a meal that you want to add",
+    "searchForMealMessage": "Please enter the name of the meal in english language",
     "searchForMealPlaceholder": "Search for a meal...",
     "enterGrams": "Enter grams",
     "addMeal": "Add Meal",
@@ -205,6 +213,7 @@
     "daySummaryTitle": "Day Summary",
     "addSomeMeals": "Add some meals to display the total summary.",
     "searchForMeal": "Search for a meal you want to add",
+    "searchForMealMessage": "Enter name of the meal in english language.",
     "searchForMealPlaceholder": "Search for a meal...",
     "enterGrams": "Enter grams",
     "addMeal": "Add Meal",

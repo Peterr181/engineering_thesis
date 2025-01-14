@@ -9,23 +9,31 @@ import UpcomingWorkouts from "../../components/compound/UpcomingWorkouts/Upcomin
 import { LanguageProvider, useLanguage } from "../../context/LanguageProvider";
 import WhiteCardWrapper from "../../components/atomic/WhiteCardWrapper/WhiteCardWrapper";
 import MealsSummary from "../../components/compound/MealsSummary/MealsSummary";
-import { usePersonalInfo } from "../../hooks/usePersonalInfo";
 import { useEffect } from "react";
 import { useWorkouts } from "../../hooks/useWorkout";
 import Streak from "../../components/compound/Streak/Streak";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import useDailySettings from "../../hooks/useDailySettings";
+
+type DailySettings = {
+  steps_taken: number;
+  water_consumed: number;
+  calories_eaten: number;
+  mood_energy: number;
+};
 
 const Home = () => {
   const { t } = useLanguage();
-  const { personalInfoData } = usePersonalInfo();
   const { fetchWeeklyWorkouts, weeklyWorkouts } = useWorkouts();
+  const { dailySettings, fetchDailySettings } = useDailySettings();
 
   useEffect(() => {
     fetchWeeklyWorkouts();
+    fetchDailySettings();
   }, []);
 
-  console.log("test");
+  console.log(dailySettings);
 
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -51,8 +59,31 @@ const Home = () => {
   const averageMinutes = Math.round(averageActivityTime % 60);
   const averageTimeString = t("home.averageTimeString", { averageMinutes });
 
-  const getValueByLabel = (label: string) =>
-    personalInfoData.find((info) => info.label === label)?.value || "0";
+  const getDailySettingValue = (key: keyof DailySettings) =>
+    dailySettings ? dailySettings[key] : null;
+
+  const getMoodMessage = (
+    moodEnergy: number | null,
+    t: (key: string) => string
+  ) => {
+    if (moodEnergy === null) {
+      return t("mood.unset");
+    }
+    switch (moodEnergy) {
+      case 1:
+        return t("mood.bad");
+      case 2:
+        return t("mood.better");
+      case 3:
+        return t("mood.good");
+      case 4:
+        return t("mood.great");
+      case 5:
+        return t("mood.excellent");
+      default:
+        return t("mood.unknown");
+    }
+  };
 
   return (
     <LanguageProvider>
@@ -81,22 +112,25 @@ const Home = () => {
                   <ActivityCard
                     icon={iconFile.iconSteps}
                     title="totalSteps"
-                    number={getValueByLabel("steps_daily")}
+                    number={getDailySettingValue("steps_taken") || "0"}
                   />
                   <ActivityCard
                     icon={iconFile.iconWater}
                     title="waterDrinked"
-                    number={`${getValueByLabel("water_drunk_daily")}l`}
+                    number={`${getDailySettingValue("water_consumed") || "0"}l`}
                   />
                   <ActivityCard
                     icon={iconFile.iconMeal}
                     title="caloriesEaten"
-                    number={getValueByLabel("caloric_intake_goal")}
+                    number={getDailySettingValue("calories_eaten") || "0"}
                   />
                   <ActivityCard
                     icon={iconFile.progressIcon}
-                    title="progress"
-                    number="20%"
+                    title="moodEnergy"
+                    number={getMoodMessage(
+                      getDailySettingValue("mood_energy"),
+                      t
+                    )}
                   />
                 </div>
               </div>

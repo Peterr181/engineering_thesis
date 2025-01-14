@@ -16,6 +16,7 @@ import dayjs from "dayjs";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { useLanguage } from "../../context/LanguageProvider";
+import { DialogContentText } from "@mui/material";
 
 interface Food {
   foodId: string;
@@ -560,6 +561,9 @@ const MealsPlan = () => {
                 <DialogTitle align="center" fontWeight={500}>
                   {t("mealsPlan.searchForMeal")}
                 </DialogTitle>
+                <DialogContentText align="center">
+                  {t("mealsPlan.searchForMealMessage")}
+                </DialogContentText>
                 <DialogContent>
                   <input
                     type="text"

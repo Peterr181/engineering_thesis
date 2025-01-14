@@ -65,7 +65,14 @@
     "totalSteps": "Wszystkie kroki",
     "waterDrinked": "Woda wypita",
     "caloriesEaten": "Kalorie zjedzone",
-    "progress": "Postęp"
+    "moodEnergy": "Samopoczucie"
+  },
+  "mood": {
+    "bad": "Złe",
+    "better": "Lepsze",
+    "good": "Dobre",
+    "great": "Świetne",
+    "excellent": "Doskonałe"
   },
   "home": {
     "weekActivity": "Aktywność tygodniowa",
@@ -101,6 +108,7 @@
     "daySummaryTitle": "Podsumowanie dnia",
     "addSomeMeals": "Dodaj kilka posiłków, aby wyświetlić całkowite podsumowanie.",
     "searchForMeal": "Wyszukaj posiłek, który chcesz dodać",
+    "searchForMealMessage": " Nazwy posiłków wprowadź w języku angielskim.",
     "searchForMealPlaceholder": "Wyszukaj posiłek...",
     "enterGrams": "Wprowadź gramy",
     "addMeal": "Dodaj posiłek",
@@ -275,6 +283,7 @@
     "daySummaryTitle": "Podsumowanie dnia",
     "addSomeMeals": "Dodaj kilka posiłków, aby wyświetlić całkowite podsumowanie.",
     "searchForMeal": "Wyszukaj posiłek, który chcesz dodać",
+    "searchForMealMessage": " Nazwy posiłków wprowadź w języku angielskim.",
     "searchForMealPlaceholder": "Wyszukaj posiłek...",
     "enterGrams": "Wprowadź gramy",
     "addMeal": "Dodaj posiłek",
@@ -282,7 +291,7 @@
     "yesDelete": "Tak, usuń",
     "cancel": "Anuluj",
     "mealAddedSuccessfully": "Posiłek został pomyślnie dodany!",
-    "search": "Search"
+    "search": "Szukaj"
   },
   "fats": "Tłuszcze",
   "mealsPlanBtn": "Plan posiłków",
@@ -338,7 +347,7 @@
     "December": "Grudzień"
   },
   "monthsList2": {
-    "styczen": "Styczeń",
+    "styczeń": "Styczeń",
     "luty": "Luty",
     "marzec": "Marzec",
     "kwiecien": "Kwiecień",

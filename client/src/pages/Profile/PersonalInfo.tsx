@@ -68,7 +68,13 @@ const PersonalInfo: React.FC = () => {
 
   const handleSave = async () => {
     if (selectedItem) {
-      await updatePersonalInfo({ ...selectedItem, value: editedValue });
+      let updatedValue = editedValue;
+      if (selectedItem.label === "weight") {
+        updatedValue += " kg";
+      } else if (selectedItem.label === "body_measurements") {
+        updatedValue += " cm";
+      }
+      await updatePersonalInfo({ ...selectedItem, value: updatedValue });
       handleClose();
       setShowAlert(true);
     }
@@ -103,7 +109,15 @@ const PersonalInfo: React.FC = () => {
                 <span>{labelMappings[info.label] || info.label}</span>{" "}
                 <span>{icons[info.label]}</span>{" "}
               </label>
-              <p>{info.value || t("noDataSet")}</p>
+              <p>
+                {info.value
+                  ? info.label === "weight"
+                    ? `${info.value} kg`
+                    : info.label === "body_measurements"
+                    ? `${info.value} cm`
+                    : info.value
+                  : t("noDataSet")}
+              </p>
             </div>
           ))}
         </div>
