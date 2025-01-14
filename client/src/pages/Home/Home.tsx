@@ -20,7 +20,7 @@ type DailySettings = {
   steps_taken: number;
   water_consumed: number;
   calories_eaten: number;
-  mood_energy: number;
+  sleep_duration: number;
 };
 
 const Home = () => {
@@ -32,8 +32,6 @@ const Home = () => {
     fetchWeeklyWorkouts();
     fetchDailySettings();
   }, []);
-
-  console.log(dailySettings);
 
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -61,29 +59,6 @@ const Home = () => {
 
   const getDailySettingValue = (key: keyof DailySettings) =>
     dailySettings ? dailySettings[key] : null;
-
-  const getMoodMessage = (
-    moodEnergy: number | null,
-    t: (key: string) => string
-  ) => {
-    if (moodEnergy === null) {
-      return t("mood.unset");
-    }
-    switch (moodEnergy) {
-      case 1:
-        return t("mood.bad");
-      case 2:
-        return t("mood.better");
-      case 3:
-        return t("mood.good");
-      case 4:
-        return t("mood.great");
-      case 5:
-        return t("mood.excellent");
-      default:
-        return t("mood.unknown");
-    }
-  };
 
   return (
     <LanguageProvider>
@@ -126,11 +101,8 @@ const Home = () => {
                   />
                   <ActivityCard
                     icon={iconFile.progressIcon}
-                    title="moodEnergy"
-                    number={getMoodMessage(
-                      getDailySettingValue("mood_energy"),
-                      t
-                    )}
+                    title="sleepDuration"
+                    number={`${getDailySettingValue("sleep_duration") || "0"}h`}
                   />
                 </div>
               </div>
