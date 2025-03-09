@@ -6,7 +6,11 @@ You can visit this website here! It's deployed on Heroku!
 
 Visit website [Gymero](https://gymero.live)
 
-![obraz](https://github.com/user-attachments/assets/0c9ed580-0130-462f-8724-dd121ed74e5a)
+
+
+https://github.com/user-attachments/assets/73374fc5-f3d6-40ec-98b3-25eaf7e85508
+
+
 
 
 ## Functionalities:
